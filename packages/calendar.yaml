@@ -1,0 +1,56 @@
+# automation:
+  # - alias: Remind 3 hours before Event
+    # initial_state: true
+    # hide_entity: false
+    # trigger:
+      # platform: time
+      # hours: '/01'
+      # minutes: 05
+      # seconds: 00
+    # condition:
+      # - condition: template
+        # value_template: "{{ trigger.to_state.state | int == 0 }}"      
+    # action:
+      # - service: script.voice_notify
+        # data_template:
+          # value1: >
+            # {% set eventDay = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') %}
+            # {% set eventStartHour = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%H') %}
+            # {% set eventStartMinute = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%M') %}
+            
+            # {%- macro is_it_this_week() -%}              
+              # {%- if as_timestamp(today) | timestamp_custom('%U', true) | int % 2 == 0 -%}
+                # {%- if evenWeekPickup == "true" -%}
+                  # true
+                # {%- else -%}
+                  # false
+                # {%- endif -%}
+              # {%- else -%}
+                # {%- if evenWeekPickup == "true" -%}
+                  # false
+                # {%- else -%}
+                  # true
+                # {%- endif -%}
+              # {%- endif -%}
+            # {%- endmacro -%}
+            
+            # {%- macro is_it_today() -%}
+              # {% if eventDay == now().strftime('%d') %}
+                # yes
+              # {% else %}
+              # no
+              # {% endif %}
+            # {%- endmacro -%}
+            
+            # {% set eventDay = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') %}
+            # {% set eventStartHour = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%H') %}
+            # {% set eventStartMinute = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%M') %}
+            # {% if is_it_today() == "yes" %}
+              # {% if eventStartHour == now().strftime('%H') %}
+                # {# event hour is this hour #}
+                 # Your next event, {{ states.calendar.suresh_kalavala.attributes.message }} is at 
+                 # {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M%p') }}.
+              # {% endif %}
+            # {% else %}
+              # You have an appointment coming on {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }}
+            # {% endif %}

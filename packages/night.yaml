@@ -1,0 +1,135 @@
+###############################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   04/15/2017
+#   @package        :   Night
+#   @description    :   All bedtime automations
+###############################################################################
+homeassistant:
+  customize:
+    group.bedtime_automations:
+      order: 56
+
+group:
+  Bedtime Automations:
+    entities:
+      - automation.night_dim_kitchen_lights
+      - automation.night_dim_tv_lights
+      - automation.night_homesecurity_on
+      - automation.night_turn_lights_off_bed_time
+      - automation.night_bedtime_report
+
+automation:
+
+###############################################################################
+# Set the mood for bed time - DIM Kitchen Lights IF they are ON
+###############################################################################
+  - alias: Night Dim Kitchen Lights
+    initial_state: true
+    trigger:
+      platform: time
+      at: '22:45:00'
+    condition:
+      - condition: state
+        entity_id: light.dinette      
+        state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.dinette
+          brightness: 30
+          color_temp: 155
+          transition: 15
+  
+###############################################################################
+# Set the mood for bed time - DIM TV Room lights IF they are ON
+###############################################################################
+
+  - alias: Night Dim TV Lights
+    initial_state: true
+    trigger:
+      platform: time
+      at: '22:45:00'
+    condition:
+      - condition: state
+        entity_id: light.family_room
+        state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.family_room
+          brightness: 30
+          color_temp: 154
+          transition: 15
+
+###############################################################################
+# TURN HOME SECURITY SYSTEM ON AFTER BED TIME
+###############################################################################
+  - alias: Night HomeSecurity On
+    initial_state: true
+    trigger:
+      platform: time
+      at: '23:00:00'
+    condition:
+      - condition: template
+        value_template: "{{ states('alarm_control_panel.simplisafe') != 'away' }}"
+      - condition: state
+        entity_id: group.all_devices
+        state: 'home'
+      - condition: template
+        value_template: "{{ states('alarm_control_panel.simplisafe') == 'disarmed' }}"
+    action:
+      - service: alarm_control_panel.alarm_arm_home
+        data:
+          entity_id: alarm_control_panel.simplisafe
+      - service: script.notify_me
+        data: {"value1":"It's bedtime, you forgot to turn ON Home Security System. Turned it ON for you.", "value2":""}
+  
+###############################################################################
+# TURN INDOOR LIGHTS OFF AFTER BED TIME
+###############################################################################
+  - alias: Night Turn Lights Off (Bed Time)
+    initial_state: true
+    trigger:
+      platform: time
+      at: '23:00:00'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.dinette
+      - service: light.turn_off
+        data:
+          entity_id: light.hue_color_lamp_1
+      - service: light.turn_off
+        data:
+          entity_id: light.hue_color_lamp_2
+      - service: light.turn_off
+        data:
+          entity_id: light.hue_color_lamp_3
+      - service: light.turn_off
+        data:
+          entity_id: light.master_bedroom_1
+      - service: light.turn_off
+        data:
+          entity_id: light.master_bedroom_2
+      - service: light.turn_off
+        data:
+          entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+      - service: script.notify_me
+        data: {"value1":"It is bed time, turned lights off!", "value2":""}
+
+###############################################################################
+# Provide Bed time Report via TTS
+###############################################################################
+  - alias: Night Bedtime Report
+    initial_state: true
+    trigger:
+      platform: time
+      at: '22:15:00'
+    condition:
+      - condition: state
+        entity_id: group.all_devices
+        state: 'home'
+    action:
+      - service: script.voice_notify
+        data_template:
+          value1: !include ../templates/goodnight.yaml

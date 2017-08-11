@@ -1,0 +1,185 @@
+
+script:
+  ifttt_notify:
+    sequence:
+      - condition: template
+        value_template: '{{ value1 | trim != "" }}'
+      - service: ifttt.trigger
+        data_template: { "event": "Smart_Home", "value1": "{{ value1 }}", "value2": " {{ value2 }}"}
+
+  ifttt_leeo_color_change:
+    sequence:
+      - condition: template
+        value_template: '{{ value1 | trim != "" }}'
+      - service: ifttt.trigger
+        data_template: { "event": "LEEO_COLOR_CHANGE", "value1": "{{ value1 }}" }
+        
+  pushbullet_notify:
+    sequence:
+      - condition: template
+        value_template: '{{ value1 | trim != "" }}   ' 
+      - service: notify.pushbullet
+        data_template:
+          message: "{{ value1 }} {{ value2 }}"
+          title: "{{ value1 }} {{ value2 }}"
+
+  notify_me:
+    sequence:
+      - condition: template
+        value_template: '{{ value1 | trim != "" }}'    
+      - service: script.ifttt_notify
+        data_template:
+          event: "Smart_Home"
+          value1: '{{ value1 }}'
+          value2: '{{ value2 }}'
+
+###############################################################################
+# Voice Notify
+# Conditions:
+#   => Only Announce when people are home. Otherwise don't bother!
+#   => Only Announce when Music is NOT being played
+###############################################################################
+  voice_notify:
+    sequence:
+      - condition: template
+        value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
+      - condition: template
+        value_template: >
+          {% if states.media_player.gstreamer.state == 'idle' %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      - condition: template
+        value_template: >
+          {% if states.media_player.mpd.state != 'playing' %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      - condition: template
+        value_template: >
+          {% if value1 | trim == "" %}
+            false
+          {% else %}
+            true
+          {% endif %}
+      - condition: state
+        entity_id: group.all_devices
+        state: 'home'
+      - condition: template
+        value_template: >
+          {% if only_at_night | default('no', true ) == "yes" %}
+            {% if states.sun.sun.state == "above_horizon" %}
+              false
+            {% else %}
+              true
+            {% endif %}
+          {% else %}
+            true
+          {% endif %}
+      - service: tts.amazon_polly_say
+        data_template:
+          entity_id: media_player.gstreamer
+          cache: true
+          message: >
+            {% set msg = "" %}
+            {% macro getBeginGreeting() %}
+              {% if greeting | default('yes', true ) == "yes" %}
+                {% if now().strftime("%H")|int < 12 %}
+                  Good morning.
+                {% elif now().strftime("%H")|int < 18 %}
+                  Good afternoon.
+                {% else %}
+                  Good evening.
+                {% endif %}
+              {% endif %}
+            {% endmacro %}
+            {%- macro getEndGreeting() -%}
+              {%- if greeting |default('yes', true ) == "yes" -%}
+                Thank you!
+              {%- endif -%}
+            {%- endmacro -%}
+            {% set msg = msg + "<speak> " %}
+            {% set msg = msg + " " + getBeginGreeting() %}
+            {% set msg = msg + " " + value1 %}
+            {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
+            {% set msg = msg + " " + getEndGreeting() %}
+            {% set msg = msg + " </speak>" %}
+            {{ msg }}
+
+  home_status:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          value1: >
+            {% macro birthdayCountdown( name, days2go ) %}
+              {%- if days2go == 0 -%}
+                Today is {{name}}'s Birthday!. Happy Birthday to you, Happy Birthday to you, Happy Birthday to you, my dear {{name}}!!!.
+              {%- elif days2go == 1 -%}
+                Tomorrow is {{name}}'s Birthday! HURRAY!!!
+              {%- elif days2go >2 and days2go < 10 -%}
+                {{name}}'s Birthday is in {{days2go}} days! HURRAY!!!
+              {%- endif -%}
+            {% endmacro %}
+            {%- macro USPS() -%}
+              {%- if states("sensor.usps_mail") != "unknown" -%}
+                {% if states.sensor.usps_mail.state | int > 0 -%}
+                  {%- if states.sensor.usps_mail.state | int == 1 -%}
+                    Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
+                  {%- else -%}
+                    Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
+                  {%- endif -%}
+                {%- else -%}
+                  No expected USPS mail today.
+                {%- endif -%}
+              {%- endif -%}
+              {%- if states("sensor.usps_packages") != "unknown" -%}
+                {%- if states.sensor.usps_packages.state | int > 0 -%}
+                  {%- if states.sensor.usps_packages.state | int == 1 -%}
+                    Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
+                  {%- else -%}
+                    Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
+                  {%- endif -%}
+                {%- else -%}
+                  No expected USPS packages today.
+                {%- endif -%}				
+              {%- endif -%}
+            {%- endmacro -%}
+            {% macro calendarReminder() %}
+              {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) < 7 %}
+                Your next event. {{ states.calendar.suresh_kalavala.attributes.message }} . starts 
+                {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int %}
+                   today at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
+                {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int + 1 %}
+                   tomorrow at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
+                {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int + 2 %}
+                   day after tomorrow {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }} at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
+                {% else %}
+                  in {{ (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) }} days
+                {% endif %}
+              {% endif %}
+            {% endmacro %}
+            {%- macro uv_levels() -%}
+              {%- set uv = states.sensor.pws_uv.state | int -%}
+              {%- if  uv >= 0 and uv <= 2 -%}
+                Current UV index is low. It is safe to go out and have fun.
+              {%- elif  uv >= 3 and uv <= 5 -%}
+                Current UV index is Medium. It is safe to go out and have fun.
+              {%- elif  uv >= 6 and uv <= 7 -%}
+                Current UV index is high. Please be careful outdoors.
+              {%- elif  uv >= 8 and uv <= 10 -%}
+                Current UV index is very high. It is not advised to go out. If you have to, use sun screen lotion.
+              {%- elif  uv >= 11 -%}
+                Current UV index is extremely high. By all means, Stay indoors, and stay cool.
+              {%- endif -%}
+            {%- endmacro -%}
+            It is going to be {{states('sensor.dark_sky_minutely_summary')}}. 
+            Outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees. 
+            The current pollen level is {{ states.sensor.pollen_level.state }}. 
+            {{ uv_levels() }}. 
+            {{ calendarReminder() }}.
+            {{ USPS() }}.
+            {{ birthdayCountdown("Mallika", states.sensor.mallika_birthday_days2go.state | int ) }}
+            {{ birthdayCountdown("Srinika", states.sensor.srinika_birthday_days2go.state | int ) }}
+            {{ birthdayCountdown("Hasika", states.sensor.hasika_birthday_days2go.state | int ) }}            

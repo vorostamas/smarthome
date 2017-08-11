@@ -1,0 +1,15 @@
+#!/bin/bash
+
+HASS_CONFIG="/home/homeassistant/.homeassistant"
+clear
+date +'%m/%d/%Y %H:%M %p'
+sudo rm -f "$HASS_CONFIG/home-assistant.log" > /dev/null 2>&1
+sudo touch "$HASS_CONFIG/home-assistant.log"
+sudo chown homeassistant "$HASS_CONFIG/home-assistant.log"
+sudo chgrp homeassistant "$HASS_CONFIG/home-assistant.log"
+echo "[OK] Cleared the home-assistant.log file"
+echo "[OK] Restarting HASS Service..."
+sudo systemctl restart home-assistant.service
+echo "[OK] Ready to go!"
+tail -f home-assistant.log
+

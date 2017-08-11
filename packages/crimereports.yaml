@@ -1,0 +1,19 @@
+sensor:
+  - platform: crimereports
+    name: Crime Reports
+    radius: 1000
+
+group:
+  Crime Reports:
+    entities:
+      - sensor.crime_reports
+
+# automation:
+  # - alias: Crime Notification
+    # initial_state: true
+    # trigger:
+      # platform: crimealerts
+      # event: incident
+    # action:
+      # - service: script.notify_me
+        # data: {"value1":"Crime in your area!", "value2":""}

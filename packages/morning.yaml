@@ -1,0 +1,259 @@
+###############################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   04/15/2017
+#   @package        :   Morning
+#   @description    :   Morning routine stuff
+###############################################################################
+homeassistant:
+  customize:
+  
+    group.travel_time:
+      order: 6
+      
+    # Travel Time
+    sensor.home2work:
+      friendly_name: Home -> Work
+      icon: mdi:domain
+    sensor.work2home:
+      friendly_name: Work -> Home
+      icon: mdi:home
+    sensor.suresh2home:
+      friendly_name: Suresh -> Home
+      icon: mdi:home
+    sensor.suresh2work:
+      friendly_name: Suresh -> Work
+      icon: mdi:domain
+    sensor.srinika2home:
+      friendly_name: Srinika -> Home
+      icon: mdi:home
+    sensor.hasika2home:
+      friendly_name: Hasika -> Home
+      icon: mdi:home
+
+sensor:
+  - platform: google_travel_time
+    name: Home2Work
+    api_key: !secret google_travel_time_apikey 
+    origin: zone.home
+    destination: zone.work
+    options:
+      mode: driving
+  
+  - platform: google_travel_time
+    name: Work2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: zone.work
+    destination: zone.home
+    options:
+      mode: driving
+  
+  - platform: google_travel_time
+    name: Suresh2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.suresh_suresh
+    destination: zone.home
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Srinika2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.srinika_srinika
+    destination: zone.station
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Hasika2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.hasika_hasika
+    destination: zone.ade
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Suresh2Work
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.suresh_suresh
+    destination: zone.work
+    options:
+      mode: driving
+  
+group:
+  Morning Routines:
+    entities:
+      - automation.morning_commute
+      - automation.morning_indoor_lights_on
+      - automation.morning_kitchen_light_off
+      - automation.morning_outdoor_lights_off
+      - automation.morning_master_bedroom_lights_on_suresh
+      - automation.morning_master_bedroom_lights_on_mallika
+      - automation.morning_master_bedroom_lights_off_suresh
+      - automation.morning_master_bedroom_lights_off_mallika
+
+  Travel Time:
+    entities:
+      - sensor.home2work
+      - sensor.work2home
+      - sensor.suresh2work
+      - sensor.suresh2home
+      - sensor.srinika2home
+      - sensor.hasika2home
+
+automation:
+###############################################################################
+# Turn Indoor lights ON only during weekdays
+###############################################################################
+  - alias: Morning Indoor Lights ON
+    initial_state: true
+    trigger:
+      platform: time
+      at: '05:30:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.dinette
+          transition: 15
+          brightness: 255
+          color_temp: 154
+  
+###############################################################################
+# Turn off outdoor lights 15 minutes after sunrise
+###############################################################################
+  - alias: Morning Outdoor Lights OFF
+    initial_state: true
+    trigger:
+      platform: sun
+      event: sunrise
+      offset: '00:15:00'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.wemofrontporchlightswitch
+      - service: switch.turn_off
+        data:
+          entity_id: switch.wemobackyardlightswitch
+  
+###############################################################################
+# Turn ON Master Bedroom lights ON in the morning
+###############################################################################
+  - alias: Morning Master Bedroom Lights ON (Mallika)
+    initial_state: true
+    trigger:
+      platform: time
+      at: '05:20:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.master_bedroom_2
+          brightness: 10
+          color_temp: 154
+  
+  - alias: Morning Master Bedroom Lights OFF (Mallika)
+    initial_state: true
+    trigger:
+      platform: time
+      at: '05:45:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.master_bedroom_2
+  
+###############################################################################
+# Turn ON Master Bedroom lights ON in the morning
+###############################################################################
+  - alias: Morning Master Bedroom Lights ON (Suresh)
+    initial_state: true
+    trigger:
+      platform: time
+      at: '06:55:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.master_bedroom_1
+          brightness: 10
+          color_temp: 154
+  
+  - alias: Morning Master Bedroom Lights OFF (Suresh)
+    initial_state: true
+    trigger:
+      platform: time
+      at: '09:00:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.master_bedroom_1
+  
+###############################################################################
+# Turn OF Kitchen Lights at 8:15 AM Clock
+###############################################################################
+  - alias: Morning Kitchen Light OFF
+    initial_state: true
+    trigger:
+      platform: time
+      at: '08:15:00'
+    condition:
+      condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+     - service: light.turn_off
+       data:
+         entity_id: light.dinette
+
+##############################################################
+#   Name:   Morning Commute
+#   Trigger: Triggers every 5 minutes
+#   Conditions: - ALL MUST BE VALID
+#       1. Time must be between 7 am and 9 am
+#       2. Suresh MUST be at home
+#       3. It has to be during weekdays only
+#   Action:
+#       1. Notify via Push Notification
+#       2. Announce in the speaker @ home
+##############################################################
+  # - alias: Morning Commute
+    # initial_state: true
+    # trigger:
+      # platform: time
+      # minutes: '/40'
+      # seconds: 00
+    # condition:
+      # - condition: state
+        # entity_id: device_tracker.suresh_suresh
+        # state: 'home'
+      # - condition: state
+        # entity_id: 'binary_sensor.workday_sensor'
+        # state: 'on'
+      # - condition: time
+        # after: '07:00:00'
+        # before: '09:00:00'
+    # action:
+      # - service: script.notify_me
+        # data_template:
+          # value1: >
+            # Suresh, if you leave now, it will take you around {{ states('sensor.home2work') }} minutes to get to your office.
+          # value2: ""
+      # - service: script.voice_notify
+        # data_template:
+          # value1: "Suresh, if you leave now, it will take you around {{ states('sensor.home2work') }} minutes to get to your office."

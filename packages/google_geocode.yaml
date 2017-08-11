@@ -1,0 +1,47 @@
+homeassistant:
+  customize:
+    sensor.suresh_location:
+      friendly_name: Suresh's Location
+    sensor.mallika_location:
+      friendly_name: Mallika's Location
+    sensor.srinika_location:
+      friendly_name: Srinika's Location
+    sensor.hasika_location:
+      friendly_name: Hasika's Location
+
+group:
+  Where is everyone:
+    entities:
+      - sensor.suresh_location
+      - sensor.mallika_location
+      - sensor.srinika_location
+      - sensor.hasika_location
+
+sensor:
+  - platform: google_geocode
+    name: Suresh Location
+    api_key: !secret google_maps_geocoding_api
+    origin: device_tracker.suresh_suresh
+    options: street_number, street, city
+    display_zone: hide
+
+  - platform: google_geocode
+    name: Mallika Location
+    api_key: !secret google_maps_geocoding_api
+    origin: device_tracker.mallika_mallika
+    options: street_number, street, city
+    display_zone: hide
+
+  - platform: google_geocode
+    name: Srinika Location
+    api_key: !secret google_maps_geocoding_api
+    origin: device_tracker.srinika_srinika
+    options: street_number, street, city
+    display_zone: hide
+
+  - platform: google_geocode
+    name: Hasika Location
+    api_key: !secret google_maps_geocoding_api
+    origin: device_tracker.hasika_hasika
+    options: street_number, street, city
+    display_zone: hide

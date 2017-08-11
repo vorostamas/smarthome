@@ -1,0 +1,66 @@
+###############################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   04/15/2017
+#   @package        :   Scripts
+#   @description    :   All common scripts
+###############################################################################
+homeassistant:
+  customize:
+    group.scripts:
+      order: 25
+    group.tts_announcements:
+      order: 52
+
+# Script Stuff
+    script.ifttt_notify:
+      friendly_name: Notify Via IFTTT
+      icon: mdi:share
+
+    script.pushbullet_notify:
+      friendly_name: Notify Via PushBullet
+      icon: mdi:share
+
+    script.notify_me:
+      friendly_name: Notify Me (Default IFTTT)
+      icon: mdi:share
+
+    script.voice_notify:
+      friendly_name: Notify via TTS
+      icon: mdi:speaker-wireless
+
+group:
+  Scripts:
+    entities:
+      - script.ifttt_notify
+      - script.pushbullet_notify
+      - script.notify_me
+      - script.voice_notify
+
+ifttt:
+  key: !secret ifttt_key
+
+notify:
+  - name: pushbullet
+    platform: pushbullet
+    api_key: !secret pushbulley_apikey
+    
+  - name: ios_devices
+    platform: group
+    services:
+      - service: ios_ipad
+      - service: ios_suresh
+      - service: ios_mallika
+      - service: ios_srinika
+      - service: ios_hasika
+
+  - name: tts_alerts
+    platform: file
+    filename: tts_alerts.log
+    timestamp: true
+
+tts:
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_access_key_id
+    aws_secret_access_key: !secret aws_secret_access_key
+    region_name: 'us-east-1'
+    text_type: ssml

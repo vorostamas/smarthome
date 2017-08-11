@@ -1,0 +1,27 @@
+homeassistant:
+  customize:
+  
+    script.update_hass:
+      friendly_name: Update Home Assistant
+      icon: mdi:home-assistant
+
+    script.restart_hass:
+      friendly_name: Restart Home Assistant
+      icon: mdi:home-assistant
+
+script:
+  update_hass:
+    sequence:
+      - service: shell_command.update_hass
+  restart_hass:
+    sequence:
+      - service: shell_command.restart_hass
+
+shell_command:
+  restart_hass: >-
+    hassctl restart
+
+  update_hass: >-
+    hassctl update-hass && hassctl config && hassctl restart
+
+#/srv/homeassistant/homeassistant_venv/bin/pip3 install --upgrade homeassistant && sudo systemctl restart home-assistant.service

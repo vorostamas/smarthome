@@ -1,0 +1,136 @@
+homeassistant:
+  customize:
+    input_boolean.do_not_disturb:
+      emulated_hue: true
+      homebridge_hidden: false
+    input_boolean.home_security:
+      emulated_hue: true
+      homebridge_hidden: false      
+    input_boolean.home_assistant_restart:
+      emulated_hue: true
+      homebridge_hidden: false
+    input_boolean.home_assistant_status:
+      emulated_hue: true
+      homebridge_hidden: false
+
+group:
+  Alexa Commands:
+    entities:
+      - input_boolean.do_not_disturb
+      - input_boolean.home_security
+      - input_boolean.home_assistant_restart
+      - input_boolean.home_assistant_update
+      - input_boolean.home_assistant_status
+
+# Input Booleans
+###############################################################################
+
+input_boolean:
+  do_not_disturb:
+    name: Do Not Disturb
+    initial: off
+    icon: mdi:do-not-disturb
+
+  home_security:
+    name: Home Security System
+    initial: off
+
+  home_assistant_restart:
+    name: Home Assistant
+    initial: off
+
+  home_assistant_update:
+    name: Latest Version Of Home Assistant
+    initial: off
+
+  home_assistant_status:
+    name: Home Status
+    initial: off
+
+# Automations
+###############################################################################
+
+automation:
+
+# Do not disturb for 2 hours
+# Simply turns ON the Do Not Disturb Flag ad resets 
+# after 2 hours. The Do Not Disturb flag is used in
+# voice_notify script
+######################################################
+  - alias: Do Not Disturb For 2 hours
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.do_not_disturb
+        to: 'on'
+        for:
+          hours: 2
+          minutes: 0
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.do_not_disturb
+
+# Turn ON Home Security System - only if it is not ON
+######################################################
+  - alias: Home Security ON
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.home_security
+        to: 'on'
+    condition:
+      - condition: template
+        value_template: '{{ states.alarm_control_panel.simplisafe.state == "disarmed" }}'
+    action:
+      - service: alarm_control_panel.alarm_arm_home
+        entity_id: alarm_control_panel.simplisafe
+      - delay:
+          minutes: 0
+          seconds: 10
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.home_security
+
+# Announces "Status" in the house
+######################################################
+  - alias: Home Status ON
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.home_assistant_status
+        to: 'on'
+    action:
+      - service: script.home_status
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.home_assistant_status
+
+# Restarts Home Assistant at Alexa's Command
+######################################################
+  - alias: Restart Home Assistant
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.home_assistant_restart
+        to: 'on'
+    action:
+      - service: script.restart_hass
+        
+# Updates Home Assistant at Alexa's Command
+######################################################
+  - alias: Update Home Assistant
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.home_assistant_update
+        to: 'on'
+    action:
+      - service: script.update_hass
+      - delay:
+          minutes: 0
+          seconds: 10
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.home_assistant_update

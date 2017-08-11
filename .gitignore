@@ -1,0 +1,41 @@
+# General File Extensions
+
+*.pid
+*.xml
+*.csr
+*.crt
+*.key
+*.conf
+*.db-journal
+*.log
+*.db
+*.txt
+*.deb
+*.sh
+*.pickle
+
+# Folders
+www
+lib
+deps
+tts
+
+# Files
+
+OZW_Log.txt
+secrets.yaml
+known_devices.yaml
+pyozw.sqlite
+clear_mqtt_topics
+google_calendars.yaml
+known_devices.yaml
+updatesnapcast
+usps_cookies.pickle
+zwave_device_config.yaml
+fixperms
+
+# Other Github Related Files
+.*
+!/.gitignore
+usps_cookies.pickle
+packages/zones.yaml

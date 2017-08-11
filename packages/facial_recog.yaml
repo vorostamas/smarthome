@@ -1,0 +1,4 @@
+# image_processing:
+  # - platform: dlib_face_detect
+    # source:
+      # - entity_id: camera.frontdoor_camera

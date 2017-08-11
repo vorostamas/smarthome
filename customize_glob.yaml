@@ -1,0 +1,147 @@
+# 'media_player.snapcast_group_*':
+#   hidden: true
+#   emulated_hue: false
+
+# 'automation.*':
+#   icon: mdi:arrow-right-drop-circle
+# #  emulated_hue: false
+  
+# 'automation.*watchdog*':
+#   icon: mdi:timer
+  
+# 'automation.night_*':
+#   icon: mdi:weather-night
+
+# 'automation.morning_*':
+#   icon: mdi:weather-sunset
+
+# 'automation.evening_*':
+#   icon: mdi:weather-sunset-down
+  
+# 'automation.tv_*':
+#   icon: mdi:television
+
+# 'sensor.device_tracker_*':
+#   icon: mdi:desktop-tower
+#  # emulated_hue: false
+
+# 'sensor.dark_sky_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'sensor.pws_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'sensor.ring_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'binary_sensor.ring_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'device_tracker.*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'binary_sensor.aeotec_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+  
+# 'sensor.*_luminance_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'sensor.*_temperature_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'sensor.*_humidity_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'sensor.guest_bedroom_*':
+#   homebridge_hidden: true
+#   #emulated_hue: false
+
+# 'input_boolean.do_not_disturb':
+#   homebridge_hidden: false
+#   #emulated_hue: true
+
+# 'input_boolean.home_assistant_restart':
+#   homebridge_hidden: false
+#   emulated_hue: true
+
+# 'input_boolean.home_assistant_update':
+#   homebridge_hidden: false
+#   emulated_hue: true
+
+# 'input_boolean.home_security':
+#   homebridge_hidden: false
+#   emulated_hue: true
+
+# 'input_boolean.working_in_garage':
+#   homebridge_hidden: false
+#   emulated_hue: true
+
+# 'group.*':
+#   emulated_hue: false
+
+# # Hide Input Booleans from Alexa and Home Bridge
+# ################################################
+# # 'input_boolean.animate_downstairs_lights':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.animate_kitchen_lights':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.animate_upstairs_lights':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.heavy_wind_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.hurricane_wind_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.long_flash':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.moderate_wind_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.nice_breeze_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.rain_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.short_flash':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.sleet_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.snow_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.super_heavy_wind_alert':
+# #   homebridge_hidden: true
+# #   emulated_hue: false
+
+# # 'input_boolean.trash_reminders':
+# #   homebridge_hidden: true
+# #   emulated_hue: false

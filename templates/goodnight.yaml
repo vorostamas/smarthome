@@ -1,0 +1,132 @@
+>
+ {#- Provides status of iPhone Batteries -#}
+  {%- macro battery_status() -%}
+   {%- set level = 30 -%}
+   {%- if states.device_tracker.suresh_suresh.attributes.battery < level -%}
+     {{ states.device_tracker.suresh_suresh.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.suresh_suresh.attributes.battery }} Percent.
+   {%- endif -%}
+   {%- if states.device_tracker.mallika_mallika.attributes.battery < level -%}
+     {{ states.device_tracker.mallika_mallika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.mallika_mallika.attributes.battery }} Percent.
+   {%- endif -%}
+   {%- if states.device_tracker.srinika_srinika.attributes.battery < level -%}
+     {{ states.device_tracker.srinika_srinika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.srinika_srinika.attributes.battery }} Percent.
+   {%- endif -%}
+   {%- if states.device_tracker.hasika_hasika.attributes.battery < level -%}
+     {{ states.device_tracker.hasika_hasika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.hasika_hasika.attributes.battery }} Percent.
+   {%- endif -%}
+ {%- endmacro %}
+ 
+ {#- Provides Light Status -#}
+ {%- macro light_status() -%}
+   {%- if states.light.dinette.state | lower == "on" -%}
+     {{ states.light.dinette.attributes.friendly_name }} is  {{ states.light.dinette.state | upper}}.
+   {%- endif -%}
+
+   {%- if states.group.family_room_lights.state | lower == "on" -%}
+     {{ states.group.family_room_lights.attributes.friendly_name }} is  {{ states.group.family_room_lights.state | upper}}.
+   {%- endif -%}
+
+   {%- if states.switch.guest_bedroom_1.state | lower == "on" -%}
+     {{ states.switch.guest_bedroom_1.attributes.friendly_name }} is  {{ states.switch.guest_bedroom_1.state | upper}}.
+   {%- endif -%}
+
+   {%- if states.switch.guest_bedroom_2.state | lower == "on" -%}
+     {{ states.switch.guest_bedroom_2.attributes.friendly_name }} is  {{ states.switch.guest_bedroom_2.state | upper}}.
+   {%- endif -%}
+ {%- endmacro -%}
+
+ {#- Provides Garage Doors Status -#}
+ {%- macro garagedoor_status() -%} 
+   {%- if states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.state | lower == "on" -%}
+     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN.
+   {%- elif states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.state | lower == "off" -%}
+     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is CLOSED.
+   {%- endif -%}
+   {%- if states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.state | lower == "on" -%}
+     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.attributes.friendly_name }} is OPEN.
+   {%- elif states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.state | lower == "off" -%}
+     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.attributes.friendly_name }} is CLOSED.
+   {%- endif -%}
+  {%- endmacro -%}
+ 
+ {#- Provides Home Security System Status -#}
+ {%- macro alarm_status() -%}
+    {%- if states.alarm_control_panel.simplisafe.state | lower == "disarmed" -%}
+      Your home security system is switched OFF. You may want to turn it ON.
+    {%- elif states.alarm_control_panel.simplisafe.state | lower == "armed_away" -%}
+      Your home security system is set to away mode.
+    {%- elif states.alarm_control_panel.simplisafe.state | lower == "armed_home" -%}
+      Your home security system is ON, and your home is secured.
+    {%- endif %}
+  {%- endmacro -%}
+  
+ {#- Provides Trash and Recycle Reminder -#}
+ {%- macro trash_recycle_status() -%}
+    {%- set flag = false -%}
+    {%- if states.sensor.trash_day.state | lower == "yes" -%}
+      Your trash will be picked up tomorrow. Did you leave the trash bin outside?.
+      {%- set flag = true -%}
+    {%- endif %}
+    {%- if states.sensor.recycle_day.state | lower == "yes" -%}
+      {%- if flag -%}
+        Also, your recycle stuff will be picked up tomorrow as well! Please leave both recycle bin and trash cans outside if you haven't!.
+      {%- else -%}
+        Your recycle stuff will be picked up tomorrow. Please leave the recycle bin outside if you haven't done so!.
+      {%- endif -%}
+    {%- endif %}
+  {%- endmacro -%}
+  
+  {%- macro outside_weather() -%}
+    Outside, it is going to be {{states('sensor.dark_sky_minutely_summary')}} And the temperature is around {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees.
+  {%- endmacro -%}
+  
+  {%- macro pihole() -%}
+    {%- if states.sensor.ads_blocked_today.state|int > 100 -%}
+      Our internet blocking system has blocked {{states.sensor.ads_blocked_today.state}} ads today.
+    {%- endif -%}
+  {%- endmacro -%}
+  
+  {%- macro phoneBatteryStatus() -%}
+    {% if states.sensor.sureshs_iphone_battery_state.state != "Charging" %}
+      Suresh's Phone is not plugged in.
+    {% endif %}
+    {% if states.sensor.mallikas_iphone_battery_state.state != "Charging" %}
+      Mallika's Phone is not plugged in.
+    {% endif %}
+    {% if states.sensor.srinikas_iphone_battery_state.state != "Charging" %}
+      Srinika's Phone is not plugged in.
+    {% endif %}
+    {% if states.sensor.hasikas_iphone_battery_state.state != "Charging" %}
+      Hasika's Phone is not plugged in.
+    {% endif %}
+  {%- endmacro -%}
+  
+ {#- Main macro that runs all other macros and combines the information -#}
+  {%- macro run() -%}
+   It is past 10 o clock, and time to go to bed. Here is the status of your home.{{- alarm_status() -}}
+   {%- set battery_output = battery_status() -%}
+   {%- if battery_output | trim != "" -%}
+   {{- battery_output -}} Please make sure you put the phones to charge.
+   {%- endif -%}
+
+   {%- set light_output = light_status() -%}
+   {%- if light_output | trim == "" -%}
+   All the lights in the house are OFF.
+   {% else %}
+   {{- light_output -}}
+   {%- endif -%}
+
+   {%- set garagedoor_output = garagedoor_status() -%}
+   {%- if garagedoor_output | trim == "" -%}
+     Both the single car garage and the two car garage doors are closed. 
+   {%- else -%}
+     Warning!!! {{- garagedoor_output -}}
+   {%- endif -%}
+   
+   {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
+   {{- pihole() -}} 
+   {{ phoneBatteryStatus() }}
+   {{- outside_weather() }} Everything else looks good. Hope you have a good night sleep!
+ {%- endmacro -%}
+ 
+ {{ run() }}

@@ -1,0 +1,18 @@
+# group:
+  # Guest Bedroom:
+    # entities:
+      # - sensor.guest_bedroom_temperature
+      # - sensor.guest_bedroom_humidity
+
+# sensor:
+  # - platform: mqtt
+    # state_topic: "/attic/temperature"
+    # name: "Guest Bedroom Temperature"
+    # unit_of_measurement: "°F"
+    # value_template: "{{ value }}"
+    
+  # - platform: mqtt
+    # state_topic: "/attic/humidity"
+    # name: "Guest Bedroom Humidity"
+    # unit_of_measurement: "%"
+    # value_template: "{{ value }}"

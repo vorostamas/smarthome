@@ -1,0 +1,94 @@
+# group:
+  # AlarmClock:
+    # entities:
+      # - input_slider.slider_hours
+      # - input_slider.slider_minutes
+      # - input_boolean.alarmweekday
+      # - automation.alarm_clock
+
+# input_slider:
+  # slider_hours:
+    # name: Hours
+    # initial: 6
+    # min: 0
+    # max: 23
+    # step: 1
+    
+    # test
+  # slider_minutes:
+    # name: Minutes
+    # initial: 0
+    # min: 0
+    # max: 59
+    # step: 1
+
+# input_boolean:
+  # alarmweekday:
+    # name: Weekdays Only
+    # initial: off
+    # icon: mdi:alarm
+
+# automation:
+  # - alias: 'Alarm Clock'
+    # trigger:
+      # platform: time
+      # minutes: '/1'
+      # seconds: 00
+    # condition:
+      # - condition: template
+        # value_template: >
+          # {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
+            # true
+          # {% else %}
+            # false
+          # {% endif %}
+      # - condition: template
+        # value_template: >
+          # {% if states.sensor.time.state.split(':')[1]  |int == states.input_slider.slider_minutes.state |int %}
+            # true
+          # {% else %}
+            # false
+          # {% endif %}
+    # action:
+      # - service: script.notify_me
+        # data_template:
+          # value1: "Alarm Clock: Wake Up!!!"
+          # value2: ""    
+      # - service: script.voice_notify
+        # data_template:
+          # value1: >
+            # {% macro calendarReminder() %}
+              # Your next event, {{ states.calendar.suresh_kalavala.attributes.message }} starts 
+              # {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') == now().strftime('%d') %}
+                 # today 
+              # {% else %}
+                 # {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }}
+              # {% endif %} 
+              # at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M%p') }}.
+            # {% endmacro %}
+            # {%- macro uv_levels() -%}
+              # {%- set uv = states.sensor.pws_uv.state | int -%}
+              # {%- if  uv >= 0 and uv <= 2 -%}
+                # Current UV index is low. It is safe to go out and have fun.
+              # {%- elif  uv >= 3 and uv <= 5 -%}
+                # Current UV index is Medium. It is safe to go out and have fun.
+              # {%- elif  uv >= 6 and uv <= 7 -%}
+                # Current UV index is high. Please be careful outdoors.
+              # {%- elif  uv >= 8 and uv <= 10 -%}
+                # Current UV index is very high. It is not advised to go out. If you have to, use sun screen lotion.
+              # {%- elif  uv >= 11 -%}
+                # Current UV index is extremely high. By all means, Stay indoors, and stay cool.
+              # {%- endif -%}
+            # {%- endmacro -%}
+            # Hello, Kalavala Family! It is time for you to wake up. <break time='0.5s'/> I hope you had good sleep last night!<break time='0.5s'/>
+            # The weather for the next hour is going to be {{states('sensor.dark_sky_minutely_summary')}}<break time='0.5s'/>, and outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees.<break time='0.5s'/> 
+            # The current Pollen level is {{ states.sensor.pollen_level.state }}.<break time='0.5s'/>
+            # {{ uv_levels() }}<break time='0.5s'/> 
+            # {{ calendarReminder() }}
+      # - delay:
+          # minutes: 5
+      # - service: script.voice_notify
+        # data_template:
+          # value1: >
+            # This is a follow-up to the previous wake up message.<break time='0.5s'/>  I hope you are out of the bed by now, and enjoying hot cup of coffee.<break time='0.5s'/> 
+            # If not, the weather is {{states('sensor.dark_sky_minutely_summary')}}<break time='0.5s'/>, and is perfect time to go out enjoy the weather!

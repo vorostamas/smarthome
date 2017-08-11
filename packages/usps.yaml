@@ -1,0 +1,60 @@
+homeassistant:
+  customize:
+    sensor.usps_packages:
+      friendly_name: USPS Packages
+      icon: mdi:package-variant
+    sensor.usps_mail:
+      friendly_name: USPS Mail
+      icon: mdi:email-outline
+
+group:
+  Postal Service:
+    entities:
+      - sensor.usps_packages
+      - sensor.usps_mail
+
+sensor:
+
+  - platform: usps
+    username: !secret usps_username
+    password: !secret usps_password
+
+automation:
+
+  - alias: Notify USPS Mail
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: sensor.usps_mail
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
+    action:
+      - service: script.voice_notify
+        data_template:
+          value1: >
+            {% if states.sensor.usps_mail.state | int == 1 %}
+              Attention: USPS is delivering {{ states.sensor.usps_mail.state }} mail today.
+            {% else %}
+              Attention: USPS is delivering {{ states.sensor.usps_mail.state }} mails today.
+            {% endif %}
+
+  - alias: Notify USPS Packages
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: sensor.usps_packages
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
+    action:
+      - service: script.voice_notify
+        data_template:
+          value1: >
+            {% if states.sensor.usps_packages.state | int == 1 %}
+              Attention: USPS is delivering {{ states.sensor.usps_packages.state }} package today.
+            {% else %}
+              Attention: USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
+            {% endif %}
