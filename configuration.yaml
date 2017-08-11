@@ -21,6 +21,7 @@ config:
 logbook:
 history:
 python_script:
+
 recorder:
   db_url: !secret my_sql_url
 
