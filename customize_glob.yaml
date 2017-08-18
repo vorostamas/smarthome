@@ -2,24 +2,24 @@
   hidden: true
   emulated_hue: false
 
-# 'automation.*':
-#   icon: mdi:arrow-right-drop-circle
-# #  emulated_hue: false
+'automation.*':
+  icon: mdi:arrow-right-drop-circle
+#  emulated_hue: false
   
-# 'automation.*watchdog*':
-#   icon: mdi:timer
+'automation.*watchdog*':
+  icon: mdi:timer
   
-# 'automation.night_*':
-#   icon: mdi:weather-night
+'automation.night_*':
+  icon: mdi:weather-night
 
-# 'automation.morning_*':
-#   icon: mdi:weather-sunset
+'automation.morning_*':
+  icon: mdi:weather-sunset
 
-# 'automation.evening_*':
-#   icon: mdi:weather-sunset-down
+'automation.evening_*':
+  icon: mdi:weather-sunset-down
   
-# 'automation.tv_*':
-#   icon: mdi:television
+'automation.tv_*':
+  icon: mdi:television
 
 # 'sensor.device_tracker_*':
 #   icon: mdi:desktop-tower
