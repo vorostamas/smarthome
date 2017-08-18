@@ -1,5 +1,76 @@
+homeassistant:
+  customize:
+
+    script.start_colorloop:
+      friendly_name: Start Colorloop
+      icon: mdi:palette
+    script.stop_colorloop:
+      friendly_name: Stop Colorloop
+      icon: mdi:palette
+    script.lifx_breathe:
+      friendly_name: Lifx Breath
+      icon: mdi:lightbulb
+    script.owntracks_update:
+      friendly_name: OwnTracks Report Location
+      icon: mdi:map-marker 
 
 script:
+
+###############################################################################
+# OwnTracks Related Scripts
+###############################################################################
+
+  owntracks_update:
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: owntracks/suresh/suresh/cmd 
+          payload: '{"_type":"cmd","action":"reportLocation"}'
+      - service: mqtt.publish
+        data:
+          topic: owntracks/mallika/mallika/cmd 
+          payload: '{"_type":"cmd","action":"reportLocation"}'
+      - service: mqtt.publish
+        data:
+          topic: owntracks/srinika/srinika/cmd 
+          payload: '{"_type":"cmd","action":"reportLocation"}'
+      - service: mqtt.publish
+        data:
+          topic: owntracks/hasika/hasika/cmd 
+          payload: '{"_type":"cmd","action":"reportLocation"}'
+
+###############################################################################
+# Light Related Scripts
+###############################################################################
+  start_colorloop:
+    sequence:
+      - service: light.lifx_effect_colorloop
+        data:
+          entity_id: light.dinette
+          brightness: 255
+          period: 2
+          spread: 360
+          change: 35
+
+  stop_colorloop:
+    sequence:
+      - service: light.lifx_effect_stop
+        data:
+          entity_id: light.dinette
+
+  lifx_breathe:
+    sequence:
+      - service: light.lifx_effect_pulse
+        data:
+          mode: breathe
+          entity_id: light.dinette
+          color_name: red
+          cycles: 3
+          power_on: true
+
+###############################################################################
+# Notify Related Scripts
+###############################################################################
   ifttt_notify:
     sequence:
       - condition: template
@@ -108,6 +179,9 @@ script:
             {% set msg = msg + " </speak>" %}
             {{ msg }}
 
+###############################################################################
+# Status around the house
+###############################################################################
   home_status:
     sequence:
       - service: script.voice_notify
@@ -115,36 +189,38 @@ script:
           value1: >
             {% macro birthdayCountdown( name, days2go ) %}
               {%- if days2go == 0 -%}
-                Today is {{name}}'s Birthday!. Happy Birthday to you, Happy Birthday to you, Happy Birthday to you, my dear {{name}}!!!.
+                Today is {{name}}'s Birthday!. Happy Birthday to you, my dear {{name}}!!!.
               {%- elif days2go == 1 -%}
                 Tomorrow is {{name}}'s Birthday! HURRAY!!!
-              {%- elif days2go >2 and days2go < 10 -%}
+              {%- elif days2go > 1 and days2go <= 10 -%}
                 {{name}}'s Birthday is in {{days2go}} days! HURRAY!!!
               {%- endif -%}
             {% endmacro %}
             {%- macro USPS() -%}
-              {%- if states("sensor.usps_mail") != "unknown" -%}
-                {% if states.sensor.usps_mail.state | int > 0 -%}
-                  {%- if states.sensor.usps_mail.state | int == 1 -%}
-                    Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
+              {% if now().strftime("%H")  | int <= 16 %}
+                {%- if states("sensor.usps_mail") != "unknown" -%}
+                  {% if states.sensor.usps_mail.state | int > 0 -%}
+                    {%- if states.sensor.usps_mail.state | int == 1 -%}
+                      Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
+                    {%- else -%}
+                      Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
+                    {%- endif -%}
                   {%- else -%}
-                    Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
+                    No expected USPS mail today.
                   {%- endif -%}
-                {%- else -%}
-                  No expected USPS mail today.
                 {%- endif -%}
-              {%- endif -%}
-              {%- if states("sensor.usps_packages") != "unknown" -%}
-                {%- if states.sensor.usps_packages.state | int > 0 -%}
-                  {%- if states.sensor.usps_packages.state | int == 1 -%}
-                    Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
+                {%- if states("sensor.usps_packages") != "unknown" -%}
+                  {%- if states.sensor.usps_packages.state | int > 0 -%}
+                    {%- if states.sensor.usps_packages.state | int == 1 -%}
+                      Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
+                    {%- else -%}
+                      Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
+                    {%- endif -%}
                   {%- else -%}
-                    Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
-                  {%- endif -%}
-                {%- else -%}
-                  No expected USPS packages today.
-                {%- endif -%}				
-              {%- endif -%}
+                    No expected USPS packages today.
+                  {%- endif -%}				
+                {%- endif -%}
+              {% endif %}
             {%- endmacro -%}
             {% macro calendarReminder() %}
               {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) < 7 %}
@@ -174,12 +250,16 @@ script:
                 Current UV index is extremely high. By all means, Stay indoors, and stay cool.
               {%- endif -%}
             {%- endmacro -%}
-            It is going to be {{states('sensor.dark_sky_minutely_summary')}}. 
-            Outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees. 
-            The current pollen level is {{ states.sensor.pollen_level.state }}. 
+            {% if states('sensor.dark_sky_minutely_summary') |lower != "unknown" %}
+              It is going to be {{states('sensor.dark_sky_minutely_summary')}}. 
+            {% endif %}
+            {% if states('sensor.dark_sky_apparent_temperature') | lower != "unknown" %}
+              Outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees. 
+            {% endif %}
+            The current pollen level is {{ states.sensor.pollen_level.state }}.
             {{ uv_levels() }}. 
             {{ calendarReminder() }}.
             {{ USPS() }}.
             {{ birthdayCountdown("Mallika", states.sensor.mallika_birthday_days2go.state | int ) }}
             {{ birthdayCountdown("Srinika", states.sensor.srinika_birthday_days2go.state | int ) }}
-            {{ birthdayCountdown("Hasika", states.sensor.hasika_birthday_days2go.state | int ) }}            
+            {{ birthdayCountdown("Hasika", states.sensor.hasika_birthday_days2go.state | int ) }}

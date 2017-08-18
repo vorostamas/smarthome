@@ -68,16 +68,6 @@ homeassistant:
     input_boolean.animate_upstairs_lights:
       friendly_name: Animate Master Bedroom Lights
       icon: mdi:flash-outline
-      
-    script.start_colorloop:
-      friendly_name: Start Colorloop
-      icon: mdi:palette
-    script.stop_colorloop:
-      friendly_name: Stop Colorloop
-      icon: mdi:palette
-    script.lifx_breathe:
-      friendly_name: Lifx Breath
-      icon: mdi:lightbulb      
 
 group:
   Master Bedroom:
@@ -205,33 +195,6 @@ input_boolean:
   short_flash:
     name: Long Flash Lights
     initial: off
-
-script:
-  start_colorloop:
-    sequence:
-      - service: light.lifx_effect_colorloop
-        data:
-          entity_id: light.dinette
-          brightness: 255
-          period: 2
-          spread: 360
-          change: 35
-
-  stop_colorloop:
-    sequence:
-      - service: light.lifx_effect_stop
-        data:
-          entity_id: light.dinette
-
-  lifx_breathe:
-    sequence:
-      - service: light.lifx_effect_pulse
-        data:
-          mode: breathe
-          entity_id: light.dinette
-          color_name: red
-          cycles: 3
-          power_on: true
 
 automation:
   - alias: Animate Master Bedroom Lights

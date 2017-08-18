@@ -243,14 +243,14 @@ automation:
     action:
       service: tts.clear_cache
 
-  - alias: Startup Notification
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      - service: script.pushbullet_notify
-        data: { "value1":"Home Assistant restarted successfully!", "value2":""}      
-      - service: frontend.set_theme
-        data:
-          name: greens
+  # - alias: Startup Notification
+  #   initial_state: true
+  #   trigger:
+  #     platform: homeassistant
+  #     event: start
+  #   action:
+  #     - service: script.pushbullet_notify
+  #       data: { "value1":"Home Assistant restarted successfully!", "value2":""}      
+      # - service: frontend.set_theme
+      #   data:
+      #     name: greens

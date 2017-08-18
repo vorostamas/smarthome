@@ -1,6 +1,6 @@
-# 'media_player.snapcast_group_*':
-#   hidden: true
-#   emulated_hue: false
+'media_player.snapcast_group_*':
+  hidden: true
+  emulated_hue: false
 
 # 'automation.*':
 #   icon: mdi:arrow-right-drop-circle

@@ -1,34 +1,27 @@
 # automation:
-  # - alias: Turn on lights Test
-    # initial_state: true
-    # hide_entity: false
-    # trigger:
-      # platform: state
-      # entity_id: light.dinette
-    # action:
-     # - service: script.ifttt_leeo_color_change
-       # data_template:
-         # value1: "#FF0000"
-     # - delay:
-         # seconds: 2
-     # - service: script.ifttt_leeo_color_change
-       # data_template:
-         # value1: "#0000FF"
 
-# automation:
-  # - id: random_radio_play
-    # alias: Random Radio
-    # initial_state: 'on'
-    # trigger:
-      # - platform: time
-        # minutes: '/10'
-        # seconds: 00
-    # action:
-      # - service: script.turn_on
-        # data_template:
-          # entity_id: >
-            # {{ [
-                 # script.play_myfm_mpd,
-                 # script.play_sky_radio_zone3,
-                 # script.play_spotify_playlist_ambient_zone2
-               # ] |random }}          
+  # - alias: Test State Changed Event
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
+  
+  #   action:
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/homeassistant/event"
+  #         retain: false
+  #         payload: "{{ trigger.event.data.entity_id }}"
+  
+  # - alias: Test Platform Changed Event
+  #   trigger:
+  #     - platform: event
+  #       event_type: platform_discovered
+    
+  #   action:
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "/homeassistant/platform"
+  #         retain: false
+  #         payload: >
+  #           {{ trigger.event.data.service }} - {{ trigger.event.data.discovered }}
+  

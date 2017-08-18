@@ -79,9 +79,9 @@ automation:
         data_template:
           value1: >
             {% if states.alarm_control_panel.simplisafe.state == "armed_home" %}
-              Your Home Security System is now set to Home mode. Your home is now secured.
+              Your home is now secured!
             {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
-              Your Home Security System is now set to Away mode. All the motion sensors are fully activated.
+              Your Home Security System is now set to Away mode!
             {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
               Attention!: Your Home Security System is triggered! It has been notified to the authorities. Police and help is on the way!
             {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
@@ -92,9 +92,9 @@ automation:
         data_template:
           value1: >
             {% if states.alarm_control_panel.simplisafe.state == "armed_home" %}
-              Your Home Security System is now set to Home mode. Your home is now secured.
+              Your home is now secured!
             {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
-              Your Home Security System is now set to Away mode. All the motion sensors are fully activated.
+              Your Home Security System is now set to Away mode!
             {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
               Attention!: Your Home Security System is triggered! It has been notified to the authorities. Police and help is on the way!
             {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
