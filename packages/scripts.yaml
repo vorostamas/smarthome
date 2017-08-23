@@ -175,10 +175,10 @@ script:
             {% set msg = msg + " " + getBeginGreeting() %}
             {% set msg = msg + " " + value1 %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
-            {% set msg = msg.replace("Hasika", "<phoneme alphabet=\"ipa\" ph=\"H?sika\">Hasika</phoneme>") %}
-            {% set msg = msg.replace("Mallika", "<phoneme alphabet=\"ipa\" ph=\"Mallika\">Mallika</phoneme>") %}
-            {% set msg = msg.replace("Srinika", "<phoneme alphabet=\"ipa\" ph=\"H?sika\">Srinika</phoneme>") %}
-            {% set msg = msg.replace("Suresh", "<phoneme alphabet=\"ipa\" ph=\"Sure?h\">Suresh</phoneme>") %}
+            # {% set msg = msg.replace("Hasika", "<phoneme alphabet=\"ipa\" ph=\"H?sika\">Hasika</phoneme>") %}
+            # {% set msg = msg.replace("Mallika", "<phoneme alphabet=\"ipa\" ph=\"Mallika\">Mallika</phoneme>") %}
+            # {% set msg = msg.replace("Srinika", "<phoneme alphabet=\"ipa\" ph=\"H?sika\">Srinika</phoneme>") %}
+            # {% set msg = msg.replace("Suresh", "<phoneme alphabet=\"ipa\" ph=\"Sure?h\">Suresh</phoneme>") %}
             {% set msg = msg + " " + getEndGreeting() %}
             {% set msg = msg + " </speak>" %}
             {{ msg }}

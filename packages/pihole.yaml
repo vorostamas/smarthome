@@ -8,36 +8,60 @@
 ###############################################################################
 homeassistant:
   customize:
-  
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'pihole'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+
     group.ads_blocked:
       order: 5
 
     sensor.ads_percentage_today:
+      <<: *exposed
       friendly_name: Percentage of Ad Traffic Blocked
       unit_of_measurement: '%'
       icon: mdi:ticket-percent
      
     sensor.domains_being_blocked:
+      <<: *exposed
       friendly_name: Total Domains Blocking
       icon: mdi:do-not-disturb
 
     sensor.ads_blocked_today:
+      <<: *exposed
       friendly_name: Ads Blocked Today
       icon: mdi:do-not-disturb
       
     sensor.dns_queries_today:
+      <<: *exposed
       friendly_name: DNS Queries Today
       icon: mdi:note-text
       
     sensor.unique_domains:
+      <<: *exposed
       friendly_name: Unique Domains
       icon: mdi:approval
 
     sensor.queries_forwarded:
+      <<: *exposed
       friendly_name: Queries Forwarded
       icon: mdi:arrange-send-backward
 
     sensor.queries_cached:
+      <<: *exposed
       friendly_name: Queries Cached
       icon: mdi:animation
 
@@ -90,21 +114,3 @@ sensor:
     name: queries_cached
     resource: !secret pi_hole_url
     value_template: '{{ value_json.queries_cached }}'
-
-###############################################################################
-#  Automations
-###############################################################################
-# automation:
-  # - alias: Thousand Ads blocked
-    # initial_state: true
-    # hide_entity: true
-    # trigger:
-      # platform: numeric_state
-      # entity_id: sensor.ads_blocked_today
-      # value_template: '{{ state.attributes.ads_blocked_today }}'
-      # above: 200
-    # action:
-      # - service: script.notify_me
-        # data_template:
-          # value1: "Pi-Hole blocked 1000 Ads today! Hurray!!!"
-          # value2: ""
