@@ -257,3 +257,14 @@ automation:
       # - service: script.voice_notify
         # data_template:
           # value1: "Suresh, if you leave now, it will take you around {{ states('sensor.home2work') }} minutes to get to your office."
+
+
+# {% macro format_minutes(minutes) %}
+# {% set hours = (("%0.2f" % (minutes /60 | float) )).split('.')[0] %}
+# {%- set subminutes =  '0.' ~ (("%0.2f" % (minutes /60 | float)).split('.')[1] ) %}
+# {%- set min = (subminutes | float )* 60 %}
+# {% if hours | int == 1%}{{- hours }} Hour {% else %} {{- hours }} Hours {% endif -%} 
+# {{ ('' ~ min).split('.')[0] }} Minutes
+# {% endmacro %}
+
+# {{ format_minutes(62) }}
