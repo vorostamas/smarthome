@@ -23,11 +23,15 @@ homeassistant:
     media_player.snapcast_client_b827eb4445b1:
       friendly_name: Master Bedroom Music
     media_player.snapcast_client_b827eba8e7ef:
-      friendly_name: Guest Room 1 Music
+      friendly_name: Guest Bedroom 1 Music
     media_player.snapcast_client_b827eb505e2d:
       friendly_name: Guest Bedroom 2 Music
     media_player.snapcast_client_001e8c40c713:
       friendly_name: Basement Music
+    media_player.snapcast_client_b827ebf10965:
+      friendly_name: Office Room Music
+    media_player.snapcast_client_0018e7c4488f:
+      friendly_name: HA Server (Basement)
 
     media_player.mpd:
       friendly_name: Mopidy Media Player
