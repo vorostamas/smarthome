@@ -1,0 +1,117 @@
+###############################################################################
+# @Description  : Frontend Themes Package
+# @Author       : Mahasri Kalavala
+# @Date         : 08/26/2017
+###############################################################################
+
+homeassistant:
+  customize:
+    sensor.current_frontend_theme:
+      friendly_name: Current Frontend Theme
+      icon: mdi:theme-light-dark
+      hidden: true
+
+###############################################################################
+# Feel free to add/modify and customize the themes below to your heart's content
+
+frontend:
+  themes:
+    beach:
+      dark-primary-color: "#88d8b0"
+      primary-color: "#ff6f69"
+      light-primary-color: "#ffcc5c"
+      paper-toggle-button-checked-ink-color: "#ff6f69"
+      paper-toggle-button-checked-button-color: "#88d8b0"
+      paper-toggle-button-checked-bar-color: "#ffcc5c"
+      paper-slider-knob-color: "#88d8b0"
+      paper-slider-knob-start-color: "#88d8b0"
+      paper-slider-pin-color: "#88d8b0"
+      paper-slider-active-color: "#88d8b0"
+      paper-slider-secondary-color: "#ffeead"      
+    greens:
+      dark-primary-color: "#009688"
+      primary-color: "#009688"
+      light-primary-color: "#009688"
+      paper-toggle-button-checked-ink-color: "#009688"
+      paper-toggle-button-checked-button-color: "#009688"
+      paper-toggle-button-checked-bar-color: "#99d5cf"
+      paper-slider-knob-color: "#66c0b7"
+      paper-slider-knob-start-color: "#32ab9f"
+      paper-slider-pin-color: "#66c0b7"
+      paper-slider-active-color: "#009688"
+      paper-slider-secondary-color: "#009688"
+    princess_pink:
+      dark-primary-color: "#ff084a"
+      primary-color: "#fc3468"
+      light-primary-color: "#ffc2cd"
+      paper-toggle-button-checked-ink-color: "#ff6289"
+      paper-toggle-button-checked-button-color: "#ff084a"
+      paper-toggle-button-checked-bar-color: "#ffc2cd"
+      paper-slider-knob-color: "#ff084a"
+      paper-slider-knob-start-color: "#ff084a"
+      paper-slider-pin-color: "#ff084a"
+      paper-slider-active-color: "#ff084a"
+      paper-slider-secondary-color: "#ff93ac"
+
+group:
+  Frontend Theme:
+    entities:
+      - input_select.home_assistant_themes
+      - sensor.current_frontend_theme
+
+input_select:
+  home_assistant_themes:
+    name: Select Frontend Theme
+    options:
+      - default
+      - beach
+      - greens
+      - princess_pink
+    initial: default
+
+sensor:
+  - platform: mqtt
+    state_topic: '/homeassistant/theme'
+    name: "Current Frontend Theme"
+    value_template: "{{ value }}"
+
+###############################################################################
+# Automations
+###############################################################################
+automation:
+
+  - alias: Theme Selection Changed
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: input_select.home_assistant_themes
+    action:
+      - service: frontend.set_theme
+        data_template:
+          name: '{{ states.input_select.home_assistant_themes.state }}'
+      - service: mqtt.publish
+        data_template:
+          topic: '/homeassistant/theme'
+          payload: '{{ states.input_select.home_assistant_themes.state }}'
+          retain: true
+
+  - alias: Restore Theme on Startup
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+      - delay:
+          minutes: 0
+          seconds: 15
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.home_assistant_themes
+          option: >
+            {% if states.sensor.current_frontend_theme.state == "" %}
+              default
+            {% else %}
+              {{ states.input_select.home_assistant_themes.state }}
+            {% endif %}
