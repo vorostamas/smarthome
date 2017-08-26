@@ -89,11 +89,11 @@ automation:
     action:
       - service: frontend.set_theme
         data_template:
-          name: '{{ states.input_select.home_assistant_themes.state }}'
+          name: '{{ trigger.to_state.state }}'
       - service: mqtt.publish
         data_template:
           topic: '/homeassistant/theme'
-          payload: '{{ states.input_select.home_assistant_themes.state }}'
+          payload: '{{ trigger.to_state.state }}'
           retain: true
 
   - alias: Restore Theme on Startup
