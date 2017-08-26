@@ -13,11 +13,13 @@ group:
       - sensor.usps_packages
       - sensor.usps_mail
 
-sensor:
+usps:
+  username: !secret usps_username
+  password: !secret usps_password
 
+camera:
   - platform: usps
-    username: !secret usps_username
-    password: !secret usps_password
+    scan_interval: 5
 
 automation:
 
@@ -34,11 +36,21 @@ automation:
       - service: script.voice_notify
         data_template:
           value1: >
-            {% if states.sensor.usps_mail.state | int == 1 %}
+            {%- if states.sensor.usps_mail.state | int == 1 -%}
               Attention: USPS is delivering {{ states.sensor.usps_mail.state }} mail today.
-            {% else %}
+            {%- else -%}
               Attention: USPS is delivering {{ states.sensor.usps_mail.state }} mails today.
-            {% endif %}
+            {%- endif -%}
+      - service: notify.ios_devices
+        data_template:
+          message: "USPS will be delivering {{ states.sensor.usps_mail.state }} mail(s) today."
+          data:
+            push:
+              category: camera
+            entity_id: "camera.usps_mail"
+            attachment:
+              url: "{{ states.camera.usps_mail.attributes.entity_picture }}"
+              content-type: jpg
 
   - alias: Notify USPS Packages
     initial_state: true
@@ -53,8 +65,8 @@ automation:
       - service: script.voice_notify
         data_template:
           value1: >
-            {% if states.sensor.usps_packages.state | int == 1 %}
+            {%- if states.sensor.usps_packages.state | int == 1 -%}
               Attention: USPS is delivering {{ states.sensor.usps_packages.state }} package today.
-            {% else %}
+            {%- else -%}
               Attention: USPS is delivering {{ states.sensor.usps_packages.state }} packages today.
-            {% endif %}
+            {%- endif -%}
