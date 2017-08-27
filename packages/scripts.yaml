@@ -205,8 +205,6 @@ script:
                     {%- else -%}
                       Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
                     {%- endif -%}
-                  {%- else -%}
-                    No expected USPS mail today.
                   {%- endif -%}
                 {%- endif -%}
                 {%- if states("sensor.usps_packages") != "unknown" -%}
@@ -216,8 +214,6 @@ script:
                     {%- else -%}
                       Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
                     {%- endif -%}
-                  {%- else -%}
-                    No expected USPS packages today.
                   {%- endif -%}				
                 {%- endif -%}
               {% endif %}

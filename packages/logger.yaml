@@ -9,7 +9,7 @@ homeassistant:
       hidden: true
 
 logger:
-  default: critical
+  default: warning
   logs:
     libopenzwave: error
     openzwave: error
@@ -47,7 +47,7 @@ input_select:
      - info
      - debug
      - notset
-    initial: critical
+    initial: warning
 
 sensor:
   - platform: mqtt
@@ -89,7 +89,7 @@ automation:
           entity_id: input_select.log_level
           option: >
             {% if states.sensor.current_log_level.state == "" %}
-              critical
+              warning
             {% else %}
               {{ states.input_select.current_log_level.state }}
             {% endif %}

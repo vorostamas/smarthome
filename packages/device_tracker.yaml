@@ -89,18 +89,6 @@ homeassistant:
     device_tracker.thinkpad:
       hidden: true
 
-# CCTV Cameras and Ubiquity Tough Switch
-    device_tracker.1868cb45152d:
-      hidden: true
-    device_tracker.1868cb4515bc:
-      hidden: true
-    device_tracker.1868cb4515a3:
-      hidden: true
-    device_tracker.1868cb4515b5:
-      hidden: true
-    device_tracker.f09fc2639799:
-      hidden: true
-
 device_tracker:
   - platform: ping
     hosts:
@@ -143,10 +131,6 @@ group:
       - sensor.device_tracker_wn3000rpv3
       - sensor.device_tracker_esp_1c7eb2
       - sensor.device_tracker_esp_1c7f41
-      - sensor.device_tracker_1868cb45152d
-      - sensor.device_tracker_1868cb4515bc
-      - sensor.device_tracker_1868cb4515a3
-      - sensor.device_tracker_1868cb4515b5
       - sensor.device_tracker_f09fc2639799
 
 sensor:
@@ -244,22 +228,6 @@ sensor:
       device_tracker_446132e40007:
         friendly_name: 'Ecobee Thermostat'
         value_template: "{{ 'Online' if is_state('device_tracker.446132e40007', 'home') else 'Offline' }}"
-
-      device_tracker_1868cb45152d:
-        friendly_name: 'Camera - 1'
-        value_template: "{{ 'Online' if is_state('device_tracker.1868cb45152d', 'home') else 'Offline' }}"
-      
-      device_tracker_1868cb4515bc:
-        friendly_name: 'Camera - 2'
-        value_template: "{{ 'Online' if is_state('device_tracker.1868cb4515bc', 'home') else 'Offline' }}"
-        
-      device_tracker_1868cb4515a3:
-        friendly_name: 'Camera - 3'
-        value_template: "{{ 'Online' if is_state('device_tracker.1868cb4515a3', 'home') else 'Offline' }}"
-        
-      device_tracker_1868cb4515b5:
-        friendly_name: 'Camera - 4'
-        value_template: "{{ 'Online' if is_state('device_tracker.1868cb4515b5', 'home') else 'Offline' }}"
         
       device_tracker_f09fc2639799:
         friendly_name: 'Ubiquity Tough Switch'
@@ -308,10 +276,6 @@ automation:
         - sensor.device_tracker_wemoswitch1
         - sensor.device_tracker_esp_1c7eb2
         - sensor.device_tracker_esp_1c7f41
-        - sensor.device_tracker_1868cb45152d
-        - sensor.device_tracker_1868cb4515bc
-        - sensor.device_tracker_1868cb4515a3
-        - sensor.device_tracker_1868cb4515b5
         - sensor.device_tracker_f09fc2639799
     condition:
       - condition: template
