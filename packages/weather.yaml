@@ -107,7 +107,8 @@ group:
       - sensor.cold_flu_risk
       - sensor.air_quality
       - sensor.pws_uv
-      - sensor.uv_burn_time      
+      - sensor.uv_burn_time
+      - sensor.pws_alerts
 
   Dark Sky:
     entities:
@@ -197,6 +198,7 @@ sensor:
       - relative_humidity
       - visibility_mi
       - UV
+      - alerts
   
   - platform: darksky
     api_key: !secret darksky_api_key
