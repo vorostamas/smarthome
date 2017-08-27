@@ -1,18 +1,6 @@
 ###############################################################################
-# @Description  : Frontend Themes Package
-# @Author       : Mahasri Kalavala
-# @Date         : 08/26/2017
-###############################################################################
-
-homeassistant:
-  customize:
-    sensor.current_frontend_theme:
-      friendly_name: Current Frontend Theme
-      icon: mdi:theme-light-dark
-      hidden: true
-
-###############################################################################
 # Feel free to add/modify and customize the themes below to your heart's content
+# Some of the themes I made, some I stole from online :) 
 
 frontend:
   themes:
@@ -200,12 +188,6 @@ input_select:
       - dark_teal
     initial: default
 
-sensor:
-  - platform: mqtt
-    state_topic: '/homeassistant/theme'
-    name: "Current Frontend Theme"
-    value_template: "{{ value }}"
-
 ###############################################################################
 # Automations
 ###############################################################################
@@ -221,31 +203,6 @@ automation:
       - service: frontend.set_theme
         data_template:
           name: '{{ trigger.to_state.state }}'
-      - service: mqtt.publish
-        data_template:
-          topic: '/homeassistant/theme'
-          payload: '{{ trigger.to_state.state }}'
-          retain: true
-
-  - alias: Restore Theme on Startup
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      - delay:
-          minutes: 0
-          seconds: 15
-      - service: input_select.select_option
-        data_template:
-          entity_id: input_select.home_assistant_themes
-          option: >
-            {% if states.sensor.current_frontend_theme.state == "" %}
-              default
-            {% else %}
-              {{ states.input_select.home_assistant_themes.state }}
-            {% endif %}
 
   - alias: Random Darker Theme At Sunset
     initial_state: true
@@ -253,10 +210,9 @@ automation:
       platform: sun
       event: sunset
     action:
-      - service: input_select.select_option
+      - service: frontend.set_theme
         data_template:
-          entity_id: input_select.home_assistant_themes
-          option: '{{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan"] | random  }}'
+          name: '{{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan"] | random  }}'
 
   - alias: Random Lighter Theme At Sunrise
     initial_state: true
@@ -264,7 +220,6 @@ automation:
       platform: sun
       event: sunrise
     action:
-      - service: input_select.select_option
+      - service: frontend.set_theme
         data_template:
-          entity_id: input_select.home_assistant_themes
-          option: '{{ ["light_beach", "light_green", "light_pink", "default"] | random  }}'
+          name: '{{ ["light_beach", "light_green", "light_pink", "default"] | random  }}'
