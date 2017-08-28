@@ -1,8 +1,8 @@
+###############################################################################
+# Automation: Provide report on an hourly basis from 8 am to 8 pm
+###############################################################################
 automation:
 
-###############################################################################
-# Automation: Provide port on an hourly basis from 8 am to 9 pm
-###############################################################################
   - alias: Hourly Report During Day Time
     initial_state: true
     hide_entity: false
@@ -18,7 +18,7 @@ automation:
       - condition: template
         value_template: >
           {% set hour = as_timestamp(now()) | timestamp_custom('%-H', true) | int %}
-          {% if  hour > 7 and hour < 22 %}
+          {% if  hour > 7 and hour < 21 %}
             true
           {% else %}
             false

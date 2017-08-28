@@ -201,18 +201,18 @@ script:
                 {%- if states("sensor.usps_mail") != "unknown" -%}
                   {% if states.sensor.usps_mail.state | int > 0 -%}
                     {%- if states.sensor.usps_mail.state | int == 1 -%}
-                      Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
+                      USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
                     {%- else -%}
-                      Attention: USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
+                      USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
                 {%- if states("sensor.usps_packages") != "unknown" -%}
                   {%- if states.sensor.usps_packages.state | int > 0 -%}
                     {%- if states.sensor.usps_packages.state | int == 1 -%}
-                      Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
+                      USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
                     {%- else -%}
-                      Attention: USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
+                      USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
                     {%- endif -%}
                   {%- endif -%}				
                 {%- endif -%}
