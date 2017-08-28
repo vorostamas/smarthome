@@ -5,13 +5,14 @@
                         ONLY the Offline sensors are visible in the UI
 '''
 
-offlineCount = 0
-for entity_id in hass.states.entity_ids('sensor'):
+for entity_id in hass.states.entity_ids():
     entity_state_object = hass.states.get(entity_id)
-    if entity_state_object.state == 'Online':
-        attributes = entity_state_object.attributes.copy()
-        attributes['hidden'] = True
-        hass.states.set(entity_id, entity_state_object.state, attributes=attributes)
-        offlineCount = offlineCount + 1
+    attributes = entity_state_object.attributes.copy()
 
-logger.info("{} sensors are marked hidden.".format(offlineCount))
+    """ Hide all the entities that have 'Online' Status """
+    if entity_state_object.state == 'Online':
+        attributes['hidden'] = True
+    else:
+        attributes['hidden'] = False
+
+    hass.states.set(entity_id, entity_state_object.state, attributes=attributes)

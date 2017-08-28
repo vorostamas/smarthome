@@ -103,7 +103,9 @@ group:
       - sensor.pws_heat_index_f
       - sensor.pws_relative_humidity
       - sensor.pws_visibility_mi
+      - sensor.pollen
       - sensor.pollen_level
+      - sensor.cold_flu
       - sensor.cold_flu_risk
       - sensor.air_quality
       - sensor.pws_uv
