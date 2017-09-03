@@ -124,10 +124,10 @@ automation:
     action:
       - service: script.notify_me
         data: {"value1":"Home Security System is OFF for more than 10 minutes!", "value2":""}
-      - service: script.voice_notify
-        data_template:
-          value1: "Attention! The Home Security System is OFF for more than 10 minutes!"
-          value2: ""
+      # - service: script.voice_notify
+      #   data_template:
+      #     value1: "Attention! The Home Security System is OFF for more than 10 minutes!"
+      #     value2: ""
           
   - alias: Home Security System WatchDog 30 minutes
     initial_state: true
@@ -145,10 +145,10 @@ automation:
     action:
       - service: script.notify_me
         data: {"value1":"Home Security System is OFF for more than 30 minutes!", "value2":""}
-      - service: script.voice_notify
-        data_template:
-          value1: "Attention! The Home Security System is OFF for more than 30 minutes! This is the last reminder!"
-          value2: ""
+      # - service: script.voice_notify
+      #   data_template:
+      #     value1: "Attention! The Home Security System is OFF for more than 30 minutes! This is the last reminder!"
+      #     value2: ""
   
   # - alias: Frontroom Light WatchDog
     # initial_state: true

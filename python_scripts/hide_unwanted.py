@@ -4,8 +4,7 @@
 @Description    :       This python script hides all the sensors that are Online, so that 
                         ONLY the Offline sensors are visible in the UI
 '''
-
-for entity_id in hass.states.entity_ids():
+for entity_id in hass.states.entity_ids('sensor'):
     entity_state_object = hass.states.get(entity_id)
     attributes = entity_state_object.attributes.copy()
 
