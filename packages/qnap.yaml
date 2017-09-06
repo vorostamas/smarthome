@@ -26,6 +26,12 @@ homeassistant:
       friendly_name: Drive Smart Status
     sensor.kalavalanas_drive_temp:
       friendly_name: Drive Temperature
+    sensor.nas_memory_usage_above_80:
+      friendly_name: Is Memory Above 80 Percent?
+      hidden: true
+    sensor.nas_cpu_usage_above_80:
+      friendly_name: Is CPU Above 80 Percent?
+      hidden: true
 
     sensor.kalavalanas_smart_status_drive_01:
       friendly_name: Drive 1 Status
@@ -46,24 +52,15 @@ homeassistant:
       friendly_name: Drive 4 Temperature
 
 group:
-  QNAP Drive 1:
+  QNAP Drives:
     entities:
       - sensor.kalavalanas_smart_status_drive_01
-      - sensor.kalavalanas_temperature_drive_01
-
-  QNAP Drive 2:
-    entities:
       - sensor.kalavalanas_smart_status_drive_02
-      - sensor.kalavalanas_temperature_drive_02
-
-  QNAP Drive 3:
-    entities:
       - sensor.kalavalanas_smart_status_drive_03
-      - sensor.kalavalanas_temperature_drive_03
-
-  QNAP Drive 4:
-    entities:
       - sensor.kalavalanas_smart_status_drive_04
+      - sensor.kalavalanas_temperature_drive_01
+      - sensor.kalavalanas_temperature_drive_02
+      - sensor.kalavalanas_temperature_drive_03
       - sensor.kalavalanas_temperature_drive_04
 
   QNAP Server:
@@ -94,15 +91,12 @@ group:
     icon: mdi:harddisk
     entities:
       - group.qnap_server
-      - group.qnap_drive_1
-      - group.qnap_drive_2
-      - group.qnap_drive_3
-      - group.qnap_drive_4
+      - group.qnap_drives
       - group.qnap_automations
-      
+
 sensor:
   - platform: qnap
-    host: 192.168.1.164
+    host: !secret qnap_hostname
     username: !secret qnap_username
     password: !secret qnap_password
     monitored_conditions:
@@ -116,7 +110,28 @@ sensor:
       - drive_smart_status
       - drive_temp
 
+# The following sensors are required, as the automations with trigger platform `numeric_state`, 
+# above a certain value using `above: x` AND `for: 00:05:00` combination is not supported.
+#
+# Apparently `for:` is ONLY supportd for trigger platform 'state' 
+#
+# By creating the folowing sensor, we can now have an automation with trigger platform as 'state'
+# with a combination of `to:` and `for:`
+#
+# See the automations 'Notify NAS Memory Usage' and 'Notify NAS CPU Usage' that uses these sensor values
+
+  - platform: template
+    sensors:
+      nas_memory_usage_above_80:
+        value_template: '{{ states.sensor.kalavalanas_memory_usage.state | int > 80 }}'
+
+  - platform: template
+    sensors:
+      nas_cpu_usage_above_80:
+        value_template: '{{ states.sensor.kalavalanas_cpu_usage.state | int > 80 }}'
+
 automation:
+
   - alias: Notify NAS Status Change
     initial_state: true
     hide_entity: true
@@ -158,27 +173,11 @@ automation:
     trigger:
       platform: numeric_state
       entity_id:  sensor.kalavalanas_cpu_temperature
-      above: 150
+      above: 125
     action:
       - service: script.notify_me
         data_template:
           value1: "NAS CPU temperature is going crazy hot, needs your attention!!! The current cpu temp is: {{ trigger.to_state.state }}"
-          value2: ""
-
-  - alias: Notify NAS CPU Usage
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: numeric_state
-      entity_id:  sensor.kalavalanas_cpu_usage
-      above: 80
-      # for:
-      #   minutes: 5
-      #   seconds: 0
-    action:
-      - service: script.notify_me
-        data_template:
-          value1: "FYI - NAS CPU is above 80 percent for more than 5 minutes."
           value2: ""
 
   - alias: Notify NAS Disk Usage
@@ -198,14 +197,26 @@ automation:
     initial_state: true
     hide_entity: true
     trigger:
-      platform: numeric_state
-      entity_id:  sensor.kalavalanas_cpu_usage
-      above: 75
-      # for:
-      #   minutes: 5
-      #   seconds: 0
+      platform: state
+      entity_id: sensor.nas_memory_usage_above_80
+      to: 'True'
+      for: '00:05:00'
     action:
       - service: script.notify_me
         data_template:
-          value1: "FYI - NAS Memory is above 75 percent for more than 5 minutes."
+          value1: "FYI - NAS Memory is above 80 percent for more than 5 minutes."
+          value2: ""
+
+  - alias: Notify NAS CPU Usage
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id:  sensor.nas_cpu_usage_above_80
+      to: 'True'
+      for: '00:05:00'
+    action:
+      - service: script.notify_me
+        data_template:
+          value1: "FYI - NAS CPU is above 80 percent for more than 5 minutes."
           value2: ""
