@@ -89,3 +89,9 @@ ios:
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
+
+image_processing:
+  - platform: openalpr_local
+    region: us
+    source:
+      - entity_id: camera.driveway_camera
