@@ -83,9 +83,9 @@ automation:
             {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
               Your Home Security System is now set to Away mode!
             {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
-              Attention!: Your Home Security System is triggered! It has been notified to the authorities. Police and help is on the way!
+              Attention!: Your Home Security System is triggered! It has been notified to the authorities.
             {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
-              Attention!: Your Home Security System is turned OFF. All sensors are completely disabled.
+              Attention!: Your Home Security System is turned OFF.
             {% endif %}
           value2: ""
       - service: script.voice_notify
@@ -96,7 +96,7 @@ automation:
             {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
               Your Home Security System is now set to Away mode!
             {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
-              Attention!: Your Home Security System is triggered! It has been notified to the authorities. Police and help is on the way!
+              Attention!: Your Home Security System is triggered! It has been notified to the authorities.
             {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
-              Attention!: Your Home Security System is turned OFF. All sensors are completely disabled.
+              Attention!: Your Home Security System is turned OFF. 
             {% endif %}
