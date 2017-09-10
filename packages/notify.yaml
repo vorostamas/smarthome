@@ -28,14 +28,6 @@ homeassistant:
       friendly_name: Notify via TTS
       icon: mdi:speaker-wireless
 
-group:
-  Scripts:
-    entities:
-      - script.ifttt_notify
-      - script.pushbullet_notify
-      - script.notify_me
-      - script.voice_notify
-
 ifttt:
   key: !secret ifttt_key
 

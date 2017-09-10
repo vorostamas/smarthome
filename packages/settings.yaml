@@ -1,31 +1,74 @@
 homeassistant:
   customize:
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'settings'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+    group.control_panel:
+      <<: *not_exposed
+
+    input_boolean.working_in_garage:
+      friendly_name: Working in Garage
+      icon: mdi:worker
+    input_boolean.mute_voice_notifications:
+      <<: *exposed
+      icon: mdi:microphone-off
     input_boolean.do_not_disturb:
-      emulated_hue: true
-      homebridge_hidden: false
+      <<: *exposed
     input_boolean.home_security:
-      emulated_hue: true
-      homebridge_hidden: false      
+      <<: *exposed
     input_boolean.home_assistant_restart:
-      emulated_hue: true
-      homebridge_hidden: false
+      <<: *exposed
     input_boolean.home_assistant_status:
-      emulated_hue: true
-      homebridge_hidden: false
+      <<: *exposed
 
 group:
-  Alexa Commands:
+  Control Panel:
     entities:
+      - input_boolean.mute_voice_notifications
       - input_boolean.do_not_disturb
       - input_boolean.home_security
       - input_boolean.home_assistant_restart
       - input_boolean.home_assistant_update
       - input_boolean.home_assistant_status
+      - input_boolean.notify_motion_pictures
+      - input_boolean.working_in_garage
+      - input_boolean.hourly_reports
+      - input_boolean.welcome_family_announcement
+      - input_boolean.clear_tts_cache
+      - input_boolean.trash_reminders
+      - input_boolean.enjoyable_weather_reminders
 
 # Input Booleans
 ###############################################################################
 
 input_boolean:
+  mute_voice_notifications:
+    name: Mute Voice Notifications
+    initial: off
+
   do_not_disturb:
     name: Do Not Disturb
     initial: off
@@ -45,7 +88,37 @@ input_boolean:
 
   home_assistant_status:
     name: Home Status
+    initial: off    
+
+  working_in_garage:
+    name: Working in Garage
     initial: off
+
+  hourly_reports:
+    name: Hourly Report
+    initial: on
+
+  notify_motion_pictures:
+    name: Notify With Pictures (Motion)
+    initial: off
+
+  welcome_family_announcement:
+    name: Welcome Family Member Announcements
+    initial: on
+
+  clear_tts_cache:
+    name: Clear TTS Cache Daily
+    initial: on
+
+  trash_reminders:
+    name: Remind Trash Notifications
+    initial: on
+    icon: mdi:recycle
+
+  enjoyable_weather_reminders:
+    name: Remind me to enjoy Good Weather
+    initial: on
+    icon: mdi:recycle
 
 # Automations
 ###############################################################################
@@ -134,3 +207,44 @@ automation:
           seconds: 10
       - service: input_boolean.turn_off
         entity_id: input_boolean.home_assistant_update
+
+# Hourly Reports
+######################################################
+  - alias: Hourly Report During Day Time
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: time
+      hours: '/01'
+      minutes: 05
+      seconds: 00
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.hourly_reports.state == "on" }}'
+      - condition: state
+        entity_id: group.all_devices
+        state: 'home'
+      - condition: template
+        value_template: >
+          {% set hour = as_timestamp(now()) | timestamp_custom('%-H', true) | int %}
+          {% if  hour > 7 and hour < 21 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+    action:
+      - service: script.home_status
+
+# Clear TTS Cache Daily
+######################################################
+  - alias: Clear TTS Cache
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: time
+      at: '4:45:00'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.clear_tts_cache.state == "on" }}'
+    action:
+      service: tts.clear_cache

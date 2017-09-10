@@ -7,12 +7,36 @@
 
 homeassistant:
   customize:
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'watchdog'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
     group.watchdog_automations:
+      <<: *hidden
       order: 58
 
-    input_boolean.working_in_garage:
-      friendly_name: Working in Garage
-      #icon: mdi:worker
     automation.garage_lights_watchdog:
       friendly_name: Garage Lights Watchdog
       #icon: mdi:timer
@@ -45,14 +69,10 @@ group:
       - automation.working_in_garage_watchdog
       - automation.two_car_garage_door_watchdog
 
-input_boolean:
-  working_in_garage:
-    name: Working in Garage
-    initial: off
-
 automation:
   - alias: Working In Garage WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -68,6 +88,7 @@ automation:
   
   - alias: Single Car garage Door WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -89,6 +110,7 @@ automation:
   
   - alias: Two Car garage Door WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -110,6 +132,7 @@ automation:
           
   - alias: Home Security System WatchDog 10 minutes
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -124,13 +147,10 @@ automation:
     action:
       - service: script.notify_me
         data: {"value1":"Home Security System is OFF for more than 10 minutes!", "value2":""}
-      # - service: script.voice_notify
-      #   data_template:
-      #     value1: "Attention! The Home Security System is OFF for more than 10 minutes!"
-      #     value2: ""
           
   - alias: Home Security System WatchDog 30 minutes
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -145,36 +165,10 @@ automation:
     action:
       - service: script.notify_me
         data: {"value1":"Home Security System is OFF for more than 30 minutes!", "value2":""}
-      # - service: script.voice_notify
-      #   data_template:
-      #     value1: "Attention! The Home Security System is OFF for more than 30 minutes! This is the last reminder!"
-      #     value2: ""
-  
-  # - alias: Frontroom Light WatchDog
-    # initial_state: true
-    # trigger:
-      # - platform: state
-        # entity_id:
-          # - switch.wemoswitch1
-        # to: 'on'
-        # for:
-          # minutes: 5
-    # condition:
-      # - condition: state
-        # entity_id: sun.sun
-        # state: 'above_horizon'
-    # action:
-      # - service: switch.turn_off
-        # data_template:
-          # entity_id: "{{ trigger.entity_id }}"
-      # - service: script.notify_me
-        # data_template:
-          # value1: >
-            # {{ trigger.to_state.attributes.friendly_name }} is ON. Saving power by turning it off!
-          # value2: ""
-  
+ 
   - alias: Frontyard Light WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -198,6 +192,7 @@ automation:
   
   - alias: Backyard Light WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -221,6 +216,7 @@ automation:
   
   - alias: Garage Lights WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -241,27 +237,24 @@ automation:
           value1: >
             {{ trigger.to_state.attributes.friendly_name }} are left ON for about 5 minutes. Saving power by turning it off!
   
-  # - alias: Guest Bedroom 1 Light WatchDog
-    # initial_state: true
-    # trigger:
-      # - platform: state
-        # entity_id:
-          # - switch.guest_bedroom_1
-        # to: 'on'
-        # for:
-          # minutes: 15
-    # action:
-      # - service: switch.turn_off
-        # data_template:
-          # entity_id: "{{ trigger.entity_id }}"
-      # - service: script.notify_me
-        # data_template:
-          # value1: >
-            # {{ trigger.to_state.attributes.friendly_name }} lights are left ON for 25 minutes. Saving power by turning it off!
-          # value2: ""
+  - alias: Guest Bedroom 1 Light WatchDog
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id:
+          - switch.guest_bedroom_1
+        to: 'on'
+        for:
+          minutes: 15
+    action:
+      - service: switch.turn_off
+        data_template:
+          entity_id: "{{ trigger.entity_id }}"
   
   - alias: Guest Bedroom 2 Light WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -273,14 +266,10 @@ automation:
       - service: switch.turn_off
         data_template:
           entity_id: "{{ trigger.entity_id }}"
-      # - service: script.notify_me
-        # data_template:
-          # value1: >
-            # {{ trigger.to_state.attributes.friendly_name }} lights are left ON for 10 minutes. Saving power by turning it off!
-          # value2: ""
   
   - alias: Kids Bedroom Light WatchDog
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:
@@ -292,8 +281,3 @@ automation:
       - service: switch.turn_off
         data_template:
           entity_id: "{{ trigger.entity_id }}"
-      # - service: script.notify_me
-        # data_template:
-          # value1: >
-            # {{ trigger.to_state.attributes.friendly_name }} lights are left ON for 10 minutes. Saving power by turning it off!
-          # value2: ""

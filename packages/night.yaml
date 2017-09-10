@@ -25,6 +25,7 @@ automation:
 ###############################################################################
   - alias: Night Dim Kitchen Lights
     initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       at: '22:45:00'
@@ -46,6 +47,7 @@ automation:
 
   - alias: Night Dim TV Lights
     initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       at: '22:45:00'
@@ -66,6 +68,7 @@ automation:
 ###############################################################################
   - alias: Night HomeSecurity On
     initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       at: '23:00:00'
@@ -89,6 +92,7 @@ automation:
 ###############################################################################
   - alias: Night Turn Lights Off (Bed Time)
     initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       at: '23:00:00'
@@ -122,6 +126,7 @@ automation:
 ###############################################################################
   - alias: Night Bedtime Report
     initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       at: '22:15:00'

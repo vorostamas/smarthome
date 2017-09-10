@@ -20,6 +20,32 @@
 ###############################################################################
 homeassistant:
   customize:
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'birthday'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+  
     sensor.srinika_birthday:
       hidden: true
     sensor.hasika_birthday:
@@ -134,7 +160,7 @@ automation:
 # Build the excitement
 ###############################################################################
   - alias: Birthday Countdown 30 Days
-    initial_state: true
+    initial_state: false
     hide_entity: true
     trigger:
       platform: state
@@ -158,7 +184,7 @@ automation:
 # Celebrate Birthday!!!
 ###############################################################################
   - alias: Today is the Birthday
-    initial_state: true
+    initial_state: false
     hide_entity: true
     trigger:
       platform: state
@@ -182,7 +208,7 @@ automation:
 # Announce Happy Birthday message every hour starting 7 am until 9 PM
 ###############################################################################
   - alias: Random Birthday Wishes
-    initial_state: true
+    initial_state: false
     hide_entity: true
     trigger:
       platform: time
@@ -217,7 +243,7 @@ automation:
 # Date format: "MM-DD-YYYY"
 ###############################################################################
   - alias: Update Current Date In MQTT
-    initial_state: true
+    initial_state: false
     hide_entity: true
     trigger:
       platform: time
@@ -236,7 +262,7 @@ automation:
 # pickup right values to begin with
 ###############################################################################
   - alias: Update Current Date On Startup
-    initial_state: true
+    initial_state: false
     hide_entity: true
     trigger:
       platform: homeassistant

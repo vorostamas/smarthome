@@ -113,6 +113,8 @@ script:
   voice_notify:
     sequence:
       - condition: template
+        value_template: '{{ states.input_boolean.mute_voice_notifications.state == "off" }}'
+      - condition: template
         value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
       - condition: template
         value_template: >

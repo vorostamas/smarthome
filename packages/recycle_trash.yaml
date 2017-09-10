@@ -54,11 +54,6 @@ group:
       - input_select.recycle_pickup_day
       - sensor.current_week
       - input_select.recycle_pickup_week
-  
-  Trash and Recycle Automations:
-    entities:
-      - automation.trash_and_recycle_pickup_reminder
-      - input_boolean.remind_trash_notifications
 
 ###############################################################################
 #  UI Elements
@@ -93,12 +88,6 @@ input_select:
      - Odd Weeks
     icon: mdi:recycle
     
-input_boolean:
-  trash_reminders:
-    name: Remind Trash Notifications
-    initial: on
-    icon: mdi:recycle
-
 ###############################################################################
 #  Sensor Definitions
 ###############################################################################
@@ -305,6 +294,7 @@ automation:
 ###############################################################################
   - alias: Trash and Recycle Pickup Reminder
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: time
         at: '16:00:00'
@@ -422,18 +412,3 @@ automation:
         data_template:
           entity_id: input_select.recycle_pickup_week
           option: "{{states.sensor.recycle_pickup_week.state}}"
-
-  # - alias: Update Current Date In MQTT
-    # initial_state: true
-    # hide_entity: true
-    # trigger:
-      # platform: time
-      # hours: '/01'
-      # minutes: 00
-      # seconds: 00
-    # action:
-      # - service: mqtt.publish
-        # data_template:
-          # topic: '/home/today'
-          # retain: true
-          # payload: '{{ as_timestamp(now() ) | timestamp_custom("%m-%d-%Y", true) }}'

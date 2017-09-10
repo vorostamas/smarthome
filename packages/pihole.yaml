@@ -19,49 +19,56 @@ homeassistant:
 
       exposed: &exposed
         <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+
+      not_exposed: &not_exposed
+        <<: *customize
         emulated_hue: false
         homebridge_hidden: true
+        critical: false
 
       hidden: &hidden
         <<: *customize
         hidden: true
 
     group.ads_blocked:
+      <<: *not_exposed
       order: 5
 
     sensor.ads_percentage_today:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Percentage of Ad Traffic Blocked
       unit_of_measurement: '%'
       icon: mdi:ticket-percent
      
     sensor.domains_being_blocked:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Total Domains Blocking
       icon: mdi:do-not-disturb
 
     sensor.ads_blocked_today:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Ads Blocked Today
       icon: mdi:do-not-disturb
       
     sensor.dns_queries_today:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: DNS Queries Today
       icon: mdi:note-text
       
     sensor.unique_domains:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Unique Domains
       icon: mdi:approval
 
     sensor.queries_forwarded:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Queries Forwarded
       icon: mdi:arrange-send-backward
 
     sensor.queries_cached:
-      <<: *exposed
+      <<: *not_exposed
       friendly_name: Queries Cached
       icon: mdi:animation
 

@@ -7,10 +7,48 @@
 homeassistant:
   customize:
 
-    group.zwave_devices:
-      order: 97
+    ################################################
+    ## Node Anchors
+    ################################################
 
-# Z-Wave Device(s)
+    package.node_anchors:
+      customize: &customize
+        package: 'settings'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+    group.1_car_garage:
+      <<: *hidden
+    group.2_car_garage:
+      <<: *hidden
+    group.zwave_sensors:
+      <<: *hidden
+    group.multi_sensors:
+      <<: *hidden
+    group.front_room:
+      <<: *hidden
+    group.tv_room:
+      <<: *hidden
+    group.upstairs:
+      <<: *hidden
+    group.zwave_devices:
+      <<: *hidden
+
     zwave.aeotec_zw090_zstick_gen5_1:
       hidden: False
       friendly_name: The Aeotec Z-Wave Stick
@@ -25,7 +63,6 @@ group:
       - zwave.aeotec_zw074_multisensor_gen5_2
       - zwave.two_car_garage_door_tilt_sensor
       - zwave.single_car_garage_door_tilt_sensor
-      - automation.heal_zwave_network
 
   Multi Sensors:
     entities:
@@ -38,41 +75,31 @@ group:
       - zwave.ecolink_garage_door_tilt_sensor
       - zwave.ecolink_garage_door_tilt_sensor_2
       
-  Binary Sensors:
+  Upstairs:
     entities:
-      - binary_sensor.aeotec_zw074_multisensor_gen5_sensor
-      - binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2
-      - binary_sensor.aeotec_zw100_multisensor_6_sensor
-      - binary_sensor.ecolink_door_sensor_sensor
-      - binary_sensor.ecolink_door_sensor_sensor_2
-      - binary_sensor.kids_room_occupancy
-      - binary_sensor.workday_sensor
+      - sensor.aeotec_zw074_multisensor_gen5_alarm_level_2
+      - sensor.aeotec_zw074_multisensor_gen5_alarm_type_2
+      - sensor.aeotec_zw074_multisensor_gen5_burglar_2
+      - sensor.aeotec_zw074_multisensor_gen5_sourcenodeid_2
 
-  ZWave Sensors:
+  TV Room:
     entities:
       - sensor.aeotec_zw074_multisensor_gen5_alarm_level
-      - sensor.aeotec_zw074_multisensor_gen5_alarm_level_2
       - sensor.aeotec_zw074_multisensor_gen5_alarm_type
-      - sensor.aeotec_zw074_multisensor_gen5_alarm_type_2
       - sensor.aeotec_zw074_multisensor_gen5_burglar
-      - sensor.aeotec_zw074_multisensor_gen5_burglar_2
-      - sensor.aeotec_zw074_multisensor_gen5_luminance
-      - sensor.aeotec_zw074_multisensor_gen5_luminance_2
-      - sensor.aeotec_zw074_multisensor_gen5_relative_humidity
-      - sensor.aeotec_zw074_multisensor_gen5_relative_humidity_2
       - sensor.aeotec_zw074_multisensor_gen5_sourcenodeid
-      - sensor.aeotec_zw074_multisensor_gen5_sourcenodeid_2
-      - sensor.aeotec_zw074_multisensor_gen5_temperature
-      - sensor.aeotec_zw074_multisensor_gen5_temperature_2
       - sensor.aeotec_zw074_multisensor_gen5_power
+
+  Front Room:
+    entities:
       - sensor.aeotec_zw100_multisensor_6_alarm_level
       - sensor.aeotec_zw100_multisensor_6_alarm_type
       - sensor.aeotec_zw100_multisensor_6_burglar
-      - sensor.aeotec_zw100_multisensor_6_luminance
-      - sensor.aeotec_zw100_multisensor_6_relative_humidity
       - sensor.aeotec_zw100_multisensor_6_sourcenodeid
-      - sensor.aeotec_zw100_multisensor_6_temperature
       - sensor.aeotec_zw100_multisensor_6_ultraviolet
+
+  ZWave Sensors:
+    entities:
       - sensor.ecolink_door_sensor_access_control
       - sensor.ecolink_door_sensor_access_control_2
       - sensor.ecolink_door_sensor_alarm_level
@@ -85,6 +112,9 @@ group:
       - sensor.ecolink_door_sensor_power_management_2
       - sensor.ecolink_door_sensor_sourcenodeid
       - sensor.ecolink_door_sensor_sourcenodeid_2
+
+  2 Car Garage:
+    entities:
       - sensor.two_car_garage_door_sensor_battery
       - sensor.two_car_garage_door_sensor_status
       - sensor.two_car_garage_door_tilt_sensor_access_control
@@ -93,6 +123,9 @@ group:
       - sensor.two_car_garage_door_tilt_sensor_burglar
       - sensor.two_car_garage_door_tilt_sensor_power_management
       - sensor.two_car_garage_door_tilt_sensor_sourcenodeid
+
+  1 Car Garage:
+    entities:
       - sensor.single_car_garage_door_sensor_battery
       - sensor.single_car_garage_door_sensor_status
       - sensor.single_car_garage_door_tilt_sensor_access_control
@@ -103,11 +136,31 @@ group:
       - sensor.single_car_garage_door_tilt_sensor_sourcenodeid
       - switch.single_car_garage
 
-automation:
-  - alias: Heal Z-Wave Network
-    initial_state: true
-    trigger:
-      platform: time
-      at: '4:30:00'
-    action:
-      service: zwave.heal_network
+  Door Sensors:
+      - binary_sensor.ecolink_door_sensor_sensor
+      - binary_sensor.ecolink_door_sensor_sensor_2
+
+  Motion Sensors:
+    entities:
+      - binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      - binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2
+      - binary_sensor.aeotec_zw100_multisensor_6_sensor
+      - binary_sensor.kids_room_occupancy
+
+  Light Levels:
+    entities:
+      - sensor.aeotec_zw100_multisensor_6_luminance
+      - sensor.aeotec_zw074_multisensor_gen5_luminance
+      - sensor.aeotec_zw074_multisensor_gen5_luminance_2
+
+  Humidity Levels:
+    entities:
+      - sensor.aeotec_zw100_multisensor_6_relative_humidity
+      - sensor.aeotec_zw074_multisensor_gen5_relative_humidity
+      - sensor.aeotec_zw074_multisensor_gen5_relative_humidity_2
+
+  Temperature Levels:
+    entities:
+      - sensor.aeotec_zw100_multisensor_6_temperature
+      - sensor.aeotec_zw074_multisensor_gen5_temperature
+      - sensor.aeotec_zw074_multisensor_gen5_temperature_2

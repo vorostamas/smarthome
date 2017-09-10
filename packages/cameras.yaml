@@ -7,6 +7,31 @@
 homeassistant:
   customize:
 
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'cameras'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
 # Front Door Camera
     binary_sensor.frontdoor_camera_motion:
       friendly_name: Frontdoor Motion
@@ -47,6 +72,13 @@ homeassistant:
     binary_sensor.playarea_camera_tamper_detection:
       friendly_name: Playarea Camera Tamper Detection
 
+    group.camera_field_detection:
+      <<: *hidden
+    group.camera_line_crossing:
+      <<: *hidden
+    group.camera_tamper_detection:
+      <<: *hidden
+
 group:
   Frontyard Cameras:
     entities:
@@ -84,28 +116,6 @@ group:
       - binary_sensor.frontdoor_camera_tamper_detection
       - binary_sensor.driveway_camera_tamper_detection
       - binary_sensor.patio_camera_tamper_detection
-      - binary_sensor.playarea_camera_tamper_detection
-
-  Camera Sensors:
-    entities:
-      - binary_sensor.frontdoor_camera_motion
-      - binary_sensor.frontdoor_camera_field_detection
-      - binary_sensor.frontdoor_camera_line_crossing
-      - binary_sensor.frontdoor_camera_tamper_detection
-
-      - binary_sensor.driveway_camera_motion
-      - binary_sensor.driveway_camera_field_detection
-      - binary_sensor.driveway_camera_line_crossing
-      - binary_sensor.driveway_camera_tamper_detection
-
-      - binary_sensor.patio_camera_motion
-      - binary_sensor.patio_camera_field_detection
-      - binary_sensor.patio_camera_line_crossing
-      - binary_sensor.patio_camera_tamper_detection
-
-      - binary_sensor.playarea_camera_motion
-      - binary_sensor.playarea_camera_field_detection
-      - binary_sensor.playarea_camera_line_crossing
       - binary_sensor.playarea_camera_tamper_detection
 
   Doppler Weather:
@@ -155,26 +165,6 @@ camera:
     name: Ohio Doppler Weather
     still_image_url: 'https://icons.wxug.com/data/weather-maps/radar/united-states/dayton-ohio-region-current-radar-animation.gif'
 
-  - platform: generic
-    name: Suresh Map
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.suresh_suresh.attributes.latitude }},{{ states.device_tracker.suresh_suresh.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:SK%7C{{ states.device_tracker.suresh_suresh.attributes.latitude }},{{ states.device_tracker.suresh_suresh.attributes.longitude }}
-    limit_refetch_to_url_change: true 
-
-  - platform: generic
-    name: Mallika Map
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.mallika_mallika.attributes.latitude }},{{ states.device_tracker.mallika_mallika.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:MK%7C{{ states.device_tracker.mallika_mallika.attributes.latitude }},{{ states.device_tracker.mallika_mallika.attributes.longitude }}
-    limit_refetch_to_url_change: true 
-
-  - platform: generic
-    name: Srinika Map
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.srinika_srinika.attributes.latitude }},{{ states.device_tracker.srinika_srinika.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:SR%7C{{ states.device_tracker.srinika_srinika.attributes.latitude }},{{ states.device_tracker.srinika_srinika.attributes.longitude }}
-    limit_refetch_to_url_change: true 
-
-  - platform: generic
-    name: Hasika Map
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.hasika_hasika.attributes.latitude }},{{ states.device_tracker.hasika_hasika.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:HK%7C{{ states.device_tracker.hasika_hasika.attributes.latitude }},{{ states.device_tracker.hasika_hasika.attributes.longitude }}
-    limit_refetch_to_url_change: true 
-
 binary_sensor:
 
   - platform: hikvision
@@ -204,7 +194,8 @@ binary_sensor:
 automation:
 
   - alias: Notify camera pictures
-    initial_state: 'on'
+    initial_state: true
+    hide_entity: true
     trigger:
      - platform: state
        entity_id:
@@ -218,6 +209,8 @@ automation:
          - binary_sensor.playarea_camera_line_crossing
        to: 'on'
     condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.notify_motion_pictures.state == "on" }}'
       - condition: template
         value_template: >
           {% set suresh = states.device_tracker.mallika_mallika.state %}
@@ -263,7 +256,8 @@ automation:
               content-type: jpg
 
   - alias: Blink Kitchen Lights When Motion Detected
-    initial_state: 'on'
+    initial_state: true
+    hide_entity: true
     trigger:
      - platform: state
        entity_id:

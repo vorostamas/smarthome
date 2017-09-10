@@ -7,6 +7,31 @@
 homeassistant:
   customize:
 
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'batteries'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
     group.batteries:
       order: 2
 
@@ -470,6 +495,7 @@ automation:
           
   - alias: Check Wi-Fi Status of iPhones At Home
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id:

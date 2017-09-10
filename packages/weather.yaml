@@ -144,7 +144,6 @@ group:
   Weather Automations:
     control: hidden
     entities:
-      - automation.alert_daily_weather
       - automation.remind_me_to_enjoy_warm_and_windy_weather
       - automation.alert_super_heavy_winds
       - automation.rain_snow_wind_alerts      
@@ -312,30 +311,7 @@ sensor:
           {%- endif %}
           
 automation:
-  # - alias: Alert Daily Weather
-    # initial_state: true
-    # trigger:
-      # platform: time
-      # hours: '/1'
-      # minutes: 05
-      # seconds: 00
-    # condition:
-      # - condition: time
-        # at: '07:00:00'
-        # before: '09:10:00'  
-    # action:
-      # - service: script.voice_notify
-        # data_template:
-          # value1: !include ../templates/weather.yaml
-      # - service: script.notify_me
-        # data_template:
-          # value1: "Today's Weather High: {{states('sensor.dark_sky_daily_high_temperature')}} F, Feels like: {{states('sensor.dark_sky_daily_high_apparent_temperature')}} F. Today's Weather Low: {{states('sensor.dark_sky_daily_low_temperature')}} F, Feels like: {{states('sensor.dark_sky_daily_low_apparent_temperature')}} F."
-          # value2: ""
-      # - service: script.notify_me
-        # data_template:
-          # value1: "Today's Summary: {{states('sensor.dark_sky_daily_summary')}}"
-          # value2: ""
-  
+
   # Script to alert when enjoyable weather is outside
   # For me, enjoyable is: 
   #      1. Must be above 70 Degrees F
@@ -344,10 +320,13 @@ automation:
   # Only want to be notified every 15 minutes or so. Do not want to be bombarded with updates every minute wind speed changes
   - alias: Remind me to enjoy warm and windy weather
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: sensor.dark_sky_wind_speed
     condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.enjoyable_weather_reminders.state == "on" }}'
       - condition: state
         entity_id: sun.sun
         state: 'above_horizon'
@@ -413,6 +392,7 @@ automation:
 
   - alias: Alert Super Heavy Winds
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: sensor.dark_sky_wind_speed
@@ -438,6 +418,7 @@ automation:
 
   - alias: Rain Snow Wind Alerts
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: sensor.dark_sky_precip

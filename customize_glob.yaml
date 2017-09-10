@@ -1,147 +1,88 @@
+# Snapcast Group and Clients
 'media_player.snapcast_group_*':
   hidden: true
   emulated_hue: false
+'media_player.snapcast_client_*':
+  hidden: true
+  emulated_hue: false
+'media_player.mpd':
+  hidden: true
 
+# Z Wave Stuff
+'zwave.aeotec_zw074_*':
+  hidden: true
+'zwave.ecolink_door_*':
+  hidden: true
+'zwave.ecolink_garage_door_tilt_*':
+  hidden: true
+'sensor.aeotec_zw074_multisensor_gen5_*':
+  hidden: true
+'sensor.aeotec_zw100_multisensor_6_*':
+  hidden: true
+'sensor.*_access_control*':
+  hidden: true
+'sensor.*_alarm_level*':
+  hidden: true
+'sensor.*_alarm_type*':
+  hidden: true
+'sensor.*_burglar*':
+  hidden: true
+'sensor.*_power_management*':
+  hidden: true
+'sensor.*_sourcenodeid*':
+  hidden: true
+
+# Calendar Stuff
+'calendar.*':
+  hidden: true
+
+# Camera Stuff
+'binary_sensor.*_camera_tamper_detection':
+  hidden: true
+'binary_sensor.*_camera_field_detection':
+  hidden: true
+'binary_sensor.*_camera_line_crossing':
+  hidden: true
+
+# Automation Stuff
 'automation.*':
   icon: mdi:arrow-right-drop-circle
-#  emulated_hue: false
-  
 'automation.*watchdog*':
   icon: mdi:timer
-  
 'automation.night_*':
   icon: mdi:weather-night
-
 'automation.morning_*':
   icon: mdi:weather-sunset
-
 'automation.evening_*':
   icon: mdi:weather-sunset-down
-  
 'automation.tv_*':
   icon: mdi:television
 
-# 'sensor.device_tracker_*':
-#   icon: mdi:desktop-tower
-#  # emulated_hue: false
+# Weather Stuff
+'sensor.dark_sky_*':
+  hidden: true
 
-# 'sensor.dark_sky_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.waqi_columbus__fairgrounds_*':
+  hidden: true
 
-# 'sensor.pws_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.pws_*':
+  hideen: true
 
-# 'sensor.ring_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.pollen*':
+  hidden: true
 
-# 'binary_sensor.ring_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.cold_flu_*':
+  hidden: true
 
-# 'device_tracker.*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.air_quality':
+  hidden: true
 
-# 'binary_sensor.aeotec_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
-  
-# 'sensor.*_luminance_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.uv_*':
+  hidden: true
 
-# 'sensor.*_temperature_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
+'sensor.sun':
+  hidden: true
 
-# 'sensor.*_humidity_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
-
-# 'sensor.guest_bedroom_*':
-#   homebridge_hidden: true
-#   #emulated_hue: false
-
-# 'input_boolean.do_not_disturb':
-#   homebridge_hidden: false
-#   #emulated_hue: true
-
-# 'input_boolean.home_assistant_restart':
-#   homebridge_hidden: false
-#   emulated_hue: true
-
-# 'input_boolean.home_assistant_update':
-#   homebridge_hidden: false
-#   emulated_hue: true
-
-# 'input_boolean.home_security':
-#   homebridge_hidden: false
-#   emulated_hue: true
-
-# 'input_boolean.working_in_garage':
-#   homebridge_hidden: false
-#   emulated_hue: true
-
-# 'group.*':
-#   emulated_hue: false
-
-# # Hide Input Booleans from Alexa and Home Bridge
-# ################################################
-# # 'input_boolean.animate_downstairs_lights':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.animate_kitchen_lights':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.animate_upstairs_lights':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.heavy_wind_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.hurricane_wind_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.long_flash':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.moderate_wind_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.nice_breeze_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.rain_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.short_flash':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.sleet_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.snow_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.super_heavy_wind_alert':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
-
-# # 'input_boolean.trash_reminders':
-# #   homebridge_hidden: true
-# #   emulated_hue: false
+# Hide WiFi Stuff
+'sensor.*_iphone_wifi_state':
+  hidden: true

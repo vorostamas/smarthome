@@ -1,7 +1,11 @@
 # default_view:
-   # view: yes
-   # icon: mdi:home-assistant
-   # entities:
+#    view: yes
+#    icon: mdi:home-assistant
+#    entities:
+#      - group.family
+#      - group.frontyard_cameras
+#      - group.backyard_cameras
+#      - group.home_security_system
 
 family_view:
   view: yes

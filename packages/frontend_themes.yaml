@@ -206,6 +206,7 @@ automation:
 
   - alias: Random Darker Theme At Sunset
     initial_state: true
+    hide_entity: true
     trigger:
       platform: sun
       event: sunset
@@ -216,6 +217,7 @@ automation:
 
   - alias: Random Lighter Theme At Sunrise
     initial_state: true
+    hide_entity: true
     trigger:
       platform: sun
       event: sunrise

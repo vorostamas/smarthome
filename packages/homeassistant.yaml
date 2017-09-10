@@ -7,6 +7,30 @@
 homeassistant:
   customize:
   
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'homeassistant'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        hidden: true
+        critical: false
+
     group.system_monitor:
       order: 3
     group.internet_speed:
@@ -21,6 +45,9 @@ homeassistant:
       order: 70
     group.common_urls:
       order: 71
+
+    binary_sensor.workday_sensor:
+      <<: *hidden
 
     sensor.external_ip:
       friendly_name: External IP Address
@@ -117,27 +144,7 @@ group:
       - automation.startup_notification
       - automation.update_available_notification
       - automation.clear_tts_cache
-
-  Manuals:
-    entities:
-      - weblink.bose_lifestyle_12_series
-      - weblink.manual_lutron_motion_sensors
-      - weblink.manual_onkyo_receiver
-      - weblink.onkyo_eiscp_commands
-      - weblink.onkyo_receiver
-      - weblink.onkyo_receiver_capabilities_lc60sq15u
-      - weblink.sharp_aquos_manual_lc60sq15u
-      - weblink.sharp_aquos_setup_guide_lc60sq15u
   
-  Common URLS:
-    entities:
-      - weblink.linksys_router_wrt1900acs
-      - weblink.multiroom_music_player
-      - weblink.palo_alto_firewall
-      - weblink.pi_hole
-      - weblink.qnap_nas
-      - weblink.this_home_assistant
-    
 sensor:
   - platform: rest
     resource: http://ip.jsontest.com
@@ -209,8 +216,12 @@ sensor:
 
 automation:
 
+# Notify me when I get a new public IP from my ISP
+######################################################
+
   - alias: Notify Of New External IP
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: sensor.external_ip
@@ -231,29 +242,10 @@ automation:
 
   - alias: Update Available Notification
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: updater.updater
     action:
       - service: script.notify_me
         data: {"value1":"New HASS update is available. Please update!", "value2":""}
-        
-  - alias: Clear TTS Cache
-    initial_state: true
-    trigger:
-      platform: time
-      at: '4:45:00'
-    action:
-      service: tts.clear_cache
-
-  # - alias: Startup Notification
-  #   initial_state: true
-  #   trigger:
-  #     platform: homeassistant
-  #     event: start
-  #   action:
-  #     - service: script.pushbullet_notify
-  #       data: { "value1":"Home Assistant restarted successfully!", "value2":""}      
-      # - service: frontend.set_theme
-      #   data:
-      #     name: greens

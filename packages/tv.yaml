@@ -25,6 +25,7 @@ automation:
 #
   - alias: TV Dim Indoor Lights when TV is ON
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: media_player.sharp_tv
@@ -66,6 +67,7 @@ automation:
 #
   - alias: TV Restore Family Room Lights To TV Mode
     initial_state: true
+    hide_entity: true
     trigger:
       - platform: state
         entity_id: group.family_room_lights
@@ -100,6 +102,7 @@ automation:
 #
   - alias: TV Backlight OFF when TV is OFF
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: media_player.sharp_tv
@@ -121,6 +124,7 @@ automation:
 #
   - alias: TV Backlight is ON when TV is ON
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: media_player.sharp_tv
@@ -142,6 +146,7 @@ automation:
 #
   - alias: TV Turn Lights ON When TV is turned OFF
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: media_player.sharp_tv

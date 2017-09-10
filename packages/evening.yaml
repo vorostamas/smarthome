@@ -6,15 +6,31 @@
 ###############################################################################
 homeassistant:
   customize:
-    group.evening_automations:
-      order: 51
-  
-group:
-  Evening Automations:
-    entities:
-      - automation.evening_home_security_system_on_at_sunset
-      - automation.evening_outdoor_lights_on_at_sunset
-      - automation.evening_indoor_lights_on_before_sunset
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'evening'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
 
 automation:
 ###############################################################################
@@ -22,6 +38,7 @@ automation:
 ###############################################################################
   - alias: Evening Home Security System ON (At Sunset)
     initial_state: true
+    hide_entity: true
     trigger:
       platform: sun
       event: sunset
@@ -65,6 +82,7 @@ automation:
 ###############################################################################
   - alias: Evening Outdoor Lights ON (At Sunset)
     initial_state: true
+    hide_entity: true
     trigger:
       platform: sun
       event: sunset
@@ -88,6 +106,7 @@ automation:
 ###############################################################################
   - alias: Evening Indoor Lights ON Before Sunset
     initial_state: true
+    hide_entity: true
     trigger:
       platform: sun
       event: sunset
