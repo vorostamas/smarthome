@@ -47,11 +47,12 @@ homeassistant:
         critical: false
   
     sensor.srinika_birthday:
-      hidden: true
+      <<: *hidden
     sensor.hasika_birthday:
-      hidden: true
+      <<: *hidden
     sensor.mallika_birthday:
-      hidden: true
+      <<: *hidden
+
     sensor.srinika_birthday_days2go:
       friendly_name: Srinika's Birthday
       icon: mdi:cake-variant
@@ -68,9 +69,6 @@ group:
       - sensor.srinika_birthday_days2go
       - sensor.hasika_birthday_days2go
       - sensor.mallika_birthday_days2go
-      - automation.today_is_the_birthday
-      - automation.birthday_countdown_30_days
-      - automation.random_birthday_wishes
 
 sensor:
   - platform: template
@@ -91,68 +89,68 @@ sensor:
         value_template: !secret mallika_birthday
         unit_of_measurement: (mm-dd)
 
-  - platform: mqtt
-    state_topic: "/home/today"
-    name: "srinika_birthday_days2go"
-    unit_of_measurement: "days to go"
-    value_template: >-
-      {% set month = value.split('-')[0] %}
-      {% set date = value.split('-')[1] %}
-      {% set year = value.split('-')[2] %}
-      {% if states('sensor.srinika_birthday') != "unknown" %}
-        {%- set bDayMonth = states.sensor.srinika_birthday.state.split('-')[0] -%}
-        {%- set bDayDate = states.sensor.srinika_birthday.state.split('-')[1] -%}
-        {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-        {%- if numOfDays < 0 -%}
-          {{ numOfDays + 365 }}
-        {%- else -%}
-          {{ numOfDays }}
-        {%- endif -%}
-      {% else %}
-        -
-      {% endif %}
+  - platform: template
+    sensors:
+      srinika_birthday_days2go:
+        unit_of_measurement: "days to go"
+        value_template: >-
+          {% set year = states.sensor.date.state.split('-')[0] %}
+          {% set month = states.sensor.date.state.split('-')[1] %}
+          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% if states('sensor.srinika_birthday') != "unknown" %}
+            {%- set bDayMonth = states.sensor.srinika_birthday.state.split('-')[0] -%}
+            {%- set bDayDate = states.sensor.srinika_birthday.state.split('-')[1] -%}
+            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+            {%- if numOfDays < 0 -%}
+              {{ numOfDays + 365 }}
+            {%- else -%}
+              {{ numOfDays }}
+            {%- endif -%}
+          {% else %}
+            -
+          {% endif %}
 
-  - platform: mqtt
-    state_topic: "/home/today"
-    name: "hasika_birthday_days2go"
-    unit_of_measurement: "days to go"
-    value_template: >-
-      {% set month = value.split('-')[0] %}
-      {% set date = value.split('-')[1] %}
-      {% set year = value.split('-')[2] %}
-      {% if states('sensor.hasika_birthday') != "unknown" %}
-        {%- set bDayMonth = states.sensor.hasika_birthday.state.split('-')[0] -%}
-        {%- set bDayDate = states.sensor.hasika_birthday.state.split('-')[1] -%}
-        {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-        {%- if numOfDays < 0 -%}
-          {{ numOfDays + 365 }}
-        {%- else -%}
-          {{ numOfDays }}
-        {%- endif -%}
-      {% else %}
-        -
-      {% endif %}      
+  - platform: template
+    sensors:
+      hasika_birthday_days2go:
+        unit_of_measurement: "days to go"
+        value_template: >-
+          {% set year = states.sensor.date.state.split('-')[0] %}
+          {% set month = states.sensor.date.state.split('-')[1] %}
+          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% if states('sensor.hasika_birthday') != "unknown" %}
+            {%- set bDayMonth = states.sensor.hasika_birthday.state.split('-')[0] -%}
+            {%- set bDayDate = states.sensor.hasika_birthday.state.split('-')[1] -%}
+            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+            {%- if numOfDays < 0 -%}
+              {{ numOfDays + 365 }}
+            {%- else -%}
+              {{ numOfDays }}
+            {%- endif -%}
+          {% else %}
+            -
+          {% endif %}
 
-  - platform: mqtt
-    state_topic: "/home/today"
-    name: "mallika_birthday_days2go"
-    unit_of_measurement: "days to go"
-    value_template: >-
-      {% set month = value.split('-')[0] %}
-      {% set date = value.split('-')[1] %}
-      {% set year = value.split('-')[2] %}
-      {% if states('sensor.mallika_birthday') != "unknown" %}
-        {%- set bDayMonth = states.sensor.mallika_birthday.state.split('-')[0] -%}
-        {%- set bDayDate = states.sensor.mallika_birthday.state.split('-')[1] -%}
-        {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-        {%- if numOfDays < 0 -%}
-          {{ numOfDays + 365 }}
-        {%- else -%}
-          {{ numOfDays }}
-        {%- endif -%}
-      {% else %}
-        -
-      {% endif %}      
+  - platform: template
+    sensors:
+      mallika_birthday_days2go:
+        unit_of_measurement: "days to go"
+        value_template: >-
+          {% set year = states.sensor.date.state.split('-')[0] %}
+          {% set month = states.sensor.date.state.split('-')[1] %}
+          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% if states('sensor.mallika_birthday') != "unknown" %}
+            {%- set bDayMonth = states.sensor.mallika_birthday.state.split('-')[0] -%}
+            {%- set bDayDate = states.sensor.mallika_birthday.state.split('-')[1] -%}
+            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+            {%- if numOfDays < 0 -%}
+              {{ numOfDays + 365 }}
+            {%- else -%}
+              {{ numOfDays }}
+            {%- endif -%}
+          {% else %}
+            -
+          {% endif %}
 
 automation:
 
@@ -236,42 +234,3 @@ automation:
       - service: script.voice_notify
         data_template:
           value1: !include ../templates/birthday_wishes.yaml
-
-###############################################################################
-# Update the MQTT with current date every hour
-# Topic: /home/today
-# Date format: "MM-DD-YYYY"
-###############################################################################
-  - alias: Update Current Date In MQTT
-    initial_state: false
-    hide_entity: true
-    trigger:
-      platform: time
-      hours: '/01'
-      minutes: 00
-      seconds: 00
-    action:
-      - service: mqtt.publish
-        data_template:
-          topic: '/home/today'
-          retain: true
-          payload: '{{ as_timestamp(now() ) | timestamp_custom("%m-%d-%Y", true) }}'
-
-###############################################################################
-# On Home Assistant Start, save the current date, so that the sensor will
-# pickup right values to begin with
-###############################################################################
-  - alias: Update Current Date On Startup
-    initial_state: false
-    hide_entity: true
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      - delay:
-          minutes: 1    
-      - service: mqtt.publish
-        data_template:
-          topic: '/home/today'
-          retain: true
-          payload: '{{ as_timestamp(now() ) | timestamp_custom("%m-%d-%Y", true) }}'
