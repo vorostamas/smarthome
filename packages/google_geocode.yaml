@@ -2,12 +2,16 @@ homeassistant:
   customize:
     sensor.suresh_location:
       friendly_name: Suresh's Location
+      icon: mdi:map-marker
     sensor.mallika_location:
       friendly_name: Mallika's Location
+      icon: mdi:map-marker
     sensor.srinika_location:
       friendly_name: Srinika's Location
+      icon: mdi:map-marker
     sensor.hasika_location:
       friendly_name: Hasika's Location
+      icon: mdi:map-marker
 
 group:
   Where is everyone:

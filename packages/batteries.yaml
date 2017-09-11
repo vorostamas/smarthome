@@ -89,6 +89,7 @@ homeassistant:
 
 group:
   Batteries:
+    control: hidden
     entities:
       - sensor.suresh_iphone_battery_ot
       - sensor.mallika_iphone_battery_ot

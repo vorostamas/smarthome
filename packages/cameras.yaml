@@ -128,21 +128,6 @@ group:
       - camera.mallika_map
       - camera.srinika_map
       - camera.hasika_map
-      
-  CCTV:
-    view: yes
-    name: CCTV
-    icon: mdi:cctv
-    entities:
-      - group.frontyard_cameras
-      - group.backyard_cameras
-      - group.camera_motion
-      - group.camera_tamper_detection
-      - group.camera_line_crossing
-      - group.camera_field_detection
-      - group.camera_sensors
-      - group.location_maps
-      - group.doppler_weather
 
 camera:
   - platform: generic

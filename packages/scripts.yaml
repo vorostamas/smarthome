@@ -14,6 +14,23 @@ homeassistant:
       friendly_name: OwnTracks Report Location
       icon: mdi:map-marker 
 
+group:
+  Scripts:
+    control: hidden
+    entities:
+      - script.home_status
+      - script.ifttt_leeo_color_change
+      - script.lifx_breathe
+      - script.owntracks_update
+      - script.restart_hass
+      - script.update_hass
+      - script.start_colorloop
+      - script.stop_colorloop      
+      - script.ifttt_notify
+      - script.notify_me
+      - script.pushbullet_notify
+      - script.voice_notify
+
 script:
 
 ###############################################################################

@@ -6,8 +6,6 @@
 ###############################################################################
 homeassistant:
   customize:
-    group.scripts:
-      order: 25
     group.tts_announcements:
       order: 52
 

@@ -96,6 +96,13 @@ homeassistant:
     sensor.link_quality:
       icon: mdi:link-variant
 
+    sensor.ha_installed_version:
+      icon: mdi:home-assistant
+    sensor.ha_current_version:
+      icon: mdi:home-assistant
+    sensor.ha_last_restart:
+      icon: mdi:home-assistant
+
     automation.login_failure:
       friendly_name: Alert Login Failures
 

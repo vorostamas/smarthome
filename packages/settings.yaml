@@ -46,6 +46,7 @@ homeassistant:
 
 group:
   Control Panel:
+    control: hidden
     entities:
       - input_boolean.mute_voice_notifications
       - input_boolean.do_not_disturb
@@ -60,6 +61,8 @@ group:
       - input_boolean.clear_tts_cache
       - input_boolean.trash_reminders
       - input_boolean.enjoyable_weather_reminders
+      - input_boolean.alert_when_someone_enters_zone
+      - input_boolean.alert_when_someone_leaves_zone
 
 # Input Booleans
 ###############################################################################
@@ -78,7 +81,7 @@ input_boolean:
   home_security:
     name: Home Security System
     initial: off
-    icon: mdi:verify
+    icon: mdi:verified
 
   home_assistant_restart:
     name: Home Assistant
@@ -139,6 +142,16 @@ input_boolean:
     name: Alert When No One Home
     initial: on
     icon: mdi:alert
+
+  alert_when_someone_enters_zone:
+    name: Alert When Someone Enters A Zone
+    initial: on
+    icon: mdi:map-marker
+
+  alert_when_someone_leaves_zone:
+    name: Alert When Someone Leaves A Zone
+    initial: on
+    icon: mdi:map-marker
 
 # Automations
 ###############################################################################

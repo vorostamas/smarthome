@@ -85,15 +85,6 @@ group:
       - automation.notify_nas_cpu_usage
       - automation.notify_nas_cpu_temperature
 
-  NAS:
-    view: yes
-    name: NAS
-    icon: mdi:harddisk
-    entities:
-      - group.qnap_server
-      - group.qnap_drives
-      - group.qnap_automations
-
 sensor:
   - platform: qnap
     host: !secret qnap_hostname
