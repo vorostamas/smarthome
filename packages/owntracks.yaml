@@ -1,5 +1,34 @@
 homeassistant:
   customize:
+
+    group.home__family:
+      order: 1
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'settings'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
     device_tracker.suresh_suresh:
       friendly_name: Suresh
       entity_picture: /local/suresh.jpg
@@ -13,19 +42,18 @@ homeassistant:
       friendly_name: Hasika
       entity_picture: /local/hasika.jpg
     device_tracker.ipad_ipad:
-      hidden: true
+      <<: *hidden
 
 device_tracker:
   - platform: owntracks
     max_gps_accuracy: 200
-    waypoints: True 
+    waypoints: True
 
 group:
-  Family:
+  Home & Family:
     entities:
       - device_tracker.suresh_suresh
       - device_tracker.mallika_mallika
       - device_tracker.srinika_srinika
       - device_tracker.hasika_hasika
-      - automation.alert_when_everyone_is_away
-      - automation.welcome_family_owntracks
+      - alarm_control_panel.simplisafe

@@ -22,12 +22,6 @@ alarm_control_panel:
   name: Simplisafe
   username: !secret simplisafe_username
   password: !secret simplisafe_password
-
-group:
-  Home Security System:
-    entities:
-      - alarm_control_panel.simplisafe
-      - automation.notify_home_security_status_change
   
 automation:
 
@@ -63,10 +57,13 @@ automation:
 
   - alias: Notify Home Security Status Change
     initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: alarm_control_panel.simplisafe
     condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.notify_security_system_changes.state == "on" }}'
       - condition: template
         value_template: >
           {%- if states.automation.notify_home_security_status_change.attributes.last_triggered -%}

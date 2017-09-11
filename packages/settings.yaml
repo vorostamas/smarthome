@@ -68,6 +68,7 @@ input_boolean:
   mute_voice_notifications:
     name: Mute Voice Notifications
     initial: off
+    icon: mdi:volume-off
 
   do_not_disturb:
     name: Do Not Disturb
@@ -77,38 +78,47 @@ input_boolean:
   home_security:
     name: Home Security System
     initial: off
+    icon: mdi:verify
 
   home_assistant_restart:
     name: Home Assistant
     initial: off
+    icon: mdi:home-assistant
 
   home_assistant_update:
     name: Latest Version Of Home Assistant
     initial: off
+    icon: mdi:home-assistant
 
   home_assistant_status:
     name: Home Status
-    initial: off    
+    initial: off
+    icon: mdi:home-assistant
 
   working_in_garage:
     name: Working in Garage
     initial: off
+    icon: mdi:worker
 
   hourly_reports:
     name: Hourly Report
     initial: on
+    icon: mdi:file-chart
 
   notify_motion_pictures:
     name: Notify With Pictures (Motion)
     initial: off
+    icon: mdi:camera
 
   welcome_family_announcement:
     name: Welcome Family Member Announcements
     initial: on
+    icon: mdi:home
 
   clear_tts_cache:
     name: Clear TTS Cache Daily
     initial: on
+    icon: mdi:text-to-speech
 
   trash_reminders:
     name: Remind Trash Notifications
@@ -118,7 +128,17 @@ input_boolean:
   enjoyable_weather_reminders:
     name: Remind me to enjoy Good Weather
     initial: on
-    icon: mdi:recycle
+    icon: mdi:weather-sunny
+
+  notify_security_system_changes:
+    name: Notify Security System Status Change
+    initial: on
+    icon: mdi:verified
+
+  alert_no_one_home:
+    name: Alert When No One Home
+    initial: on
+    icon: mdi:alert
 
 # Automations
 ###############################################################################

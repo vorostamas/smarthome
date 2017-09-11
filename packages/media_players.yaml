@@ -6,12 +6,6 @@
 ###############################################################################
 homeassistant:
   customize:
-    group.basement_media_players:
-      order: 60
-    group.downstairs_media_players:
-      order: 61      
-    group.upstairs_media_players:
-      order: 62
 
 # Media Players
     media_player.snapcast_client_b827eb8604f5:
@@ -41,25 +35,6 @@ homeassistant:
       friendly_name: Sharp TV
       emulated_hue: true
       emulated_hue_name: TV
-
-group:
-  Basement Media Players:
-    entities:
-      - media_player.pi_audio_five_snapcast_client
-  
-  Downstairs Media Players:
-    entities:
-      - media_player.pi_ha_snapcast_client
-      - media_player.pi_audio_one_snapcast_client
-      - media_player.pi_audio_two_snapcast_client
-      - media_player.mpd
-      - media_player.gstreamer
-      - media_player.sharp_tv
-  
-  Upstairs Media Players:
-    entities:
-      - media_player.pi_audio_three_snapcast_client
-      - media_player.pi_audio_four_snapcast_client
     
 media_player:
   - platform: snapcast
