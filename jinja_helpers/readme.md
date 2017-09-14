@@ -1,6 +1,6 @@
 # Jinja Helpers and Sample Scripts to get you started
 
-## To see which entities are exposed to your alexa platform, run the following script
+## 1. To see which entities are exposed to your alexa platform, run the following script
 
 The following entities are exposed to Alexa platform via `emulated_hue`:
 
@@ -34,7 +34,7 @@ switch.wemoswitch1                                 Front Room Light
 -------------------------------------------------- ------------------------------
 ```
 
-## To generate template sensors based on the device_trackers,  run the following script and copy the output and use it in your code
+## 2. To generate template sensors based on the device_trackers,  run the following script and copy the output and use it in your code
 
 Copy the output of the code in your dev-templates, and use it in your code directly
 
@@ -67,7 +67,7 @@ Copy the output of the code in your dev-templates, and use it in your code direc
     ...more entries!    
 ```
 
-## Group Management:
+## 3. Group & Entities:
 
 To see the list of `groups`,  and the entities that belong to the group, run this script
 
@@ -102,7 +102,7 @@ binary_sensor.ecolink_door_sensor_sensor_2
 ...more entries!
 ```
 
-## To see all the Entities and corresponding attributes all in one place, run this script:
+## 4. To see all the Entities and corresponding attributes all in one place, run this script:
 
 ```
 {{ "_".ljust(90, "_") }}
@@ -153,18 +153,18 @@ automation.alert_super_heavy_winds
   ...more entries!
 ```
 
-## Temperature Conversion
+## 5. Temperature Conversion
 
 Sample code that uses macros to convert temperature from Fahrenheit to Centigrade and vice versa
 
 ```
 {%- macro F2C(temperature) -%}
-{% set tmp =(((temperature - 32) *5)/9) %}
+{% set tmp = (((temperature - 32) *5)/9) %}
 {{- " %0.2f" % tmp }}
 {%- endmacro -%}
 
 {%- macro C2F(temperature) -%}
-{% set tmp =(((temperature *9) /5) + 32) %}
+{% set tmp = (((temperature *9) /5) + 32) %}
 {{- " %0.2f" % tmp -}}
 {%- endmacro -%}
 
@@ -179,3 +179,85 @@ Sample code that uses macros to convert temperature from Fahrenheit to Centigrad
 23.89 degrees of Centigrade is equal to: 75.00 Fahrenheit
 ```
 
+## 6. Trigger Data in Templates
+
+Ever wondered what trigger data is available for you when writing automations? Just copy the mqtt.publish service below 
+and put it in **any** of your automation action section, and <b>it will dump all the attributes and information related to trigger, and state into your mqtt with a topic name "/dump/platform" </b>.
+
+Pre-requisite is to have MQTT configured in your Home Assistant. Use tools like `mqttfx` to browse mqtt data.
+
+Hope you find it useful!
+
+```
+  - alias: Light Bulb State Change 
+    trigger:
+      platform: state
+      entity_id: light.dinette
+    action:        
+      - service: mqtt.publish
+        data_template:
+          topic: '/dump/{{ trigger.platform }}'
+          retain: false
+          payload: >-
+            {%- macro dumpState(statePrefix, stateObj) -%}
+              {{statePrefix ~ ": "}} {{- stateObj.state }}{{- "\n" -}}
+              {{statePrefix ~ ".entity_id: "}} {{- stateObj.entity_id }}{{- "\n" -}}
+              {{statePrefix ~ ".domain: "}} {{- stateObj.domain }}{{- "\n" -}}
+              {{statePrefix ~ ".object_id: "}} {{- stateObj.object_id }}{{- "\n" -}}
+              {{statePrefix ~ ".name: "}} {{- stateObj.name }}{{- "\n" -}}
+              {{statePrefix ~ ".last_updated: "}} {{- stateObj.last_updated }}{{- "\n" -}}
+              {{statePrefix ~ ".last_changed: "}} {{- stateObj.last_changed }}{{- "\n" -}}
+              {%- for attrib in stateObj.attributes | sort() %}
+                {%- if attrib is defined -%} 
+                {{- statePrefix ~ ".attributes." ~ attrib ~ ": " -}} {{- stateObj.attributes[attrib] -}}
+                {{- "\n" -}}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endmacro -%}
+            
+            {% set p = trigger.platform %}
+            {{"trigger.platform: "}} {{ p }}{{- "\n" -}}
+            
+            {%- if p == "mqtt" -%}
+            {{"trigger.topic: "}} {{ trigger.topic }}{{- "\n" -}}
+            {{"trigger.payload: "}} {{ trigger.payload }}{{- "\n" -}}
+            {{"trigger.payload_json: "}} {{ trigger.payload_json }}{{- "\n" -}}
+            {{"trigger.qos: "}} {{ trigger.qos }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "event" or p == "sun" or p == "zone" -%}
+            {{"trigger.event: "}} {{ trigger.event }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "numeric_state" -%}
+            {{"trigger.above: "}} {{ trigger.above }}{{- "\n" -}}
+            {{"trigger.below: "}} {{trigger.below }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "state" -%}
+            {{"trigger.for: "}} {{ trigger.for }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "time" -%}
+            {{"trigger.now: "}} {{ trigger.now }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "zone" -%}
+            {{"trigger.zone: "}} {{ trigger.zone }}{{- "\n" -}}
+            {%- endif -%}
+            
+            {%- if p == "state" or p == "numeric_state" or p == "template" or p == "zone" -%}
+            {{"trigger.entity_id: "}} {{ trigger.entity_id }}{{- "\n" -}}{{- "\n" -}}
+            {{"trigger.from_state: "}} {{- "\n" -}}
+            -------------------{{- "\n" -}}
+            {{ dumpState("trigger.from_state", trigger.from_state) }} {{- "\n" -}}
+            trigger.to_state:{{- "\n" -}}
+            -----------------{{- "\n" -}}
+            {{ dumpState("trigger.to_state", trigger.to_state) }}            
+            {%- endif -%}
+```
+
+By the way, if you are paying attention, the same information can also be found when you enable logging at the `debug` level in `home-assistant.log` file. This is just another 'fancy' way of accomplishing the same thing :smile:
+
+
+Got any questions or found issues, let me know!
