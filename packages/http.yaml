@@ -1,0 +1,21 @@
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'http'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+http:
+  api_password: !secret api_password
+  use_x_forwarded_for: true
+  ip_ban_enabled: true
+  login_attempts_threshold: 3

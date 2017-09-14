@@ -416,13 +416,15 @@ automation:
             {% endif %}
           value2: ""
 
-  - alias: Rain Snow Wind Alerts
+  - alias: Rain Alerts
     initial_state: true
     hide_entity: true
     trigger:
       platform: state
       entity_id: sensor.dark_sky_precip
     condition:
+      - condition: template
+        value_template: '{{ trigger.to_state.state | lower == "rain" }}'
       - condition: state
         entity_id: group.all_devices
         state: 'home'
@@ -447,7 +449,40 @@ automation:
             {% set curState = trigger.to_state.state | lower %}
             {%- if curState == "rain" -%}
                input_boolean.rain_alert
-            {%- elif curState == "snow" %}
+            {%- endif %}
+
+  - alias: Snow And Sleet Alerts
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: sensor.dark_sky_precip
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.season.state | lower == "winter" }}'
+      - condition: state
+        entity_id: group.all_devices
+        state: 'home'
+      - condition: state
+        entity_id: sun.sun
+        state: 'above_horizon'        
+      - condition: template
+        value_template: '{% if trigger.to_state.state == "unknown" or trigger.to_state.state == "" %} false {% else %} true {% endif %}'
+      - condition: template
+        value_template: '{{ states.sensor.dark_sky_precip_probability.state | int == 1 }}'
+    action:
+      - service: script.notify_me
+        data_template:
+          value1: "{{ trigger.to_state.state | title }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float }} inches per hour"
+          value2: ""
+      - service: script.voice_notify
+        data_template:
+          value1: "{{ trigger.to_state.state }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float}} inches per hour"
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {% set curState = trigger.to_state.state | lower %}
+            {%- if curState == "snow" %}
                input_boolean.snow_alert
             {%- elif curState == "sleet" %}
                input_boolean.sleet_alert

@@ -32,9 +32,10 @@ homeassistant:
     input_boolean.working_in_garage:
       friendly_name: Working in Garage
       icon: mdi:worker
-    input_boolean.mute_voice_notifications:
+    input_boolean.voice_notifications:
       <<: *exposed
       icon: mdi:microphone-off
+      emulated_hue_name: Home Assistant Announcements
     input_boolean.do_not_disturb:
       <<: *exposed
     input_boolean.home_security:
@@ -48,7 +49,7 @@ group:
   Control Panel:
     control: hidden
     entities:
-      - input_boolean.mute_voice_notifications
+      - input_boolean.voice_notifications
       - input_boolean.do_not_disturb
       - input_boolean.home_security
       - input_boolean.home_assistant_restart
@@ -68,9 +69,9 @@ group:
 ###############################################################################
 
 input_boolean:
-  mute_voice_notifications:
-    name: Mute Voice Notifications
-    initial: off
+  voice_notifications:
+    name: Home Assistant Announcements
+    initial: on
     icon: mdi:volume-off
 
   do_not_disturb:

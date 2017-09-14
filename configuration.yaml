@@ -25,9 +25,6 @@ python_script:
 recorder:
   db_url: !secret my_sql_url
 
-http:
-  api_password: !secret api_password
-
 mqtt:
   broker: !secret pi_hole_mqtt_server
   port: !secret pi_hole_mqtt_port
@@ -44,8 +41,10 @@ emulated_hue:
   expose_by_default: false
   host_ip: !secret ha_ip_address
   listen_port: 8300
-  # exposed_domains:
-  #   - light
+  exposed_domains:
+    - light
+    - switch
+    - input_boolean
 
 # logger: !include logging.yaml
 group: !include_dir_merge_named groups

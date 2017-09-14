@@ -158,7 +158,7 @@ automation:
 # Build the excitement
 ###############################################################################
   - alias: Birthday Countdown 30 Days
-    initial_state: false
+    initial_state: true
     hide_entity: true
     trigger:
       platform: state
@@ -182,7 +182,7 @@ automation:
 # Celebrate Birthday!!!
 ###############################################################################
   - alias: Today is the Birthday
-    initial_state: false
+    initial_state: true
     hide_entity: true
     trigger:
       platform: state
@@ -206,7 +206,7 @@ automation:
 # Announce Happy Birthday message every hour starting 7 am until 9 PM
 ###############################################################################
   - alias: Random Birthday Wishes
-    initial_state: false
+    initial_state: true
     hide_entity: true
     trigger:
       platform: time
