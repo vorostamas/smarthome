@@ -1,0 +1,6 @@
+global_variable:
+  int_variable:
+    name: Global Int Variable
+    type: integer
+    value: 33
+    icon: mdi:numeric

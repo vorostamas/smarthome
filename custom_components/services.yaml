@@ -1,0 +1,17 @@
+global_variable:
+  reset:
+    description: Reset a counter.
+    fields:
+      entity_id:
+        description: Entity id of the counter to reset.
+        example: 'global_variable.timeout'
+
+  set_value:
+    description: set a new value for the variable to hold.
+    fields:
+      entity_id:
+        description: Entity id of the variable to update.
+        example: 'global_variable.timeout'
+      new_value:
+        description: New Value to set
+        example: '10'

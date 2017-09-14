@@ -1,4 +1,4 @@
-# Jinja Helpers and Sample Scripts to get you started
+# Jinja code to get you started
 
 ## 1. To see which entities are exposed to your alexa platform, run the following script
 
@@ -179,7 +179,7 @@ Sample code that uses macros to convert temperature from Fahrenheit to Centigrad
 23.89 degrees of Centigrade is equal to: 75.00 Fahrenheit
 ```
 
-## 6. Trigger Data in Templates
+## 6. Trigger Data in Automations
 
 Ever wondered what trigger data is available for you when writing automations? Just copy the mqtt.publish service below 
 and put it in **any** of your automation action section, and <b>it will dump all the attributes and information related to trigger, and state into your mqtt with a topic name "/dump/platform" </b>.
