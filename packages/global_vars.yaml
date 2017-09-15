@@ -17,6 +17,9 @@ homeassistant:
 
 # global "integer" type variables
 ###############################################################################
+
+# INTEGER TYPE VARIABLES
+###############################################################################
 global_variable_int:
 
   some_number1:
@@ -27,6 +30,41 @@ global_variable_int:
     name: Some Number 2
     value: 98765
     icon: mdi:numeric
+
+# BOOLEAN TYPE VARIABLES
+###############################################################################
+global_variable_bool:
+
+  some_flag1:
+    name: Some Flag
+    value: True
+
+  some_flag2:
+    name: Some Flag
+
+# FLOAT TYPE VARIABLES
+###############################################################################
+global_variable_float:
+
+  some_float_number1:
+    name: Some Float
+    value: 123.456
+
+  some_float_number2:
+    name: Some Float 2
+
+# STRING TYPE VARIABLES
+###############################################################################
+global_variable_string:
+
+  some_string1:
+    name: Some String 1 
+    icon: mdi:alphabetical
+
+  some_string2:
+    name: Some String 2
+    value: 'Hello, Home Assistant!'
+    icon: mdi:alphabetical
 
 automation:
 

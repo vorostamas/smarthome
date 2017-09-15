@@ -1,8 +1,8 @@
 """
 @ Author      : Suresh Kalavala
 @ Date        : 09/14/2017
-@ Description : Global Integer Variable - We can now have global variable
-                that holds integer type values
+@ Description : Global Boolean Variable - We can now have global variable
+                that holds boolean types (True/False)
 
 @ Notes:        Copy this file and services.yaml files and place it in your 
                 "Home Assistant Config folder\custom_components\" folder
@@ -10,15 +10,10 @@
                 To use the component, have the following in your .yaml file:
                 The 'value' is optional, by default, it is set to 0 
 
-global_variable_int:
-  some_number1:
-    name: Some Number 1
-    icon: mdi:numeric
-
-  some_number2:
-    name: Some Number 2
-    value: 12345
-    icon: mdi:numeric
+global_variable_bool:
+  feeling_lucky:
+    name: Feeling Lucky Today?
+    icon: mdi:question
 
 """
 
@@ -26,7 +21,7 @@ global_variable_int:
 Component to provide global variables for use.
 
 For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/global_variable_int/
+at https://home-assistant.io/components/global_variable_bool/
 """
 import asyncio
 import logging
@@ -45,24 +40,24 @@ from homeassistant.loader import bind_hass
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'global_variable_int'
+DOMAIN = 'global_variable_bool'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
-DEFAULT_INITIAL = 0
+DEFAULT_INITIAL = False
 
 SERVICE_SETVALUE = 'set_value'
 
 SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
-    vol.Optional(ATTR_VALUE): cv.positive_int,
+    vol.Optional(ATTR_VALUE): cv.boolean,
 })
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON): cv.icon,
-            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.positive_int,
+            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.boolean,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
     })
@@ -80,7 +75,7 @@ def async_set_value(hass, entity_id, value):
 
 @asyncio.coroutine
 def async_setup(hass, config):
-    """Set up a global_variable_int."""
+    """Set up a global_variable_bool."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
 
     entities = []
@@ -93,14 +88,14 @@ def async_setup(hass, config):
         value = cfg.get(ATTR_VALUE)
         icon = cfg.get(CONF_ICON)
 
-        entities.append(GlobalVariableInt(object_id, name, value, icon))
+        entities.append(GlobalVariableBool(object_id, name, value, icon))
 
     if not entities:
         return False
 
     @asyncio.coroutine
     def async_handler_service(service):
-        """Handle a call to the global_variable_int services."""
+        """Handle a call to the global_variable_bool services."""
         target_global_variables = component.async_extract_from_service(service)
 
         if service.service == SERVICE_SETVALUE:
@@ -124,11 +119,11 @@ def async_setup(hass, config):
     return True
 
 
-class GlobalVariableInt(Entity):
-    """Representation of a global_variable_int."""
+class GlobalVariableBool(Entity):
+    """Representation of a global_variable_bool."""
 
     def __init__(self, object_id, name, value, icon):
-        """Initialize a global_variable_int."""
+        """Initialize a global_variable_bool."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
         self._state = value
@@ -141,7 +136,7 @@ class GlobalVariableInt(Entity):
 
     @property
     def name(self):
-        """Return name of the global_variable_int."""
+        """Return name of the global_variable_bool."""
         return self._name
 
     @property
@@ -151,7 +146,7 @@ class GlobalVariableInt(Entity):
 
     @property
     def state(self):
-        """Return the current value of the global_variable_int."""
+        """Return the current value of the global_variable_bool."""
         return self._state
 
     @property
