@@ -1,8 +1,32 @@
 """
+@ Author      : Suresh Kalavala
+@ Date        : 09/14/2017
+@ Description : Global Integer Variable - We can now have global variable
+                that holds integer type values
+
+@ Notes:        Copy this file and services.yaml files and place it in your 
+                "Home Assistant Config folder\custom_components\" folder
+
+                To use the component, have the following in your .yaml file:
+
+global_variable_int:
+  some_number1:
+    name: Some Number 1
+    value: 12345
+    icon: mdi:numeric
+
+  some_number2:
+    name: Some Number 2
+    value: 98765
+    icon: mdi:numeric
+
+"""
+
+"""
 Component to provide global variables for use.
 
 For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/global_variable/
+at https://home-assistant.io/components/global_variable_int/
 """
 import asyncio
 import logging
@@ -21,11 +45,8 @@ from homeassistant.loader import bind_hass
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'global_variable'
+DOMAIN = 'global_variable_int'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
-
-ATTR_TYPE    = "type"
-CONF_TYPE    = "type"
 
 ATTR_VALUE   = "value"
 
@@ -40,7 +61,6 @@ CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON): cv.icon,
-            vol.Optional(CONF_TYPE): cv.string,
             vol.Optional(ATTR_VALUE): cv.positive_int,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
@@ -59,7 +79,7 @@ def async_set_value(hass, entity_id, value):
 
 @asyncio.coroutine
 def async_setup(hass, config):
-    """Set up a global_variable."""
+    """Set up a global_variable_int."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
 
     entities = []
@@ -69,24 +89,24 @@ def async_setup(hass, config):
             cfg = {}
 
         name = cfg.get(CONF_NAME)
-        variable_type = cfg.get(CONF_TYPE)
         value = cfg.get(ATTR_VALUE)
         icon = cfg.get(CONF_ICON)
 
-        entities.append(GlobalVariable(object_id, name, variable_type, value, icon))
+        entities.append(GlobalVariable(object_id, name, value, icon))
 
     if not entities:
         return False
 
     @asyncio.coroutine
     def async_handler_service(service):
-        """Handle a call to the global_variable services."""
+        """Handle a call to the global_variable_int services."""
         target_global_variables = component.async_extract_from_service(service)
 
         if service.service == SERVICE_SETVALUE:
             attr = 'async_set_value'
 
-        tasks = [getattr(global_variable, attr)(value) for global_variable in target_global_variables]
+        tasks = [getattr(global_variable, attr)(service.data[ATTR_VALUE]) 
+                  for global_variable in target_global_variables]
         if tasks:
             yield from asyncio.wait(tasks, loop=hass.loop)
 
@@ -104,13 +124,12 @@ def async_setup(hass, config):
 
 
 class GlobalVariable(Entity):
-    """Representation of a global_variable."""
+    """Representation of a global_variable_int."""
 
-    def __init__(self, object_id, name, variable_type, value, icon):
-        """Initialize a global_variable."""
+    def __init__(self, object_id, name, value, icon):
+        """Initialize a global_variable_int."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
-        self._variable_type = variable_type
         self._state = value
         self._icon = icon
  
@@ -121,7 +140,7 @@ class GlobalVariable(Entity):
 
     @property
     def name(self):
-        """Return name of the global_variable."""
+        """Return name of the global_variable_int."""
         return self._name
 
     @property
@@ -131,19 +150,13 @@ class GlobalVariable(Entity):
 
     @property
     def state(self):
-        """Return the current value of the global_variable."""
+        """Return the current value of the global_variable_int."""
         return self._state
-
-    @property
-    def variable_type(self):
-        """Return the data type of the global_variable."""
-        return self._variable_type
 
     @property
     def state_attributes(self):
         """Return the state attributes."""
         return {
-            ATTR_TYPE: self._variable_type,
             ATTR_VALUE: self._state,
         }
 

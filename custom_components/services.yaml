@@ -1,17 +1,10 @@
-global_variable:
-  reset:
-    description: Reset a counter.
-    fields:
-      entity_id:
-        description: Entity id of the counter to reset.
-        example: 'global_variable.timeout'
-
+global_variable_int:
   set_value:
-    description: set a new value for the variable to hold.
+    description: Use this service to set or update value of global integer variable
     fields:
       entity_id:
-        description: Entity id of the variable to update.
-        example: 'global_variable.timeout'
-      new_value:
-        description: New Value to set
-        example: '10'
+        description: Entity id of the global integer variable
+        example: 'global_variable_int.some_number'
+      value:
+        description: Value you want to set
+        example: '1234'

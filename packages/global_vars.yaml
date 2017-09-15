@@ -1,6 +1,38 @@
-global_variable:
-  int_variable:
-    name: Global Int Variable
-    type: integer
-    value: 33
+homeassistant:
+  customize:
+
+    global_variable_int.some_number1:
+      hidden: true
+    global_variable_int.some_number2:
+      hidden: true
+
+# define all the global variables
+global_variable_int:
+
+  some_number1:
+    name: Some Number 1
+    value: 12345
     icon: mdi:numeric
+
+  some_number2:
+    name: Some Number 2
+    value: 98765
+    icon: mdi:numeric
+
+automation:
+
+  - alias: Set random value everytime light state changes
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: light.dinette
+    action:
+      - service: global_variable_int.set_value
+        entity_id: global_variable_int.some_number1
+        data_template:
+          value: '{{ range(0,10000) | random | int }}'
+      - service: global_variable_int.set_value
+        entity_id: global_variable_int.some_number2
+        data_template:
+          value: '{{ range(0,10000) | random | int }}'
