@@ -32,6 +32,35 @@ homeassistant:
         hidden: true
         critical: false
 
+# By default all the aeotec stuff is hidden, unhide the stuff that you want
+    sensor.aeotec_zw100_multisensor_6_luminance:
+      friendly_name: Front Room Luminance
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_luminance:
+      friendly_name: Upstairs Luminance
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_luminance_2:
+      friendly_name: TV Room Luminance
+      hidden: False
+    sensor.aeotec_zw100_multisensor_6_relative_humidity:
+      friendly_name: Front Room Humidity
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_relative_humidity:
+      friendly_name: Upstairs Humidity
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_relative_humidity_2:
+      friendly_name: TV Room Humidity
+      hidden: False
+    sensor.aeotec_zw100_multisensor_6_temperature:
+      friendly_name: Front Room Humidity
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_temperature:
+      friendly_name: Upstairs Temperature
+      hidden: False
+    sensor.aeotec_zw074_multisensor_gen5_temperature_2:
+      friendly_name: TV Room Temperature
+      hidden: False
+
     group.1_car_garage:
       <<: *hidden
     group.2_car_garage:
@@ -146,6 +175,7 @@ group:
       - binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2
       - binary_sensor.aeotec_zw100_multisensor_6_sensor
       - binary_sensor.kids_room_occupancy
+      - binary_sensor.downstairs_occupancy
 
   Light Levels:
     entities:
