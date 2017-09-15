@@ -8,16 +8,16 @@
                 "Home Assistant Config folder\custom_components\" folder
 
                 To use the component, have the following in your .yaml file:
+                The 'value' is optional, by default, it is set to 0 
 
 global_variable_int:
   some_number1:
     name: Some Number 1
-    value: 12345
     icon: mdi:numeric
 
   some_number2:
     name: Some Number 2
-    value: 98765
+    value: 12345
     icon: mdi:numeric
 
 """
@@ -49,6 +49,7 @@ DOMAIN = 'global_variable_int'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
+DEFAULT_INITIAL = 0
 
 SERVICE_SETVALUE = 'set_value'
 
@@ -61,7 +62,7 @@ CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON): cv.icon,
-            vol.Optional(ATTR_VALUE): cv.positive_int,
+            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.positive_int,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
     })

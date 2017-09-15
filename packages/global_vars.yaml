@@ -1,3 +1,12 @@
+###############################################################################
+# @Author:    Suresh Kalavala
+# @Date:      09/14/2017
+# @Package:   global_vars.yaml
+# @Desc:      Global Variable File - defines a bunch of global integer 
+#             variables, shows how to update the variables using service
+#             The default value is optional, which defaults to 0
+###############################################################################
+
 homeassistant:
   customize:
 
@@ -6,12 +15,12 @@ homeassistant:
     global_variable_int.some_number2:
       hidden: true
 
-# define all the global variables
+# global "integer" type variables
+###############################################################################
 global_variable_int:
 
   some_number1:
     name: Some Number 1
-    value: 12345
     icon: mdi:numeric
 
   some_number2:
@@ -21,6 +30,8 @@ global_variable_int:
 
 automation:
 
+# This is a sample automation to demonstrate use of global variable in service
+###############################################################################
   - alias: Set random value everytime light state changes
     initial_state: true
     hide_entity: true
