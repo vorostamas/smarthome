@@ -44,34 +44,39 @@ DOMAIN = 'variable_bool'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
-DEFAULT_INITIAL = False
+DEFAULT_VALUE = False
+
+ATTR_READONLY  = "readonly"
+DEFAULT_READONLY = False
 
 SERVICE_SETVALUE = 'set_value'
 
 SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Optional(ATTR_VALUE): cv.boolean,
+    vol.Optional(ATTR_READONLY): cv.boolean,
 })
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON): cv.icon,
-            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.boolean,
+            vol.Optional(ATTR_VALUE, default=DEFAULT_VALUE): cv.boolean,
+            vol.Optional(ATTR_READONLY, default=DEFAULT_READONLY): cv.boolean,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
     })
 }, extra=vol.ALLOW_EXTRA)
 
 @bind_hass
-def set_value(hass, entity_id, value):
-    hass.add_job(async_set_value, hass, entity_id, value)
+def set_value(hass, entity_id, value, readonly):
+    hass.add_job(async_set_value, hass, entity_id, value, readonly)
 
 @callback
 @bind_hass
-def async_set_value(hass, entity_id, value):
+def async_set_value(hass, entity_id, value, readonly):
     hass.async_add_job(hass.services.async_call(
-        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value }))
+        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value,  ATTR_READONLY: readonly }))
 
 @asyncio.coroutine
 def async_setup(hass, config):
@@ -87,8 +92,9 @@ def async_setup(hass, config):
         name = cfg.get(CONF_NAME)
         value = cfg.get(ATTR_VALUE)
         icon = cfg.get(CONF_ICON)
+        readonly = cfg.get(ATTR_READONLY)
 
-        entities.append(GlobalVariableBool(object_id, name, value, icon))
+        entities.append(GlobalVariableBool(object_id, name, value, icon, readonly))
 
     if not entities:
         return False
@@ -122,11 +128,12 @@ def async_setup(hass, config):
 class GlobalVariableBool(Entity):
     """Representation of a variable_bool."""
 
-    def __init__(self, object_id, name, value, icon):
+    def __init__(self, object_id, name, value, icon, readonly):
         """Initialize a variable_bool."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
         self._state = value
+        self._readonly = readonly
         self._icon = icon
  
     @property
@@ -143,6 +150,11 @@ class GlobalVariableBool(Entity):
     def icon(self):
         """Return the icon to be used for this entity."""
         return self._icon
+
+    @property
+    def readonly(self):
+        """Return the readony property of this entity."""
+        return self._readonly
 
     @property
     def state(self):
@@ -169,7 +181,11 @@ class GlobalVariableBool(Entity):
     @asyncio.coroutine
     def async_set_value(self, value):
         try:
-            self._state = value
+            if not self._readonly:
+                self._state = value
+            else:
+                _LOGGER.warning("The variable '%s'is marked as readonly. A new value cannot be set.", 
+                    self.entity_id)
         except:
             _LOGGER.error("Error: '%s' is not a valid boolean value.", value)
 

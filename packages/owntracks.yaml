@@ -10,7 +10,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'settings'
+        package: 'owntracks'
 
       exposed: &exposed
         <<: *customize

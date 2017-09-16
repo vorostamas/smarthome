@@ -1,0 +1,90 @@
+##################################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   09/15/2017
+#   @package        :   Batteries component that uses variables instead of sensors 
+#   @description    :   Owntracks data is now loaded into basic set of variables.
+##################################################################################
+variable_int:
+  suresh_battery:
+    name: Suresh's Battery
+    icon: mdi:battery
+  mallika_battery:
+    name: Mallika's Battery
+    icon: mdi:battery
+  srinika_battery:
+    name: Srinika's Battery
+    icon: mdi:battery
+  hasika_battery:
+    name: Hasika's Battery
+    icon: mdi:battery
+
+variable_bool:
+  suresh_charging:
+    name: Suresh's Phone Charging?
+    icon: mdi:battery-charging
+  mallika_charging:
+    name: Mallika's Phone Charging?
+    icon: mdi:battery-charging
+  srinika_charging:
+    name: Srinika's Phone Charging?
+    icon: mdi:battery-charging
+  hasika_charging:
+    name: Hasika's Phone Charging?
+    icon: mdi:battery-charging
+  suresh_wifi:
+    name: Suresh's Phone Wifi Connected?
+    icon: mdi:wifi
+  mallika_wifi:
+    name: Mallika's Phone Wifi Connected?
+    icon: mdi:wifi
+  srinika_wifi:
+    name: Srinika's Phone Wifi Connected?
+    icon: mdi:wifi
+  hasika_wifi:
+    name: Hasika's Phone Wifi Connected?
+    icon: mdi:wifi
+
+group:
+  Batteries:
+    control: hidden
+    entities:
+      - variable_int.suresh_battery
+      - variable_int.mallika_battery
+      - variable_int.srinika_battery
+      - variable_int.hasika_battery
+
+  Charging:
+    control: hidden
+    entities:
+      - variable_bool.suresh_charging
+      - variable_bool.mallika_charging
+      - variable_bool.srinika_charging
+      - variable_bool.hasika_charging
+
+  WiFi:
+    entities:
+      - variable_bool.suresh_wifi
+      - variable_bool.mallika_wifi
+      - variable_bool.srinika_wifi
+      - variable_bool.hasika_wifi
+
+automation:
+
+  - alias: Refresh OwnTracks Data
+    initial_state: true 
+    trigger:
+      platform: mqtt
+      topic: "owntracks/+/+"
+    action:
+      - service: variable_bool.set_value
+        data_template:
+          entity_id: "variable_bool.{{trigger.topic.split('/')[-1]}}_charging"
+          value: '{{ trigger.payload_json.charging == 1 }}'
+      - service: variable_bool.set_value
+        data_template:
+          entity_id: "variable_bool.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: '{{ trigger.payload_json.conn == "w" }}'
+      - service: variable_int.set_value
+        data_template:
+          entity_id: "variable_int.{{trigger.topic.split('/')[-1]}}_battery"
+          value: '{{ trigger.payload_json.batt | int }}'

@@ -10,22 +10,52 @@
 homeassistant:
   customize:
 
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'global_vars'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+      not_hidden: &not_hidden
+        <<: *customize
+        hidden: false
+        critical: true
+
     variable_int.some_int_number1:
-      hidden: false
+      <<: *not_hidden
     variable_int.some_int_number2:
-      hidden: false
+      <<: *not_hidden
     variable_bool.some_bool_flag1:
-      hidden: false
+      <<: *not_hidden
     variable_bool.some_bool_flag2:
-      hidden: false
+      <<: *not_hidden
     variable_float.some_float_number1:
-      hidden: false
+      <<: *not_hidden
     variable_float.some_float_number2:
-      hidden: false
+      <<: *not_hidden
     variable_string.some_string1:
-      hidden: false
+      <<: *not_hidden
     variable_string.some_string2:
-      hidden: false
+      <<: *not_hidden
 
 group:
   My Variables:
@@ -50,6 +80,7 @@ variable_int:
   some_int_number2:
     name: Some Number 2
     value: 98765
+    readonly: true
     icon: mdi:numeric
 
 # BOOLEAN TYPE VARIABLES
@@ -59,6 +90,7 @@ variable_bool:
   some_bool_flag1:
     name: Some Flag
     value: True
+    readonly: true
     icon: mdi:flag
 
   some_bool_flag2:
@@ -72,6 +104,7 @@ variable_float:
   some_float_number1:
     name: Some Float
     value: 123.456
+    readonly: true
     icon: mdi:water-percent
 
   some_float_number2:
@@ -88,25 +121,26 @@ variable_string:
 
   some_string2:
     name: Some String 2
+    readonly: true
     value: 'Hello, Home Assistant!'
     icon: mdi:alphabetical
 
 automation:
 
 # This is a sample automation to demonstrate use of global variable in service
+# The variable is used as a counter, that keeps track of how many times the 
+# light bulb was turned on
 ###############################################################################
-  - alias: Set random value everytime light state changes
+  - alias: Use the variable as a counter
     initial_state: true
     hide_entity: true
     trigger:
       platform: state
       entity_id: light.dinette
+      from: 'off'
+      to: 'on'
     action:
       - service: variable_int.set_value
-        entity_id: variable_int.some_number1
-        data_template:
-          value: '{{ range(0,10000) | random | int }}'
-      - service: variable_int.set_value
-        entity_id: variable_int.some_number2
-        data_template:
-          value: '{{ range(0,10000) | random | int }}'
+        entity_id: variable_int.some_int_number1
+        data_template: 
+          value: '{{ (states.variable_int.some_int_number1.state | int) + 1 |int }}'
