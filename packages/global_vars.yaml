@@ -10,52 +10,77 @@
 homeassistant:
   customize:
 
-    global_variable_int.some_number1:
-      hidden: true
-    global_variable_int.some_number2:
-      hidden: true
+    variable_int.some_int_number1:
+      hidden: false
+    variable_int.some_int_number2:
+      hidden: false
+    variable_bool.some_bool_flag1:
+      hidden: false
+    variable_bool.some_bool_flag2:
+      hidden: false
+    variable_float.some_float_number1:
+      hidden: false
+    variable_float.some_float_number2:
+      hidden: false
+    variable_string.some_string1:
+      hidden: false
+    variable_string.some_string2:
+      hidden: false
 
-# global "integer" type variables
-###############################################################################
+group:
+  My Variables:
+    entities:
+      - variable_int.some_int_number1
+      - variable_int.some_int_number2
+      - variable_bool.some_bool_flag1
+      - variable_bool.some_bool_flag2
+      - variable_float.some_float_number1
+      - variable_float.some_float_number2
+      - variable_string.some_string1
+      - variable_string.some_string2
 
 # INTEGER TYPE VARIABLES
 ###############################################################################
-global_variable_int:
+variable_int:
 
-  some_number1:
+  some_int_number1:
     name: Some Number 1
     icon: mdi:numeric
 
-  some_number2:
+  some_int_number2:
     name: Some Number 2
     value: 98765
     icon: mdi:numeric
 
 # BOOLEAN TYPE VARIABLES
 ###############################################################################
-global_variable_bool:
+variable_bool:
 
-  some_flag1:
+  some_bool_flag1:
     name: Some Flag
     value: True
+    icon: mdi:flag
 
-  some_flag2:
+  some_bool_flag2:
     name: Some Flag
+    icon: mdi:flag
 
 # FLOAT TYPE VARIABLES
 ###############################################################################
-global_variable_float:
+variable_float:
 
   some_float_number1:
     name: Some Float
     value: 123.456
+    icon: mdi:water-percent
 
   some_float_number2:
     name: Some Float 2
+    icon: mdi:water-percent
 
 # STRING TYPE VARIABLES
 ###############################################################################
-global_variable_string:
+variable_string:
 
   some_string1:
     name: Some String 1 
@@ -77,11 +102,11 @@ automation:
       platform: state
       entity_id: light.dinette
     action:
-      - service: global_variable_int.set_value
-        entity_id: global_variable_int.some_number1
+      - service: variable_int.set_value
+        entity_id: variable_int.some_number1
         data_template:
           value: '{{ range(0,10000) | random | int }}'
-      - service: global_variable_int.set_value
-        entity_id: global_variable_int.some_number2
+      - service: variable_int.set_value
+        entity_id: variable_int.some_number2
         data_template:
           value: '{{ range(0,10000) | random | int }}'

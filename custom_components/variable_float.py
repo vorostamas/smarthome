@@ -10,7 +10,7 @@
                 To use the component, have the following in your .yaml file:
                 The 'value' is optional, by default, it is set to 0 
 
-global_variable_float:
+variable_float:
   some_float_number1:
     name: Some Float Number 
     icon: mdi:numeric
@@ -26,7 +26,7 @@ global_variable_float:
 Component to provide global variables for use.
 
 For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/global_variable_float/
+at https://home-assistant.io/components/variable_float/
 """
 import asyncio
 import logging
@@ -45,7 +45,7 @@ from homeassistant.loader import bind_hass
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'global_variable_float'
+DOMAIN = 'variable_float'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
@@ -80,7 +80,7 @@ def async_set_value(hass, entity_id, value):
 
 @asyncio.coroutine
 def async_setup(hass, config):
-    """Set up a global_variable_float."""
+    """Set up a variable_float."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
 
     entities = []
@@ -100,7 +100,7 @@ def async_setup(hass, config):
 
     @asyncio.coroutine
     def async_handler_service(service):
-        """Handle a call to the global_variable_float services."""
+        """Handle a call to the variable_float services."""
         target_global_variables = component.async_extract_from_service(service)
 
         if service.service == SERVICE_SETVALUE:
@@ -125,10 +125,10 @@ def async_setup(hass, config):
 
 
 class GlobalVariableFloat(Entity):
-    """Representation of a global_variable_float."""
+    """Representation of a variable_float."""
 
     def __init__(self, object_id, name, value, icon):
-        """Initialize a global_variable_float."""
+        """Initialize a variable_float."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
         self._state = value
@@ -141,7 +141,7 @@ class GlobalVariableFloat(Entity):
 
     @property
     def name(self):
-        """Return name of the global_variable_float."""
+        """Return name of the variable_float."""
         return self._name
 
     @property
@@ -151,7 +151,7 @@ class GlobalVariableFloat(Entity):
 
     @property
     def state(self):
-        """Return the current value of the global_variable_float."""
+        """Return the current value of the variable_float."""
         return self._state
 
     @property
@@ -173,5 +173,8 @@ class GlobalVariableFloat(Entity):
 
     @asyncio.coroutine
     def async_set_value(self, value):
-        self._state = value
+        try:
+            self._state = value
+        except:
+            _LOGGER.error("Error: '%s' is not a valid float value.", value)
         yield from self.async_update_ha_state()

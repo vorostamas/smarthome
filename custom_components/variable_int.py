@@ -1,8 +1,8 @@
 """
 @ Author      : Suresh Kalavala
 @ Date        : 09/14/2017
-@ Description : Global Boolean Variable - We can now have global variable
-                that holds boolean types (True/False)
+@ Description : Global Integer Variable - We can now have global variable
+                that holds integer type values
 
 @ Notes:        Copy this file and services.yaml files and place it in your 
                 "Home Assistant Config folder\custom_components\" folder
@@ -10,10 +10,15 @@
                 To use the component, have the following in your .yaml file:
                 The 'value' is optional, by default, it is set to 0 
 
-global_variable_bool:
-  feeling_lucky:
-    name: Feeling Lucky Today?
-    icon: mdi:question
+variable_int:
+  some_number1:
+    name: Some Number 1
+    icon: mdi:numeric
+
+  some_number2:
+    name: Some Number 2
+    value: 12345
+    icon: mdi:numeric
 
 """
 
@@ -21,7 +26,7 @@ global_variable_bool:
 Component to provide global variables for use.
 
 For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/global_variable_bool/
+at https://home-assistant.io/components/variable_int/
 """
 import asyncio
 import logging
@@ -40,24 +45,24 @@ from homeassistant.loader import bind_hass
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'global_variable_bool'
+DOMAIN = 'variable_int'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
-DEFAULT_INITIAL = False
+DEFAULT_INITIAL = 0
 
 SERVICE_SETVALUE = 'set_value'
 
 SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
-    vol.Optional(ATTR_VALUE): cv.boolean,
+    vol.Optional(ATTR_VALUE): cv.positive_int,
 })
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON): cv.icon,
-            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.boolean,
+            vol.Optional(ATTR_VALUE, default=DEFAULT_INITIAL): cv.positive_int,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
     })
@@ -75,7 +80,7 @@ def async_set_value(hass, entity_id, value):
 
 @asyncio.coroutine
 def async_setup(hass, config):
-    """Set up a global_variable_bool."""
+    """Set up a variable_int."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
 
     entities = []
@@ -88,14 +93,14 @@ def async_setup(hass, config):
         value = cfg.get(ATTR_VALUE)
         icon = cfg.get(CONF_ICON)
 
-        entities.append(GlobalVariableBool(object_id, name, value, icon))
+        entities.append(GlobalVariableInt(object_id, name, value, icon))
 
     if not entities:
         return False
 
     @asyncio.coroutine
     def async_handler_service(service):
-        """Handle a call to the global_variable_bool services."""
+        """Handle a call to the variable_int services."""
         target_global_variables = component.async_extract_from_service(service)
 
         if service.service == SERVICE_SETVALUE:
@@ -119,11 +124,11 @@ def async_setup(hass, config):
     return True
 
 
-class GlobalVariableBool(Entity):
-    """Representation of a global_variable_bool."""
+class GlobalVariableInt(Entity):
+    """Representation of a variable_int."""
 
     def __init__(self, object_id, name, value, icon):
-        """Initialize a global_variable_bool."""
+        """Initialize a variable_int."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
         self._state = value
@@ -136,7 +141,7 @@ class GlobalVariableBool(Entity):
 
     @property
     def name(self):
-        """Return name of the global_variable_bool."""
+        """Return name of the variable_int."""
         return self._name
 
     @property
@@ -146,7 +151,7 @@ class GlobalVariableBool(Entity):
 
     @property
     def state(self):
-        """Return the current value of the global_variable_bool."""
+        """Return the current value of the variable_int."""
         return self._state
 
     @property
@@ -168,5 +173,9 @@ class GlobalVariableBool(Entity):
 
     @asyncio.coroutine
     def async_set_value(self, value):
-        self._state = value
+        try:
+            self._state = value
+        except:
+            _LOGGER.error("Error: '%s' is not a valid integer value.", value)
+
         yield from self.async_update_ha_state()
