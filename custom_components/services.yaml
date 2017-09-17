@@ -4,7 +4,7 @@ variable_int:
     fields:
       entity_id:
         description: Entity id of the global integer variable
-        example: 'variable_int.some_number'
+        example: 'integer.some_number'
       value:
         description: Value you want to set
         example: '1234'

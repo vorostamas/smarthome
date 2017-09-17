@@ -48,6 +48,7 @@ DEFAULT_VALUE = False
 
 ATTR_READONLY  = "readonly"
 DEFAULT_READONLY = False
+DEFAULT_ICON = "mdi:flag"
 
 SERVICE_SETVALUE = 'set_value'
 
@@ -55,12 +56,13 @@ SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Optional(ATTR_VALUE): cv.boolean,
     vol.Optional(ATTR_READONLY): cv.boolean,
+    vol.Optional(CONF_ICON): cv.icon,
 })
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
-            vol.Optional(CONF_ICON): cv.icon,
+            vol.Optional(CONF_ICON, default=DEFAULT_ICON): cv.icon,
             vol.Optional(ATTR_VALUE, default=DEFAULT_VALUE): cv.boolean,
             vol.Optional(ATTR_READONLY, default=DEFAULT_READONLY): cv.boolean,
             vol.Optional(CONF_NAME): cv.string,
@@ -69,14 +71,17 @@ CONFIG_SCHEMA = vol.Schema({
 }, extra=vol.ALLOW_EXTRA)
 
 @bind_hass
-def set_value(hass, entity_id, value, readonly):
-    hass.add_job(async_set_value, hass, entity_id, value, readonly)
+def set_value(hass, entity_id, value, readonly, icon):
+    hass.add_job(async_set_value, hass, entity_id, value, readonly, icon)
 
 @callback
 @bind_hass
-def async_set_value(hass, entity_id, value, readonly):
+def async_set_value(hass, entity_id, value, readonly, icon):
     hass.async_add_job(hass.services.async_call(
-        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value,  ATTR_READONLY: readonly }))
+        DOMAIN, SERVICE_SETVALUE, { ATTR_ENTITY_ID: entity_id, 
+                                    ATTR_VALUE: value, 
+                                    ATTR_READONLY: readonly, 
+                                    CONF_ICON: icon }))
 
 @asyncio.coroutine
 def async_setup(hass, config):
@@ -94,7 +99,8 @@ def async_setup(hass, config):
         icon = cfg.get(CONF_ICON)
         readonly = cfg.get(ATTR_READONLY)
 
-        entities.append(GlobalVariableBool(object_id, name, value, icon, readonly))
+        entities.append(GlobalVariableBool(object_id, name, 
+                                           value, icon, readonly))
 
     if not entities:
         return False
@@ -107,7 +113,8 @@ def async_setup(hass, config):
         if service.service == SERVICE_SETVALUE:
             attr = 'async_set_value'
 
-        tasks = [getattr(global_variable, attr)(service.data[ATTR_VALUE]) 
+        tasks = [getattr(global_variable, attr)
+                        (service.data[ATTR_VALUE], service.data[CONF_ICON]) 
                   for global_variable in target_global_variables]
         if tasks:
             yield from asyncio.wait(tasks, loop=hass.loop)
@@ -179,10 +186,11 @@ class GlobalVariableBool(Entity):
         self._state = state and state.state == state
 
     @asyncio.coroutine
-    def async_set_value(self, value):
+    def async_set_value(self, value, icon):
         try:
             if not self._readonly:
                 self._state = value
+                self._icon = icon
             else:
                 _LOGGER.warning("The variable '%s'is marked as readonly. A new value cannot be set.", 
                     self.entity_id)

@@ -7,42 +7,22 @@
 variable_int:
   suresh_battery:
     name: Suresh's Battery
-    icon: mdi:battery
   mallika_battery:
     name: Mallika's Battery
-    icon: mdi:battery
   srinika_battery:
     name: Srinika's Battery
-    icon: mdi:battery
   hasika_battery:
     name: Hasika's Battery
-    icon: mdi:battery
 
 variable_bool:
-  suresh_charging:
-    name: Suresh's Phone Charging?
-    icon: mdi:battery-charging
-  mallika_charging:
-    name: Mallika's Phone Charging?
-    icon: mdi:battery-charging
-  srinika_charging:
-    name: Srinika's Phone Charging?
-    icon: mdi:battery-charging
-  hasika_charging:
-    name: Hasika's Phone Charging?
-    icon: mdi:battery-charging
   suresh_wifi:
-    name: Suresh's Phone Wifi Connected?
-    icon: mdi:wifi
+    name: Suresh's iPhone Wifi Enabled?
   mallika_wifi:
-    name: Mallika's Phone Wifi Connected?
-    icon: mdi:wifi
+    name: Mallika's iPhone Wifi Enabled?
   srinika_wifi:
-    name: Srinika's Phone Wifi Connected?
-    icon: mdi:wifi
+    name: Srinika's iPhone Wifi Enabled?
   hasika_wifi:
-    name: Hasika's Phone Wifi Connected?
-    icon: mdi:wifi
+    name: Hasika's iPhone Wifi Enabled?
 
 group:
   Batteries:
@@ -52,14 +32,6 @@ group:
       - variable_int.mallika_battery
       - variable_int.srinika_battery
       - variable_int.hasika_battery
-
-  Charging:
-    control: hidden
-    entities:
-      - variable_bool.suresh_charging
-      - variable_bool.mallika_charging
-      - variable_bool.srinika_charging
-      - variable_bool.hasika_charging
 
   WiFi:
     entities:
@@ -78,13 +50,35 @@ automation:
     action:
       - service: variable_bool.set_value
         data_template:
-          entity_id: "variable_bool.{{trigger.topic.split('/')[-1]}}_charging"
-          value: '{{ trigger.payload_json.charging == 1 }}'
-      - service: variable_bool.set_value
-        data_template:
           entity_id: "variable_bool.{{trigger.topic.split('/')[-1]}}_wifi"
           value: '{{ trigger.payload_json.conn == "w" }}'
+          icon: >
+              {% if trigger.payload_json.conn == "w" %}
+                  mdi:wifi
+              {% else %}
+                  mdi:wifi-off
+              {% endif %}
       - service: variable_int.set_value
         data_template:
           entity_id: "variable_int.{{trigger.topic.split('/')[-1]}}_battery"
           value: '{{ trigger.payload_json.batt | int }}'
+          icon: >
+              {% set battery_level = trigger.payload_json.batt | int %}
+              {% set battery_round = (battery_level / 10)|int * 10 %}
+              {% if trigger.payload_json.charging == 1 %}
+                {% if battery_round >= 100 %}
+                  mdi:battery-charging-100
+                {% elif battery_round > 0 %}
+                  mdi:battery-charging-{{ battery_round }}
+                {% else %}
+                  mdi:battery-alert
+                {% endif %}
+              {% else %}
+                {% if battery_round >= 100 %}
+                  mdi:battery
+                {% elif battery_round > 0 %}
+                  mdi:battery-{{ battery_round }}
+                {% else %}
+                  mdi:battery-alert
+                {% endif %}
+              {% endif %}

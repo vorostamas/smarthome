@@ -32,13 +32,8 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
-
-      # Notify of new mails between 7AM and PM
       - condition: template
-        value_template: >
-          {%- set hour = now().strftime("%H") | int -%}
-          {{ hour > 7 and hour < 16 }}
-
+        value_template: '{{ ((now().strftime("%H") | int) > 7) and ((now().strftime("%H") | int) < 16) }}'
     action:
       - service: script.voice_notify
         data_template:
@@ -68,6 +63,8 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
+      - condition: template
+        value_template: '{{ ((now().strftime("%H") | int) > 7) and ((now().strftime("%H") | int) < 16) }}'
     action:
       - service: script.voice_notify
         data_template:

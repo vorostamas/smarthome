@@ -72,16 +72,8 @@ group:
 # INTEGER TYPE VARIABLES
 ###############################################################################
 variable_int:
-
   some_int_number1:
-    name: Some Number 1
-    icon: mdi:numeric
-
   some_int_number2:
-    name: Some Number 2
-    value: 98765
-    readonly: true
-    icon: mdi:numeric
 
 # BOOLEAN TYPE VARIABLES
 ###############################################################################
