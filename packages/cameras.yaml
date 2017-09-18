@@ -34,7 +34,7 @@ homeassistant:
 
 # Front Door Camera
     binary_sensor.frontdoor_camera_motion:
-      friendly_name: Frontdoor Motion
+      friendly_name: Frontdoor Camera Motion
     binary_sensor.frontdoor_camera_field_detection:
       friendly_name: Frontdoor Field Detection
     binary_sensor.frontdoor_camera_line_crossing:
@@ -44,7 +44,7 @@ homeassistant:
 
 # Driveway Camera
     binary_sensor.driveway_camera_motion:
-      friendly_name: Driveway Motion
+      friendly_name: Driveway Camera Motion
     binary_sensor.driveway_camera_field_detection:
       friendly_name: Driveway Field Detection
     binary_sensor.driveway_camera_line_crossing:
@@ -54,7 +54,7 @@ homeassistant:
 
 # Patio Camera
     binary_sensor.patio_camera_motion:
-      friendly_name: Patio Motion
+      friendly_name: Patio Camera Motion
     binary_sensor.patio_camera_field_detection:
       friendly_name: Patio Field Detection
     binary_sensor.patio_camera_line_crossing:
@@ -64,7 +64,7 @@ homeassistant:
 
 # Playarea Camera
     binary_sensor.playarea_camera_motion:
-      friendly_name: Playarea Motion
+      friendly_name: Playarea Camera Motion
     binary_sensor.playarea_camera_field_detection:
       friendly_name: Playarea Field Detection
     binary_sensor.playarea_camera_line_crossing:
@@ -122,13 +122,6 @@ group:
     entities:
       - camera.ohio_doppler_weather
 
-  Location Maps:
-    entities:
-      - camera.suresh_map
-      - camera.mallika_map
-      - camera.srinika_map
-      - camera.hasika_map
-
 #
 # The camera url format in secrets.yaml would look like this: 
 # frontdoor_camera_url: http://username:password@192.168.xxx.xxx/ISAPI/Streaming/channels/101/picture
@@ -152,7 +145,7 @@ camera:
 
   - platform: generic
     name: Ohio Doppler Weather
-    still_image_url: 'https://icons.wxug.com/data/weather-maps/radar/united-states/dayton-ohio-region-current-radar-animation.gif'
+    still_image_url: !secret ohio_doppler_weather
 
 binary_sensor:
 
@@ -211,13 +204,6 @@ automation:
           {% else %}
             False
           {% endif %}
-      # - condition: template
-        # value_template: >
-          # {%- if states.automation.notify_camera_pictures.attributes.last_triggered -%}
-            # {{ (as_timestamp(now()) - as_timestamp(states.automation.notify_camera_pictures.attributes.last_triggered)) > 120 }}
-          # {%- else -%}
-            # true
-          # {%- endif -%}
       - condition: template
         value_template: >
           {% set e = trigger.entity_id %}
