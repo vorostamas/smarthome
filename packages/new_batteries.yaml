@@ -25,7 +25,7 @@ variable_bool:
     name: Hasika's iPhone Wifi Enabled?
 
 group:
-  Batteries:
+  New Batteries:
     control: hidden
     entities:
       - variable_int.suresh_battery
@@ -33,7 +33,7 @@ group:
       - variable_int.srinika_battery
       - variable_int.hasika_battery
 
-  WiFi:
+  New WiFi:
     entities:
       - variable_bool.suresh_wifi
       - variable_bool.mallika_wifi

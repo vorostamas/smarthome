@@ -129,6 +129,10 @@ group:
       - camera.srinika_map
       - camera.hasika_map
 
+#
+# The camera url format in secrets.yaml would look like this: 
+# frontdoor_camera_url: http://username:password@192.168.xxx.xxx/ISAPI/Streaming/channels/101/picture
+#
 camera:
   - platform: generic
     name: Frontdoor Camera

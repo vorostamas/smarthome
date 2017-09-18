@@ -32,6 +32,13 @@
 'sensor.*_sourcenodeid*':
   hidden: true
 
+'sensor.*_temperature':
+  hidden: false
+'sensor.*_humidity':
+  hidden: false
+'sensor.*_luminance':
+  hidden: false
+
 # Calendar Stuff
 'calendar.*':
   hidden: true
