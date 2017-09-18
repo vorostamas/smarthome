@@ -43,7 +43,7 @@ homeassistant:
       <<: *hidden
       
 # TV Room
-    binary_sensor.aeotec_zw074_multisensor_gen5_sensor:
+    binary_sensor.family_room_multi_sensor_sensor:
       friendly_name: TV Room Motion
       device_class: motion
     sensor.aeotec_zw074_multisensor_gen5_temperature:
@@ -54,7 +54,7 @@ homeassistant:
       friendly_name: TV Room Humidity
 
 # Upstairs
-    binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2:
+    binary_sensor.upstairs_multi_sensor_sensor:
       friendly_name: Upstairs Motion
       device_class: motion
     sensor.aeotec_zw074_multisensor_gen5_temperature_2:
@@ -65,7 +65,7 @@ homeassistant:
       friendly_name: Upstairs Humidity
 
 # Front Room
-    binary_sensor.aeotec_zw100_multisensor_6_sensor:
+    binary_sensor.front_room_multi_sensor_sensor:
       friendly_name: Front Room Motion
       device_class: motion
     sensor.aeotec_zw100_multisensor_6_temperature:
@@ -193,30 +193,30 @@ automation:
 # Motion Sensor - Downstairs  
 ###############################################################################  
 
-#===============================================================================================#
-#   Automation      It's Dark 	Motion		TV		Lights	ACTION                              #
-#===============================================================================================#
+#=======================================================================================#
+#   Automation      It's Dark 	Motion		TV		Lights	ACTION                          #
+#=======================================================================================#
 #   MOTION001       YES		    ON		    ON		ON		Dim Lights                          #
 #   MOTION002       YES		    ON		    ON		OFF		Dim Lights                          #
 #   MOTION003       YES		    ON		    OFF		ON		Increase the brightness to 100%     #
 #   MOTION004       YES		    ON		    OFF		OFF		Turn Lights ON at 100% brightness   #
-#===============================================================================================#
+#=======================================================================================#
 #   MOTION005       YES		    OFF		    ON		ON		Lights OFF                          #
 #   MOTION006       YES		    OFF		    ON		OFF		Don't to anything                   #
 #   MOTION007       YES		    OFF		    OFF		ON		Turn Lights OFF                     #
 #   MOTION008       YES		    OFF		    OFF		OFF		Don't to anything                   #
-#===============================================================================================#
+#=======================================================================================#
 
-#===============================================================================================#
-#   Automation      It's Dark 	Motion		TV		Lights	ACTION                              #
+#=======================================================================================#
+#   Automation      It's Dark 	Motion		TV		Lights	ACTION                          #
 #   MOTION001       YES		    ON		    ON		ON		Dim Lights                          #
-#===============================================================================================#
+#=======================================================================================#
   - alias: MOTION001
     initial_state: true
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -246,7 +246,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -276,7 +276,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -306,7 +306,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -336,7 +336,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:
@@ -369,7 +369,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor
+      entity_id: binary_sensor.family_room_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:
@@ -401,7 +401,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2
+      entity_id: binary_sensor.upstairs_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -414,20 +414,18 @@ automation:
           entity_id: light.master_bedroom_1
           rgb_color: [224,175,102]
           brightness: 10
-          #color_temp: 366
       - service: light.turn_on
         data:
           entity_id: light.master_bedroom_2
           rgb_color: [224,175,102]
           brightness: 10
-          #color_temp: 366
 
   - alias: Upstairs Motion OFF
     initial_state: true
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw074_multisensor_gen5_sensor_2
+      entity_id: binary_sensor.upstairs_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:
@@ -451,7 +449,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw100_multisensor_6_sensor
+      entity_id: binary_sensor.front_room_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -471,7 +469,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.aeotec_zw100_multisensor_6_sensor
+      entity_id: binary_sensor.front_room_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:
