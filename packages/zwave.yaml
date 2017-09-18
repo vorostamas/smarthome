@@ -8,8 +8,8 @@
 #   https://github.com/skalavala/smarthome/blob/master/jinja_helpers/zwave_auto_gen.md
 #################################################################
 
-homeassistant:
-  customize:
+# homeassistant:
+#   customize:
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -80,7 +80,7 @@ group:
       - sensor.upstairs_multi_sensor_temperature
 
 
-  zwave.back_door_sensor:
+  Back Door Sensor:
     entities:
       - sensor.back_door_sensor_access_control
       - sensor.back_door_sensor_alarm_level
@@ -90,7 +90,7 @@ group:
       - sensor.back_door_sensor_power_management
       - sensor.back_door_sensor_sourcenodeid
 
-  zwave.downstairs_multi_sensor:
+  Downstairs Multi Sensor:
     entities:
       - sensor.downstairs_multi_sensor_alarm_level
       - sensor.downstairs_multi_sensor_alarm_type
@@ -101,7 +101,7 @@ group:
       - sensor.downstairs_multi_sensor_sourcenodeid
       - sensor.downstairs_multi_sensor_temperature
 
-  zwave.family_room_multi_sensor:
+  Family Room Multi Sensor:
     entities:
       - sensor.family_room_multi_sensor_alarm_level
       - sensor.family_room_multi_sensor_alarm_type
@@ -112,7 +112,7 @@ group:
       - sensor.family_room_multi_sensor_temperature
       - sensor.family_room_multi_sensor_ultraviolet
 
-  zwave.front_door_sensor:
+  Front Door Sensor:
     entities:
       - sensor.front_door_sensor_access_control
       - sensor.front_door_sensor_alarm_level
@@ -122,7 +122,7 @@ group:
       - sensor.front_door_sensor_power_management
       - sensor.front_door_sensor_sourcenodeid
 
-  zwave.front_room_multi_sensor:
+  Front Room Multi Sensor:
     entities:
       - sensor.front_room_multi_sensor_alarm_level
       - sensor.front_room_multi_sensor_alarm_type
@@ -133,7 +133,7 @@ group:
       - sensor.front_room_multi_sensor_temperature
       - sensor.front_room_multi_sensor_ultraviolet
 
-  zwave.master_bedroom_multi_sensor:
+  Master Bedroom Multi Sensor:
     entities:
       - sensor.master_bedroom_multi_sensor_alarm_level
       - sensor.master_bedroom_multi_sensor_alarm_type
@@ -144,7 +144,7 @@ group:
       - sensor.master_bedroom_multi_sensor_temperature
       - sensor.master_bedroom_multi_sensor_ultraviolet
 
-  zwave.motion_sensor_1:
+  Motion Sensor 1:
     entities:
       - sensor.motion_sensor_1_alarm_level
       - sensor.motion_sensor_1_alarm_type
@@ -152,7 +152,7 @@ group:
       - sensor.motion_sensor_1_power_management
       - sensor.motion_sensor_1_sourcenodeid
 
-  zwave.motion_sensor_2:
+  Motion Sensor 2:
     entities:
       - sensor.motion_sensor_2_alarm_level
       - sensor.motion_sensor_2_alarm_type
@@ -160,7 +160,7 @@ group:
       - sensor.motion_sensor_2_power_management
       - sensor.motion_sensor_2_sourcenodeid
 
-  zwave.single_car_garage_door_tilt_sensor:
+  1-Car Garage Door Sensor:
     entities:
       - sensor.single_car_garage_door_tilt_sensor_access_control
       - sensor.single_car_garage_door_tilt_sensor_alarm_level
@@ -169,7 +169,7 @@ group:
       - sensor.single_car_garage_door_tilt_sensor_power_management
       - sensor.single_car_garage_door_tilt_sensor_sourcenodeid
 
-  zwave.two_car_garage_door_tilt_sensor:
+  2-Car Garage Door Sensor:
     entities:
       - sensor.two_car_garage_door_tilt_sensor_access_control
       - sensor.two_car_garage_door_tilt_sensor_alarm_level
@@ -178,7 +178,7 @@ group:
       - sensor.two_car_garage_door_tilt_sensor_power_management
       - sensor.two_car_garage_door_tilt_sensor_sourcenodeid
 
-  zwave.upstairs_multi_sensor:
+  Upstairs Multi Sensor:
     entities:
       - sensor.upstairs_multi_sensor_alarm_level
       - sensor.upstairs_multi_sensor_alarm_type
@@ -188,7 +188,7 @@ group:
       - sensor.upstairs_multi_sensor_sourcenodeid
       - sensor.upstairs_multi_sensor_temperature
 
-  zwave.zwave_smart_switch:
+  ZWave Smart Switch:
     entities:
       - sensor.zwave_smart_switch_current
       - sensor.zwave_smart_switch_energy
