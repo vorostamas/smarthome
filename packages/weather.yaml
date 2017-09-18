@@ -148,6 +148,16 @@ group:
       - automation.alert_super_heavy_winds
       - automation.rain_snow_wind_alerts      
 
+  Doppler Weather:
+    entities:
+      - camera.ohio_doppler_weather
+
+camera:
+  - platform: generic
+    name: Ohio Doppler Weather
+    still_image_url: !secret ohio_doppler_weather
+
+
 input_boolean:
   nice_breeze_alert:
     name: Nice Breeze Alert

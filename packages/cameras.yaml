@@ -118,10 +118,6 @@ group:
       - binary_sensor.patio_camera_tamper_detection
       - binary_sensor.playarea_camera_tamper_detection
 
-  Doppler Weather:
-    entities:
-      - camera.ohio_doppler_weather
-
 #
 # The camera url format in secrets.yaml would look like this: 
 # frontdoor_camera_url: http://username:password@192.168.xxx.xxx/ISAPI/Streaming/channels/101/picture

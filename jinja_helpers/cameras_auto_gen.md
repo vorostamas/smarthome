@@ -3,7 +3,7 @@
 #   @author         :   Mahasri Kalavala
 #   @date           :   {{ now().strftime("%m")  ~ '/' ~ now().strftime("%d") ~ '/' ~ now().strftime("%y") }}
 #   @package        :   Cameras
-#   @description    :   Cameras and the automations
+#   @description    :   Cameras, Cameras, and Cameras!
 ###############################################################################
 homeassistant:
   customize:
@@ -52,17 +52,6 @@ group:
       - camera.playarea_camera
 
 group:
-  Frontyard Cameras:
-    entities:
-      - camera.frontdoor_camera
-      - camera.driveway_camera
-
-  Backyard Cameras:
-    entities:
-      - camera.patio_camera
-      - camera.playarea_camera
-
-group:
 
   Camera Motion:
 {% for item in states.binary_sensor if 'camera_motion' in item.entity_id %}
@@ -83,10 +72,6 @@ group:
 {% for item in states.binary_sensor if '_tamper_detection' in item.entity_id %}
 {%- if loop.first %}    entities:{% elif loop.last %}{% else %}{% endif %}
       - {{ item.entity_id }}{% endfor %}
-
-  Doppler Weather:
-    entities:
-      - camera.ohio_doppler_weather
 
 camera:
 {% for item in states.camera if 'doppler' not in item.entity_id and 'usps' not in item.entity_id %}
