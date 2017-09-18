@@ -1,3 +1,5 @@
+```
+
 #################################################################
 #   @author         :   Mahasri Kalavala
 #   @date           :   {{ now().strftime("%m")  ~ '/' ~ now().strftime("%d") ~ '/' ~ now().strftime("%y") }}
@@ -55,3 +57,5 @@ group:
 {%- for item in states.zwave %}
       - {{ item.entity_id }}
 {%- endfor %}
+
+```

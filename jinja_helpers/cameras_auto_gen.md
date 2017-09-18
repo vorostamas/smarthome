@@ -1,3 +1,4 @@
+```
 ###############################################################################
 #   @author         :   Mahasri Kalavala
 #   @date           :   {{ now().strftime("%m")  ~ '/' ~ now().strftime("%d") ~ '/' ~ now().strftime("%y") }}
@@ -104,3 +105,4 @@ binary_sensor:
       username: !secret camera_username
       password: !secret camera_password
 {% endfor %}
+```
