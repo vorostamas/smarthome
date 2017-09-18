@@ -51,8 +51,6 @@ group:
       - camera.patio_camera
       - camera.playarea_camera
 
-group:
-
   Camera Motion:
 {% for item in states.binary_sensor if 'camera_motion' in item.entity_id %}
 {%- if loop.first %}    entities:{% elif loop.last %}{% else %}{% endif %}
@@ -73,6 +71,7 @@ group:
 {%- if loop.first %}    entities:{% elif loop.last %}{% else %}{% endif %}
       - {{ item.entity_id }}{% endfor %}
 
+# camera platforms
 camera:
 {% for item in states.camera if 'doppler' not in item.entity_id and 'usps' not in item.entity_id %}
 {%- if loop.first %}  entities:{% elif loop.last %}{% else %}{% endif %}
@@ -81,6 +80,7 @@ camera:
       still_image_url: !secret {{ item.entity_id.split('.')[1].split('_')[0]}}_camera_url
 {% endfor %}
 
+# binary sensors
 binary_sensor:
 {% for item in states.camera if 'doppler' not in item.entity_id and 'usps' not in item.entity_id %}
 {%- if loop.first %}{% elif loop.last %}{% else %}{% endif %}
