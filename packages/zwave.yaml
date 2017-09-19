@@ -8,8 +8,8 @@
 #   https://github.com/skalavala/smarthome/blob/master/jinja_helpers/zwave_auto_gen.md
 #################################################################
 
-# homeassistant:
-#   customize:
+#homeassistant:
+#  customize:
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -19,6 +19,7 @@ group:
   Motion Sensors:
     entities:
       - binary_sensor.back_door_sensor_sensor
+      - binary_sensor.basement_door_sensor_sensor
       - binary_sensor.downstairs_multi_sensor_sensor
       - binary_sensor.downstairs_occupancy
       - binary_sensor.driveway_camera_field_detection
@@ -35,7 +36,6 @@ group:
       - binary_sensor.kids_room_occupancy
       - binary_sensor.kitchen_motion_sensor_sensor
       - binary_sensor.master_bedroom_multi_sensor_sensor
-      - binary_sensor.motion_sensor_2_sensor
       - binary_sensor.patio_camera_field_detection
       - binary_sensor.patio_camera_line_crossing
       - binary_sensor.patio_camera_motion
@@ -45,9 +45,9 @@ group:
       - binary_sensor.playarea_camera_motion
       - binary_sensor.playarea_camera_tamper_detection
       - binary_sensor.single_car_garage_door_tilt_sensor_sensor
+      - binary_sensor.stairs_motion_sensor_sensor
       - binary_sensor.two_car_garage_door_tilt_sensor_sensor
       - binary_sensor.upstairs_multi_sensor_sensor
-      - binary_sensor.workday_sensor
 
   Light Levels:
     entities:
@@ -89,6 +89,15 @@ group:
       - sensor.back_door_sensor_burglar
       - sensor.back_door_sensor_power_management
       - sensor.back_door_sensor_sourcenodeid
+
+  Basement Door Sensor:
+    entities:
+      - sensor.basement_door_sensor_access_control
+      - sensor.basement_door_sensor_alarm_level
+      - sensor.basement_door_sensor_alarm_type
+      - sensor.basement_door_sensor_burglar
+      - sensor.basement_door_sensor_power_management
+      - sensor.basement_door_sensor_sourcenodeid
 
   Downstairs Multi Sensor:
     entities:
@@ -133,6 +142,10 @@ group:
       - sensor.front_room_multi_sensor_temperature
       - sensor.front_room_multi_sensor_ultraviolet
 
+  Hallway Light Switch:
+    entities:
+      - switch.hallway_light_switch_switch
+
   Kitchen Motion Sensor:
     entities:
       - sensor.kitchen_motion_sensor_alarm_level
@@ -140,6 +153,14 @@ group:
       - sensor.kitchen_motion_sensor_burglar
       - sensor.kitchen_motion_sensor_power_management
       - sensor.kitchen_motion_sensor_sourcenodeid
+
+  Kitchen Siren:
+    entities:
+      - switch.kitchen_siren_switch
+      - switch.kitchen_siren_switch_2
+      - switch.kitchen_siren_switch_3
+      - switch.kitchen_siren_switch_4
+      - switch.kitchen_siren_switch_5
 
   Master Bedroom Multi Sensor:
     entities:
@@ -152,13 +173,13 @@ group:
       - sensor.master_bedroom_multi_sensor_temperature
       - sensor.master_bedroom_multi_sensor_ultraviolet
 
-  Motion Sensor 2:
+  Stairs Motion Sensor:
     entities:
-      - sensor.motion_sensor_2_alarm_level
-      - sensor.motion_sensor_2_alarm_type
-      - sensor.motion_sensor_2_burglar
-      - sensor.motion_sensor_2_power_management
-      - sensor.motion_sensor_2_sourcenodeid
+      - sensor.stairs_motion_sensor_alarm_level
+      - sensor.stairs_motion_sensor_alarm_type
+      - sensor.stairs_motion_sensor_burglar
+      - sensor.stairs_motion_sensor_power_management
+      - sensor.stairs_motion_sensor_sourcenodeid
 
   1-Car Garage Door Sensor:
     entities:
@@ -200,14 +221,17 @@ group:
   ZWave Devices:
     entities:
       - zwave.back_door_sensor
+      - zwave.basement_door_sensor
       - zwave.downstairs_multi_sensor
       - zwave.family_room_multi_sensor
       - zwave.front_door_sensor
       - zwave.front_room_multi_sensor
+      - zwave.hallway_light_switch
       - zwave.kitchen_motion_sensor
+      - zwave.kitchen_siren
       - zwave.master_bedroom_multi_sensor
-      - zwave.motion_sensor_2
       - zwave.single_car_garage_door_tilt_sensor
+      - zwave.stairs_motion_sensor
       - zwave.two_car_garage_door_tilt_sensor
       - zwave.upstairs_multi_sensor
       - zwave.zwave_repeater

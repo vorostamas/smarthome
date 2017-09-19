@@ -137,7 +137,7 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '05:20:00'
+      at: '05:40:00'
     condition:
       condition: state
       entity_id: 'binary_sensor.workday_sensor'

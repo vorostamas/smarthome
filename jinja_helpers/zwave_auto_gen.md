@@ -10,8 +10,8 @@
 #   https://github.com/skalavala/smarthome/blob/master/jinja_helpers/zwave_auto_gen.md
 #################################################################
 
-homeassistant:
-  customize:
+#homeassistant:
+#  customize:
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -19,7 +19,7 @@ zwave:
 group:
 
   Motion Sensors:
-{% for item in states.binary_sensor %}
+{% for item in states.binary_sensor if not 'workday' in item.entity_id %}
 {%- if loop.first %}    entities:{% elif loop.last %}{% else %}{% endif %}
       - {{ item.entity_id }}{% endfor %}
 
