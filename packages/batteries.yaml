@@ -76,22 +76,6 @@ homeassistant:
     sensor.sureshs_iphone_wifi_state:
       friendly_name: Suresh's Phone Wi-Fi Status
 
-# Multi Sensor Batteries
-    sensor.upstairs_multisensor_battery:
-      friendly_name: Upstairs Multisensor Battery
-    sensor.downstairs_multisensor_battery:
-      friendly_name: Downstairs Multisensor Battery
-    sensor.front_door_sensor_battery:
-      friendly_name: Front Door Sensor Battery
-    sensor.back_door_sensor_battery:
-      friendly_name: Back Door Sensor Battery
-    sensor.single_car_garage_door_sensor_battery:
-      friendly_name: Single Car Garage Door Sensor Battery
-    sensor.two_car_garage_door_sensor_battery:
-      friendly_name: Two Car Garage Door Sensor Battery
-    automation.alert_low_battery_level_of_multisensors:
-      friendly_name: Alert Low Battery of Multisensors
-
 group:
   Batteries:
     control: hidden
@@ -100,16 +84,6 @@ group:
       - sensor.mallika_iphone_battery_ot
       - sensor.srinika_iphone_battery_ot
       - sensor.hasika_iphone_battery_ot
-      
-      - sensor.front_door_sensor_battery
-      - sensor.back_door_sensor_battery
-      - sensor.frontroom_multisensor_battery
-      - sensor.upstairs_multisensor_battery
-      - sensor.downstairs_multisensor_battery
-      - sensor.single_car_garage_door_sensor_battery
-      - sensor.two_car_garage_door_sensor_battery
-      - automation.alert_low_battery_level_of_sensors
-      - automation.notify_low_battery
 
   WiFi:
     entities:

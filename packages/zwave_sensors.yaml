@@ -8,8 +8,38 @@
 #   https://github.com/skalavala/smarthome/blob/master/jinja_helpers/zwave_auto_gen.md
 #################################################################
 
-#homeassistant:
-#  customize:
+homeassistant:
+  customize:
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'zwave_sensors'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+      not_hidden: &not_hidden
+        <<: *customize
+        hidden: false
+        critical: true
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -18,6 +48,7 @@ group:
 
   Motion Sensors:
     entities:
+      - binary_sensor.audio_detector_sensor
       - binary_sensor.back_door_sensor_sensor
       - binary_sensor.basement_door_sensor_sensor
       - binary_sensor.downstairs_multi_sensor_sensor
@@ -33,6 +64,7 @@ group:
       - binary_sensor.frontdoor_camera_line_crossing
       - binary_sensor.frontdoor_camera_motion
       - binary_sensor.frontdoor_camera_tamper_detection
+      - binary_sensor.garage_door_sensor_sensor
       - binary_sensor.kids_room_occupancy
       - binary_sensor.kitchen_motion_sensor_sensor
       - binary_sensor.master_bedroom_multi_sensor_sensor
@@ -79,80 +111,48 @@ group:
       - sensor.master_bedroom_multi_sensor_temperature
       - sensor.upstairs_multi_sensor_temperature
 
+  Audio Detector:
+    entities:
+      - sensor.audio_detector_burglar
+      - sensor.audio_detector_carbon_monoxide
+      - sensor.audio_detector_smoke
+      - sensor.audio_detector_temperature
 
   Back Door Sensor:
     entities:
-      - sensor.back_door_sensor_access_control
-      - sensor.back_door_sensor_alarm_level
-      - sensor.back_door_sensor_alarm_type
       - sensor.back_door_sensor_battery
-      - sensor.back_door_sensor_burglar
-      - sensor.back_door_sensor_power_management
-      - sensor.back_door_sensor_sourcenodeid
-
-  Basement Door Sensor:
-    entities:
-      - sensor.basement_door_sensor_access_control
-      - sensor.basement_door_sensor_alarm_level
-      - sensor.basement_door_sensor_alarm_type
-      - sensor.basement_door_sensor_burglar
-      - sensor.basement_door_sensor_power_management
-      - sensor.basement_door_sensor_sourcenodeid
 
   Downstairs Multi Sensor:
     entities:
-      - sensor.downstairs_multi_sensor_alarm_level
-      - sensor.downstairs_multi_sensor_alarm_type
-      - sensor.downstairs_multi_sensor_burglar
       - sensor.downstairs_multi_sensor_luminance
-      - sensor.downstairs_multi_sensor_power
       - sensor.downstairs_multi_sensor_relative_humidity
-      - sensor.downstairs_multi_sensor_sourcenodeid
       - sensor.downstairs_multi_sensor_temperature
+      - sensor.downstairs_multi_sensor_power
 
   Family Room Multi Sensor:
     entities:
-      - sensor.family_room_multi_sensor_alarm_level
-      - sensor.family_room_multi_sensor_alarm_type
-      - sensor.family_room_multi_sensor_burglar
       - sensor.family_room_multi_sensor_luminance
       - sensor.family_room_multi_sensor_relative_humidity
-      - sensor.family_room_multi_sensor_sourcenodeid
       - sensor.family_room_multi_sensor_temperature
       - sensor.family_room_multi_sensor_ultraviolet
 
-  Front Door Sensor:
+  Garage Door Sensor:
     entities:
-      - sensor.front_door_sensor_access_control
-      - sensor.front_door_sensor_alarm_level
-      - sensor.front_door_sensor_alarm_type
-      - sensor.front_door_sensor_battery
-      - sensor.front_door_sensor_burglar
-      - sensor.front_door_sensor_power_management
-      - sensor.front_door_sensor_sourcenodeid
+      - sensor.single_car_garage_door_sensor_battery
+      - sensor.single_car_garage_door_sensor_status
+      - sensor.two_car_garage_door_sensor_battery
+      - sensor.two_car_garage_door_sensor_status
 
   Front Room Multi Sensor:
     entities:
-      - sensor.front_room_multi_sensor_alarm_level
-      - sensor.front_room_multi_sensor_alarm_type
-      - sensor.front_room_multi_sensor_burglar
       - sensor.front_room_multi_sensor_luminance
       - sensor.front_room_multi_sensor_relative_humidity
-      - sensor.front_room_multi_sensor_sourcenodeid
       - sensor.front_room_multi_sensor_temperature
       - sensor.front_room_multi_sensor_ultraviolet
 
   Hallway Light Switch:
     entities:
       - switch.hallway_light_switch_switch
-
-  Kitchen Motion Sensor:
-    entities:
-      - sensor.kitchen_motion_sensor_alarm_level
-      - sensor.kitchen_motion_sensor_alarm_type
-      - sensor.kitchen_motion_sensor_burglar
-      - sensor.kitchen_motion_sensor_power_management
-      - sensor.kitchen_motion_sensor_sourcenodeid
 
   Kitchen Siren:
     entities:
@@ -164,49 +164,15 @@ group:
 
   Master Bedroom Multi Sensor:
     entities:
-      - sensor.master_bedroom_multi_sensor_alarm_level
-      - sensor.master_bedroom_multi_sensor_alarm_type
-      - sensor.master_bedroom_multi_sensor_burglar
       - sensor.master_bedroom_multi_sensor_luminance
       - sensor.master_bedroom_multi_sensor_relative_humidity
-      - sensor.master_bedroom_multi_sensor_sourcenodeid
       - sensor.master_bedroom_multi_sensor_temperature
       - sensor.master_bedroom_multi_sensor_ultraviolet
 
-  Stairs Motion Sensor:
-    entities:
-      - sensor.stairs_motion_sensor_alarm_level
-      - sensor.stairs_motion_sensor_alarm_type
-      - sensor.stairs_motion_sensor_burglar
-      - sensor.stairs_motion_sensor_power_management
-      - sensor.stairs_motion_sensor_sourcenodeid
-
-  1-Car Garage Door Sensor:
-    entities:
-      - sensor.single_car_garage_door_tilt_sensor_access_control
-      - sensor.single_car_garage_door_tilt_sensor_alarm_level
-      - sensor.single_car_garage_door_tilt_sensor_alarm_type
-      - sensor.single_car_garage_door_tilt_sensor_burglar
-      - sensor.single_car_garage_door_tilt_sensor_power_management
-      - sensor.single_car_garage_door_tilt_sensor_sourcenodeid
-
-  2-Car Garage Door Sensor:
-    entities:
-      - sensor.two_car_garage_door_tilt_sensor_access_control
-      - sensor.two_car_garage_door_tilt_sensor_alarm_level
-      - sensor.two_car_garage_door_tilt_sensor_alarm_type
-      - sensor.two_car_garage_door_tilt_sensor_burglar
-      - sensor.two_car_garage_door_tilt_sensor_power_management
-      - sensor.two_car_garage_door_tilt_sensor_sourcenodeid
-
   Upstairs Multi Sensor:
     entities:
-      - sensor.upstairs_multi_sensor_alarm_level
-      - sensor.upstairs_multi_sensor_alarm_type
-      - sensor.upstairs_multi_sensor_burglar
       - sensor.upstairs_multi_sensor_luminance
       - sensor.upstairs_multi_sensor_relative_humidity
-      - sensor.upstairs_multi_sensor_sourcenodeid
       - sensor.upstairs_multi_sensor_temperature
 
   ZWave Smart Switch:
@@ -216,16 +182,18 @@ group:
       - sensor.zwave_smart_switch_power
       - sensor.zwave_smart_switch_previous_reading
       - sensor.zwave_smart_switch_voltage
-
+      - switch.zwave_smart_switch_switch
 
   ZWave Devices:
     entities:
+      - zwave.audio_detector
       - zwave.back_door_sensor
       - zwave.basement_door_sensor
       - zwave.downstairs_multi_sensor
       - zwave.family_room_multi_sensor
       - zwave.front_door_sensor
       - zwave.front_room_multi_sensor
+      - zwave.garage_door_sensor
       - zwave.hallway_light_switch
       - zwave.kitchen_motion_sensor
       - zwave.kitchen_siren
@@ -234,6 +202,7 @@ group:
       - zwave.stairs_motion_sensor
       - zwave.two_car_garage_door_tilt_sensor
       - zwave.upstairs_multi_sensor
+      - zwave.wallmote
       - zwave.zwave_repeater
       - zwave.zwave_smart_switch
       - zwave.zwave_stick

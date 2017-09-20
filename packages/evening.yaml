@@ -54,13 +54,13 @@ automation:
       - service: script.voice_notify
         data_template:
           value1: >
-            {% if states.binary_sensor.ecolink_door_sensor_sensor.state == "off" and states.binary_sensor.ecolink_door_sensor_sensor_2.state  == "off" %}
+            {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
               It's getting dark outside, and your home security system is now set to HOME mode.
             {% else %}
               It's getting dark outside, and your doors are open. Home Security System could not be turned on.
             {% endif %}
       - service_template: >-
-          {% if states.binary_sensor.ecolink_door_sensor_sensor.state == "off" and states.binary_sensor.ecolink_door_sensor_sensor_2.state  == "off" %}
+          {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
             alarm_control_panel.alarm_arm_home
           {% else %}
             alarm_control_panel.disarm
@@ -70,7 +70,7 @@ automation:
       - service: script.notify_me
         data_template:
           value1: >
-            {% if states.binary_sensor.ecolink_door_sensor_sensor.state == "off" and states.binary_sensor.ecolink_door_sensor_sensor_2.state  == "off" %}
+            {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
               It's getting dark outside, and your home security system is now set to HOME mode.
             {% else %}
               It's getting dark outside, and your doors are open. Home Security System could not be turned on.

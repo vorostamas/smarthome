@@ -38,10 +38,6 @@ homeassistant:
     sensor.mqtt_double_car_garage_status:
       friendly_name: 2 Car Garage State in MQTT
       <<: *hidden
-    switch.single_car_garage:
-      <<: *hidden
-    switch.double_car_garage:
-      <<: *hidden
 
     binary_sensor.single_car_garage_door_tilt_sensor_sensor:
       <<: *hidden
@@ -51,29 +47,6 @@ homeassistant:
       <<: *hidden
       device_class: opening
       friendly_name: Double Car Garage Door
-    sensor.single_car_garage_door_sensor_status:
-      hidden: false
-      friendly_name: Single Car Garage Door
-      device_class: opening
-    sensor.two_car_garage_door_sensor_status:
-      hidden: false
-      friendly_name: Double Car Garage Door
-      device_class: opening
-
-switch:
-  - platform: mqtt
-    name: "Single Car Garage"
-    state_topic: "/home/1cargarage/onoff"
-    command_topic: "/home/1cargarage/onoff"
-    payload_on: "ON"
-    payload_off: "OFF"
-
-  - platform: mqtt
-    name: "Double Car Garage"
-    state_topic: "/home/2cargarage/onoff"
-    command_topic: "/home/2cargarage/onoff"
-    payload_on: "ON"
-    payload_off: "OFF"
 
 group:
   Garage Doors:
@@ -84,59 +57,6 @@ group:
       - sensor.two_car_garage_door_sensor_status
       
 sensor:
-
-  - platform: mqtt
-    state_topic: "/home/1cargarage/onoff"
-    name: "MQTT Single Car Garage Status"
-    value_template: "{{ value }}"
-
-  - platform: mqtt
-    state_topic: "/home/2cargarage/onoff"
-    name: "MQTT Double Car Garage Status"
-    value_template: "{{ value }}"
-
-  - platform: template
-    sensors:
-      single_car_garage_door_sensor_battery:
-        value_template: "{{ (states.zwave.single_car_garage_door_tilt_sensor.attributes|default).battery_level|default|int('unknown') }}"
-        friendly_name: Single Car Garage Door Sensor Battery
-        unit_of_measurement: "%"
-        icon_template: >-
-          {% set battery_level = states('sensor.single_car_garage_door_sensor_battery')|int('unknown') %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% set battery_round = (battery_level|int / 10)|int * 10 %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
-          {% endif %}
-
-  - platform: template
-    sensors:
-      two_car_garage_door_sensor_battery:
-        value_template: "{{ (states.zwave.two_car_garage_door_tilt_sensor.attributes|default).battery_level|default|int('unknown') }}"
-        friendly_name: Double Car Garage Door Sensor Battery
-        unit_of_measurement: "%"
-        icon_template: >-
-          {% set battery_level = states('sensor.two_car_garage_door_sensor_battery')|int('unknown') %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% set battery_round = (battery_level|int / 10)|int * 10 %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
-          {% endif %}
-
   - platform: template
     sensors:
       single_car_garage_door_sensor_status:
@@ -222,15 +142,6 @@ automation:
           {% endif%}
         data:
           entity_id: switch.garage_lights
-      - service: mqtt.publish
-        data_template:
-          topic: >
-            {% if trigger.entity_id == "binary_sensor.two_car_garage_door_tilt_sensor_sensor" %}
-              /home/1cargarage/onoff
-            {% else %}
-              /home/2cargarage/onoff
-            {% endif %}
-          payload: 'OFF'
       - service: script.voice_notify
         data_template:
           value1: >
@@ -279,8 +190,6 @@ automation:
       - service: notify.ios_suresh
         data:
           message: "Closing Single Car Garage Door.."
-      - service: switch.turn_off
-        entity_id: switch.single_car_garage
 
 ################################################################################
 #  iOS Actionable Notification for Double Car Garage Door
@@ -297,5 +206,3 @@ automation:
       - service: notify.ios_suresh
         data:
           message: "Closing Double Car Garage Door.."
-      - service: switch.turn_off
-        entity_id: switch.double_car_garage
