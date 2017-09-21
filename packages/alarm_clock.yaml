@@ -1,94 +1,181 @@
-# group:
-  # AlarmClock:
-    # entities:
-      # - input_slider.slider_hours
-      # - input_slider.slider_minutes
-      # - input_boolean.alarmweekday
-      # - automation.alarm_clock
+###############################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   09/30/2017
+#   @package        :   Alarm Clock
+#   @description    :   Alarm Clock; Added AM/PM Selects
+#                       TBD: Restore and Save previous values in MQTT
+###############################################################################
+homeassistat:
+  customize:
 
-# input_slider:
-  # slider_hours:
-    # name: Hours
-    # initial: 6
-    # min: 0
-    # max: 23
-    # step: 1
-    
-    # test
-  # slider_minutes:
-    # name: Minutes
-    # initial: 0
-    # min: 0
-    # max: 59
-    # step: 1
+    ################################################
+    ## Node Anchors
+    ################################################
 
-# input_boolean:
-  # alarmweekday:
-    # name: Weekdays Only
-    # initial: off
-    # icon: mdi:alarm
+    package.node_anchors:
+      customize: &customize
+        package: 'alarmclock'
 
-# automation:
-  # - alias: 'Alarm Clock'
-    # trigger:
-      # platform: time
-      # minutes: '/1'
-      # seconds: 00
-    # condition:
-      # - condition: template
-        # value_template: >
-          # {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
-            # true
-          # {% else %}
-            # false
-          # {% endif %}
-      # - condition: template
-        # value_template: >
-          # {% if states.sensor.time.state.split(':')[1]  |int == states.input_slider.slider_minutes.state |int %}
-            # true
-          # {% else %}
-            # false
-          # {% endif %}
-    # action:
-      # - service: script.notify_me
-        # data_template:
-          # value1: "Alarm Clock: Wake Up!!!"
-          # value2: ""    
-      # - service: script.voice_notify
-        # data_template:
-          # value1: >
-            # {% macro calendarReminder() %}
-              # Your next event, {{ states.calendar.suresh_kalavala.attributes.message }} starts 
-              # {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') == now().strftime('%d') %}
-                 # today 
-              # {% else %}
-                 # {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }}
-              # {% endif %} 
-              # at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M%p') }}.
-            # {% endmacro %}
-            # {%- macro uv_levels() -%}
-              # {%- set uv = states.sensor.pws_uv.state | int -%}
-              # {%- if  uv >= 0 and uv <= 2 -%}
-                # Current UV index is low. It is safe to go out and have fun.
-              # {%- elif  uv >= 3 and uv <= 5 -%}
-                # Current UV index is Medium. It is safe to go out and have fun.
-              # {%- elif  uv >= 6 and uv <= 7 -%}
-                # Current UV index is high. Please be careful outdoors.
-              # {%- elif  uv >= 8 and uv <= 10 -%}
-                # Current UV index is very high. It is not advised to go out. If you have to, use sun screen lotion.
-              # {%- elif  uv >= 11 -%}
-                # Current UV index is extremely high. By all means, Stay indoors, and stay cool.
-              # {%- endif -%}
-            # {%- endmacro -%}
-            # Hello, Kalavala Family! It is time for you to wake up. <break time='0.5s'/> I hope you had good sleep last night!<break time='0.5s'/>
-            # The weather for the next hour is going to be {{states('sensor.dark_sky_minutely_summary')}}<break time='0.5s'/>, and outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees.<break time='0.5s'/> 
-            # The current Pollen level is {{ states.sensor.pollen_level.state }}.<break time='0.5s'/>
-            # {{ uv_levels() }}<break time='0.5s'/> 
-            # {{ calendarReminder() }}
-      # - delay:
-          # minutes: 5
-      # - service: script.voice_notify
-        # data_template:
-          # value1: >
-            # This is a follow-up to the previous wake up message.<break time='0.5s'/>  I hope you are out of the bed by now, and enjoying hot cup of coffee.<break time='0.5s'/> 
-            # If not, the weather is {{states('sensor.dark_sky_minutely_summary')}}<break time='0.5s'/>, and is perfect time to go out enjoy the weather!
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+    automation.alarm_clock:
+      icon: mdi: alarm-check
+
+group:
+  Alarm Clock:
+    control: hidden
+    entities:
+      - input_slider.slider_hours
+      - input_slider.slider_minutes
+      - input_boolean.am
+      - input_boolean.pm
+      - sensor.alarm_current_time
+      - input_boolean.week_day_only
+      - automation.alarm_clock
+
+input_slider:
+  slider_hours:
+    name: Hours
+    initial: 6
+    min: 0
+    max: 11
+    step: 1
+
+  slider_minutes:
+    name: Minutes
+    initial: 0
+    min: 0
+    max: 59
+    step: 5
+
+input_boolean:
+  week_day_only:
+    name: Weekdays Only
+    initial: off
+    icon: mdi:calendar-check
+
+  am:
+    name: AM
+    initial: on
+    icon: mdi:weather-sunny
+
+  pm:
+    name: PM
+    initial: off
+    icon: mdi:weather-night
+
+sensor:
+  - platform: template
+    sensors:
+      alarm_current_time:
+        friendly_name: Current Alarm Time
+        icon_template: mdi:alarm
+        value_template: >
+          {%- if states.input_slider.slider_hours.state | int < 10 -%}
+            {%- if states.input_slider.slider_hours.state|int == 0 %}
+              12
+            {%- else -%}
+              {{- 0 ~ states.input_slider.slider_hours.state|int -}}
+            {%- endif -%}
+          {%- else -%}
+            {{- states.input_slider.slider_hours.state |int -}}
+          {% endif -%}:
+          {%- if states.input_slider.slider_minutes.state | int < 10 -%}
+            {{- 0 ~ states.input_slider.slider_minutes.state |int -}}
+          {%- else -%}
+            {{- states.input_slider.slider_minutes.state|int -}}
+          {%- endif -%}{%- if states.input_boolean.am.state == "on" %} AM{%- else %} PM{%- endif -%}
+
+automation:
+  - alias: AM Change OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.am
+      from: 'on'
+      to: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.pm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.am
+
+  - alias: AM Change ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.am
+      from: 'off'
+      to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.pm
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.am
+
+  - alias: PM Change OFF
+    trigger:
+      platform: state
+      entity_id: input_boolean.pm
+      from: 'on'
+      to: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.am
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.pm
+
+  - alias: PM Change ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.pm
+      from: 'off'
+      to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.am
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.pm
+
+  - alias: Alarm Clock
+    trigger:
+      platform: time
+      minutes: '/1'
+      seconds: 00
+    condition:
+      - condition: template
+        value_template: >
+          {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      - condition: template
+        value_template: >
+          {% if states.sensor.time.state.split(':')[1]  |int == states.input_slider.slider_minutes.state |int %}
+            true
+          {% else %}
+            false
+          {% endif %}
+    action:
+      - service: script.notify_me
+        data_template:
+          value1: "Alarm Clock: Wake Up!!!"
+          value2: ""
+      - service: script.voice_notify
+        data_template:
+          value1: >
+            "Hello, Mr. Kalavala! This is an alarm clock reminder! Have a great day!"
