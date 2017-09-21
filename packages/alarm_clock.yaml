@@ -5,7 +5,7 @@
 #   @description    :   Alarm Clock; Added AM/PM Selects
 #                       TBD: Restore and Save previous values in MQTT
 ###############################################################################
-homeassistat:
+homeassistant:
   customize:
 
     ################################################
@@ -34,7 +34,7 @@ homeassistat:
         critical: false
 
     automation.alarm_clock:
-      icon: mdi: alarm-check
+      icon: mdi:alarm-check
 
 group:
   Alarm Clock:
@@ -156,6 +156,8 @@ automation:
       minutes: '/1'
       seconds: 00
     condition:
+      - condition: template
+        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
       - condition: template
         value_template: >
           {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
