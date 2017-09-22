@@ -259,6 +259,8 @@ Hope you find it useful!
 
 ## 7. List every possible entity and corresponding attributes
 
+You can pick and choose which entity you want to get attributes by changing the domains list. For ex, to see camera related entries, just add `states.camera` to the list.
+
 ```
 {{ "_".ljust(90, "_") }}
 {%- set domains = [states.light, states.switch, states.automation, states.device_tracker, states.group, states.media_player, states.proximity, states.script, states.zone, states.zwave, states.sensor, states.calendar ] %}
