@@ -1,4 +1,4 @@
-# Jinja code to get you started
+# Jinja code for Ninjas
 
 ## 1. To see which entities are exposed to your alexa platform, run the following script
 
