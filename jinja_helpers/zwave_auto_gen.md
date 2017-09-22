@@ -10,8 +10,32 @@
 #   https://github.com/skalavala/smarthome/blob/master/jinja_helpers/zwave_auto_gen.md
 #################################################################
 
-#homeassistant:
-#  customize:
+homeassistant:
+  customize:
+
+# ZWave Binary Sensors
+{% for zitem in states.zwave -%}
+{% for state in states.binary_sensor if zitem.entity_id.split('.')[1] in state.entity_id %}
+    {{ state.entity_id }}:
+      friendly_name: {{ state.name.replace('Sensor Sensor', 'Sensor') }}
+{%- endfor %}
+{%- endfor %}
+
+# ZWave Sensors
+{% for zitem in states.zwave -%}
+{% for state in states.sensor if zitem.entity_id.split('.')[1] in state.entity_id %}
+    {{ state.entity_id }}:
+      friendly_name: {{ state.name }}
+{%- endfor %}
+{%- endfor %}
+
+# ZWave Switches
+{% for zitem in states.zwave -%}
+{% for state in states.switch if zitem.entity_id.split('.')[1] in state.entity_id %}
+    {{ state.entity_id }}:
+      friendly_name: {{ state.name.replace("Switch Switch", "Switch") }}
+{%- endfor %}
+{%- endfor %}
 
 zwave:
   usb_path: /dev/ttyACM0
