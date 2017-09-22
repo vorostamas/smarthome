@@ -257,6 +257,25 @@ Hope you find it useful!
             {%- endif -%}
 ```
 
+## 7. List every possible entity and corresponding attributes
+
+```
+{{ "_".ljust(90, "_") }}
+{%- set domains = [states.light, states.switch, states.automation, states.device_tracker, states.group, states.media_player, states.proximity, states.script, states.zone, states.zwave, states.sensor, states.calendar ] %}
+{{ "Entity ID".ljust(50) }}{{ "Entity Name" }}
+{%- for domain in domains -%}
+{% for item in domain %}
+{{ "_".ljust(90, "_") }}
+{{ item.entity_id.ljust(50) }}{{ item.name }}
+{% for attrib in item.attributes %}
+{%- if attrib is defined %}
+  {{attrib.ljust(50)}}: {{ item.attributes[attrib] }}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{%- endfor %}
+```
+
 By the way, if you are paying attention, the same information can also be found when you enable logging at the `debug` level in `home-assistant.log` file. This is just another 'fancy' way of accomplishing the same thing :smile:
 
 
