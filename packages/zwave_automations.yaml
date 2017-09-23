@@ -393,9 +393,21 @@ automation:
         data_template:
           value1: >
             {% if trigger.to_state.state | lower == "on" %}
-              Your {{ trigger.to_state.attributes.friendly_name }} is OPEN!
+              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is OPEN!
             {% elif trigger.to_state.state | lower == "off" %}
-              Your {{ trigger.to_state.attributes.friendly_name }} is CLOSED!
+              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is CLOSED!
             {% endif %}
           greeting: 'no'
-          only_at_night: 'yes'          
+          only_at_night: 'yes'
+
+  # - alias: Turn theater lights to 80 on motion if no activity
+  #   trigger:
+  #     platform: state
+  #     entity_id: sensor.back_door_sensor_burglar
+  #     from: '0'
+  #     to: '8'
+  #   action:
+  #     service: light.turn_on
+  #     entity_id: light.dinette
+  #     data:
+  #       brightness: 80

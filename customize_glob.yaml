@@ -8,25 +8,25 @@
 'media_player.mpd':
   hidden: true
 
-# Z Wave Stuff
-'zwave.aeotec_zw074_*':
-  hidden: true
-'sensor.aeotec_zw074_multisensor_gen5_*':
-  hidden: true
-'sensor.aeotec_zw100_multisensor_6_*':
-  hidden: true
-'sensor.*_access_control*':
-  hidden: true
-'sensor.*_alarm_level*':
-  hidden: true
-'sensor.*_alarm_type*':
-  hidden: true
-'sensor.*_burglar*':
-  hidden: true
-'sensor.*_power_management*':
-  hidden: true
-'sensor.*_sourcenodeid*':
-  hidden: true
+# # Z Wave Stuff
+# 'zwave.aeotec_zw074_*':
+#   hidden: true
+# 'sensor.aeotec_zw074_multisensor_gen5_*':
+#   hidden: true
+# 'sensor.aeotec_zw100_multisensor_6_*':
+#   hidden: true
+# 'sensor.*_access_control*':
+#   hidden: true
+# 'sensor.*_alarm_level*':
+#   hidden: true
+# 'sensor.*_alarm_type*':
+#   hidden: true
+# 'sensor.*_burglar*':
+#   hidden: true
+# 'sensor.*_power_management*':
+#   hidden: true
+# 'sensor.*_sourcenodeid*':
+#   hidden: true
 
 'sensor.*_temperature':
   hidden: false

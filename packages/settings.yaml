@@ -44,6 +44,8 @@ homeassistant:
       <<: *exposed
     input_boolean.home_assistant_status:
       <<: *exposed
+    input_boolean.alarm_clock:
+      <<: *exposed
 
 group:
   Control Panel:
@@ -64,6 +66,7 @@ group:
       - input_boolean.enjoyable_weather_reminders
       - input_boolean.alert_when_someone_enters_zone
       - input_boolean.alert_when_someone_leaves_zone
+      - input_boolean.alarm_clock
 
 # Input Booleans
 ###############################################################################
@@ -153,6 +156,11 @@ input_boolean:
     name: Alert When Someone Leaves A Zone
     initial: on
     icon: mdi:map-marker
+
+  alarm_clock:
+    name: Alarm Clock
+    initial: on
+    icon: mdi:calendar-check
 
 # Automations
 ###############################################################################

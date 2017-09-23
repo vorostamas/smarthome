@@ -103,6 +103,8 @@ sensor:
 
 automation:
   - alias: AM Change OFF
+    initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: input_boolean.am
@@ -115,6 +117,8 @@ automation:
         entity_id: input_boolean.am
 
   - alias: AM Change ON
+    initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: input_boolean.am
@@ -127,6 +131,8 @@ automation:
         entity_id: input_boolean.am
 
   - alias: PM Change OFF
+    initial_state: true
+    hide_entity: true  
     trigger:
       platform: state
       entity_id: input_boolean.pm
@@ -139,6 +145,8 @@ automation:
         entity_id: input_boolean.pm
 
   - alias: PM Change ON
+    initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: input_boolean.pm
@@ -151,6 +159,8 @@ automation:
         entity_id: input_boolean.pm
 
   - alias: Alarm Clock
+    initial_state: true
+    hide_entity: true
     trigger:
       platform: time
       minutes: '/1'
@@ -158,6 +168,8 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
+      - condition: template
+        value_template: '{{ states.input_bolean.alarm_clock.state == "on" }}'
       - condition: template
         value_template: >
           {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
