@@ -54,8 +54,7 @@ automation:
           operation_mode: 'off'
       - service: script.notify_me
         data_template:
-          value1: "Air Condition has been ON for 3 hours. Turning it Off to save power."
-          value2: ""
+          message: "Air Condition has been ON for 3 hours. Turning it Off to save power."
 
   - alias: Ecobee Away Mode
     initial_state: true
@@ -79,5 +78,4 @@ automation:
           away_mode: true
       - service: script.notify_me
         data_template:
-          value1: "Your Home Security System is now set to Away mode. Ecobee is set to AWAY mode as well."
-          value2: ""
+          message: "Your Home Security System is now set to Away mode. Ecobee is set to AWAY mode as well."

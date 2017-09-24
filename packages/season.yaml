@@ -57,6 +57,5 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-            value1: >
+            message: >
               Good bye {{ tigger.from_state.state }}!, and Say Hello to {{ tigger.from_state.state }}.
-            value2: ""

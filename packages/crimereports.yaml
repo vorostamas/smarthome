@@ -16,4 +16,4 @@ group:
       # event: incident
     # action:
       # - service: script.notify_me
-        # data: {"value1":"Crime in your area!", "value2":""}
+        # data: {"message":"Crime in your area!"}

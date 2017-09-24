@@ -127,13 +127,12 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: >
+          message: >
               {% if trigger.to_state.state | lower == "on" %}
                   {{ trigger.to_state.attributes.friendly_name }} is now OPENED!
               {% elif trigger.to_state.state | lower == "off" %}
                   {{ trigger.to_state.attributes.friendly_name }} is now CLOSED!
               {% endif %}
-          value2: ""
       - service_template: >
           {% if trigger.to_state.state | lower == "on" %}
             switch.turn_on
@@ -144,7 +143,7 @@ automation:
           entity_id: switch.garage_lights
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             {% if trigger.to_state.state | lower == "on" %}
               Attention! Your {{ trigger.to_state.attributes.friendly_name }} is now OPENED!
             {% elif trigger.to_state.state | lower == "off" %}

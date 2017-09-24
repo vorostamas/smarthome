@@ -244,8 +244,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Your External IP changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
-          value2: ""
+          message: "Your External IP changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
 
   - alias: Update Available Notification
     initial_state: true
@@ -255,4 +254,4 @@ automation:
       entity_id: updater.updater
     action:
       - service: script.notify_me
-        data: {"value1":"New HASS update is available. Please update!", "value2":""}
+        data: {"message":"New HASS update is available. Please update!"}

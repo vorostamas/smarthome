@@ -34,8 +34,7 @@
     # action:
       # - service: script.voice_notify
         # data_template:
-          # value1: "{{ states.sensor.fact_of_the_day.state }}"
+          # message: "{{ states.sensor.fact_of_the_day.state }}"
       # - service: script.notify_me
         # data_template:
-          # value1: "{{ states.sensor.fact_of_the_day.state }}"
-          # value2: ""
+          # message: "{{ states.sensor.fact_of_the_day.state }}"

@@ -34,50 +34,6 @@ homeassistant:
 
 automation:
 ###############################################################################
-# Turn Home Security System ON at sunset time
-###############################################################################
-  - alias: Evening Home Security System ON (At Sunset)
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: sun
-      event: sunset
-      offset: '+00:00:00'
-    condition:
-      - condition: state
-        entity_id: group.all_devices
-        state: 'home'
-      - condition: state
-        entity_id: alarm_control_panel.simplisafe
-        state: 'disarmed'
-    action:
-      - service: script.voice_notify
-        data_template:
-          value1: >
-            {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
-              It's getting dark outside, and your home security system is now set to HOME mode.
-            {% else %}
-              It's getting dark outside, and your doors are open. Home Security System could not be turned on.
-            {% endif %}
-      - service_template: >-
-          {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
-            alarm_control_panel.alarm_arm_home
-          {% else %}
-            alarm_control_panel.disarm
-          {% endif %}
-        data:
-          entity_id: alarm_control_panel.simplisafe
-      - service: script.notify_me
-        data_template:
-          value1: >
-            {% if states.binary_sensor.back_door_sensor_sensor.state == "off" and states.binary_sensor.front_door_sensor_sensor.state  == "off" %}
-              It's getting dark outside, and your home security system is now set to HOME mode.
-            {% else %}
-              It's getting dark outside, and your doors are open. Home Security System could not be turned on.
-            {% endif %}
-          value2: ""
-
-###############################################################################
 # Turn outdoor lights on 15 minutes before sunset
 ###############################################################################
   - alias: Evening Outdoor Lights ON (At Sunset)

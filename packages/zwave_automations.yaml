@@ -391,7 +391,7 @@ automation:
     action:
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             {% if trigger.to_state.state | lower == "on" %}
               Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is OPEN!
             {% elif trigger.to_state.state | lower == "off" %}

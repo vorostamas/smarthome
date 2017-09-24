@@ -339,27 +339,25 @@ automation:
           data:
             push:
               badge: 0
-              category: "TRASH_RECYCLE"
+              category: "trash_recycle"
 
       - service: script.notify_me
         data_template:
-          value1: >
+          message: >
             {% if states.sensor.trash_day.state == "yes" %}
               Tomorrow is the Trash Pickup day. Put the Trash bin outside, please!
             {% elif states.sensor.recycle_day.state == "yes" %}
               Tomorrow is the Recycle Pickup day. Put the Recycle bin outside, please!              
             {% endif %}
-          value2: ""
 
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             {% if states.sensor.trash_day.state == "yes" %}
               Attention!: Tomorrow is the Trash Pickup day. Please don't forget to put the Trash bin outside tonight!
             {% elif states.sensor.recycle_day.state == "yes" %}
               Attention!: Tomorrow is the Recycle Pickup day. Please don't forget to put the recycle bin outside tonight!
             {% endif %}
-          value2: ""
 
   - alias: Trash and Recycle Bin Left Outside Already
     initial_state: true
@@ -368,7 +366,7 @@ automation:
       platform: event
       event_type: ios.notification_action_fired
       event_data:
-        actionName: TRASH_LEFT
+        actionName: trash_left
     action:
       - service: notify.ios_suresh
         data:
@@ -383,7 +381,7 @@ automation:
       platform: event
       event_type: ios.notification_action_fired
       event_data:
-        actionName: TRASH_REMIND_LATER
+        actionName: trash_remind_later
     action:
       - service: notify.ios_suresh
         data:

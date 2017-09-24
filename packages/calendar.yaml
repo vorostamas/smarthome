@@ -13,7 +13,7 @@
     # action:
       # - service: script.voice_notify
         # data_template:
-          # value1: >
+          # message: >
             # {% set eventDay = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') %}
             # {% set eventStartHour = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%H') %}
             # {% set eventStartMinute = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%M') %}

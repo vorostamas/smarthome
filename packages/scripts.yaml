@@ -68,9 +68,9 @@ script:
   ifttt_notify:
     sequence:
       - condition: template
-        value_template: '{{ value1 | trim != "" }}'
+        value_template: '{{ message | trim != "" }}'
       - service: ifttt.trigger
-        data_template: { "event": "Smart_Home", "value1": "{{ value1 }}", "value2": " {{ value2 }}"}
+        data_template: { "event": "Smart_Home", "value1": "{{ message }}", "value2": " "}
 
   ifttt_leeo_color_change:
     sequence:
@@ -78,7 +78,7 @@ script:
         value_template: '{{ value1 | trim != "" }}'
       - service: ifttt.trigger
         data_template: { "event": "LEEO_COLOR_CHANGE", "value1": "{{ value1 }}" }
-        
+
   pushbullet_notify:
     sequence:
       - condition: template
@@ -91,12 +91,11 @@ script:
   notify_me:
     sequence:
       - condition: template
-        value_template: '{{ value1 | trim != "" }}'    
+        value_template: '{{ message | trim != "" }}'    
       - service: script.ifttt_notify
         data_template:
           event: "Smart_Home"
-          value1: '{{ value1 }}'
-          value2: '{{ value2 }}'
+          value1: '{{ message }}'
 
 ###############################################################################
 # Voice Notify
@@ -111,26 +110,11 @@ script:
       - condition: template
         value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
       - condition: template
-        value_template: >
-          {% if states.media_player.gstreamer.state == 'idle' %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: '{{ states.media_player.gstreamer.state == "idle" }}'
       - condition: template
-        value_template: >
-          {% if states.media_player.mpd.state != 'playing' %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: '{{ states.media_player.mpd.state != "playing" }}'
       - condition: template
-        value_template: >
-          {% if value1 | trim == "" %}
-            false
-          {% else %}
-            true
-          {% endif %}
+        value_template: '{{ message | trim != "" }}'
       - condition: state
         entity_id: group.all_devices
         state: 'home'
@@ -181,7 +165,7 @@ script:
             {%- endmacro -%}
             {% set msg = msg + "<speak> " %}
             {% set msg = msg + " " + getBeginGreeting() %}
-            {% set msg = msg + " " + value1 %}
+            {% set msg = msg + " " + message %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
             {% set msg = msg + " " + getEndGreeting() %}
             {% set msg = msg + " </speak>" %}
@@ -194,7 +178,7 @@ script:
     sequence:
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             {# Birthday notifications #}
             {% macro birthdayCountdown( name, days2go ) %}
               {%- if days2go == 0 -%}

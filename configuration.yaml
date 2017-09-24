@@ -53,33 +53,33 @@ ios:
   push:
     categories:
       - name: Single Car Garage Door
-        identifier: '1CAR_GARAGE'
+        identifier: '1car_garage'
         actions:
-          - identifier: '1CAR_GARAGE_CLOSE'
+          - identifier: '1car_garage_close'
             title: 'Close Garage Door'
             activationMode: 'background'
             authenticationRequired: yes
             destructive: yes
             behavior: 'default'
       - name: Two Car Garage Door
-        identifier: '2CAR_GARAGE'
+        identifier: '2car_garage'
         actions:
-          - identifier: '2CAR_GARAGE_CLOSE'
+          - identifier: '2car_garage_close'
             title: 'Close Garage Door'
             activationMode: 'background'
             authenticationRequired: yes
             destructive: yes
             behavior: 'default'
       - name: Trash Recycle
-        identifier: 'TRASH_RECYCLE'
+        identifier: 'trash_recycle'
         actions:
-          - identifier: 'TRASH_LEFT'
+          - identifier: 'trash_left'
             title: 'Done'
             activationMode: 'background'
             authenticationRequired: yes
             destructive: yes
             behavior: 'default'
-          - identifier: 'TRASH_REMIND_LATER'
+          - identifier: 'trash_remind_later'
             title: 'Remind Later'
             activationMode: 'background'
             authenticationRequired: yes
@@ -88,9 +88,3 @@ ios:
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
-
-image_processing:
-  - platform: openalpr_local
-    region: us
-    source:
-      - entity_id: camera.driveway_camera

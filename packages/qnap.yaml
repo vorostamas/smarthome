@@ -136,8 +136,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "NAS Status changed to: {{ trigger.to_state.state| upper }}"
-          value2: ""
+          message: "NAS Status changed to: {{ trigger.to_state.state| upper }}"
 
   - alias: Notify NAS Drive Status Change
     initial_state: true
@@ -155,8 +154,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "NAS Drive state changed to: {{ trigger.to_state.state| upper }} from '{{ trigger.from_state.state| upper }}'"
-          value2: ""
+          message: "NAS Drive state changed to: {{ trigger.to_state.state| upper }} from '{{ trigger.from_state.state| upper }}'"
 
   - alias: Notify NAS CPU Temperature
     initial_state: true
@@ -168,8 +166,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "NAS CPU temperature is going crazy hot, needs your attention!!! The current cpu temp is: {{ trigger.to_state.state }}"
-          value2: ""
+          message: "NAS CPU temperature is going crazy hot, needs your attention!!! The current cpu temp is: {{ trigger.to_state.state }}"
 
   - alias: Notify NAS Disk Usage
     initial_state: true
@@ -181,8 +178,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Attention! NAS disk usage is above 80 percent. Time to clean up?"
-          value2: ""
+          message: "Attention! NAS disk usage is above 80 percent. Time to clean up?"
 
   - alias: Notify NAS Memory Usage
     initial_state: true
@@ -195,8 +191,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "FYI - NAS Memory is above 80 percent for more than 5 minutes."
-          value2: ""
+          message: "FYI - NAS Memory is above 80 percent for more than 5 minutes."
 
   - alias: Notify NAS CPU Usage
     initial_state: true
@@ -209,5 +204,4 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "FYI - NAS CPU is above 80 percent for more than 5 minutes."
-          value2: ""
+          message: "FYI - NAS CPU is above 80 percent for more than 5 minutes."

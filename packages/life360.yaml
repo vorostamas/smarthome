@@ -32,5 +32,4 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Life360 Sensor state changed to: {{ trigger.to_state.state| upper }}."
-          value2: ""
+          message: "Life360 Sensor state changed to: {{ trigger.to_state.state| upper }}."

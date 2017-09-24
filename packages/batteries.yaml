@@ -378,11 +378,10 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "{{ trigger.to_state.attributes.friendly_name }}'s phone battery is less than: {{ trigger.to_state.attributes.battery }}%."
-          value2: ""
+          message: "{{ trigger.to_state.attributes.friendly_name }}'s phone battery is less than: {{ trigger.to_state.attributes.battery }}%."
       - service: script.voice_notify
         data_template:
-          value1: "{{ trigger.to_state.attributes.friendly_name }}'s phone battery is less than: {{ trigger.to_state.attributes.battery }}%."
+          message: "{{ trigger.to_state.attributes.friendly_name }}'s phone battery is less than: {{ trigger.to_state.attributes.battery }}%."
       # - service: mqtt.publish
         # data_template:
           # topic: /dump/numeric_state
@@ -467,11 +466,10 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Attention! {{ trigger.to_state.attributes.friendly_name }} level is: {{ trigger.to_state.state }}%."
-          value2: ""
+          message: "Attention! {{ trigger.to_state.attributes.friendly_name }} level is: {{ trigger.to_state.state }}%."
       - service: script.voice_notify
         data_template:
-          value1: "Attention! {{ trigger.to_state.attributes.friendly_name }} level is: {{ trigger.to_state.state }}%."
+          message: "Attention! {{ trigger.to_state.attributes.friendly_name }} level is: {{ trigger.to_state.state }}%."
           
   - alias: Check Wi-Fi Status of iPhones At Home
     initial_state: true
@@ -504,7 +502,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: >
+          message: >
             {% set member = trigger.entity_id.split('.')[1].split('_')[0] %}
             {% if member == "sureshs" %}
               Suresh's iPhone is not connected to Wi-Fi at home!
@@ -515,10 +513,9 @@ automation:
             {% elif member == "hasikas" %}
               Hasika's iPhone is not connected to Wi-Fi at home!
             {% endif %}
-          value2: ""
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             {% set member = trigger.entity_id.split('.')[1].split('_')[0] %}
             {% if member == "sureshs" %}
               Suresh's iPhone is not connected to Wi-Fi at home!

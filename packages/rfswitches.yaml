@@ -187,7 +187,7 @@
 #         data:
 #           entity_id: switch.switch_four
 #       - service: script.notify_me
-#         data: {"value1":"It is 80 degrees upstairs, turned ON Guest bedroom Window Fans!", "value2":""}
+#         data: {"message":"It is 80 degrees upstairs, turned ON Guest bedroom Window Fans!"}
   
 #   - alias: Guest Bedroom Window Fans WatchDog
 #     initial_state: true
@@ -206,9 +206,8 @@
 #           entity_id: "{{ trigger.entity_id }}"
 #       - service: script.notify_me
 #         data_template:
-#           value1: >
+#           message: >
 #             {{ trigger.to_state.attributes.friendly_name }} is ON for 2 hours. Turning it off!
-#           value2: ""
     
 # ###############################################################################
 # # RF Switch for Basement/Grow Light Automations
@@ -223,7 +222,7 @@
 #         # data:
 #           # entity_id: switch.switch_one
 #       # - service: script.notify_me
-#         # data: {"value1":"Turned ON grow light in the basement.", "value2":""}
+#         # data: {"message":"Turned ON grow light in the basement."}
   
 #   # - alias: Turn Growlight OFF in the morning
 #     # initial_state: true
@@ -235,4 +234,4 @@
 #         # data:
 #           # entity_id: switch.switch_one
 #       # - service: script.notify_me
-#         # data: {"value1":"Turned OFF grow light in the basement.", "value2":""}
+#         # data: {"message":"Turned OFF grow light in the basement."}

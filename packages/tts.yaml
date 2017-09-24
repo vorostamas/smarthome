@@ -1,0 +1,58 @@
+homeassistant:
+  customize:
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'batteries'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
+      not_hidden: &not_hidden
+        <<: *customize
+        hidden: false
+        critical: true
+
+    input_text.text_to_speech:
+      <<: *not_hidden
+      icon: mdi:speaker
+
+group:
+  Text To Speech:
+    entities:
+      - input_text.text_to_speech
+
+input_text:
+  text_one:
+    name: Text To Speech
+    initial: Initial text
+
+automation:
+  - alias: Text Changed Event
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_text.text_to_speech
+    action:
+      - service: script.voice_notify
+        data_template:
+          message: "{{ trigger.to_state.state }}"

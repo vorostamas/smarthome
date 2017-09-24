@@ -240,10 +240,10 @@ sensor:
       - apparent_temperature_min
       - precip_intensity_max
 
-  - platform: waqi
-    token: !secret waqi_token
-    locations:
-    - !secret waqi_location
+  # - platform: waqi
+  #   token: !secret waqi_token
+  #   locations:
+  #   - !secret waqi_location
 
   - platform: rest
     name: pollen
@@ -347,7 +347,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: >
+          message: >
             {% set windspeed = states.sensor.dark_sky_wind_speed.state | round %}
             {% if ( windspeed > 7 and ( windspeed <= 15 ) and (states.input_boolean.nice_breeze_alert.state == 'off')) %}
                {{ states.sensor.dark_sky_apparent_temperature.state | round }} degrees, and {{windspeed}} mph winds. You should go out and enjoy weather!
@@ -360,7 +360,6 @@ automation:
             {% elif ( windspeed > 60 ) and (states.input_boolean.hurricane_wind_alert.state == 'off') %}
                HURRICANE WINDS. FIND SHELTER, AND STAY INDOORS!
             {% endif %}
-          value2: ""
       - service: input_boolean.turn_on
         data_template:
           entity_id: >
@@ -417,14 +416,13 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: >
+          message: >
             {% set windspeed = states.sensor.dark_sky_wind_speed.state | round %}
             {% if ( windspeed > 40 ) and ( windspeed <= 60 ) and (states.input_boolean.super_heavy_wind_alert.state == 'off') %}
                Warning! Wind speed is {{windspeed}} MPH. FIND SHELTER IMMEDIATELY!             
             {% elif ( windspeed > 60 ) and ( windspeed <= 100 ) and (states.input_boolean.hurricane_wind_alert.state == 'off') %}
                HURRICANE WINDS. FIND SHELTER, AND STAY INDOORS! DO NOT GO OUT AND RISK YOUR LIFE!
             {% endif %}
-          value2: ""
 
   - alias: Rain Alerts
     initial_state: true
@@ -448,11 +446,10 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "{{ trigger.to_state.state | title }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float }} inches per hour"
-          value2: ""
+          message: "{{ trigger.to_state.state | title }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float }} inches per hour"
       - service: script.voice_notify
         data_template:
-          value1: "{{ trigger.to_state.state }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float}} inches per hour"
+          message: "{{ trigger.to_state.state }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float}} inches per hour"
       - service: input_boolean.turn_on
         data_template:
           entity_id: >
@@ -483,11 +480,10 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "{{ trigger.to_state.state | title }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float }} inches per hour"
-          value2: ""
+          message: "{{ trigger.to_state.state | title }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float }} inches per hour"
       - service: script.voice_notify
         data_template:
-          value1: "{{ trigger.to_state.state }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float}} inches per hour"
+          message: "{{ trigger.to_state.state }} with intensity {{ states.sensor.dark_sky_precip_intensity.state | float}} inches per hour"
       - service: input_boolean.turn_on
         data_template:
           entity_id: >

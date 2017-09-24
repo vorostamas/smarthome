@@ -85,7 +85,8 @@ automation:
         data:
           entity_id: alarm_control_panel.simplisafe
       - service: script.notify_me
-        data: {"value1":"It's bedtime, you forgot to turn ON Home Security System. Turned it ON for you.", "value2":""}
+        data: 
+          message: "It's bedtime, you forgot to turn ON Home Security System. Turned it ON for you."
   
 ###############################################################################
 # TURN INDOOR LIGHTS OFF AFTER BED TIME
@@ -119,7 +120,8 @@ automation:
         data:
           entity_id: light.tradfri_bulb_e26_ws_opal_980lm
       - service: script.notify_me
-        data: {"value1":"It is bed time, turned lights off!", "value2":""}
+        data: 
+          message: "It is bed time, turned lights off!"
 
 ###############################################################################
 # Provide Bed time Report via TTS
@@ -137,4 +139,4 @@ automation:
     action:
       - service: script.voice_notify
         data_template:
-          value1: !include ../templates/goodnight.yaml
+          message: !include ../templates/goodnight.yaml

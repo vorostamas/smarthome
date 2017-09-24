@@ -11,27 +11,35 @@ homeassistant:
 logger:
   default: warning
   logs:
-    libopenzwave: error
-    openzwave: error
+    gsp: critical
+    aiohttp.server: critical
     simplipy.system: critical
+    homeassistant.components.light: critical
+    openzwave: error
+    pywemo.ssdp: error
+    libopenzwave: error
+    netdisco.ssdp: error
     homeassistant.core: error
     homeassistant.setup: error
     homeassistant.loader: error
-    homeassistant.components.automation: error
-    homeassistant.components.device_tracker: error
-    homeassistant.components.discovery: error
-    homeassistant.components.http: error 
-    homeassistant.components.media_player: error 
-    homeassistant.components.recorder: error 
-    homeassistant.components.sensor: error 
-    homeassistant.components.zwave: error 
-    homeassistant.helpers.script: error 
-    homeassistant.components.light.lifx: error 
-    homeassistant.components.mqtt: error 
     homeassistant.components.api: error 
-    custom_components.media_player.sharptv: error 
+    homeassistant.helpers.script: error
+    homeassistant.components.mqtt: error 
+    homeassistant.components.http: error 
+    homeassistant.helpers.entity: error
+    homeassistant.components.zwave: error 
+    homeassistant.components.sensor: error 
+    homeassistant.helpers.condition: error
+    homeassistant.components.recorder: error 
+    homeassistant.components.discovery: error
+    homeassistant.components.automation: error
+    homeassistant.components.light.lifx: error
+    homeassistant.components.emulated_hue: error
+    homeassistant.components.media_player: error 
+    homeassistant.components.device_tracker: error
+    custom_components.sensor.life360: error
     custom_components.sensor.command_line: error 
-    custom_components.sensor.life360: error 
+    custom_components.media_player.sharptv: error 
 
 ###############################################################################
 # Logger level
@@ -55,9 +63,10 @@ sensor:
     name: "Current Log Level"
     value_template: "{{ value }}"
 
+automation:
 ###############################################################################
 # Sets Logging Level
-automation:  
+###############################################################################
   - alias: Log Level
     initial_state: true
     hide_entity: true
@@ -74,6 +83,9 @@ automation:
           payload: '{{ trigger.to_state.state }}'
           retain: true
 
+###############################################################################
+# Restore Log Level
+###############################################################################
   - alias: Restore Log Level on Startup
     initial_state: true
     hide_entity: true
@@ -87,9 +99,4 @@ automation:
       - service: input_select.select_option
         data_template:
           entity_id: input_select.log_level
-          option: >
-            {% if states.sensor.current_log_level.state == "" %}
-              warning
-            {% else %}
-              {{ states.input_select.current_log_level.state }}
-            {% endif %}
+          option: '{{ states.sensor.current_log_level.state | default("warning") }}'

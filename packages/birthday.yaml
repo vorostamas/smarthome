@@ -175,8 +175,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "{{ trigger.entity_id.split('.')[1].split('_')[0] | title }}'s Birthday is only {{ trigger.to_state.state }} days to go!"
-          value2: ""
+          message: "{{ trigger.entity_id.split('.')[1].split('_')[0] | title }}'s Birthday is only {{ trigger.to_state.state }} days to go!"
 
 ###############################################################################
 # Celebrate Birthday!!!
@@ -199,8 +198,7 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Hurray! Today is {{ trigger.entity_id.split('.')[1].split('_')[0] | title }}'s Birthday!"
-          value2: ""
+          message: "Hurray! Today is {{ trigger.entity_id.split('.')[1].split('_')[0] | title }}'s Birthday!"
 
 ###############################################################################
 # Announce Happy Birthday message every hour starting 7 am until 9 PM
@@ -233,4 +231,4 @@ automation:
     action:
       - service: script.voice_notify
         data_template:
-          value1: !include ../templates/birthday_wishes.yaml
+          message: !include ../templates/birthday_wishes.yaml

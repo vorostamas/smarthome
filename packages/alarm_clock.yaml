@@ -187,9 +187,8 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          value1: "Alarm Clock: Wake Up!!!"
-          value2: ""
+          message: "Alarm Clock: Wake Up!!!"
       - service: script.voice_notify
         data_template:
-          value1: >
+          message: >
             "Hello, Mr. Kalavala! This is an alarm clock reminder! Have a great day!"
