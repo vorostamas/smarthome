@@ -7,7 +7,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'batteries'
+        package: 'tts'
 
       exposed: &exposed
         <<: *customize
@@ -31,27 +31,35 @@ homeassistant:
         hidden: false
         critical: true
 
-    input_text.text_to_speech:
+    input_text.tts:
       <<: *not_hidden
       icon: mdi:speaker
+
+    group.text_to_speech:
+      name: TTS
+      <<: *not_hidden
 
 group:
   Text To Speech:
     entities:
-      - input_text.text_to_speech
+      - input_text.tts
 
 input_text:
-  text_one:
+  tts:
     name: Text To Speech
     initial: Initial text
 
 automation:
+
+###############################################################################
+# The text entered in the text box will be announced in the house
+###############################################################################
   - alias: Text Changed Event
     initial_state: true
     hide_entity: true
     trigger:
       - platform: state
-        entity_id: input_text.text_to_speech
+        entity_id: input_text.tts
     action:
       - service: script.voice_notify
         data_template:

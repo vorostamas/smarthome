@@ -25,8 +25,21 @@ homeassistant:
         hidden: true
         critical: false
 
+    input_boolean.air_condition:
+      <<: *exposed
+    input_boolean.heater:
+      <<: *exposed
+
 ecobee:
   api_key: !secret ecobee_api_key
+
+input_boolean:
+  air_condition:
+    name: Air Condition
+    icon: mdi:snowflake
+  heater:
+    name: Heater
+    icon: mdi:hot-tub
 
 group:
   Ecobee:
@@ -39,7 +52,9 @@ group:
     - automation.turn_off_ac_after_3_hours_of_cooling
 
 automation:
-
+###############################################################################
+# Turn OFF AC after 3 hours of cooling
+###############################################################################
   - alias: Turn Off AC After 3 Hours of Cooling
     initial_state: true
     trigger:
@@ -54,8 +69,12 @@ automation:
           operation_mode: 'off'
       - service: script.notify_me
         data_template:
-          message: "Air Condition has been ON for 3 hours. Turning it Off to save power."
+          message: "Air Condition has been ON for 3 hours. 
+                    Turning it Off to save power."
 
+###############################################################################
+# Set Thermostat status to Away mode when noone is away
+###############################################################################
   - alias: Ecobee Away Mode
     initial_state: true
     hide_entity: true
@@ -64,7 +83,7 @@ automation:
       entity_id: alarm_control_panel.simplisafe
     condition:
       - condition: template
-        value_template: "{% if trigger.from_state %} True {% else %} False {% endif %}"
+        value_template: "{% if trigger.from_state %}True{% else %}False{% endif %}"
       - condition: template
         value_template: '{{ states.alarm_control_panel.simplisafe.state != "unknown" }}'
       - condition: template
@@ -78,4 +97,46 @@ automation:
           away_mode: true
       - service: script.notify_me
         data_template:
-          message: "Your Home Security System is now set to Away mode. Ecobee is set to AWAY mode as well."
+          message: "Your Home Security System is now set to Away mode. 
+                    Ecobee is set to AWAY mode as well."
+
+###############################################################################
+# Turn ON AC Or Heater On Demand
+###############################################################################
+  - alias: Turn ON AC Or Heater
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.heater
+          - input_boolean.air_condition
+        to: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.home
+          operation_mode: >
+            {% if trigger.entity_id == "input_boolean.air_condition" %}
+              'cool'
+            {% else %}
+              'heat'
+            {% endif %}
+
+###############################################################################
+# Turn OFF AC Or Heater On Demand
+###############################################################################
+  - alias: Turn Off AC Or Heater
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.heater
+          - input_boolean.air_condition
+        to: 'off'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.home
+          operation_mode: 'off'

@@ -70,22 +70,27 @@ script:
       - condition: template
         value_template: '{{ message | trim != "" }}'
       - service: ifttt.trigger
-        data_template: { "event": "Smart_Home", "value1": "{{ message }}", "value2": " "}
+        data_template:
+          event: "Smart_Home"
+          value1: '{{ message }}'
+          value2: ''
 
   ifttt_leeo_color_change:
     sequence:
       - condition: template
         value_template: '{{ value1 | trim != "" }}'
       - service: ifttt.trigger
-        data_template: { "event": "LEEO_COLOR_CHANGE", "value1": "{{ value1 }}" }
+        data_template: 
+          event: "LEEO_COLOR_CHANGE"
+          value1: '{{ value1 }}'
 
   pushbullet_notify:
     sequence:
       - condition: template
-        value_template: '{{ value1 | trim != "" }}   ' 
+        value_template: '{{ value1 | trim != "" }}' 
       - service: notify.pushbullet
         data_template:
-          message: "{{ value1 }} {{ value2 }}"
+          message: "{{ value1 }}"
           title: "{{ value1 }} {{ value2 }}"
 
   notify_me:
@@ -130,12 +135,11 @@ script:
             true
           {% endif %}
       - service: media_player.volume_set
-        entity_id:
-          - media_player.gstreamer
+        entity_id: media_player.gstreamer
         data_template:
           volume_level: >
             {% if now().strftime("%H")|int < 12 and now().strftime("%H")|int > 6%}
-            0.3
+            0.5
             {% elif now().strftime("%H")|int > 12 and now().strftime("%H")|int < 20%}
             0.9
             {% else %}
