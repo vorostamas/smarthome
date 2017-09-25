@@ -169,7 +169,7 @@ automation:
       - condition: template
         value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
       - condition: template
-        value_template: '{{ states.input_bolean.alarm_clock.state == "on" }}'
+        value_template: '{{ states.input_boolean.alarm_clock.state == "on" }}'
       - condition: template
         value_template: >
           {% if states.sensor.time.state.split(':')[0] |int == states.input_slider.slider_hours.state |int %}
