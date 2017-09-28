@@ -72,8 +72,8 @@ script:
       - service: ifttt.trigger
         data_template:
           event: "Smart_Home"
-          value1: '{{ message }}'
-          value2: ''
+          value1: "{{ message }}"
+          value2: ""
 
   ifttt_leeo_color_change:
     sequence:
@@ -96,11 +96,10 @@ script:
   notify_me:
     sequence:
       - condition: template
-        value_template: '{{ message | trim != "" }}'    
+        value_template: '{{ message | trim != "" }}'
       - service: script.ifttt_notify
         data_template:
-          event: "Smart_Home"
-          value1: '{{ message }}'
+          message: "{{ message }}"
 
 ###############################################################################
 # Voice Notify
@@ -182,98 +181,4 @@ script:
     sequence:
       - service: script.voice_notify
         data_template:
-          message: >
-            {# Birthday notifications #}
-            {% macro birthdayCountdown( name, days2go ) %}
-              {%- if days2go == 0 -%}
-                Today is {{name}}'s Birthday!. Happy Birthday to you, my dear {{name}}!!!.
-              {%- elif days2go == 1 -%}
-                Tomorrow is {{name}}'s Birthday! HURRAY!!!
-              {%- elif days2go > 1 and days2go <= 10 -%}
-                {{name}}s Birthday is in {{days2go}} days! HURRAY!!!
-              {%- endif -%}
-            {% endmacro %}
-
-            {# USPS mail notifications - only when I have 1 or more mails #}
-            {%- macro USPS() -%}
-              {% if now().strftime("%H")  | int <= 16 %}
-                {%- if states("sensor.usps_mail") != "unknown" -%}
-                  {% if states.sensor.usps_mail.state | int > 0 -%}
-                    {%- if states.sensor.usps_mail.state | int == 1 -%}
-                      USPS is going to deliver {{ states.sensor.usps_mail.state }} mail today.
-                    {%- else -%}
-                      USPS is going to deliver {{ states.sensor.usps_mail.state }} mails today.
-                    {%- endif -%}
-                  {%- endif -%}
-                {%- endif -%}
-                {%- if states("sensor.usps_packages") != "unknown" -%}
-                  {%- if states.sensor.usps_packages.state | int > 0 -%}
-                    {%- if states.sensor.usps_packages.state | int == 1 -%}
-                      USPS is going to deliver {{ states.sensor.usps_packages.state }} package today.
-                    {%- else -%}
-                      USPS is going to deliver {{ states.sensor.usps_packages.state }} packages today.
-                    {%- endif -%}
-                  {%- endif -%}				
-                {%- endif -%}
-              {% endif %}
-            {%- endmacro -%}
-
-            {# Calendar notifications #}
-            {% macro calendarReminder() %}
-              {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) < 7 %}
-                Your next event. {{ states.calendar.suresh_kalavala.attributes.message }} . starts 
-                {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int %}
-                   today at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
-                {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int + 1 %}
-                   tomorrow at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
-                {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d') | int == now().strftime('%d') | int + 2 %}
-                   day after tomorrow {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }} 
-                   at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
-                {% else %}
-                  in {{ (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) }} days.
-                {% endif %}
-              {% endif %}
-            {% endmacro %}
-
-            {# Only notify when high levels of UV #}
-            {%- macro uv_levels() -%}
-              {%- set uv = states.sensor.pws_uv.state | int -%}
-              {%- if  uv >= 6 and uv <= 7 -%}
-                Current UV index is high. Please be careful outdoors.
-              {%- elif  uv >= 8 and uv <= 10 -%}
-                Current UV index is very high. It is not advised to go out. If you have to, use sun screen lotion.
-              {%- elif  uv >= 11 -%}
-                Current UV index is extremely high. By all means, Stay indoors, and stay cool.
-              {%- endif -%}
-            {%- endmacro -%}
-
-            {# hourly summary and temperatures #}
-            {% if states('sensor.dark_sky_minutely_summary') |lower != "unknown" %}
-              It is going to be {{states('sensor.dark_sky_minutely_summary')}}. 
-            {% endif %}
-            {% if states('sensor.dark_sky_apparent_temperature') | lower != "unknown" %}
-              Outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees. 
-            {% endif %}
-
-            {# Only notify pollen levels ib spring #}
-            {%- macro pollen_levels() -%}
-            {% if states.sensor.season.state| lower == "spring" %}
-              {% if states.sensor.pollen_level.state | lower != "low" %}
-                Pollen level is {{ states.sensor.pollen_level.state }}
-              {% endif %}
-            {% endif %}
-            {%- endmacro -%}
-
-            {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ pollen_levels() }}
-              {{ uv_levels() }}
-              {{ calendarReminder() }}
-              {{ USPS() }}
-              {{ birthdayCountdown("Mallika", states.sensor.mallika_birthday_days2go.state | int ) }}
-              {{ birthdayCountdown("Srinika", states.sensor.srinika_birthday_days2go.state | int ) }}
-              {{ birthdayCountdown("Hasika", states.sensor.hasika_birthday_days2go.state | int ) }}
-            {%- endmacro -%}
-
-            {# Call the macro  #}
-            {{ mother_of_all_macros() }}
+          message: !include ../templates/home_status.yaml
