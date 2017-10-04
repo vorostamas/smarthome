@@ -52,24 +52,28 @@ homeassistant:
       friendly_name: Basement Door Sensor
     binary_sensor.downstairs_multi_sensor_sensor:
       friendly_name: Downstairs Multi Sensor
-    binary_sensor.family_room_multi_sensor_sensor:
-      friendly_name: Family Room Multi Sensor
     binary_sensor.front_door_sensor_sensor:
       friendly_name: Front Door Sensor
     binary_sensor.front_room_multi_sensor_sensor:
       friendly_name: Front Room Multi Sensor
     binary_sensor.garage_door_sensor_sensor:
       friendly_name: Garage Door Sensor
+    binary_sensor.guest_bedroom_multi_sensor_sensor:
+      friendly_name: Guest Bedroom Multi Sensor
     binary_sensor.kitchen_motion_sensor_sensor:
       friendly_name: Kitchen Motion Sensor
     binary_sensor.single_car_garage_door_tilt_sensor_sensor:
       friendly_name: Single Car Garage Door
     binary_sensor.stairs_motion_sensor_sensor:
       friendly_name: Stairs Motion Sensor
+    binary_sensor.tv_multi_sensor_sensor:
+      friendly_name: TV Multi Sensor
     binary_sensor.two_car_garage_door_tilt_sensor_sensor:
       friendly_name: Double Car Garage Door
     binary_sensor.upstairs_multi_sensor_sensor:
       friendly_name: Upstairs Multi Sensor
+    binary_sensor.window_sensor_sensor:
+      friendly_name: Window Sensor
 
 # ZWave Sensors
     sensor.aeotec_water_sensor_alarm_level:
@@ -164,24 +168,6 @@ homeassistant:
       friendly_name: Downstairs Multi Sensor SourceNodeId
     sensor.downstairs_multi_sensor_temperature:
       friendly_name: Downstairs Multi Sensor Temperature
-    sensor.family_room_multi_sensor_alarm_level:
-      friendly_name: Family Room Multi Sensor Alarm Level
-    sensor.family_room_multi_sensor_alarm_type:
-      friendly_name: Family Room Multi Sensor Alarm Type
-    sensor.family_room_multi_sensor_battery:
-      friendly_name: Family Room Multi Sensor
-    sensor.family_room_multi_sensor_burglar:
-      friendly_name: Family Room Multi Sensor Burglar
-    sensor.family_room_multi_sensor_luminance:
-      friendly_name: Family Room Multi Sensor Luminance
-    sensor.family_room_multi_sensor_relative_humidity:
-      friendly_name: Family Room Multi Sensor Relative Humidity
-    sensor.family_room_multi_sensor_sourcenodeid:
-      friendly_name: Family Room Multi Sensor SourceNodeId
-    sensor.family_room_multi_sensor_temperature:
-      friendly_name: Family Room Multi Sensor Temperature
-    sensor.family_room_multi_sensor_ultraviolet:
-      friendly_name: Family Room Multi Sensor Ultraviolet
     sensor.front_door_sensor_access_control:
       friendly_name: Front Door Sensor Access Control
     sensor.front_door_sensor_alarm_level:
@@ -236,6 +222,22 @@ homeassistant:
       friendly_name: Double Car Garage Door Sensor Battery
     sensor.two_car_garage_door_sensor_status:
       friendly_name: Double Car Garage Door Sensor Status
+    sensor.guest_bedroom_multi_sensor_alarm_level:
+      friendly_name: Guest Bedroom Multi Sensor Alarm Level
+    sensor.guest_bedroom_multi_sensor_alarm_type:
+      friendly_name: Guest Bedroom Multi Sensor Alarm Type
+    sensor.guest_bedroom_multi_sensor_burglar:
+      friendly_name: Guest Bedroom Multi Sensor Burglar
+    sensor.guest_bedroom_multi_sensor_luminance:
+      friendly_name: Guest Bedroom Multi Sensor Luminance
+    sensor.guest_bedroom_multi_sensor_relative_humidity:
+      friendly_name: Guest Bedroom Multi Sensor Relative Humidity
+    sensor.guest_bedroom_multi_sensor_sourcenodeid:
+      friendly_name: Guest Bedroom Multi Sensor SourceNodeId
+    sensor.guest_bedroom_multi_sensor_temperature:
+      friendly_name: Guest Bedroom Multi Sensor Temperature
+    sensor.guest_bedroom_multi_sensor_ultraviolet:
+      friendly_name: Guest Bedroom Multi Sensor Ultraviolet
     sensor.hallway_light_switch_battery:
       friendly_name: Hallway Light Switch
     sensor.kitchen_motion_sensor_alarm_level:
@@ -274,6 +276,22 @@ homeassistant:
       friendly_name: Stairs Motion Sensor Power Management
     sensor.stairs_motion_sensor_sourcenodeid:
       friendly_name: Stairs Motion Sensor SourceNodeId
+    sensor.tv_multi_sensor_alarm_level:
+      friendly_name: TV Multi Sensor Alarm Level
+    sensor.tv_multi_sensor_alarm_type:
+      friendly_name: TV Multi Sensor Alarm Type
+    sensor.tv_multi_sensor_burglar:
+      friendly_name: TV Multi Sensor Burglar
+    sensor.tv_multi_sensor_luminance:
+      friendly_name: TV Multi Sensor Luminance
+    sensor.tv_multi_sensor_relative_humidity:
+      friendly_name: TV Multi Sensor Relative Humidity
+    sensor.tv_multi_sensor_sourcenodeid:
+      friendly_name: TV Multi Sensor SourceNodeId
+    sensor.tv_multi_sensor_temperature:
+      friendly_name: TV Multi Sensor Temperature
+    sensor.tv_multi_sensor_ultraviolet:
+      friendly_name: TV Multi Sensor Ultraviolet
     sensor.two_car_garage_door_tilt_sensor_access_control:
       friendly_name: Two Car Garage Door Tilt Sensor Access Control
     sensor.two_car_garage_door_tilt_sensor_alarm_level:
@@ -302,6 +320,8 @@ homeassistant:
       friendly_name: Upstairs Multi Sensor SourceNodeId
     sensor.upstairs_multi_sensor_temperature:
       friendly_name: Upstairs Multi Sensor Temperature
+    sensor.upstairs_multi_sensor_ultraviolet:
+      friendly_name: Upstairs Multi Sensor Ultraviolet
     sensor.wallmote_alarm_level:
       friendly_name: Wallmote Alarm Level
     sensor.wallmote_alarm_type:
@@ -349,8 +369,7 @@ group:
 
   Motion Sensors:
     entities:
-      - binary_sensor.aeotec_water_sensor_sensor    
-      - binary_sensor.aeotec_zw112_door_window_sensor_6_sensor      
+      - binary_sensor.aeotec_water_sensor_sensor
       - binary_sensor.audio_detector_sensor
       - binary_sensor.back_door_sensor_sensor
       - binary_sensor.basement_door_sensor_sensor
@@ -360,7 +379,6 @@ group:
       - binary_sensor.driveway_camera_line_crossing
       - binary_sensor.driveway_camera_motion
       - binary_sensor.driveway_camera_tamper_detection
-      - binary_sensor.family_room_multi_sensor_sensor
       - binary_sensor.front_door_sensor_sensor
       - binary_sensor.front_room_multi_sensor_sensor
       - binary_sensor.frontdoor_camera_field_detection
@@ -368,9 +386,9 @@ group:
       - binary_sensor.frontdoor_camera_motion
       - binary_sensor.frontdoor_camera_tamper_detection
       - binary_sensor.garage_door_sensor_sensor
+      - binary_sensor.guest_bedroom_multi_sensor_sensor
       - binary_sensor.kids_room_occupancy
       - binary_sensor.kitchen_motion_sensor_sensor
-      - binary_sensor.master_bedroom_multi_sensor_sensor
       - binary_sensor.patio_camera_field_detection
       - binary_sensor.patio_camera_line_crossing
       - binary_sensor.patio_camera_motion
@@ -381,38 +399,41 @@ group:
       - binary_sensor.playarea_camera_tamper_detection
       - binary_sensor.single_car_garage_door_tilt_sensor_sensor
       - binary_sensor.stairs_motion_sensor_sensor
+      - binary_sensor.tv_multi_sensor_sensor
       - binary_sensor.two_car_garage_door_tilt_sensor_sensor
       - binary_sensor.upstairs_multi_sensor_sensor
+      - binary_sensor.window_sensor_sensor
 
   Light Levels:
     entities:
       - sensor.downstairs_multi_sensor_luminance
-      - sensor.family_room_multi_sensor_luminance
       - sensor.front_room_multi_sensor_luminance
-      - sensor.master_bedroom_multi_sensor_luminance
+      - sensor.guest_bedroom_multi_sensor_luminance
+      - sensor.tv_multi_sensor_luminance
       - sensor.upstairs_multi_sensor_luminance
 
   Humidity Levels:
     entities:
       - sensor.downstairs_multi_sensor_relative_humidity
-      - sensor.family_room_multi_sensor_relative_humidity
       - sensor.front_room_multi_sensor_relative_humidity
+      - sensor.guest_bedroom_multi_sensor_relative_humidity
       - sensor.home_humidity
-      - sensor.master_bedroom_multi_sensor_relative_humidity
       - sensor.pws_relative_humidity
+      - sensor.tv_multi_sensor_relative_humidity
       - sensor.upstairs_multi_sensor_relative_humidity
 
   Temperature Levels:
     entities:
-      - sensor.cpu_temperature
       - sensor.aeotec_water_sensor_temperature
+      - sensor.audio_detector_temperature
+      - sensor.cpu_temperature
       - sensor.downstairs_multi_sensor_temperature
       - sensor.downstairs_temperature
-      - sensor.family_room_multi_sensor_temperature
       - sensor.front_room_multi_sensor_temperature
+      - sensor.guest_bedroom_multi_sensor_temperature
       - sensor.home_temperature
       - sensor.kids_room_temperature
-      - sensor.master_bedroom_multi_sensor_temperature
+      - sensor.tv_multi_sensor_temperature
       - sensor.upstairs_multi_sensor_temperature
 
   Aeotec Water Sensor:
@@ -476,18 +497,6 @@ group:
       - sensor.downstairs_multi_sensor_sourcenodeid
       - sensor.downstairs_multi_sensor_temperature
 
-  Family Room Multi Sensor:
-    entities:
-      - sensor.family_room_multi_sensor_alarm_level
-      - sensor.family_room_multi_sensor_alarm_type
-      - sensor.family_room_multi_sensor_battery
-      - sensor.family_room_multi_sensor_burglar
-      - sensor.family_room_multi_sensor_luminance
-      - sensor.family_room_multi_sensor_relative_humidity
-      - sensor.family_room_multi_sensor_sourcenodeid
-      - sensor.family_room_multi_sensor_temperature
-      - sensor.family_room_multi_sensor_ultraviolet
-
   Front Door Sensor:
     entities:
       - sensor.front_door_sensor_access_control
@@ -497,6 +506,18 @@ group:
       - sensor.front_door_sensor_burglar
       - sensor.front_door_sensor_power_management
       - sensor.front_door_sensor_sourcenodeid
+
+  Front Room Multi Sensor:
+    entities:
+      - sensor.front_room_multi_sensor_alarm_level
+      - sensor.front_room_multi_sensor_alarm_type
+      - sensor.front_room_multi_sensor_battery
+      - sensor.front_room_multi_sensor_burglar
+      - sensor.front_room_multi_sensor_luminance
+      - sensor.front_room_multi_sensor_relative_humidity
+      - sensor.front_room_multi_sensor_sourcenodeid
+      - sensor.front_room_multi_sensor_temperature
+      - sensor.front_room_multi_sensor_ultraviolet
 
   Garage Door Sensor:
     entities:
@@ -512,17 +533,16 @@ group:
       - sensor.two_car_garage_door_sensor_battery
       - sensor.two_car_garage_door_sensor_status
 
-  Front Room Multi Sensor:
+  Guest Bedroom Multi Sensor:
     entities:
-      - sensor.front_room_multi_sensor_alarm_level
-      - sensor.front_room_multi_sensor_alarm_type
-      - sensor.front_room_multi_sensor_battery
-      - sensor.front_room_multi_sensor_burglar
-      - sensor.front_room_multi_sensor_luminance
-      - sensor.front_room_multi_sensor_relative_humidity
-      - sensor.front_room_multi_sensor_sourcenodeid
-      - sensor.front_room_multi_sensor_temperature
-      - sensor.front_room_multi_sensor_ultraviolet
+      - sensor.guest_bedroom_multi_sensor_alarm_level
+      - sensor.guest_bedroom_multi_sensor_alarm_type
+      - sensor.guest_bedroom_multi_sensor_burglar
+      - sensor.guest_bedroom_multi_sensor_luminance
+      - sensor.guest_bedroom_multi_sensor_relative_humidity
+      - sensor.guest_bedroom_multi_sensor_sourcenodeid
+      - sensor.guest_bedroom_multi_sensor_temperature
+      - sensor.guest_bedroom_multi_sensor_ultraviolet
 
   Hallway Light Switch:
     entities:
@@ -536,7 +556,7 @@ group:
       - sensor.kitchen_motion_sensor_burglar
       - sensor.kitchen_motion_sensor_power_management
       - sensor.kitchen_motion_sensor_sourcenodeid
-      
+     
   Kitchen Siren:
     entities:
       - switch.kitchen_siren_switch
@@ -554,6 +574,17 @@ group:
       - sensor.stairs_motion_sensor_power_management
       - sensor.stairs_motion_sensor_sourcenodeid
 
+  TV Multi Sensor:
+    entities:
+      - sensor.tv_multi_sensor_alarm_level
+      - sensor.tv_multi_sensor_alarm_type
+      - sensor.tv_multi_sensor_burglar
+      - sensor.tv_multi_sensor_luminance
+      - sensor.tv_multi_sensor_relative_humidity
+      - sensor.tv_multi_sensor_sourcenodeid
+      - sensor.tv_multi_sensor_temperature
+      - sensor.tv_multi_sensor_ultraviolet
+
   Upstairs Multi Sensor:
     entities:
       - sensor.upstairs_multi_sensor_alarm_level
@@ -564,6 +595,7 @@ group:
       - sensor.upstairs_multi_sensor_relative_humidity
       - sensor.upstairs_multi_sensor_sourcenodeid
       - sensor.upstairs_multi_sensor_temperature
+      - sensor.upstairs_multi_sensor_ultraviolet
 
   1-Car Garage Door Sensor:
     entities:
@@ -603,23 +635,24 @@ group:
   ZWave Devices:
     entities:
       - zwave.aeotec_water_sensor
-      - zwave.aeotec_zw112_door_window_sensor_6          
       - zwave.audio_detector
       - zwave.back_door_sensor
       - zwave.basement_door_sensor
       - zwave.downstairs_multi_sensor
-      - zwave.family_room_multi_sensor
       - zwave.front_door_sensor
       - zwave.front_room_multi_sensor
       - zwave.garage_door_sensor
+      - zwave.guest_bedroom_multi_sensor
       - zwave.hallway_light_switch
       - zwave.kitchen_motion_sensor
       - zwave.kitchen_siren
       - zwave.single_car_garage_door_tilt_sensor
       - zwave.stairs_motion_sensor
+      - zwave.tv_multi_sensor
       - zwave.two_car_garage_door_tilt_sensor
       - zwave.upstairs_multi_sensor
       - zwave.wallmote
+      - zwave.window_sensor
       - zwave.zwave_repeater
       - zwave.zwave_smart_switch
       - zwave.zwave_stick

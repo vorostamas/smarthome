@@ -150,7 +150,7 @@ group:
       - automation.notify_of_new_external_ip
       - automation.startup_notification
       - automation.update_available_notification
-      - automation.clear_tts_cache
+      # - automation.clear_tts_cache
   
 sensor:
   - platform: rest

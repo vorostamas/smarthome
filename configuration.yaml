@@ -46,7 +46,7 @@ emulated_hue:
     - switch
     - input_boolean
 
-# logger: !include logging.yaml
+logger: !include logging.yaml
 group: !include_dir_merge_named groups
 
 ios:

@@ -133,6 +133,9 @@ script:
           {% else %}
             true
           {% endif %}
+      - service: script.voice_greeting
+        data_template:
+          greeting: '{{ greeting }}'
       - service: media_player.volume_set
         entity_id: media_player.gstreamer
         data_template:
@@ -150,7 +153,30 @@ script:
           cache: true
           message: >
             {% set msg = "" %}
-            {% macro getBeginGreeting() %}
+            {%- macro getEndGreeting() -%}
+              {%- if greeting |default('yes', true ) == "yes" -%}
+                Thank you!
+              {%- endif -%}
+            {%- endmacro -%}
+            {% set msg = msg + "<speak> " %}
+            {% set msg = msg + ". " + message %}
+            {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
+            {% set msg = msg + " " + getEndGreeting() %}
+            {% set msg = msg + " </speak>" %}
+            {{ msg }}
+
+###############################################################################
+# Greeting
+###############################################################################
+  voice_greeting:
+    sequence:
+      - service: tts.amazon_polly_say
+        data_template:
+          entity_id: media_player.gstreamer
+          cache: true
+          message: >
+            {% set msg = "" %}
+            {% macro getGreeting() %}
               {% if greeting | default('yes', true ) == "yes" %}
                 {% if now().strftime("%H")|int < 12 %}
                   Good morning.
@@ -161,16 +187,9 @@ script:
                 {% endif %}
               {% endif %}
             {% endmacro %}
-            {%- macro getEndGreeting() -%}
-              {%- if greeting |default('yes', true ) == "yes" -%}
-                Thank you!
-              {%- endif -%}
-            {%- endmacro -%}
             {% set msg = msg + "<speak> " %}
-            {% set msg = msg + " " + getBeginGreeting() %}
-            {% set msg = msg + " " + message %}
+            {% set msg = msg + " " + getGreeting() %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
-            {% set msg = msg + " " + getEndGreeting() %}
             {% set msg = msg + " </speak>" %}
             {{ msg }}
 

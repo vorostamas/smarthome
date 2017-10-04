@@ -61,7 +61,7 @@ group:
       - input_boolean.working_in_garage
       - input_boolean.hourly_reports
       - input_boolean.welcome_family_announcement
-      - input_boolean.clear_tts_cache
+      # - input_boolean.clear_tts_cache
       - input_boolean.trash_reminders
       - input_boolean.enjoyable_weather_reminders
       - input_boolean.alert_when_someone_enters_zone
@@ -122,10 +122,10 @@ input_boolean:
     initial: on
     icon: mdi:home
 
-  clear_tts_cache:
-    name: Clear TTS Cache Daily
-    initial: on
-    icon: mdi:text-to-speech
+  # clear_tts_cache:
+  #   name: Clear TTS Cache Daily
+  #   initial: on
+  #   icon: mdi:text-to-speech
 
   trash_reminders:
     name: Remind Trash Notifications
@@ -277,16 +277,16 @@ automation:
     action:
       - service: script.home_status
 
-# Clear TTS Cache Daily
-######################################################
-  - alias: Clear TTS Cache
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      at: '4:45:00'
-    condition:
-      - condition: template
-        value_template: '{{ states.input_boolean.clear_tts_cache.state == "on" }}'
-    action:
-      service: tts.clear_cache
+# # Clear TTS Cache Daily
+# ######################################################
+#   - alias: Clear TTS Cache
+#     initial_state: true
+#     hide_entity: true
+#     trigger:
+#       platform: time
+#       at: '4:45:00'
+#     condition:
+#       - condition: template
+#         value_template: '{{ states.input_boolean.clear_tts_cache.state == "on" }}'
+#     action:
+#       service: tts.clear_cache

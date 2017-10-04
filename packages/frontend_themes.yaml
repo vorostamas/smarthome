@@ -173,24 +173,18 @@ frontend:
 ###############################################################################
 automation:
 
-  - alias: Random Darker Theme At Sunset
-    initial_state: true
-    hide_entity: true
+  - alias: Automatic Theme Change
     trigger:
-      platform: sun
-      event: sunset
+      - platform: homeassistant
+        event: start
+      - platform: state
+        entity_id: sun.sun
     action:
-      - service: frontend.set_theme
+      - service_template: frontend.set_theme
         data_template:
-          name: '{{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan"] | random  }}'
-
-  - alias: Random Lighter Theme At Sunrise
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: sun
-      event: sunrise
-    action:
-      - service: frontend.set_theme
-        data_template:
-          name: '{{ ["light_beach", "light_green", "light_pink", "default"] | random  }}'
+          name: >
+            {% if states.sun.sun.state == "above_horizon" %}
+              {{ ["light_beach", "light_green", "light_pink", "default"] | random  }}
+            {% else %}
+              {{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan"] | random  }}
+            {% endif %}

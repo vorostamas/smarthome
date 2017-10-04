@@ -1,0 +1,20 @@
+default: error
+logs:
+  gsp: critical
+  root: error
+  openzwave: error
+  py.warnings: error
+  aiohttp.server: critical
+  homeassistant.core: error
+  homeassistant.exceptions: error
+  homeassistant.helpers.script: error  
+  homeassistant.helpers.entity: critical
+  homeassistant.components.http: error
+  homeassistant.components.zwave: info
+  homeassistant.components.sensor: error
+  homeassistant.components.recorder: error
+  homeassistant.components.discovery: error
+  homeassistant.components.automation: error
+  homeassistant.components.climate.nest: error
+  homeassistant.components.media_player: error
+  homeassistant.components.device_tracker: error
