@@ -403,6 +403,7 @@ group:
       - binary_sensor.two_car_garage_door_tilt_sensor_sensor
       - binary_sensor.upstairs_multi_sensor_sensor
       - binary_sensor.window_sensor_sensor
+      - binary_sensor.front_room_window_sensor_sensor
 
   Light Levels:
     entities:
