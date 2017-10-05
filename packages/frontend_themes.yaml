@@ -214,6 +214,11 @@ automation:
       - platform: state
         entity_id: sun.sun
     action:
-      - service_template: frontend.set_theme
-        data_template:
-          name: "halloween"
+       - service_template: frontend.set_theme
+         data_template:
+           name: >
+             {% if states.sun.sun.state == "above_horizon" %}
+             {{ ["light_beach", "light_green", "light_pink", "default", "halloween"] | random  }}
+             {% else %}
+             {{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan", "halloween"] | random  }}
+             {% endif %}
