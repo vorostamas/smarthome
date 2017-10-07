@@ -364,6 +364,9 @@ homeassistant:
 
 zwave:
   usb_path: /dev/ttyACM0
+  network_key: !secret zwave_network_key
+  new_entity_ids: true
+  debug: true
 
 group:
 

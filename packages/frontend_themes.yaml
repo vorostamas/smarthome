@@ -211,14 +211,14 @@ automation:
     trigger:
       - platform: homeassistant
         event: start
-      - platform: state
-        entity_id: sun.sun
+      # - platform: state
+      #   entity_id: sun.sun
     action:
        - service_template: frontend.set_theme
          data_template:
            name: >
              {% if states.sun.sun.state == "above_horizon" %}
-             {{ ["light_beach", "light_green", "light_pink", "default", "halloween"] | random  }}
+             {{ ["light_beach", "light_green", "light_pink", "default"] | random  }}
              {% else %}
-             {{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan", "halloween"] | random  }}
+             {{ ["dark_cyan", "dark_red", "dark_orange", "dark_cyan"] | random  }}
              {% endif %}

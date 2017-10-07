@@ -1,8 +1,7 @@
 """
 @ Author      : Suresh Kalavala
 @ Date        : 09/14/2017
-@ Description : Global Boolean Variable - We can now have global variable
-                that holds boolean types (True/False)
+@ Description : Input Label  - A label that holds data
 
 @ Notes:        Copy this file and services.yaml files and place it in your 
                 "Home Assistant Config folder\custom_components\" folder
@@ -10,18 +9,23 @@
                 To use the component, have the following in your .yaml file:
                 The 'value' is optional, by default, it is set to 0 
 
-variable_bool:
-  feeling_lucky:
-    name: Feeling Lucky Today?
-    icon: mdi:question
+input_label:
+  some_string1:
+    name: Some String 1 
+    icon: mdi:alphabetical
+
+  input_label:
+    name: Some String 2
+    value: 'Hello, Home Assistant!'
+    icon: mdi:alphabetical
 
 """
 
 """
-Component to provide global variables for use.
+Component to provide input_label.
 
 For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/variable_bool/
+at https://home-assistant.io/components/input_label/
 """
 import asyncio
 import logging
@@ -40,21 +44,21 @@ from homeassistant.loader import bind_hass
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'variable_bool'
+DOMAIN = 'input_label'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
-DEFAULT_VALUE = False
+DEFAULT_VALUE = ""
 
 ATTR_READONLY  = "readonly"
 DEFAULT_READONLY = False
-DEFAULT_ICON = "mdi:flag"
+DEFAULT_ICON = "mdi:code-string"
 
 SERVICE_SETVALUE = 'set_value'
 
 SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
-    vol.Optional(ATTR_VALUE): cv.boolean,
+    vol.Optional(ATTR_VALUE): cv.string,
     vol.Optional(ATTR_READONLY): cv.boolean,
     vol.Optional(CONF_ICON): cv.icon,
 })
@@ -63,7 +67,7 @@ CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         cv.slug: vol.Any({
             vol.Optional(CONF_ICON, default=DEFAULT_ICON): cv.icon,
-            vol.Optional(ATTR_VALUE, default=DEFAULT_VALUE): cv.boolean,
+            vol.Optional(ATTR_VALUE, default=DEFAULT_VALUE): cv.string,
             vol.Optional(ATTR_READONLY, default=DEFAULT_READONLY): cv.boolean,
             vol.Optional(CONF_NAME): cv.string,
         }, None)
@@ -78,14 +82,11 @@ def set_value(hass, entity_id, value, readonly, icon):
 @bind_hass
 def async_set_value(hass, entity_id, value, readonly, icon):
     hass.async_add_job(hass.services.async_call(
-        DOMAIN, SERVICE_SETVALUE, { ATTR_ENTITY_ID: entity_id, 
-                                    ATTR_VALUE: value, 
-                                    ATTR_READONLY: readonly, 
-                                    CONF_ICON: icon }))
+        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value, ATTR_READONLY: readonly, CONF_ICON: icon}))
 
 @asyncio.coroutine
 def async_setup(hass, config):
-    """Set up a variable_bool."""
+    """Set up a input_label."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
 
     entities = []
@@ -99,23 +100,21 @@ def async_setup(hass, config):
         icon = cfg.get(CONF_ICON)
         readonly = cfg.get(ATTR_READONLY)
 
-        entities.append(GlobalVariableBool(object_id, name, 
-                                           value, icon, readonly))
+        entities.append(GlobalLabelData(object_id, name, value, icon, readonly))
 
     if not entities:
         return False
 
     @asyncio.coroutine
     def async_handler_service(service):
-        """Handle a call to the variable_bool services."""
-        target_global_variables = component.async_extract_from_service(service)
+        """Handle a call to the input_label services."""
+        target_global_labels = component.async_extract_from_service(service)
 
         if service.service == SERVICE_SETVALUE:
             attr = 'async_set_value'
 
-        tasks = [getattr(global_variable, attr)
-                        (service.data[ATTR_VALUE], service.data[CONF_ICON]) 
-                  for global_variable in target_global_variables]
+        tasks = [getattr(global_label, attr)(service.data[ATTR_VALUE], service.data[CONF_ICON]) 
+                  for global_label in target_global_labels]
         if tasks:
             yield from asyncio.wait(tasks, loop=hass.loop)
 
@@ -132,11 +131,11 @@ def async_setup(hass, config):
     return True
 
 
-class GlobalVariableBool(Entity):
-    """Representation of a variable_bool."""
+class GlobalLabelData(Entity):
+    """Representation of a input_label."""
 
     def __init__(self, object_id, name, value, icon, readonly):
-        """Initialize a variable_bool."""
+        """Initialize a input_label."""
         self.entity_id = ENTITY_ID_FORMAT.format(object_id)
         self._name = name
         self._state = value
@@ -150,7 +149,7 @@ class GlobalVariableBool(Entity):
 
     @property
     def name(self):
-        """Return name of the variable_bool."""
+        """Return name of the input_label."""
         return self._name
 
     @property
@@ -165,7 +164,7 @@ class GlobalVariableBool(Entity):
 
     @property
     def state(self):
-        """Return the current value of the variable_bool."""
+        """Return the current value of the input_label."""
         return self._state
 
     @property
@@ -192,9 +191,8 @@ class GlobalVariableBool(Entity):
                 self._state = value
                 self._icon = icon
             else:
-                _LOGGER.warning("The variable '%s'is marked as readonly. A new value cannot be set.", 
+                _LOGGER.warning("The input label '%s'is marked as readonly. A new value cannot be set.", 
                     self.entity_id)
         except:
-            _LOGGER.error("Error: '%s' is not a valid boolean value.", value)
-
+            _LOGGER.error("Error: '%s' is not in a valid string format.", value)
         yield from self.async_update_ha_state()

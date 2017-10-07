@@ -1,10 +1,11 @@
 ##################################################################################
 #   @author         :   Mahasri Kalavala
 #   @date           :   09/15/2017
-#   @package        :   Batteries component that uses variables instead of sensors 
-#   @description    :   Owntracks data is now loaded into basic set of variables.
+#   @package        :   Batteries component that uses input Label  
+#   @description    :   Owntracks data is now loaded into input_label and totally
+#                       simplifies how the battery information is displayed 
 ##################################################################################
-variable_int:
+input_label:
   suresh_battery:
     name: Suresh's Battery
   mallika_battery:
@@ -13,8 +14,6 @@ variable_int:
     name: Srinika's Battery
   hasika_battery:
     name: Hasika's Battery
-
-variable_bool:
   suresh_wifi:
     name: Suresh's iPhone Wifi Enabled?
   mallika_wifi:
@@ -28,17 +27,17 @@ group:
   New Batteries:
     control: hidden
     entities:
-      - variable_int.suresh_battery
-      - variable_int.mallika_battery
-      - variable_int.srinika_battery
-      - variable_int.hasika_battery
+      - input_label.suresh_battery
+      - input_label.mallika_battery
+      - input_label.srinika_battery
+      - input_label.hasika_battery
 
   New WiFi:
     entities:
-      - variable_bool.suresh_wifi
-      - variable_bool.mallika_wifi
-      - variable_bool.srinika_wifi
-      - variable_bool.hasika_wifi
+      - input_label.suresh_wifi
+      - input_label.mallika_wifi
+      - input_label.srinika_wifi
+      - input_label.hasika_wifi
 
 automation:
 
@@ -48,19 +47,19 @@ automation:
       platform: mqtt
       topic: "owntracks/+/+"
     action:
-      - service: variable_bool.set_value
+      - service: input_label.set_value
         data_template:
-          entity_id: "variable_bool.{{trigger.topic.split('/')[-1]}}_wifi"
-          value: '{{ trigger.payload_json.conn == "w" }}'
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: '{% if trigger.payload_json.conn == "w" %} Connected {% else %} Not Connected {% endif %} '
           icon: >
               {% if trigger.payload_json.conn == "w" %}
                   mdi:wifi
               {% else %}
                   mdi:wifi-off
               {% endif %}
-      - service: variable_int.set_value
+      - service: input_label.set_value
         data_template:
-          entity_id: "variable_int.{{trigger.topic.split('/')[-1]}}_battery"
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
           value: '{{ trigger.payload_json.batt | int }}'
           icon: >
               {% set battery_level = trigger.payload_json.batt | int %}
