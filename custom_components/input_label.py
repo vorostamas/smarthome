@@ -52,7 +52,7 @@ DEFAULT_VALUE = ""
 
 ATTR_READONLY  = "readonly"
 DEFAULT_READONLY = False
-DEFAULT_ICON = "mdi:code-string"
+DEFAULT_ICON = "mdi:label"
 
 SERVICE_SETVALUE = 'set_value'
 
