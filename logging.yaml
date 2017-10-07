@@ -1,4 +1,4 @@
-default: error
+default: warning
 logs:
   gsp: critical
   root: error
@@ -11,7 +11,7 @@ logs:
   homeassistant.helpers.script: error  
   homeassistant.helpers.entity: critical
   homeassistant.components.http: error
-  homeassistant.components.zwave: info
+  homeassistant.components.zwave: error
   homeassistant.components.sensor: error
   homeassistant.components.recorder: error
   homeassistant.components.discovery: error
@@ -19,3 +19,4 @@ logs:
   homeassistant.components.climate.nest: error
   homeassistant.components.media_player: error
   homeassistant.components.device_tracker: error
+  custom_components.media_player.sharptv: error

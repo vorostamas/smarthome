@@ -88,45 +88,45 @@
 'sensor.*_iphone_wifi_state':
   hidden: true
 
-# Halloween Icons
-'sensor.*':
-  icon: mdi:skull
+# # Halloween Icons
+# 'sensor.*':
+#   icon: mdi:skull
 
-'binary_sensor.*':
-  icon: mdi:ghost
+# 'binary_sensor.*':
+#   icon: mdi:ghost
 
-'automation.*':
-  icon: mdi:leaf
+# 'automation.*':
+#   icon: mdi:leaf
 
-'zwave.*':
-  icon: mdi:skull
+# 'zwave.*':
+#   icon: mdi:skull
 
-'alarm_control_panel.*':
-  icon: mdi:skull
+# 'alarm_control_panel.*':
+#   icon: mdi:skull
 
-'camera.*':
-  icon: mdi:skull
+# 'camera.*':
+#   icon: mdi:skull
 
-'device_tracker.*':
-  icon: mdi:skull
+# 'device_tracker.*':
+#   icon: mdi:skull
 
-'input_boolean.*':
-  icon: mdi:ghost
+# 'input_boolean.*':
+#   icon: mdi:ghost
 
-'input_select.*':
-  icon: mdi:skull
+# 'input_select.*':
+#   icon: mdi:skull
 
-'input_text.*':
-  icon: mdi:skull
+# 'input_text.*':
+#   icon: mdi:skull
 
-'light.*':
-  icon: mdi:skull
+# 'light.*':
+#   icon: mdi:skull
 
-'media_player.*':
-  icon: mdi:skull
+# 'media_player.*':
+#   icon: mdi:skull
 
-'script.*':
-  icon: mdi:skull
+# 'script.*':
+#   icon: mdi:skull
 
-'switch.*':
-  icon: mdi:skull
+# 'switch.*':
+#   icon: mdi:skull

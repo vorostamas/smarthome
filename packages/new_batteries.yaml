@@ -50,18 +50,19 @@ automation:
       - service: input_label.set_value
         data_template:
           entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
-          value: '{% if trigger.payload_json.conn == "w" %} Connected {% else %} Not Connected {% endif %} '
-          icon: >
-              {% if trigger.payload_json.conn == "w" %}
-                  mdi:wifi
-              {% else %}
-                  mdi:wifi-off
-              {% endif %}
+          value: "{{ 'Yes' if trigger.payload_json.conn == 'w' else 'No' }}"
+      - service: input_label.set_icon
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: "{{ 'mdi:wifi' if trigger.payload_json.conn == 'w' else 'mdi:wifi-off' }}"
       - service: input_label.set_value
         data_template:
           entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
           value: '{{ trigger.payload_json.batt | int }}'
-          icon: >
+      - service: input_label.set_icon
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
+          value: >
               {% set battery_level = trigger.payload_json.batt | int %}
               {% set battery_round = (battery_level / 10)|int * 10 %}
               {% if trigger.payload_json.charging == 1 %}

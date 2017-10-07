@@ -48,13 +48,14 @@ DOMAIN = 'input_label'
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
 ATTR_VALUE   = "value"
-DEFAULT_VALUE = ""
+DEFAULT_VALUE = "not set"
 
 ATTR_READONLY  = "readonly"
 DEFAULT_READONLY = False
 DEFAULT_ICON = "mdi:label"
 
 SERVICE_SETVALUE = 'set_value'
+SERVICE_SETICON = 'set_icon'
 
 SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
@@ -76,13 +77,23 @@ CONFIG_SCHEMA = vol.Schema({
 
 @bind_hass
 def set_value(hass, entity_id, value, readonly, icon):
-    hass.add_job(async_set_value, hass, entity_id, value, readonly, icon)
+    hass.add_job(async_set_value, hass, entity_id, value, readonly)
+
+@bind_hass
+def set_icon(hass, entity_id, icon):
+    hass.add_job(async_set_icon, hass, entity_id, icon)
 
 @callback
 @bind_hass
 def async_set_value(hass, entity_id, value, readonly, icon):
     hass.async_add_job(hass.services.async_call(
-        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value, ATTR_READONLY: readonly, CONF_ICON: icon}))
+        DOMAIN, SERVICE_SETVALUE, {ATTR_ENTITY_ID: entity_id, ATTR_VALUE: value, ATTR_READONLY: readonly}))
+
+@callback
+@bind_hass
+def async_set_icon(hass, entity_id, icon):
+    hass.async_add_job(hass.services.async_call(
+        DOMAIN, SERVICE_SETICON, {ATTR_ENTITY_ID: entity_id, CONF_ICON: icon}))
 
 @asyncio.coroutine
 def async_setup(hass, config):
@@ -112,8 +123,10 @@ def async_setup(hass, config):
 
         if service.service == SERVICE_SETVALUE:
             attr = 'async_set_value'
+        else:
+            attr = "async_set_icon"
 
-        tasks = [getattr(global_label, attr)(service.data[ATTR_VALUE], service.data[CONF_ICON]) 
+        tasks = [getattr(global_label, attr)(service.data[ATTR_VALUE]) 
                   for global_label in target_global_labels]
         if tasks:
             yield from asyncio.wait(tasks, loop=hass.loop)
@@ -126,6 +139,10 @@ def async_setup(hass, config):
     hass.services.async_register(
         DOMAIN, SERVICE_SETVALUE, async_handler_service,
         descriptions[DOMAIN][SERVICE_SETVALUE], SERVICE_SCHEMA)
+
+    hass.services.async_register(
+        DOMAIN, SERVICE_SETICON, async_handler_service,
+        descriptions[DOMAIN][SERVICE_SETICON], SERVICE_SCHEMA)
 
     yield from component.async_add_entities(entities)
     return True
@@ -185,11 +202,15 @@ class GlobalLabelData(Entity):
         self._state = state and state.state == state
 
     @asyncio.coroutine
-    def async_set_value(self, value, icon):
+    def async_set_icon(self, icon):
+        self._icon = icon
+        yield from self.async_update_ha_state()
+
+    @asyncio.coroutine
+    def async_set_value(self, value):
         try:
             if not self._readonly:
                 self._state = value
-                self._icon = icon
             else:
                 _LOGGER.warning("The input label '%s'is marked as readonly. A new value cannot be set.", 
                     self.entity_id)
