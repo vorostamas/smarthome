@@ -6,6 +6,7 @@ logs:
   libopenzwave: error
   py.warnings: error
   aiohttp.server: critical
+  homeassistant.setup: error
   homeassistant.core: critical
   homeassistant.exceptions: error
   homeassistant.helpers.script: error  
@@ -20,3 +21,4 @@ logs:
   homeassistant.components.media_player: error
   homeassistant.components.device_tracker: error
   custom_components.media_player.sharptv: error
+  homeassistant.components.emulated_hue: error

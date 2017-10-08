@@ -7,24 +7,16 @@
 ##################################################################################
 input_label:
   suresh_battery:
-    name: Suresh's Battery
   mallika_battery:
-    name: Mallika's Battery
   srinika_battery:
-    name: Srinika's Battery
   hasika_battery:
-    name: Hasika's Battery
   suresh_wifi:
-    name: Suresh's iPhone Wifi Enabled?
   mallika_wifi:
-    name: Mallika's iPhone Wifi Enabled?
   srinika_wifi:
-    name: Srinika's iPhone Wifi Enabled?
   hasika_wifi:
-    name: Hasika's iPhone Wifi Enabled?
 
 group:
-  New Batteries:
+  Phone Batteries:
     control: hidden
     entities:
       - input_label.suresh_battery
@@ -32,7 +24,7 @@ group:
       - input_label.srinika_battery
       - input_label.hasika_battery
 
-  New WiFi:
+  Phone WiFi:
     entities:
       - input_label.suresh_wifi
       - input_label.mallika_wifi
@@ -55,10 +47,19 @@ automation:
         data_template:
           entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
           value: "{{ 'mdi:wifi' if trigger.payload_json.conn == 'w' else 'mdi:wifi-off' }}"
+      - service: input_label.set_name
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: "{{trigger.topic.split('/')[-1] | title }}'s phone wifi enabled?"
+          
       - service: input_label.set_value
         data_template:
           entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
           value: '{{ trigger.payload_json.batt | int }}'
+      - service: input_label.set_name
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
+          value: "{{trigger.topic.split('/')[-1] | title }}'s Battery"
       - service: input_label.set_icon
         data_template:
           entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"

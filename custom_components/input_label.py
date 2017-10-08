@@ -54,6 +54,7 @@ ATTR_READONLY  = "readonly"
 DEFAULT_READONLY = False
 DEFAULT_ICON = "mdi:label"
 
+SERVICE_SETNAME = 'set_name'
 SERVICE_SETVALUE = 'set_value'
 SERVICE_SETICON = 'set_icon'
 
@@ -83,6 +84,11 @@ def set_value(hass, entity_id, value, readonly, icon):
 def set_icon(hass, entity_id, icon):
     hass.add_job(async_set_icon, hass, entity_id, icon)
 
+
+@bind_hass
+def set_name(hass, entity_id, name):
+    hass.add_job(async_set_icon, hass, entity_id, name)
+
 @callback
 @bind_hass
 def async_set_value(hass, entity_id, value, readonly, icon):
@@ -94,6 +100,12 @@ def async_set_value(hass, entity_id, value, readonly, icon):
 def async_set_icon(hass, entity_id, icon):
     hass.async_add_job(hass.services.async_call(
         DOMAIN, SERVICE_SETICON, {ATTR_ENTITY_ID: entity_id, CONF_ICON: icon}))
+
+@callback
+@bind_hass
+def async_set_name(hass, entity_id, name):
+    hass.async_add_job(hass.services.async_call(
+        DOMAIN, SERVICE_SETICON, {ATTR_ENTITY_ID: entity_id, CONF_NAME: name}))
 
 @asyncio.coroutine
 def async_setup(hass, config):
@@ -123,6 +135,8 @@ def async_setup(hass, config):
 
         if service.service == SERVICE_SETVALUE:
             attr = 'async_set_value'
+        elif service.service == SERVICE_SETNAME:
+            attr = 'async_set_name'
         else:
             attr = "async_set_icon"
 
@@ -143,6 +157,10 @@ def async_setup(hass, config):
     hass.services.async_register(
         DOMAIN, SERVICE_SETICON, async_handler_service,
         descriptions[DOMAIN][SERVICE_SETICON], SERVICE_SCHEMA)
+
+    hass.services.async_register(
+        DOMAIN, SERVICE_SETNAME, async_handler_service,
+        descriptions[DOMAIN][SERVICE_SETNAME], SERVICE_SCHEMA)
 
     yield from component.async_add_entities(entities)
     return True
@@ -200,6 +218,11 @@ class GlobalLabelData(Entity):
 
         state = yield from async_get_last_state(self.hass, self.entity_id)
         self._state = state and state.state == state
+
+    @asyncio.coroutine
+    def async_set_name(self, name):
+        self._name = name
+        yield from self.async_update_ha_state()
 
     @asyncio.coroutine
     def async_set_icon(self, icon):
