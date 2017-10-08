@@ -29,128 +29,42 @@ homeassistant:
       customize: &customize
         package: 'birthday'
 
-      exposed: &exposed
-        <<: *customize
-        emulated_hue: true
-        homebridge_hidden: false
-        critical: true
-
-      not_exposed: &not_exposed
-        <<: *customize
-        emulated_hue: false
-        homebridge_hidden: true
-        critical: false
-
       hidden: &hidden
         <<: *customize
         hidden: true
         critical: false
   
-    sensor.srinika_birthday:
+    input_label.srinika_birthday:
       <<: *hidden
-    sensor.hasika_birthday:
+    input_label.hasika_birthday:
       <<: *hidden
-    sensor.mallika_birthday:
+    input_label.mallika_birthday:
       <<: *hidden
 
-    sensor.srinika_birthday_days2go:
-      friendly_name: Srinika's Birthday
-      icon: mdi:cake-variant
-    sensor.hasika_birthday_days2go:
-      friendly_name: Hasika's Birthday
-      icon: mdi:cake-variant
-    sensor.mallika_birthday_days2go:
-      friendly_name: Mallika's Birthday
-      icon: mdi:cake-variant
+input_label:
+  srinika_birthday:
+    value: !secret srinika_birthday
+  hasika_birthday:
+    value: !secret hasika_birthday
+  mallika_birthday:
+    value: !secret mallika_birthday
+
+  srinika_birthday_days2go:
+    icon: mdi:cake-variant
+    name: Srinika's Birthday
+  hasika_birthday_days2go:
+    icon: mdi:cake-variant
+    name: Hasika's Birthday
+  mallika_birthday_days2go:
+    icon: mdi:cake-variant
+    name: Mallika's Birthday
 
 group:
-  Birthdays:
+  Birthday Countdown:
     entities:
-      - sensor.srinika_birthday_days2go
-      - sensor.hasika_birthday_days2go
-      - sensor.mallika_birthday_days2go
-
-sensor:
-  - platform: template
-    sensors:
-      srinika_birthday:
-        unit_of_measurement: (mm-dd)
-        value_template: !secret srinika_birthday
-
-  - platform: template
-    sensors:
-      hasika_birthday:
-        value_template: !secret hasika_birthday
-        unit_of_measurement: (mm-dd)
-
-  - platform: template
-    sensors:
-      mallika_birthday:
-        value_template: !secret mallika_birthday
-        unit_of_measurement: (mm-dd)
-
-  - platform: template
-    sensors:
-      srinika_birthday_days2go:
-        unit_of_measurement: "days to go"
-        value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
-          {% if states('sensor.srinika_birthday') != "unknown" %}
-            {%- set bDayMonth = states.sensor.srinika_birthday.state.split('-')[0] -%}
-            {%- set bDayDate = states.sensor.srinika_birthday.state.split('-')[1] -%}
-            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-            {%- if numOfDays < 0 -%}
-              {{ numOfDays + 365 }}
-            {%- else -%}
-              {{ numOfDays }}
-            {%- endif -%}
-          {% else %}
-            -
-          {% endif %}
-
-  - platform: template
-    sensors:
-      hasika_birthday_days2go:
-        unit_of_measurement: "days to go"
-        value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
-          {% if states('sensor.hasika_birthday') != "unknown" %}
-            {%- set bDayMonth = states.sensor.hasika_birthday.state.split('-')[0] -%}
-            {%- set bDayDate = states.sensor.hasika_birthday.state.split('-')[1] -%}
-            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-            {%- if numOfDays < 0 -%}
-              {{ numOfDays + 365 }}
-            {%- else -%}
-              {{ numOfDays }}
-            {%- endif -%}
-          {% else %}
-            -
-          {% endif %}
-
-  - platform: template
-    sensors:
-      mallika_birthday_days2go:
-        unit_of_measurement: "days to go"
-        value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
-          {% if states('sensor.mallika_birthday') != "unknown" %}
-            {%- set bDayMonth = states.sensor.mallika_birthday.state.split('-')[0] -%}
-            {%- set bDayDate = states.sensor.mallika_birthday.state.split('-')[1] -%}
-            {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
-            {%- if numOfDays < 0 -%}
-              {{ numOfDays + 365 }}
-            {%- else -%}
-              {{ numOfDays }}
-            {%- endif -%}
-          {% else %}
-            -
-          {% endif %}
+      - input_label.srinika_birthday_days2go
+      - input_label.hasika_birthday_days2go
+      - input_label.mallika_birthday_days2go
 
 automation:
 
@@ -163,9 +77,9 @@ automation:
     trigger:
       platform: state
       entity_id: 
-        - sensor.srinika_birthday_days2go
-        - sensor.hasika_birthday_days2go
-        - sensor.mallika_birthday_days2go
+        - input_label.srinika_birthday_days2go
+        - input_label.hasika_birthday_days2go
+        - input_label.mallika_birthday_days2go
     condition:
       - condition: state
         entity_id: group.all_devices
@@ -186,9 +100,9 @@ automation:
     trigger:
       platform: state
       entity_id: 
-        - sensor.srinika_birthday_days2go
-        - sensor.hasika_birthday_days2go
-        - sensor.mallika_birthday_days2go
+        - input_label.srinika_birthday_days2go
+        - input_label.hasika_birthday_days2go
+        - input_label.mallika_birthday_days2go
     condition:
       - condition: state
         entity_id: group.all_devices
@@ -223,12 +137,85 @@ automation:
         - condition: or
           conditions:
             - condition: template
-              value_template: "{{ states.sensor.srinika_birthday_days2go.state | int == 0 }}"
+              value_template: "{{ states.input_label.srinika_birthday_days2go.state | int == 0 }}"
             - condition: template
-              value_template: "{{ states.sensor.hasika_birthday_days2go.state | int == 0 }}"
+              value_template: "{{ states.input_label.hasika_birthday_days2go.state | int == 0 }}"
             - condition: template
-              value_template: "{{ states.sensor.mallika_birthday_days2go.state | int == 0 }}"
+              value_template: "{{ states.input_label.mallika_birthday_days2go.state | int == 0 }}"
     action:
       - service: script.voice_notify
         data_template:
           message: !include ../templates/birthday_wishes.yaml
+
+  - alias: Update Birthdays
+    trigger:
+      - platform: time
+        minutes: '/5'
+        seconds: 00
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: template
+        value_template: "{{ states.input_label.srinika_birthday.state.split('-') | length  > 0 }}"
+      - condition: template
+        value_template: "{{ states.input_label.hasika_birthday.state.split('-') | length  > 0 }}"
+      - condition: template
+        value_template: "{{ states.input_label.mallika_birthday.state.split('-') | length  > 0 }}"
+    action:
+      - service: input_label.set_value
+        data_template:
+          entity_id: input_label.srinika_birthday_days2go
+          value: >
+            {% set year = states.sensor.date.state.split('-')[0] %}
+            {% set month = states.sensor.date.state.split('-')[1] %}
+            {% set date = states.sensor.date.state.split('-')[2] %}
+            {% if states('input_label.srinika_birthday') != "unknown" %}
+              {%- set bDayMonth = states.input_label.srinika_birthday.state.split('-')[0] -%}
+              {%- set bDayDate = states.input_label.srinika_birthday.state.split('-')[1] -%}
+              {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+              {%- if numOfDays < 0 -%}
+                {{ numOfDays + 365 }}
+              {%- else -%}
+                {{ numOfDays }}
+              {%- endif -%}
+            {% else %}
+              -
+            {% endif %}
+      - service: input_label.set_value
+        data_template:
+          entity_id: input_label.hasika_birthday_days2go
+          value: >
+            {% set year = states.sensor.date.state.split('-')[0] %}
+            {% set month = states.sensor.date.state.split('-')[1] %}
+            {% set date = states.sensor.date.state.split('-')[2] %}
+            {% if states('input_label.hasika_birthday') != "unknown" %}
+              {%- set bDayMonth = states.input_label.hasika_birthday.state.split('-')[0] -%}
+              {%- set bDayDate = states.input_label.hasika_birthday.state.split('-')[1] -%}
+              {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+              {%- if numOfDays < 0 -%}
+                {{ numOfDays + 365 }}
+              {%- else -%}
+                {{ numOfDays }}
+              {%- endif -%}
+            {% else %}
+              -
+            {% endif %}
+      - service: input_label.set_value
+        data_template:
+          entity_id: input_label.mallika_birthday_days2go
+          value: >
+            {% set year = states.sensor.date.state.split('-')[0] %}
+            {% set month = states.sensor.date.state.split('-')[1] %}
+            {% set date = states.sensor.date.state.split('-')[2] %}
+            {% if states('input_label.mallika_birthday') != "unknown" %}
+              {%- set bDayMonth = states.input_label.mallika_birthday.state.split('-')[0] -%}
+              {%- set bDayDate = states.input_label.mallika_birthday.state.split('-')[1] -%}
+              {%- set numOfDays = ((as_timestamp(strptime(year ~ '-' ~ bDayMonth ~ '-' ~ bDayDate , '%Y-%m-%d')) | timestamp_custom('%j', true) | int ) - (as_timestamp(strptime(year ~ '-' ~ month~ '-' ~ date , '%Y-%m-%d')) | timestamp_custom('%j', true) | int)) -%}
+              {%- if numOfDays < 0 -%}
+                {{ numOfDays + 365 }}
+              {%- else -%}
+                {{ numOfDays }}
+              {%- endif -%}
+            {% else %}
+              -
+            {% endif %}

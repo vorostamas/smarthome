@@ -40,15 +40,15 @@ group:
   Alarm Clock:
     control: hidden
     entities:
-      - input_slider.slider_hours
-      - input_slider.slider_minutes
+      - input_number.slider_hours
+      - input_number.slider_minutes
       - input_boolean.am
       - input_boolean.pm
       - sensor.alarm_current_time
       - input_boolean.week_day_only
       - automation.alarm_clock
 
-input_slider:
+input_number:
   slider_hours:
     name: Hours
     initial: 6
@@ -86,19 +86,19 @@ sensor:
         friendly_name: Current Alarm Time
         icon_template: mdi:alarm
         value_template: >
-          {%- if states.input_slider.slider_hours.state | int < 10 -%}
-            {%- if states.input_slider.slider_hours.state|int == 0 %}
+          {%- if states.input_number.slider_hours.state | int < 10 -%}
+            {%- if states.input_number.slider_hours.state|int == 0 %}
               12
             {%- else -%}
-              {{- 0 ~ states.input_slider.slider_hours.state|int -}}
+              {{- 0 ~ states.input_number.slider_hours.state|int -}}
             {%- endif -%}
           {%- else -%}
-            {{- states.input_slider.slider_hours.state |int -}}
+            {{- states.input_number.slider_hours.state |int -}}
           {% endif -%}:
-          {%- if states.input_slider.slider_minutes.state | int < 10 -%}
-            {{- 0 ~ states.input_slider.slider_minutes.state |int -}}
+          {%- if states.input_number.slider_minutes.state | int < 10 -%}
+            {{- 0 ~ states.input_number.slider_minutes.state |int -}}
           {%- else -%}
-            {{- states.input_slider.slider_minutes.state|int -}}
+            {{- states.input_number.slider_minutes.state|int -}}
           {%- endif -%}{%- if states.input_boolean.am.state == "on" %} AM{%- else %} PM{%- endif -%}
 
 automation:
@@ -173,9 +173,9 @@ automation:
       - condition: template
         value_template: >
           {% if states.input_boolean.am.state == "on" %}
-            {% set hour = (states.input_slider.slider_hours.state | int) %}
+            {% set hour = (states.input_number.slider_hours.state | int) %}
           {% else %}
-            {% set hour = (states.input_slider.slider_hours.state | int) + 12 %}
+            {% set hour = (states.input_number.slider_hours.state | int) + 12 %}
           {% endif %}
           {% if states.sensor.time.state.split(':')[0] |int == hour %}
             true
@@ -184,7 +184,7 @@ automation:
           {% endif %}
       - condition: template
         value_template: >
-          {% if states.sensor.time.state.split(':')[1]  |int == states.input_slider.slider_minutes.state |int %}
+          {% if states.sensor.time.state.split(':')[1]  |int == states.input_number.slider_minutes.state |int %}
             true
           {% else %}
             false

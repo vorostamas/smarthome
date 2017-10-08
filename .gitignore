@@ -34,6 +34,7 @@ updatesnapcast
 usps_cookies.pickle
 zwave_device_config.yaml
 fixperms
+usps_cache.sqlite
 
 # Other Github Related Files
 .*
