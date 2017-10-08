@@ -278,7 +278,7 @@ You can pick and choose which entity you want to get attributes by changing the 
 {%- endfor %}
 ```
 
-##8. Find out which zwave device checked in at when
+## 8. Find out which zwave device checked in at when
 
 To find out when was the last time a zwave device has communicated with the controller, run the script below
 ```
