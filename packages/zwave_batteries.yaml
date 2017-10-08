@@ -18,6 +18,15 @@ input_label:
   upstairs_multi_sensor:
   wallmote:
 
+  suresh_battery:
+  mallika_battery:
+  srinika_battery:
+  hasika_battery:
+  suresh_wifi:
+  mallika_wifi:
+  srinika_wifi:
+  hasika_wifi:
+
 group:
   ZWave Batteries:
     entities:
@@ -39,6 +48,20 @@ group:
       - input_label.two_car_garage_door_tilt_sensor
       - input_label.upstairs_multi_sensor
       - input_label.wallmote
+
+  Phone Batteries:
+    entities:
+      - input_label.suresh_battery
+      - input_label.mallika_battery
+      - input_label.srinika_battery
+      - input_label.hasika_battery
+
+  Phone WiFi:
+    entities:
+      - input_label.suresh_wifi
+      - input_label.mallika_wifi
+      - input_label.srinika_wifi
+      - input_label.hasika_wifi
 
 automation:
   - alias: Update ZWave Battery Levels
@@ -78,3 +101,54 @@ automation:
             {% else %}
               mdi:battery-alert
             {% endif %}
+
+  - alias: Update Phone Battery Levels
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: "owntracks/+/+"
+    action:
+      - service: input_label.set_value
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: "{{ 'Yes' if trigger.payload_json.conn == 'w' else 'No' }}"
+      - service: input_label.set_icon
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: "{{ 'mdi:wifi' if trigger.payload_json.conn == 'w' else 'mdi:wifi-off' }}"
+      - service: input_label.set_name
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_wifi"
+          value: "{{trigger.topic.split('/')[-1] | title }}'s phone wifi enabled?"
+          
+      - service: input_label.set_value
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
+          value: '{{ trigger.payload_json.batt | int }}'
+      - service: input_label.set_name
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
+          value: "{{trigger.topic.split('/')[-1] | title }}'s Battery"
+      - service: input_label.set_icon
+        data_template:
+          entity_id: "input_label.{{trigger.topic.split('/')[-1]}}_battery"
+          value: >
+              {% set battery_level = trigger.payload_json.batt | int %}
+              {% set battery_round = (battery_level / 10)|int * 10 %}
+              {% if trigger.payload_json.charging == 1 %}
+                {% if battery_round >= 100 %}
+                  mdi:battery-charging-100
+                {% elif battery_round > 0 %}
+                  mdi:battery-charging-{{ battery_round }}
+                {% else %}
+                  mdi:battery-alert
+                {% endif %}
+              {% else %}
+                {% if battery_round >= 100 %}
+                  mdi:battery
+                {% elif battery_round > 0 %}
+                  mdi:battery-{{ battery_round }}
+                {% else %}
+                  mdi:battery-alert
+                {% endif %}
+              {% endif %}
