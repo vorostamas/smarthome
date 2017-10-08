@@ -44,7 +44,7 @@ group:
       - input_number.slider_minutes
       - input_boolean.am
       - input_boolean.pm
-      - sensor.alarm_current_time
+      - input_label.alarm_current_time
       - input_boolean.week_day_only
       - automation.alarm_clock
 
@@ -79,29 +79,44 @@ input_boolean:
     initial: off
     icon: mdi:weather-night
 
-sensor:
-  - platform: template
-    sensors:
-      alarm_current_time:
-        friendly_name: Current Alarm Time
-        icon_template: mdi:alarm
-        value_template: >
-          {%- if states.input_number.slider_hours.state | int < 10 -%}
-            {%- if states.input_number.slider_hours.state|int == 0 %}
-              12
-            {%- else -%}
-              {{- 0 ~ states.input_number.slider_hours.state|int -}}
-            {%- endif -%}
-          {%- else -%}
-            {{- states.input_number.slider_hours.state |int -}}
-          {% endif -%}:
-          {%- if states.input_number.slider_minutes.state | int < 10 -%}
-            {{- 0 ~ states.input_number.slider_minutes.state |int -}}
-          {%- else -%}
-            {{- states.input_number.slider_minutes.state|int -}}
-          {%- endif -%}{%- if states.input_boolean.am.state == "on" %} AM{%- else %} PM{%- endif -%}
+input_label:
+  alarm_current_time:
+    name: Current Alarm Time
+    icon: mdi:timer
 
 automation:
+  - alias: Update Current Alarm Time
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: homeassistant
+        event: start
+      - platform: state
+        entity_id: 
+          - input_boolean.am
+          - input_boolean.pm
+          - input_number.slider_hours
+          - input_number.slider_minutes
+    action:
+      - service: input_label.set_value
+        entity_id: input_label.alarm_current_time
+        data_template:
+          value: >
+            {%- if states.input_number.slider_hours.state | int < 10 -%}
+              {%- if states.input_number.slider_hours.state|int == 0 %}
+                12
+              {%- else -%}
+                {{- 0 ~ states.input_number.slider_hours.state|int -}}
+              {%- endif -%}
+            {%- else -%}
+              {{- states.input_number.slider_hours.state |int -}}
+            {% endif -%}:
+            {%- if states.input_number.slider_minutes.state | int < 10 -%}
+              {{- 0 ~ states.input_number.slider_minutes.state |int -}}
+            {%- else -%}
+              {{- states.input_number.slider_minutes.state|int -}}
+            {%- endif -%}{%- if states.input_boolean.am.state == "on" %} AM{%- else %} PM{%- endif -%}          
+  
   - alias: AM Change OFF
     initial_state: true
     hide_entity: true

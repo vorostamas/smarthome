@@ -46,6 +46,8 @@ homeassistant:
       <<: *exposed
     input_boolean.alarm_clock:
       <<: *exposed
+    input_boolean.fix_tv:
+      <<: *exposed
 
 group:
   Control Panel:
@@ -61,12 +63,12 @@ group:
       - input_boolean.working_in_garage
       - input_boolean.hourly_reports
       - input_boolean.welcome_family_announcement
-      # - input_boolean.clear_tts_cache
       - input_boolean.trash_reminders
       - input_boolean.enjoyable_weather_reminders
       - input_boolean.alert_when_someone_enters_zone
       - input_boolean.alert_when_someone_leaves_zone
       - input_boolean.alarm_clock
+      - input_boolean.fix_tv
 
 # Input Booleans
 ###############################################################################
@@ -162,10 +164,31 @@ input_boolean:
     initial: on
     icon: mdi:calendar-check
 
+  fix_tv:
+    name: Fix TV
+    initial: off
+    icon: mdi:television
+
 # Automations
 ###############################################################################
 
 automation:
+
+  - alias: Fix TV
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.fix_tv
+        to: 'on'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.wemoswitch1
+      - delay: '00:00:05'
+      - service: switch.turn_on
+        entity_id: switch.wemoswitch1
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.fix_tv
 
 # Do not disturb for 2 hours
 # Simply turns ON the Do Not Disturb Flag ad resets 
