@@ -11,7 +11,7 @@ If you are using OwnTracks and have ZWave Devices, use the following script to c
 ```
 
 input_label:
-{%- for state in states.zwave %}
+{%- for state in states.zwave if state.attributes.battery_level | trim != "" %}
   {{ state.entity_id.split('.')[1] }}:
 {%- endfor %}
 
