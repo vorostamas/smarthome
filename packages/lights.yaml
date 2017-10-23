@@ -65,8 +65,8 @@ homeassistant:
 
     light.tradfri_bulb_e26_ws_opal_980lm:
       <<: *exposed
-      friendly_name: Office Room Light
-      emulated_hue_name: Office Room Light
+      friendly_name: Front Room Light
+      emulated_hue_name: Front Room Light
     
     switch.zwave_smart_switch_switch:
       friendly_name: Office Room Accent Lights

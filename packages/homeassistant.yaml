@@ -66,11 +66,11 @@ homeassistant:
     sensor.cpu_speed:
       friendly_name: CPU Speed
 
-    sensor.cpu_use:
-      friendly_name: CPU Usage
+    sensor.cpu_used:
+      friendly_name: CPU Used
 
     sensor.disk_free_:
-      friendly_name: Available Disk
+      friendly_name: Disk Free Space
 
     sensor.ram_free:
       friendly_name: Available Memory
@@ -117,7 +117,7 @@ homeassistant:
 group:
   System Monitor:
     entities:
-      - sensor.cpu_use  
+      - sensor.cpu_used
       - sensor.ram_free
       - sensor.disk_free_
       - sensor.ipv4_address_wlp1s10
@@ -127,6 +127,8 @@ group:
       - sensor.link_quality
       - sensor.signal_strength
       - sensor.current_log_level
+      - sensor.ram_available
+      - sensor.uptime
 
   Internet Speed:
     entities:
