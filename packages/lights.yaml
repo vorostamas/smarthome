@@ -40,8 +40,8 @@ homeassistant:
     switch.wemoswitch1:
       <<: *exposed
       icon: mdi:lamp
-      friendly_name: Front Room Light
-      emulated_hue_name: Front Room Light
+      friendly_name: TV Reset
+      emulated_hue_name: TV Reset
     switch.wemobackyardlightswitch:
       <<: *exposed
       icon: mdi:lightbulb
@@ -67,6 +67,9 @@ homeassistant:
       <<: *exposed
       friendly_name: Office Room Light
       emulated_hue_name: Office Room Light
+    
+    switch.zwave_smart_switch_switch:
+      friendly_name: Office Room Accent Lights
 
     light.all_hue_lights:
       <<: *hidden
@@ -120,6 +123,7 @@ group:
       - switch.garage_lights
       - light.tradfri_bulb_e26_ws_opal_980lm
       - light.tradfri_group
+      - switch.zwave_smart_switch_switch
 
   Light Automations:
     control: hidden
@@ -151,10 +155,10 @@ switch:
     host: !secret tplink_garage
     name: Garage Lights
       
-tradfri:
-  host: !secret ikea_gateway_ip
-  api_key: !secret ikea_gateway_security_code
-  allow_tradfri_groups: false
+# tradfri:
+#   host: !secret ikea_gateway_ip
+#   api_key: !secret ikea_gateway_security_code
+#   allow_tradfri_groups: false
 
 wemo:
   static:

@@ -195,11 +195,7 @@ automation:
           {% set mallika = states.device_tracker.suresh_suresh.state %}
           {% set srinika = states.device_tracker.srinika_srinika.state %}
           {% set hasika = states.device_tracker.hasika_hasika.state %}
-          {% if suresh != "home" and mallika != "home" and srinika != "home" and hasika != "home" %}
-            True
-          {% else %}
-            False
-          {% endif %}
+          {{ 'True' if suresh != "home" and mallika != "home" and srinika != "home" and hasika != "home" else 'False' }}
       - condition: template
         value_template: >
           {% set e = trigger.entity_id %}
@@ -253,11 +249,7 @@ automation:
             {% set mallika = states.device_tracker.suresh_suresh.state %}
             {% set srinika = states.device_tracker.srinika_srinika.state %}
             {% set hasika = states.device_tracker.hasika_hasika.state %}
-            {% if suresh == "home" or mallika == "home" or srinika == "home" or hasika == "home" %}
-              True
-            {% else %}
-              False
-            {% endif %}
+            {{ 'True' if suresh == "home" or mallika == "home" or srinika == "home" or hasika == "home" else 'False' }}
         - condition: template
           value_template: >
             {%- if states.automation.blink_kitchen_lights_when_motion_detected.attributes.last_triggered -%}

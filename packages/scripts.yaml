@@ -140,9 +140,9 @@ script:
         entity_id: media_player.gstreamer
         data_template:
           volume_level: >
-            {% if now().strftime("%H")|int < 12 and now().strftime("%H")|int > 6%}
+            {% if now().hour | int < 12 and now().hour | int > 6%}
             0.5
-            {% elif now().strftime("%H")|int > 12 and now().strftime("%H")|int < 20%}
+            {% elif now().hour|int > 12 and now().hour|int < 20%}
             0.9
             {% else %}
             0.3
@@ -178,9 +178,9 @@ script:
             {% set msg = "" %}
             {% macro getGreeting() %}
               {% if greeting | default('yes', true ) == "yes" %}
-                {% if now().strftime("%H")|int < 12 %}
+                {% if now().hour|int < 12 %}
                   Good morning.
-                {% elif now().strftime("%H")|int < 18 %}
+                {% elif now().hour|int < 18 %}
                   Good afternoon.
                 {% else %}
                   Good evening.

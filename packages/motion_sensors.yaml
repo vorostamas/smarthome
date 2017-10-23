@@ -40,7 +40,7 @@ automation:
     condition:
       - condition: template
         value_template: >
-          {% if now().strftime("%H")|int < 5 and now().strftime("%H")|int > 11 %}
+          {% if now().hour | int < 5 and now().hour | int > 11 %}
             true
           {% else %}
             false

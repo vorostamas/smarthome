@@ -393,12 +393,20 @@ automation:
         data_template:
           message: >
             {% if trigger.to_state.state | lower == "on" %}
-              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is OPEN!
+              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is OPEN,
+              {% if states.alarm_control_panel.simplisafe.state == 'armed_home' or states.alarm_control_panel.simplisafe.state == 'armed_away' %}
+              But your home security system is ON.
+              {% endif %}
             {% elif trigger.to_state.state | lower == "off" %}
               Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is CLOSED!
             {% endif %}
           greeting: 'no'
-          only_at_night: 'yes'
+          only_at_night: >
+            {% if states.alarm_control_panel.simplisafe.state == 'armed_home' %}
+              'no'
+            {% else %}
+              'yes'
+            {% endif %}
 
   # - alias: Turn theater lights to 80 on motion if no activity
   #   trigger:

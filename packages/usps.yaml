@@ -33,7 +33,7 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.usps_mail.state | int > 0 }}'
       - condition: template
-        value_template: '{{ ((now().strftime("%H") | int) > 7) and ((now().strftime("%H") | int) < 16) }}'
+        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.voice_notify
         data_template:
@@ -64,7 +64,7 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.usps_packages.state | int > 0 }}'
       - condition: template
-        value_template: '{{ ((now().strftime("%H") | int) > 7) and ((now().strftime("%H") | int) < 16) }}'
+        value_template: '{{ ((now().hour | int) > 7) and ((now().hour | int) < 16) }}'
     action:
       - service: script.voice_notify
         data_template:

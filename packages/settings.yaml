@@ -291,7 +291,7 @@ automation:
         state: 'home'
       - condition: template
         value_template: >
-          {% set hour = as_timestamp(now()) | timestamp_custom('%-H', true) | int %}
+          {% set hour = now().hour | int %}
           {% if  hour > 7 and hour < 21 %}
             true
           {% else %}

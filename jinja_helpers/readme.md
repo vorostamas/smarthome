@@ -305,5 +305,14 @@ Here are the devices that have checked in the last 10 minutes:
 {% endif %}
 ```
 
+## 9. Word Wrapping long text into multiple lines:
+To wrap text to a certain number of characters, use the following script:
+
+```
+{% set long_text = "this is a long text. I mean it is a really really really long text. The code below should create multiple lines with each line length is limited to 32 characters." %}
+{%- for item in (long_text | wordwrap(32, true, "|")).split("|") %}
+{{item}}
+{%- endfor %}
+```
 
 Got any questions or found issues, let me know! Thanks!

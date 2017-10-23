@@ -83,7 +83,7 @@ automation:
       entity_id: alarm_control_panel.simplisafe
     condition:
       - condition: template
-        value_template: "{% if trigger.from_state %}True{% else %}False{% endif %}"
+        value_template: "{{ 'True' if trigger.from_state else 'False' }}"
       - condition: template
         value_template: '{{ states.alarm_control_panel.simplisafe.state != "unknown" }}'
       - condition: template
@@ -116,12 +116,7 @@ automation:
       - service: climate.set_operation_mode
         data:
           entity_id: climate.home
-          operation_mode: >
-            {% if trigger.entity_id == "input_boolean.air_condition" %}
-              'cool'
-            {% else %}
-              'heat'
-            {% endif %}
+          operation_mode: "{{ 'cool' if trigger.entity_id == 'input_boolean.air_condition' else 'heat' }}"
 
 ###############################################################################
 # Turn OFF AC Or Heater On Demand

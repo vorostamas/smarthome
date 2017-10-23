@@ -66,7 +66,7 @@ input_number:
 input_boolean:
   week_day_only:
     name: Weekdays Only
-    initial: off
+    initial: on
     icon: mdi:calendar-check
 
   am:
@@ -192,18 +192,9 @@ automation:
           {% else %}
             {% set hour = (states.input_number.slider_hours.state | int) + 12 %}
           {% endif %}
-          {% if states.sensor.time.state.split(':')[0] |int == hour %}
-            true
-          {% else %}
-            false
-          {% endif %}
+          {{ 'true' if states.sensor.time.state.split(':')[0] |int == hour else 'false' }}
       - condition: template
-        value_template: >
-          {% if states.sensor.time.state.split(':')[1]  |int == states.input_number.slider_minutes.state |int %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: "{{ 'true' if (states.sensor.time.state.split(':')[1]  |int == states.input_number.slider_minutes.state |int) else 'false' }}"
     action:
       - service: script.notify_me
         data_template:

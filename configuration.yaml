@@ -33,9 +33,17 @@ mqtt:
   keepalive: 60
   client_id: pi_ha
 
+sensor:
+  - platform: uptime
+
 binary_sensor:
   - platform: workday
     country: US
+
+namecheapdns:
+  host: '@'
+  domain: !secret namecheap_domain_name
+  access_token: !secret namecheap_ddns_password
 
 emulated_hue:
   expose_by_default: false

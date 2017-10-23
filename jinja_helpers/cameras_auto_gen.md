@@ -1,7 +1,7 @@
 ```
 ###############################################################################
 #   @author         :   Mahasri Kalavala
-#   @date           :   {{ now().strftime("%m")  ~ '/' ~ now().strftime("%d") ~ '/' ~ now().strftime("%y") }}
+#   @date           :   {{ now().month  ~ '/' ~ now().day ~ '/' ~ now().year }}
 #   @package        :   Cameras
 #   @description    :   Cameras, Cameras, and Cameras!
 ###############################################################################

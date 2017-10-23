@@ -119,6 +119,8 @@ automation:
       - service: light.turn_off
         data:
           entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+      - service: switch.turn_off
+        entity_id: switch.zwave_smart_switch_switch
       - service: script.notify_me
         data: 
           message: "It is bed time, turned lights off!"

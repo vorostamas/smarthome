@@ -205,3 +205,31 @@ automation:
       - service: notify.ios_suresh
         data:
           message: "Closing Double Car Garage Door.."
+
+################################################################################
+#  When I open the garage door
+#     if it is dark outside, OR
+#     both the garage doors are closed
+#       ==> turn the Garage lights ON
+################################################################################
+  - alias: Garage Lights On When Door is Opened
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.garage_door_sensor_sensor
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        - condition: template
+          value_template: '{{states.sun.sun.state == "below_horizon"}}'
+        - condition: and
+          conditions:
+            - condition: template
+              value_template: "{{ states.binary_sensor.single_car_garage_door_tilt_sensor_sensor.state == 'off' }}"
+            - condition: template
+              value_template: "{{ states.binary_sensor.two_car_garage_door_tilt_sensor_sensor.state == 'off' }}"      
+    action:
+      - service: switch.turn_on
+        entity_id: switch.garage_lights

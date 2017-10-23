@@ -102,6 +102,8 @@ automation:
           entity_id: light.master_bedroom_2
           brightness: 10
           color_temp: 366
+      - service: switch.turn_on
+        entity_id: switch.zwave_smart_switch_switch
 
   - alias: Front Room Light ON When Front Door is Open After Sunset
     trigger:

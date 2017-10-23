@@ -2,7 +2,7 @@
 
 #################################################################
 #   @author         :   Mahasri Kalavala
-#   @date           :   {{ now().strftime("%m")  ~ '/' ~ now().strftime("%d") ~ '/' ~ now().strftime("%y") }}
+#   @date           :   {{ now().month  ~ '/' ~ now().day ~ '/' ~ now().year }}
 #   @package        :   Z-Wave package
 #   @description    :   Z-Wave Still and it's configuration stuff
 #
