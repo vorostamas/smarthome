@@ -17,3 +17,4 @@ group:
     # action:
       # - service: script.notify_me
         # data: {"message":"Crime in your area!"}
+        
