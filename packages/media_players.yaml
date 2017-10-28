@@ -7,6 +7,27 @@
 homeassistant:
   customize:
 
+    package.node_anchors:
+      customize: &customize
+        package: 'media_players'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
 # Media Players
     media_player.snapcast_client_b827eb8604f5:
       friendly_name: Front Room Music
@@ -32,10 +53,10 @@ homeassistant:
     media_player.gstreamer:
       friendly_name: Gstreamer Media Player
     media_player.sharp_tv:
+      <<: *exposed
       friendly_name: Sharp TV
-      emulated_hue: true
       emulated_hue_name: TV
-      homebridge_name: TV
+      homebridge_name: Sharp TV
 
 group:
   Media Players:

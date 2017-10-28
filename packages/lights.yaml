@@ -90,7 +90,10 @@ homeassistant:
       homebridge_name: Front Room Light
     
     switch.zwave_smart_switch_switch:
-      friendly_name: Office Room Accent Lights
+      <<: *exposed
+      friendly_name: Office Room Accent Light
+      emulated_hue_name: Office Room Accent Light
+      homebridge_name: Office Room Accent Light
 
     light.all_hue_lights:
       <<: *hidden
