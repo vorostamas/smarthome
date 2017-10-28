@@ -37,36 +37,57 @@ homeassistant:
       icon: mdi:lightbulb
       friendly_name: Front Porch Lights
       emulated_hue_name: Front Yard Lights
+      homebridge_name: Front Yard Lights
+
     switch.wemoswitch1:
       <<: *exposed
       icon: mdi:lamp
       friendly_name: TV Reset
       emulated_hue_name: TV Reset
+      homebridge_name: Reset TV
+
     switch.wemobackyardlightswitch:
       <<: *exposed
       icon: mdi:lightbulb
       friendly_name: Backyard Lights
       emulated_hue_name: Backyard Lights
-    light.tradfri_group:
-      <<: *exposed
-      friendly_name: IKEA Lights
+      homebridge_name: Backyard Lights
+
     light.family_room:
       <<: *exposed
       friendly_name: Family Room Lights
       emulated_hue_name: Family Room Lights
+      homebridge_name: Front Room Lights
+
     light.master_bedroom:
       <<: *exposed
       friendly_name: Master Bedroom Lights
       emulated_hue_name: Master Bedroom Lights
+      homebridge_name: Master Bedroom Lights
+
     light.dinette:
       <<: *exposed
       friendly_name: Kitchen Light
       emulated_hue_name: Kitchen Light
+      homebridge_name: Kitchen Light
+      
+    switch.guest_bedroom_1:
+      <<: *exposed
+      friendly_name: Guest Bedroom 1
+      emulated_hue_name: Guest Bedroom 1
+      homebridge_name: Guest Bedroom 1
+
+    switch.guest_bedroom_2:
+      <<: *exposed
+      friendly_name: Guest Bedroom 2
+      emulated_hue_name: Guest Bedroom 2
+      homebridge_name: Guest Bedroom 2
 
     light.tradfri_bulb_e26_ws_opal_980lm:
       <<: *exposed
       friendly_name: Front Room Light
       emulated_hue_name: Front Room Light
+      homebridge_name: Front Room Light
     
     switch.zwave_smart_switch_switch:
       friendly_name: Office Room Accent Lights
@@ -74,6 +95,9 @@ homeassistant:
     light.all_hue_lights:
       <<: *hidden
 
+    light.tradfri_group:
+      <<: *not_exposed
+      friendly_name: IKEA Lights
     light.hue_color_lamp_1:
       <<: *not_exposed
       friendly_name: Family Room Light 1

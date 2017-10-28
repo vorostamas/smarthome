@@ -27,8 +27,10 @@ homeassistant:
 
     input_boolean.air_condition:
       <<: *exposed
+      homebridge_name: Air Condition
     input_boolean.heater:
       <<: *exposed
+      homebridge_name: Heater
 
 ecobee:
   api_key: !secret ecobee_api_key

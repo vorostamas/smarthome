@@ -36,18 +36,25 @@ homeassistant:
       <<: *exposed
       icon: mdi:microphone-off
       emulated_hue_name: Home Assistant Announcements
+      homebridge_name: Home Assistant Announcements
     input_boolean.do_not_disturb:
       <<: *exposed
+      homebridge_name: Do Not Disturb
     input_boolean.home_security:
       <<: *exposed
+      homebridge_name: Turn ON Home Security
     input_boolean.home_assistant_restart:
       <<: *exposed
+      homebridge_name: Restart Home Assistant
     input_boolean.home_assistant_status:
       <<: *exposed
+      homebridge_name: Home Status
     input_boolean.alarm_clock:
       <<: *exposed
+      homebridge_name: Alarm Clock
     input_boolean.fix_tv:
       <<: *exposed
+      homebridge_name: Fix TV
 
 group:
   Control Panel:

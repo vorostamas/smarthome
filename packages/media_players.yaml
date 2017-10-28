@@ -35,6 +35,7 @@ homeassistant:
       friendly_name: Sharp TV
       emulated_hue: true
       emulated_hue_name: TV
+      homebridge_name: TV
 
 group:
   Media Players:
