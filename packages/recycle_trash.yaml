@@ -346,7 +346,7 @@ automation:
       platform: event
       event_type: ios.notification_action_fired
       event_data:
-        actionName: trash_left
+        actionName: TRASH_LEFT
     action:
       - service: notify.ios_suresh
         data:
@@ -361,7 +361,7 @@ automation:
       platform: event
       event_type: ios.notification_action_fired
       event_data:
-        actionName: trash_remind_later
+        actionName: TRASH_REMIND_LATER
     action:
       - service: notify.ios_suresh
         data:

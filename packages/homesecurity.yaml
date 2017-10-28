@@ -281,6 +281,50 @@ automation:
                Your {{ doors}} {%- if 'and' in doors -%}s are {%- else %} is {%- endif %} open. Home Security System could not be turned on.
             {% endif %}
 
+##############################################################################
+# Ask me if I want to turn off Home Security System upon reaching front door
+# sk me only when the security system is turned ON
+##############################################################################
+  - alias: Turn Off Security Upon Reaching Home
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: device_tracker.suresh_suresh
+        from: 'not_home'
+        to: 'home'
+    condition:
+      condition: or
+      conditions:
+        - condition: template
+          value_template: '{{ states.alarm_control_panel.simplisafe.state | lower == "armed_away" }}'
+        - condition: template
+          value_template: '{{ states.alarm_control_panel.simplisafe.state | lower == "armed_home" }}'
+    action:
+      - service: notify.ios_suresh
+        data_template:
+          title: 'Welcome Home, Suresh!'
+          message: 'Turn Off Home Security System?'
+          data:
+            push:
+              badge: 0
+              category: 'welcome_home'
+
+  - alias: Arrived Home Disable Home Security 
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: 'DISABLE_SECURITY'
+    action:
+      - service: alarm_control_panel.alarm_disarm
+        entity_id: alarm_control_panel.simplisafe
+      - service: notify.ios_suresh
+        data:
+          message: "Unlocked your home!"
+
 ###############################################################################
 # Activity Detected inside the house when no one is home, and security system
 # is set to 'away' mode - means trouble!
