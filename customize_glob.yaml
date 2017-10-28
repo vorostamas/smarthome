@@ -1,132 +1,69 @@
-# Snapcast Group and Clients
-'media_player.snapcast_group_*':
-  hidden: true
-  emulated_hue: false
-'media_player.snapcast_client_*':
-  hidden: true
-  emulated_hue: false
-'media_player.mpd':
-  hidden: true
-
-# # Z Wave Stuff
-# 'zwave.aeotec_zw074_*':
+# # Snapcast Group and Clients
+# 'media_player.snapcast_group_*':
 #   hidden: true
-# 'sensor.aeotec_zw074_multisensor_gen5_*':
+#   emulated_hue: false
+# 'media_player.snapcast_client_*':
 #   hidden: true
-# 'sensor.aeotec_zw100_multisensor_6_*':
-#   hidden: true
-# 'sensor.*_access_control*':
-#   hidden: true
-# 'sensor.*_alarm_level*':
-#   hidden: true
-# 'sensor.*_alarm_type*':
-#   hidden: true
-# 'sensor.*_burglar*':
-#   hidden: true
-# 'sensor.*_power_management*':
-#   hidden: true
-# 'sensor.*_sourcenodeid*':
+#   emulated_hue: false
+# 'media_player.mpd':
 #   hidden: true
 
-'sensor.*_temperature':
-  hidden: false
-'sensor.*_humidity':
-  hidden: false
-'sensor.*_luminance':
-  hidden: false
+# 'sensor.*_temperature':
+#   hidden: false
+# 'sensor.*_humidity':
+#   hidden: false
+# 'sensor.*_luminance':
+#   hidden: false
 
-# Calendar Stuff
-'calendar.*':
-  hidden: true
+# # Calendar Stuff
+# 'calendar.*':
+#   hidden: true
 
-# Camera Stuff
-'binary_sensor.*_camera_tamper_detection':
-  hidden: true
-'binary_sensor.*_camera_field_detection':
-  hidden: true
-'binary_sensor.*_camera_line_crossing':
-  hidden: true
+# # Camera Stuff
+# 'binary_sensor.*_camera_tamper_detection':
+#   hidden: true
+# 'binary_sensor.*_camera_field_detection':
+#   hidden: true
+# 'binary_sensor.*_camera_line_crossing':
+#   hidden: true
 
-# Automation Stuff
-'automation.*watchdog*':
-  icon: mdi:timer
-'automation.night_*':
-  icon: mdi:weather-night
-'automation.morning_*':
-  icon: mdi:weather-sunset
-'automation.evening_*':
-  icon: mdi:weather-sunset-down
-'automation.tv_*':
-  icon: mdi:television
+# # Automation Stuff
+# 'automation.*watchdog*':
+#   icon: mdi:timer
+# 'automation.night_*':
+#   icon: mdi:weather-night
+# 'automation.morning_*':
+#   icon: mdi:weather-sunset
+# 'automation.evening_*':
+#   icon: mdi:weather-sunset-down
+# 'automation.tv_*':
+#   icon: mdi:television
 
-# Weather Stuff
-'sensor.dark_sky_*':
-  hidden: true
+# # Weather Stuff
+# 'sensor.dark_sky_*':
+#   hidden: true
 
-'sensor.waqi_columbus__fairgrounds_*':
-  hidden: true
+# 'sensor.waqi_columbus__fairgrounds_*':
+#   hidden: true
 
-'sensor.pws_*':
-  hideen: true
+# 'sensor.pws_*':
+#   hideen: true
 
-'sensor.pollen*':
-  hidden: true
+# 'sensor.pollen*':
+#   hidden: true
 
-'sensor.cold_flu_*':
-  hidden: true
+# 'sensor.cold_flu_*':
+#   hidden: true
 
-'sensor.air_quality':
-  hidden: true
+# 'sensor.air_quality':
+#   hidden: true
 
-'sensor.uv_*':
-  hidden: true
+# 'sensor.uv_*':
+#   hidden: true
 
-'sensor.sun':
-  hidden: true
+# 'sensor.sun':
+#   hidden: true
 
-# Hide WiFi Stuff
-'sensor.*_iphone_wifi_state':
-  hidden: true
-
-# # Halloween Icons
-# 'sensor.*':
-#   icon: mdi:skull
-
-# 'binary_sensor.*':
-#   icon: mdi:ghost
-
-# 'automation.*':
-#   icon: mdi:leaf
-
-# 'zwave.*':
-#   icon: mdi:skull
-
-# 'alarm_control_panel.*':
-#   icon: mdi:skull
-
-# 'camera.*':
-#   icon: mdi:skull
-
-# 'device_tracker.*':
-#   icon: mdi:skull
-
-# 'input_boolean.*':
-#   icon: mdi:ghost
-
-# 'input_select.*':
-#   icon: mdi:skull
-
-# 'input_text.*':
-#   icon: mdi:skull
-
-# 'light.*':
-#   icon: mdi:skull
-
-# 'media_player.*':
-#   icon: mdi:skull
-
-# 'script.*':
-#   icon: mdi:skull
-
-# 'switch.*':
-#   icon: mdi:skull
+# # Hide WiFi Stuff
+# 'sensor.*_iphone_wifi_state':
+#   hidden: true
