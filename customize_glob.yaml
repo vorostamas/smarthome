@@ -1,69 +1,38 @@
-# # Snapcast Group and Clients
-# 'media_player.snapcast_group_*':
-#   hidden: true
-#   emulated_hue: false
-# 'media_player.snapcast_client_*':
-#   hidden: true
-#   emulated_hue: false
-# 'media_player.mpd':
-#   hidden: true
+# Hide Snapcast Group and Clients
+'media_player.snapcast_group_*':
+  hidden: true
+  emulated_hue: false
+'media_player.snapcast_client_*':
+  hidden: true
+  emulated_hue: false
+'media_player.mpd':
+  hidden: true
 
-# 'sensor.*_temperature':
-#   hidden: false
-# 'sensor.*_humidity':
-#   hidden: false
-# 'sensor.*_luminance':
-#   hidden: false
-
-# # Calendar Stuff
-# 'calendar.*':
-#   hidden: true
-
-# # Camera Stuff
-# 'binary_sensor.*_camera_tamper_detection':
-#   hidden: true
-# 'binary_sensor.*_camera_field_detection':
-#   hidden: true
-# 'binary_sensor.*_camera_line_crossing':
-#   hidden: true
-
-# # Automation Stuff
-# 'automation.*watchdog*':
-#   icon: mdi:timer
-# 'automation.night_*':
-#   icon: mdi:weather-night
-# 'automation.morning_*':
-#   icon: mdi:weather-sunset
-# 'automation.evening_*':
-#   icon: mdi:weather-sunset-down
-# 'automation.tv_*':
-#   icon: mdi:television
-
-# # Weather Stuff
-# 'sensor.dark_sky_*':
-#   hidden: true
-
-# 'sensor.waqi_columbus__fairgrounds_*':
-#   hidden: true
-
-# 'sensor.pws_*':
-#   hideen: true
-
-# 'sensor.pollen*':
-#   hidden: true
-
-# 'sensor.cold_flu_*':
-#   hidden: true
-
-# 'sensor.air_quality':
-#   hidden: true
-
-# 'sensor.uv_*':
-#   hidden: true
-
-# 'sensor.sun':
-#   hidden: true
-
-# # Hide WiFi Stuff
-# 'sensor.*_iphone_wifi_state':
-#   hidden: true
+'zwave.*':
+  icon: mdi:skull
+'alarm_control_panel.*':
+  icon: mdi:skull
+'camera.*':
+  icon: mdi:skull
+'device_tracker.*':
+  icon: mdi:skull
+'input_*.*':
+  icon: mdi:ghost
+'light.*':
+  icon: mdi:skull
+'media_player.*':
+  icon: mdi:ghost
+'script.*':
+  icon: mdi:skull
+'switch.*':
+  icon: mdi:skull
+'automation.*':
+  icon: mdi:ghost
+'sensor.*':
+  icon: mdi:ghost
+'group.*':
+  icon: mdi:skull
+'calendar.*':
+  icon: mdi:ghost
+'climate.*':
+  icon: mdi:ghost
