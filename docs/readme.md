@@ -1,1 +1,1 @@
-## Documentation and cheartsheets will go here. (work in progress)
+## Documentation and cheatsheets will go here. (work in progress)
