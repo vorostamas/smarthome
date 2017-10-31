@@ -3,7 +3,7 @@
 The following are the services that run automatically during startup.
 
 ## The HomeBridge Service
-The homebridge.service in `/etc/systemd/system/` folder, and the contents are:
+The homebridge.service is in `/etc/systemd/system/` folder, and the contents are:
 
 ```
 [Unit]

@@ -5,6 +5,8 @@ Note: If there are any configuration errors, your upgrade might nor be successfu
 
 ### Step 1: Add the following to the sudoers file using `sudo visudo` command 
 
+The following is my sudoers file contents:
+
 ```
 #
 # This file MUST be edited with the 'visudo' command as root.
@@ -72,5 +74,4 @@ shell_command:
     hassctl update-hass && hassctl config && hassctl restart
 
 #/srv/homeassistant/homeassistant_venv/bin/pip3 install --upgrade homeassistant && sudo systemctl restart home-assistant.service
-
 ```

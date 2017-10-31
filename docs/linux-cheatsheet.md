@@ -25,7 +25,6 @@ echo "---------------------------------------------------------"
 
 alias h="cd /home/homeassistant/.homeassistant"
 alias cls="/usr//bin/clear"
-
 ```
 
 After making changes to the .profile file, ensure the file has “execute” permissions. If the file does not have “execute” permissions, it will not execute. To give “execute” permission, you can run the following command in the home directory.
@@ -167,9 +166,12 @@ sudo apt-get install python3-gst-1.0 \
 
 Run the following command to link gsp/gi path to HA for Gstreamer to function properly    
 
+BEFORE you run the following command, make sure the path to the virtal environment is correct
+
 ```
 sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
 ```
+
 
 Make sure the homeassistant user is added to the audio group by running the following command.
 
@@ -183,11 +185,5 @@ If you are using GPIOs on Raspberry Pi, you need to give access to `homeassistan
 
 ```
 sudo usermod -G gpio -a homeassistant
-```
-
-## Remove topic permanently from MQTT
-
-```
- mosquitto_pub -h MQTT_SERVER_NAME -p PORT -t TOPIC_NAME -r -n -u USERNAME -P PASSWORD
 ```
 

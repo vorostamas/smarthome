@@ -109,6 +109,8 @@ To bride Local MQTT Server with CloudMqtt, use the following. The following will
  
 Edit the `/etc/mosquitto/mosquitto.conf` file and add the following content
 
+Just make sure you replace `XXX_*_XXX` with your details
+
 ```
 # Place your local configuration in /etc/mosquitto/conf.d/
 #
@@ -131,10 +133,16 @@ address m12.cloudmqtt.com:14093
 try_private true
 bridge_attempt_unsubscribe true
 cleansession true
-clientid pihole
+clientid XXX_SOMENAME_XXX
 
 remote_username XXX_CLOUD_MQTT_USERNAME_XXX
 remote_password XXX_CLOUD_MQTT__PASSWORD_XXX
 topic # in 0
+```
+
+## Remove an MQTT Topic Permanently from MQTT
+
+```
+ mosquitto_pub -h MQTT_SERVER_NAME -p PORT -t TOPIC_NAME -r -n -u USERNAME -P PASSWORD
 ```
 
