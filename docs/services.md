@@ -65,3 +65,22 @@ RestartSec=2
 [Install]
 WantedBy=multi-user.target
 ```
+
+## AppDaemon Service
+
+For the App Daemon Service to work, please make sure the following are correct:
+* User - Double check the user name - some systems it will be `hass`, some systems it will be `homeassistant`...etc
+* Exec Start - > check the path, and run the command! It should work outside first before it runs as a service  
+* After - > make sure the name matches exactly.... do a `ls -al /etc/systemd/system/home*.*` to get the actual file name
+
+```
+[Unit]
+Description=AppDaemon
+After=home-assistant.service
+[Service]
+Type=simple
+User=homeassistant
+ExecStart=/usr/local/bin/appdaemon -c /home/homeassistant/conf
+[Install]
+WantedBy=multi-user.target
+```

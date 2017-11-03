@@ -141,6 +141,12 @@ group:
     entities:
       - sensor.time
       - sensor.date
+      - sensor.time_utc
+      - sensor.date__time
+      - sensor.time__date
+      - sensor.internet_time
+      - sensor.rocket_launch_time
+      - sensor.beat
       - binary_sensor.workday_sensor
       - sensor.ha_installed_version
       - sensor.ha_current_version
@@ -170,6 +176,10 @@ sensor:
     display_options:
       - 'time'
       - 'date'
+      - 'date_time'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'      
 
   - platform: speedtest
     minute: 30
@@ -222,6 +232,14 @@ sensor:
     command: "iwconfig wlp1s10 | grep -i signal"
     value_template: >
       {{ value.split(' ')[1].split('=')[1]  }}
+
+  - platform: rest
+    resource: https://launchlibrary.net/1.2.2/launch/next/10
+    name: Rocket Launch Time
+    value_template: >-
+      {% for day in value_json.launches if now().strftime('%B %d') == day.net.split(',')[0] %}
+          {{ day.windowstart.split(' ')[3] }}
+      {% endfor %}
 
 automation:
 

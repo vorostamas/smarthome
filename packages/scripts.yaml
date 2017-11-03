@@ -160,6 +160,8 @@ script:
             {%- endmacro -%}
             {% set msg = msg + "<speak> " %}
             {% set msg = msg + ". " + message %}
+            {% set msg = msg.replace("hasika", '<phoneme alphabet="x-sampa" ph="hA_osika">haasika</phoneme>') %}
+            {% set msg = msg.replace("mallika", '<phoneme alphabet="x-sampa" ph="m@_ollik@_o">mallika</phoneme>') %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
             {% set msg = msg + " " + getEndGreeting() %}
             {% set msg = msg + " </speak>" %}
@@ -201,3 +203,10 @@ script:
       - service: script.voice_notify
         data_template:
           message: !include ../templates/home_status.yaml
+
+
+# Amazon Polly trick to pronounce names correctly
+##############################################################################
+# Mallika:  <phoneme alphabet="x-sampa" ph="m@_ollik@_o">mallika</phoneme>   #
+# Hasika:   <phoneme alphabet="x-sampa" ph="hA_osika">haasika</phoneme>      #
+##############################################################################

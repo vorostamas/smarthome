@@ -25,17 +25,3 @@
   #         payload: >
   #           {{ trigger.event.data.service }} - {{ trigger.event.data.discovered }}
 
-sensor:
-  - platform: rest
-    resource: https://launchlibrary.net/1.2.2/launch/next/10
-    name: Rocket Launch Time
-    value_template: >-
-      {% set rocket_launch_datetime = "" %}
-      {% for day_val in value_json.launches -%}
-    	{% set today_date = now().strftime('%B %d') %}
-    	{% set target_date = day_val.net.split(',')[0] %}
-    	{% if today_date == target_date %}
-    	    {% set rocket_launch_datetime = day_val.windowstart.split(' ')[3] %}
-    	{% endif %}
-      {% endfor %}
-      {{ rocket_launch_datetime }}

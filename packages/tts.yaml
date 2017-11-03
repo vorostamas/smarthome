@@ -34,6 +34,8 @@ homeassistant:
     input_text.tts:
       <<: *not_hidden
       icon: mdi:speaker
+    input_boolean.greeting:
+      <<: *not_exposed
 
     group.text_to_speech:
       name: TTS
@@ -43,11 +45,17 @@ group:
   Text To Speech:
     entities:
       - input_text.tts
+      - input_boolean.greeting
 
 input_text:
   tts:
     name: Text To Speech
     initial: Initial text
+
+input_boolean:
+  greeting:
+    name: Greeting
+    initial: off
 
 automation:
 
@@ -64,3 +72,4 @@ automation:
       - service: script.voice_notify
         data_template:
           message: "{{ trigger.to_state.state }}"
+          greeting: "{{ 'yes' if states.input_boolean.greeting.state == 'on' else 'no' }}"

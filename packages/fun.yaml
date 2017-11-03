@@ -13,17 +13,6 @@ homeassistant:
       icon: mdi:panda
       hidden: true
 
-group:
-  Joke Of the Day:
-    entities:
-      - input_label.joke
-
-input_label:
-  joke:
-    name: Joke of the day
-    value: ""
-    icon: mdi:panda
-
 sensor:
   - platform: rest
     name: fact_of_the_day
@@ -33,24 +22,6 @@ sensor:
 
 automation:
 
-#   - alias: Chuck Norris Fact of the Day
-#     initial_state: true
-#     hide_entity: true
-#     trigger:
-#       platform: time
-#       at: '20:15:00'
-#     condition:
-#       condition: state
-#       entity_id: group.all_devices
-#       state: 'home'
-#     action:
-#       - service: script.voice_notify
-#         data_template:
-#           message: "{{ states.sensor.fact_of_the_day.state }}"
-#       - service: script.notify_me
-#         data_template:
-#           message: "{{ states.sensor.fact_of_the_day.state }}"
-
   - alias: New joke At Startup
     initial_state: true
     hide_entity: true
@@ -58,7 +29,9 @@ automation:
       - platform: homeassistant
         event: start
     action:
-      - service: input_label.set_name
-        entity_id: input_label.joke
-        data_template:
-          value: "{{ states.sensor.fact_of_the_day.state }}"
+      - delay:
+          seconds: 15
+      - service: persistent_notification.create
+        data:
+          title: 'Chuck Norris fact:'
+          message: '{{ states.sensor.fact_of_the_day.state  }}'
