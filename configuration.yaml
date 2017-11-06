@@ -13,6 +13,8 @@ homeassistant:
   time_zone: !secret time_zone
   customize_glob: !include customize_glob.yaml  
   packages: !include_dir_named packages
+  whitelist_external_dirs:
+    - '/home/homeassistant/.homeassistant'
 
 updater:
 discovery:
@@ -40,10 +42,9 @@ binary_sensor:
   - platform: workday
     country: US
 
-namecheapdns:
-  host: '@'
-  domain: !secret namecheap_domain_name
-  access_token: !secret namecheap_ddns_password
+# namecheapdns:
+#   domain: !secret namecheap_domain_name
+#   password: !secret namecheap_domain_password
 
 emulated_hue:
   expose_by_default: false
@@ -56,6 +57,12 @@ emulated_hue:
 
 logger: !include logging.yaml
 group: !include_dir_merge_named groups
+
+panel_iframe:
+  front_room_ha:
+    title: 'Front Room HA'
+    icon: mdi:home-assistant
+    url: 'http://192.168.1.101:8123'
 
 ios:
   push:

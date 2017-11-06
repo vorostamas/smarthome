@@ -146,3 +146,25 @@ topic # in 0
  mosquitto_pub -h MQTT_SERVER_NAME -p PORT -t TOPIC_NAME -r -n -u USERNAME -P PASSWORD
 ```
 
+## Publish a message to MQTT
+
+```
+mosquitto_pub -h 127.0.0.1 -t home/bedroom/switch1 -m "ON"
+```
+
+[Read more on publishing messages](https://mosquitto.org/man/mosquitto_pub-1.html)
+
+## Read messages on a topic
+
+```
+mosquitto_sub -v -t 'test/topic'
+```
+
+or
+
+```
+mosquitto_sub -h 127.0.0.1 -t topic
+```
+
+[Read more on subscribing to messages](https://mosquitto.org/man/mosquitto_sub-1.html)
+

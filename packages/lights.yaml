@@ -128,6 +128,14 @@ homeassistant:
       friendly_name: Animate Master Bedroom Lights
 
 group:
+  RF Switches:
+    entities:
+      - switch.rf_switch_one
+      - switch.rf_switch_two
+      - switch.rf_switch_three
+      - switch.rf_switch_four
+      - switch.rf_switch_five
+
   Upstairs Lights:
     entities:
       - light.master_bedroom_1
@@ -181,11 +189,42 @@ switch:
   - platform: tplink
     host: !secret tplink_garage
     name: Garage Lights
-      
-# tradfri:
-#   host: !secret ikea_gateway_ip
-#   api_key: !secret ikea_gateway_security_code
-#   allow_tradfri_groups: false
+
+# RF Switches    
+  - platform: mqtt
+    name: RF Switch One
+    command_topic: '/home/rfswitches/switch_one'
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+  - platform: mqtt
+    name: RF Switch Two
+    command_topic: '/home/rfswitches/switch_two'
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+  - platform: mqtt
+    name: RF Switch Three
+    command_topic: '/home/rfswitches/switch_three'
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+  - platform: mqtt
+    name: RF Switch Four
+    command_topic: '/home/rfswitches/switch_four'
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+  - platform: mqtt
+    name: RF Switch Five
+    command_topic: '/home/rfswitches/switch_five'
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
 
 wemo:
   static:
