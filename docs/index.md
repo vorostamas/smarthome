@@ -7,6 +7,10 @@ description: ""
 <h2>Welcome</h2>
 <p>This page is auto-generated, and is sorted alphabetically by "Title"</p>
 
+{{ site.url }}
+{{ site.baseurl }}
+
+
 {% assign cur_pages = site.pages | sort: 'title' %}
 
 {%- for entry in cur_pages %}
