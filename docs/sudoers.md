@@ -1,11 +1,22 @@
-# Configure Restart and Upgrade over HA Web
+---
+layout: page
+title: Sudoer's File
+description: "Simple steps to allow a program or a script to run as sudo from a program that is running under non-sudo user."
+---
 
-Follow below two simple steps to let your HASS to restart and even upgrade to newer version without going to console!
-Note: If there are any configuration errors, your upgrade might nor be successful. 
+# Restart and Upgrade HA over Web GUI
 
-### Step 1: Add the following to the sudoers file using `sudo visudo` command 
+<p>Follow the two simple steps to make your HASS Restart and even Upgrade to newer version (if available) without using to command line interface (CLI). Please note that if there are any existing configuration errors, your upgrade might not be successful. Also, If the upgrade has any breaking changes, your Home Assistant might failed to load some or all. Please read the breaking changes section before upgrading.</p>
 
-The following is my sudoers file contents:
+### Step 1: Add the following to the sudoers by running the following command 
+
+PLEASE NOTE THAT IT IS EXTREMELY DANGEROUS TO EDIT SUDOERS FILE USING YOUR FAVORITE EDITOR. YOU WILL NOT BE ABLE TO BOOT! USE THE RIGHT COMMAND, AND BE CAREFUL NOT TO MAKE ANY STUPID MISTAKES. DOUBLE CHECK EVERYTHING BEFORE SAVING.
+
+```
+sudo visudo
+```
+
+Enter the following contents to your SUDOERS file. You might already have most of the content, in that case, just add the last 3 lines.
 
 ```
 #
@@ -72,6 +83,4 @@ shell_command:
 
   update_hass: >-
     hassctl update-hass && hassctl config && hassctl restart
-
-#/srv/homeassistant/homeassistant_venv/bin/pip3 install --upgrade homeassistant && sudo systemctl restart home-assistant.service
 ```

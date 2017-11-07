@@ -127,6 +127,23 @@ homeassistant:
       icon: mdi:flash-outline
       friendly_name: Animate Master Bedroom Lights
 
+# Set assumed_state to false to show up as switch instead of two lightning symbols
+    switch.rf_switch_one:
+      friendly_name: Switch One
+      assumed_state: false
+    switch.rf_switch_two:
+      friendly_name: Switch Two
+      assumed_state: false
+    switch.rf_switch_three:
+      friendly_name: Switch Three
+      assumed_state: false
+    switch.rf_switch_four:
+      friendly_name: Switch Four
+      assumed_state: false
+    switch.rf_switch_five:
+      friendly_name: Switch Five
+      assumed_state: false
+
 group:
   RF Switches:
     entities:
@@ -196,6 +213,7 @@ switch:
     command_topic: '/home/rfswitches/switch_one'
     payload_on: "on"
     payload_off: "off"
+    assumed_state: false
     retain: true
 
   - platform: mqtt
@@ -203,6 +221,7 @@ switch:
     command_topic: '/home/rfswitches/switch_two'
     payload_on: "on"
     payload_off: "off"
+    assumed_state: false
     retain: true
 
   - platform: mqtt
@@ -210,6 +229,7 @@ switch:
     command_topic: '/home/rfswitches/switch_three'
     payload_on: "on"
     payload_off: "off"
+    assumed_state: false
     retain: true
 
   - platform: mqtt
@@ -217,6 +237,7 @@ switch:
     command_topic: '/home/rfswitches/switch_four'
     payload_on: "on"
     payload_off: "off"
+    assumed_state: false
     retain: true
 
   - platform: mqtt
@@ -224,6 +245,7 @@ switch:
     command_topic: '/home/rfswitches/switch_five'
     payload_on: "on"
     payload_off: "off"
+    assumed_state: false
     retain: true
 
 wemo:

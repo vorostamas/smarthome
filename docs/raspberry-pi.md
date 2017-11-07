@@ -1,45 +1,16 @@
-# Some useful commands for linux/unix users
+---
+layout: page
+title: Raspberry Pi Setup
+description: "Highlights some of the steps involved in setting up Raspberry Pi to run Home Assistant and other applications."
+---
 
-## .profile contents
+## Downloading Rasbian Image
+<p>Go to <a target="_blank" href="https://www.raspberrypi.org/">Raspberry Pi's</a> web site and click on Downloads, and there you will find a bunch of images that you can install on Raspberry Pi. After downloading the image, flash the Raspberry Pi using <a target="_blank" href="https://sourceforge.net/projects/win32diskimager/">Win32 DiskImager software</a>.</p>
 
-The .profile file comes in handy when you want to set user specific environmental variables, and run some basic scripts to help you keep things going for that specific user session. The following script adds `.`  (current folder) to the path, so that when you run any command, it first looks within the current folder first before looking into other folders. 
+<p>After flashing the software on the SD card, insert it in Raspberry Pi and connect a keyboard, mouse and monitor and power Raspberry Pi to boot.</p>
 
-It also has code to show the IP addresses and hostname when I login,
-It also creates an alias `h` for my home assistant config directory. By creating an alias, you can simply run `h` in the console to get to the homeassistant config folder easily.
+<p>If you did all correctly, the Raspberry Pi should boot properly and should show you a desktop. Once you see desktop, you need to setup some basic stuff by going to Raspberry Pi icon -> Preferences -> Raspberry Pi Configuration.</p>
 
-```
-PATH=./:$PATH
-
-echo "---------------------------------------------------------"
-echo "                   Welcome, Mahasri Kalavala             "
-echo "---------------------------------------------------------"
-ips=($(hostname -I))
-
-for ip in "${ips[@]}"
-do
-    echo "IP Address: " $ip
-done
-echo "Host name:  " $HOSTNAME
-
-echo "---------------------------------------------------------"
-
-alias h="cd /home/homeassistant/.homeassistant"
-alias cls="/usr//bin/clear"
-```
-
-After making changes to the .profile file, ensure the file has “execute” permissions. If the file does not have “execute” permissions, it will not execute. To give “execute” permission, you can run the following command in the home directory.
-
-`chmod +x ~/.profile`
-
-You can also explicitly run the .profile file by using the following command
-
-`source ~/.profile`
-
-## Raspberry Pi Basic Setup
-
-If you are setitng up Raspberry Pi for the first time, you may want to:
-
-Run `sudo raspi-config` and set the following:
 * Setup Hostname
 * Setup Wi-Fi
 * Change Default Password
@@ -49,7 +20,13 @@ Run `sudo raspi-config` and set the following:
 * Set WiFi Country (optional)
 * Enable VNC Server (if you want to have remove desktop, if not SSH is fine)
 
-As soon as you set up the commands above, you may want to restart by running `sudo reboot now` and move onto the next steps:
+You can also access some of this information by going to command line interface, and typing the following command:
+
+```
+sudo raspi-command
+```
+
+As soon as you set up the commands above, you may want to restart by running `sudo reboot now` before you move onto the next steps:
 
 * Run `sudo apt-get update && sudo apt-get upgrade -y` command to update and upgrade
 
@@ -132,6 +109,34 @@ Run the following command to test and verify the samba configuration
 ```
 testparm 
 ```
+
+## Start with .profile
+
+The .profile file comes in handy when you want to set user specific environmental variables, and run some basic scripts to help you keep things going for that specific user session. The following script adds `.`  (current folder) to the path, so that when you run any command, it first looks within the current folder first before looking into other folders. 
+
+It also has code to show the IP addresses and hostname when I login,
+It also creates an alias `h` for my home assistant config directory. By creating an alias, you can simply run `h` in the console to get to the homeassistant config folder easily.
+
+```
+PATH=./:$PATH
+echo "---------------------------------------------------------"
+echo "Host name:  " $HOSTNAME
+echo "---------------------------------------------------------"
+
+alias h="cd /home/homeassistant/.homeassistant"
+alias cls="/usr/bin/clear"
+```
+
+You can also run `hostname -I` to see the list of IP addresses assigned. 
+
+After making changes to the .profile file, ensure the file has “execute” permissions. If the file does not have “execute” permissions, it will not execute. To give “execute” permission, you can run the following command in the home directory.
+
+`chmod +x ~/.profile`
+
+You can also explicitly run the .profile file by using the following command
+
+`source ~/.profile`
+
 
 ## Restarting Raspberry Pi every night at 4:05 AM
 

@@ -1,3 +1,9 @@
+---
+layout: page
+title: MQTT Cheat Sheets
+description: "A bunch of commands to get you started using MQTT. Don't forget to install MQTTfx tool - a graphical ui to connect and manage mqtt (requires java)."
+---
+
 # MQTT Setup
 
 By default, Home Assistant comes with a built-in MQTT server. If you want to install MQTT (either on a different Raspberry Pi or on the same server), follow the steps below.

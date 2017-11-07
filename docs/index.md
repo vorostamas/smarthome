@@ -1,8 +1,17 @@
+---
+layout: page
+title: Home Page
+description: ""
+---
 
-[Linux Cheatsheet](linux-cheatsheet.html)
+<h2>Welcome</h2>
+<p>This page is auto-generated, and is sorted alphabetically by "Title"</p>
 
-[MQTT Cheatsheet](mqtt.html)
+{% assign cur_pages = site.pages | sort: 'title' %}
 
-[Running Services](services.html)
-
-[Restarting and Upgrading HASS](restart-upgrade.html)
+{%- for entry in cur_pages %}
+{%- if entry.layout == "page" and entry.url != "/" %}
+  <h3><a href="{{ entry.url }}">►&nbsp;{{ entry.title }}</a></h3>
+  <p>{{ entry.description }}</p>
+{%- endif %}
+{%- endfor %}
