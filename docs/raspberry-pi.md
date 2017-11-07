@@ -28,7 +28,10 @@ sudo raspi-command
 
 As soon as you set up the commands above, you may want to restart by running `sudo reboot now` before you move onto the next steps:
 
-* Run `sudo apt-get update && sudo apt-get upgrade -y` command to update and upgrade
+Run the follwing command to update and upgrade
+```
+sudo apt-get update && sudo apt-get upgrade -y
+```
 
 Since some of the updates require disk space, it will ask you to confirm, just type ‘y’ and hit ‘enter’ to continue. It may ask you multiple times depending upon number of packages being updated. Optionally, you can also run the command with ‘-y’ option.
 
@@ -110,12 +113,13 @@ Run the following command to test and verify the samba configuration
 testparm 
 ```
 
-## Start with .profile
+## The .profile file
 
-The .profile file comes in handy when you want to set user specific environmental variables, and run some basic scripts to help you keep things going for that specific user session. The following script adds `.`  (current folder) to the path, so that when you run any command, it first looks within the current folder first before looking into other folders. 
+The .profile file comes in handy when you want to set user specific environmental variables, and run some basic scripts to help you keep things going for that specific user session. The following script adds `.`  (current folder) to the path, so that when you run any command, it first looks within the current folder first before looking into other folders as specified in the `$PATH`. 
 
-It also has code to show the IP addresses and hostname when I login,
-It also creates an alias `h` for my home assistant config directory. By creating an alias, you can simply run `h` in the console to get to the homeassistant config folder easily.
+To show you the currently logged in machine's host name and IP addresses when logged in, add the commands to the .profile file.
+
+You can also create aliases as shortcuts.
 
 ```
 PATH=./:$PATH
@@ -127,7 +131,7 @@ alias h="cd /home/homeassistant/.homeassistant"
 alias cls="/usr/bin/clear"
 ```
 
-You can also run `hostname -I` to see the list of IP addresses assigned. 
+Run `hostname -I` to see the list of IP addresses assigned. 
 
 After making changes to the .profile file, ensure the file has “execute” permissions. If the file does not have “execute” permissions, it will not execute. To give “execute” permission, you can run the following command in the home directory.
 
@@ -176,7 +180,6 @@ BEFORE you run the following command, make sure the path to the virtal environme
 ```
 sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
 ```
-
 
 Make sure the homeassistant user is added to the audio group by running the following command.
 

@@ -20,7 +20,11 @@
 
 <div id="main" role="main">
   <article class="hentry">
+    
     <div class="entry-content">
+      {% if page.url != "/" %}
+      <span class="bread-crums"><a class="bread-crums" href="{{site.url}}">Home</a> » {{ page.title }}</span>
+      {% endif %}
       {{ content }}
     </div>
   </article>

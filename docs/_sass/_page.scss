@@ -137,11 +137,17 @@ body {
 }
 
 .entry-header-description {
-	width: 40%;
+	width: 54%;
 	height: 100%;
 	display: block;
 	align-content: center;
 	text-align: justify;
+	color: rgba(0,0,0,0.3);
+	padding: 0px 10px;
+}
+
+.bread-crums {
+  color: rgba(199, 15, 15, 0.5);
 }
 
 .entry-image {
