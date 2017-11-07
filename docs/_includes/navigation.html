@@ -24,7 +24,7 @@
 				
 				{%- for entry in cur_pages %}
 				{%- if entry.layout == "page" and entry.url != "/" %}
-					<li><h3><a href="{{ entry.url }}">►&nbsp;{{ entry.title }}</a></h3></li>
+					<li><h3><a href="{{ site.url }}{{ entry.url }}">►&nbsp;{{ entry.title }}</a></h3></li>
 				{%- endif %}
 				{%- endfor %}
 			</ul>
