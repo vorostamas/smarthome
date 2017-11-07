@@ -11,7 +11,7 @@ description: ""
 
 {%- for entry in cur_pages %}
 {%- if entry.layout == "page" and entry.url != "/" %}
-  <h3><a href="{{ entry.url }}">►&nbsp;{{ entry.title }}</a></h3>
+  <h3><a href="{{ site.url }}/{{ entry.url }}">►&nbsp;{{ entry.title }}</a></h3>
   <p>{{ entry.description }}</p>
 {%- endif %}
 {%- endfor %}
