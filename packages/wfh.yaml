@@ -1,0 +1,65 @@
+homeassistant:
+
+input_boolean:
+  work_from_home:
+    name: Work From Home
+    initial: off
+    icon: mdi:work
+
+timer:
+  getup_timer:
+    duration: '00:30:00'
+
+automation:
+
+  - alias: WFH Sensor Update
+    trigger:
+      - platform: time
+        at: '10:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
+    action:
+      - service_template: >
+          {% if states.device_tracker.suresh_suresh.state == "home" %}
+            input_boolean.turn_on
+          {% else %}
+            input_boolean.turn_off
+          {% endif %}
+        entity_id: input_boolean.work_from_home
+      - service: timer.start
+        entity_id: timer.getup_timer
+
+  - alias: Suresh came home between 10am and 5pm
+    trigger:
+      - platform: state
+        entity_id: device_tracker.suresh_suresh
+        from: 'not_home'
+        to: 'home'
+    condition:
+      - condition: template
+        value_template: '{{ now().hour | int > 10 and now().hour | int < 17 }'
+    action:
+      - service: timer.cancel
+        entity_id: timer.getup_timer
+
+###############################################################################
+  - alias: Getup & Walk Timer Completed
+    trigger:
+      - platform: state
+        entity_id: timer.getup_timer
+        from: 'active'
+        to: 'idle'
+    condition:
+      - condition: template
+        value_template: '{{ states.device_tracker.suresh_suresh.state == "home" }}'
+      - condition: template
+        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
+      - condition: template
+        value_template: '{{ states.input_boolean.work_from_home.state == "on" }}'
+    action:
+      - service: script.voice_notify
+        data_template:
+          message: "It is time to stand up and walk around!"
+      - service: timer.start
+        entity_id: timer.getup_timer
