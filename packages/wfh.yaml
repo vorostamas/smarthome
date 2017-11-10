@@ -51,7 +51,7 @@ automation:
         at: '00:17:00'
     condition:
       - condition: template
-        value_template: '{{ now().hour | int > 10 and now().hour | int < 17 }'
+        value_template: '{{ now().hour | int > 10 and now().hour | int < 17 }}'
     action:
       - service: timer.cancel
         entity_id: timer.getup_timer

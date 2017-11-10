@@ -1,0 +1,88 @@
+homeassistant:
+  customize:
+
+    binary_sensor.motion_sensor_158d0001a662fe:
+      friendly_name: Kitchen Motion Sensor
+    sensor.Illumination_158d0001a662fe:
+      friendly_name: Kitchen Luminance
+     
+    binary_sensor.motion_sensor_158d0001a25041:
+      friendly_name: Office Room Motion Sensor
+    sensor.Illumination_158d0001a25041:
+      friendly_name: Office Room Luminance
+ 
+    binary_sensor.motion_sensor_158d00016db6d2:
+      friendly_name: Front Room Motion Sensor
+    sensor.Illumination_158d00016db6d2:
+      friendly_name: Front Room Luminance
+    
+    binary_sensor.motion_sensor_158d00016c2d0e:
+      friendly_name: Dining Room Motion Sensor
+    sensor.Illumination_158d00016c2d0e:
+      friendly_name: Dining Room Luminance
+
+    sensor.Illumination_34ce008ad65d:
+      friendly_name: Hallway Luminance
+
+group:
+  Xiaomi Aqara:
+    entities:
+      - binary_sensor.motion_sensor_158d0001a662fe
+      - binary_sensor.motion_sensor_158d0001a25041
+      - binary_sensor.motion_sensor_158d00016db6d2
+      - binary_sensor.motion_sensor_158d00016c2d0e
+      - sensor.Illumination_158d0001a662fe
+      - sensor.Illumination_158d0001a25041
+      - sensor.Illumination_158d00016db6d2
+      - sensor.Illumination_158d00016c2d0e
+      - sensor.Illumination_34ce008ad65d
+
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: !secret xiaomi_key
+
+automation:
+  - alias: Home Security Status Xiaomi Color
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: alarm_control_panel.simplisafe
+    condition:
+      - condition: template
+        value_template: "{% if trigger.from_state %} True {% else %} False {% endif %}"
+      - condition: template
+        value_template: '{{ states.alarm_control_panel.simplisafe.state != "unknown" }}'
+      - condition: template
+        value_template: '{{ states.alarm_control_panel.simplisafe.state | trim != "" }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.gateway_light_34ce008ad65d
+        data_template:
+          brightness: 255
+          rgb_color: >
+            {% if states.alarm_control_panel.simplisafe.state == "armed_home" %}
+              ['0','0','255']
+            {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
+              ['0','255','0']
+            {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
+              ['255','0','0']
+            {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
+              ['255','0','0']
+            {% endif %}
+
+  - alias: Turn off Xiaomi Gateway light
+    initial_state: true
+    hide_entity: true
+    trigger:
+     - platform: numeric_state
+       entity_id: sensor.Illumination_34ce008ad65d
+       above: 600
+    condition:
+      - condition: state
+        entity_id: light.gateway_light_34ce008ad65d
+        state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id: light.gateway_light_34ce008ad65d
