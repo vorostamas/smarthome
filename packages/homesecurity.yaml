@@ -42,6 +42,16 @@ automation:
       - condition: template
         value_template: '{{ states.alarm_control_panel.simplisafe.state | trim != "" }}'
     action:
+      - service_template: >
+          {% if states.alarm_control_panel.simplisafe.state == "armed_home" %}
+            script.xiaomi_blue
+          {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
+            script.xiaomi_green
+          {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
+            script.xiaomi_red
+          {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
+            script.xiaomi_red
+          {% endif %}
       - service: script.ifttt_leeo_color_change
         data_template:
           value1: >

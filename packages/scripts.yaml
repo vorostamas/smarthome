@@ -30,6 +30,7 @@ group:
       - script.notify_me
       - script.pushbullet_notify
       - script.voice_notify
+      - script.voice_greeting
 
 script:
 

@@ -15,38 +15,48 @@ automation:
           - binary_sensor.kitchen_motion_sensor_sensor
           - binary_sensor.kitchen_multi_sensor_sensor
           - binary_sensor.basement_door_sensor_sensor
+          - binary_sensor.motion_sensor_158d0001a662fe
         to: 'on'
     condition:
       - condition: state
         entity_id: sun.sun
         state: 'below_horizon'
+      - condition: state
+        entity_id: light.dinette
+        state: 'off'
     action:
       - service: light.turn_on
-        entity_id: light.dinette
+        data:
+          entity_id: light.dinette
+          transition: 3
+          brightness: 255
 
 ###############################################################################
 # If the Kitchen Light is ON between 11 PM and 5 AM, Turn it off after 5 Min.
 ###############################################################################
-  - alias: Kitchen Light WatchDog
+  - alias: Late Night Light WatchDog
     initial_state: true
     hide_entity: true
     trigger:
       - platform: state
         entity_id:
           - light.dinette
+          - light.tradfri_bulb_e26_ws_opal_980lm
+          - light.family_room
+          - light.master_bedroom
         to: 'on'
         for:
           minutes: 5
     condition:
       - condition: template
         value_template: >
-          {% if now().hour | int < 5 and now().hour | int > 11 %}
+          {% if now().hour | int > 23 or now().hour | int < 5 %}
             true
           {% else %}
             false
           {% endif %}
     action:
-      - service: switch.turn_off
+      - service: light.turn_off
         data_template:
           entity_id: "{{ trigger.entity_id }}"
 
@@ -60,9 +70,6 @@ automation:
       - condition: state
         entity_id: sun.sun
         state: 'below_horizon'
-      - condition: state
-        entity_id: media_player.sharp_tv
-        state: 'off'        
     action:
       - service: light.turn_on
         data:

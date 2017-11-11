@@ -158,7 +158,6 @@ group:
       - automation.notify_of_new_external_ip
       - automation.startup_notification
       - automation.update_available_notification
-      # - automation.clear_tts_cache
   
 sensor:
   - platform: rest
@@ -233,14 +232,6 @@ sensor:
     command: "iwconfig wlp1s10 | grep -i signal"
     value_template: >
       {{ value.split(' ')[1].split('=')[1]  }}
-
-  - platform: rest
-    resource: https://launchlibrary.net/1.2.2/launch/next/10
-    name: Rocket Launch Time
-    value_template: >-
-      {% for day in value_json.launches if now().strftime('%B %d') == day.net.split(',')[0] %}
-          {{ day.windowstart.split(' ')[3] }}
-      {% endfor %}
 
 automation:
 

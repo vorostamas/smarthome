@@ -1,6 +1,31 @@
 homeassistant:
   customize:
 
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'settings'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        <<: *customize
+        hidden: true
+        critical: false
+
     binary_sensor.motion_sensor_158d0001a662fe:
       friendly_name: Kitchen Motion Sensor
     sensor.Illumination_158d0001a662fe:
@@ -43,46 +68,30 @@ xiaomi_aqara:
     - key: !secret xiaomi_key
 
 automation:
-  - alias: Home Security Status Xiaomi Color
-    initial_state: true
-    hide_entity: true
+  - alias: Turn ON Kitchen Light on Motion
     trigger:
-      platform: state
-      entity_id: alarm_control_panel.simplisafe
-    condition:
-      - condition: template
-        value_template: "{% if trigger.from_state %} True {% else %} False {% endif %}"
-      - condition: template
-        value_template: '{{ states.alarm_control_panel.simplisafe.state != "unknown" }}'
-      - condition: template
-        value_template: '{{ states.alarm_control_panel.simplisafe.state | trim != "" }}'
-    action:
-      - service: light.turn_on
-        entity_id: light.gateway_light_34ce008ad65d
-        data_template:
-          brightness: 255
-          rgb_color: >
-            {% if states.alarm_control_panel.simplisafe.state == "armed_home" %}
-              ['0','0','255']
-            {% elif states.alarm_control_panel.simplisafe.state == "armed_away" %}
-              ['0','255','0']
-            {% elif states.alarm_control_panel.simplisafe.state == "triggered" %}
-              ['255','0','0']
-            {% elif states.alarm_control_panel.simplisafe.state == "disarmed" %}
-              ['255','0','0']
-            {% endif %}
-
-  - alias: Turn off Xiaomi Gateway light
-    initial_state: true
-    hide_entity: true
-    trigger:
-     - platform: numeric_state
-       entity_id: sensor.Illumination_34ce008ad65d
-       above: 600
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001a662fe
+        to: 'on'
     condition:
       - condition: state
-        entity_id: light.gateway_light_34ce008ad65d
-        state: 'on'
+        entity_id: sun.sun
+        state: 'below_horizon'
     action:
-      - service: light.turn_off
-        entity_id: light.gateway_light_34ce008ad65d
+      - service: light.turn_on
+        entity_id: light.dinette
+
+  - alias: Turn ON Dining Room Lights on Motion
+    trigger:
+    condition:
+    action:
+
+  - alias: Turn ON Front Room Lights on Motion
+    trigger:
+    condition:
+    action:
+
+  - alias: Turn ON Office Room Lights on Motion
+    trigger:
+    condition:
+    action:

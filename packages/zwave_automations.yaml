@@ -110,7 +110,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -140,7 +140,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -170,7 +170,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -200,7 +200,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'off'
       to: 'on'
     condition:
@@ -230,7 +230,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:
@@ -263,7 +263,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: binary_sensor.family_room_multi_sensor_sensor
+      entity_id: binary_sensor.tv_multi_sensor_sensor
       from: 'on'
       to: 'off'
     condition:

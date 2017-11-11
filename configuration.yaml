@@ -35,16 +35,19 @@ mqtt:
   keepalive: 60
   client_id: pi_ha
 
+cloud:
+  mode: development
+  cognito_client_id: !secret cognito_client_id
+  user_pool_id: !secret user_pool_id
+  region: 'us-east-1'
+  relayer: 'wss://cloud.hass.io:8000/websocket'
+
 sensor:
   - platform: uptime
 
 binary_sensor:
   - platform: workday
     country: US
-
-# namecheapdns:
-#   domain: !secret namecheap_domain_name
-#   password: !secret namecheap_domain_password
 
 emulated_hue:
   expose_by_default: false

@@ -95,6 +95,14 @@ homeassistant:
       emulated_hue_name: Office Room Accent Light
       homebridge_name: Office Room Accent Light
 
+    # Xiaomi Gateway Light Scripts
+    script.xiaomi_red:
+      <<: *hidden
+    script.xiaomi_blue:
+      <<: *hidden
+    script.xiaomi_green:
+      <<: *hidden
+
     light.all_hue_lights:
       <<: *hidden
 
@@ -176,6 +184,7 @@ group:
       - light.tradfri_bulb_e26_ws_opal_980lm
       - light.tradfri_group
       - switch.zwave_smart_switch_switch
+      - light.gateway_light_34ce008ad65d
 
   Light Automations:
     control: hidden
@@ -186,6 +195,19 @@ group:
       - input_boolean.animate_upstairs_lights
       - input_boolean.short_flash
       - input_boolean.long_flash
+
+  switches:
+    entities:
+      - switch.garage_lights
+      - switch.guest_bedroom_1
+      - switch.guest_bedroom_2
+      - switch.hallway_light_switch_switch
+      - switch.kids_bedroom
+      - switch.wallmote_switch
+      - switch.wemobackyardlightswitch
+      - switch.wemofrontporchlightswitch
+      - switch.wemoswitch1
+      - switch.zwave_smart_switch_switch
 
 light:
   - platform: lifx
@@ -270,6 +292,29 @@ input_boolean:
   short_flash:
     name: Long Flash Lights
     initial: off
+
+script:
+  xiaomi_red:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.gateway_light_34ce008ad65d
+          brightness: 255
+          rgb_color: [255,0,0]
+  xiaomi_blue:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.gateway_light_34ce008ad65d
+          brightness: 255
+          rgb_color: [0,0,255]
+  xiaomi_green:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.gateway_light_34ce008ad65d
+          brightness: 255
+          rgb_color: [0,255,0]
 
 automation:
   - alias: Animate Master Bedroom Lights
@@ -410,18 +455,3 @@ automation:
           flash: short
       - service: input_boolean.turn_off
         entity_id: input_boolean.short_flash
-
-  # - alias: Random Light Effects
-    # initial_state: true
-    # trigger:
-      # - platform: time
-        # minutes: '00'
-        # seconds: '/15'
-    # action:
-      # - service: script.turn_on
-        # data_template:
-          # entity_id: >-
-            # {{ [ 'script.start_colorloop',
-                 # 'script.stop_colorloop',
-                 # 'script.lifx_breathe' ] |random 
-            # }}

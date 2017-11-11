@@ -28,10 +28,15 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '22:45:00'
+      minutes: '/5'
+      seconds: 00
     condition:
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ (states.sensor.bedtime_minute.state | int - 15 ) == now().minute }}'
       - condition: state
-        entity_id: light.dinette      
+        entity_id: light.dinette
         state: 'on'
     action:
       - service: light.turn_on
@@ -50,8 +55,13 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '22:45:00'
+      minutes: '/5'
+      seconds: 00
     condition:
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ (states.sensor.bedtime_minute.state | int - 15 ) == now().minute }}'
       - condition: state
         entity_id: light.family_room
         state: 'on'
@@ -71,8 +81,13 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '23:00:00'
+      minutes: '/5'
+      seconds: 00
     condition:
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_minute.state | int == now().minute | int }}'
       - condition: template
         value_template: "{{ states('alarm_control_panel.simplisafe') != 'away' }}"
       - condition: state
@@ -91,12 +106,18 @@ automation:
 ###############################################################################
 # TURN INDOOR LIGHTS OFF AFTER BED TIME
 ###############################################################################
-  - alias: Night Turn Lights Off (Bed Time)
+  - alias: Night Turn Lights Off
     initial_state: true
     hide_entity: true
     trigger:
       platform: time
-      at: '23:00:00'
+      minutes: '/5'
+      seconds: 00
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ states.sensor.bedtime_minute.state | int == now().minute | int }}'
     action:
       - service: light.turn_off
         data:
@@ -133,7 +154,7 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '22:15:00'
+      at: '22:10:00'
     condition:
       - condition: state
         entity_id: group.all_devices

@@ -6,6 +6,9 @@
 #                       30 minutes. 
 ###############################################################################
 homeassistant:
+  customize:
+    timer.getup_timer:
+      hidden: true
 
 input_boolean:
   work_from_home:

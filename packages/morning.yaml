@@ -98,11 +98,16 @@ automation:
     hide_entity: true
     trigger:
       platform: time
-      at: '05:30:00'
+      minutes: '/5'
+      seconds: 00
     condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: template
+        value_template: '{{ states.sensor.wakeup_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ states.sensor.wakeup_minute.state == now().minute }}'
     action:
       - service: light.turn_on
         data:
@@ -110,7 +115,55 @@ automation:
           transition: 15
           brightness: 255
           color_temp: 154
-  
+      - service: light.turn_on
+        entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+
+###############################################################################
+# Turn ON Master Bedroom lights ON in the morning
+# Turn On Bedroom Lights 10 minutes after wake up time
+###############################################################################
+  - alias: Morning Master Bedroom Lights ON (Mallika)
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: time
+      minutes: '/5'
+      seconds: 00
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: template
+        value_template: '{{ states.sensor.wakeup_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ now().minute | int == ( states.sensor.wakeup_minute.state | int + 10) }}'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.master_bedroom_2
+          brightness: 10
+          color_temp: 154
+
+  - alias: Morning Master Bedroom Lights OFF (Mallika)
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: time
+      minutes: '/5'
+      seconds: 00
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: template
+        value_template: '{{ states.sensor.wakeup_hour.state == now().hour }}'
+      - condition: template
+        value_template: '{{ now().minute | int == ( states.sensor.wakeup_minute.state | int + 15) }}'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: light.master_bedroom_2
+
 ###############################################################################
 # Turn off outdoor lights 15 minutes after sunrise
 ###############################################################################
@@ -128,91 +181,29 @@ automation:
       - service: switch.turn_off
         data:
           entity_id: switch.wemobackyardlightswitch
-  
+
 ###############################################################################
-# Turn ON Master Bedroom lights ON in the morning
-###############################################################################
-  - alias: Morning Master Bedroom Lights ON (Mallika)
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      at: '05:40:00'
-    condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    action:
-      - service: light.turn_on
-        data:
-          entity_id: light.master_bedroom_2
-          brightness: 10
-          color_temp: 154
-  
-  - alias: Morning Master Bedroom Lights OFF (Mallika)
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      at: '05:45:00'
-    condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    action:
-      - service: light.turn_off
-        data:
-          entity_id: light.master_bedroom_2
-  
-###############################################################################
-# Turn ON Master Bedroom lights ON in the morning
-###############################################################################
-  - alias: Morning Master Bedroom Lights ON (Suresh)
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      at: '06:55:00'
-    condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    action:
-      - service: light.turn_on
-        data:
-          entity_id: light.master_bedroom_1
-          brightness: 10
-          color_temp: 154
-  
-  - alias: Morning Master Bedroom Lights OFF (Suresh)
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      at: '09:00:00'
-    condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    action:
-      - service: light.turn_off
-        data:
-          entity_id: light.master_bedroom_1
-  
-###############################################################################
-# Turn OF Kitchen Lights at 8:15 AM Clock
+# Turn OF Kitchen Lights after 3 hours of wake up time during school/work days
 ###############################################################################
   - alias: Morning Kitchen Light OFF
     initial_state: true
     hide_entity: true
     trigger:
       platform: time
-      at: '08:15:00'
+      minutes: '/5'
+      seconds: 00
     condition:
-      condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: template
+        value_template: '{{ now().hour | int == ( states.sensor.wakeup_hour.state | int + 3) }}'
+      - condition: template
+        value_template: '{{ states.sensor.wakeup_minute.state == now().minute | int }}'
     action:
      - service: light.turn_off
        data:
          entity_id: light.dinette
+     - service: light.turn_off
+       data:
+         entity_id: light.tradfri_bulb_e26_ws_opal_980lm

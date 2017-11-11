@@ -660,3 +660,4 @@ group:
       - zwave.zwave_repeater
       - zwave.zwave_smart_switch
       - zwave.zwave_stick
+      - zwave.front_room_window_sensor

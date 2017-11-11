@@ -55,6 +55,35 @@ homeassistant:
     input_boolean.fix_tv:
       <<: *exposed
       homebridge_name: Fix TV
+    
+    input_datetime.summer_bed_time:
+      icon: mdi:beach
+    input_datetime.summer_wakeup_time:
+      icon: mdi:beach
+      
+    input_datetime.autumn_bed_time:
+      icon: mdi:leaf
+    input_datetime.autumn_wakeup_time:
+      icon: mdi:leaf
+
+    input_datetime.winter_bed_time:
+      icon: mdi:snowflake
+    input_datetime.winter_wakeup_time:
+      icon: mdi:snowflake
+
+    input_datetime.spring_bed_time:
+      icon: mdi:tree
+    input_datetime.spring_wakeup_time:
+      icon: mdi:tree
+
+    sensor.wakeup_hour:
+      <<: *hidden
+    sensor.wakeup_minute:
+      <<: *hidden
+    sensor.bedtime_hour:
+      <<: *hidden
+    sensor.bedtime_minute:
+      <<: *hidden
 
 group:
   Control Panel:
@@ -76,8 +105,128 @@ group:
       - input_boolean.alert_when_someone_leaves_zone
       - input_boolean.alarm_clock
       - input_boolean.fix_tv
+  Bed & Wakeup Times:
+    entities:
+      - input_datetime.summer_bed_time
+      - input_datetime.summer_wakeup_time
+      - input_datetime.autumn_bed_time
+      - input_datetime.autumn_wakeup_time
+      - input_datetime.winter_bed_time
+      - input_datetime.winter_wakeup_time
+      - input_datetime.spring_bed_time
+      - input_datetime.spring_wakeup_time
 
-# Input Booleans
+# Input DateTime Options:
+# I set the minutes to something that is divisible by 5, so that the automations
+# can check once every 5 minutes without any performance penalty 
+###############################################################################
+
+input_datetime:
+  summer_bed_time:
+    name: Summer Bed Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 23:00'
+  summer_wakeup_time:
+    name: Summer Wakeup Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 06:00'
+
+  autumn_bed_time:
+    name: Autumn Bed Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 22:00'
+  autumn_wakeup_time:
+    name: Autumn Wakeup Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 05:30'
+
+  winter_bed_time:
+    name: Winter Bed Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 22:00'
+  winter_wakeup_time:
+    name: Winter Wakeup Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 05:30'
+
+  spring_bed_time:
+    name: Spring Bed Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 22:00'
+  spring_wakeup_time:
+    name: Spring Wakeup Time
+    has_date: false
+    has_time: true
+    initial: '2017-01-01 05:30'
+
+sensor:
+  - platform: template
+    sensors:
+      wakeup_hour:
+        friendly_name: Wakeup Hour
+        value_template: >
+          {% if states.sensor.season.state | lower == "summer" %}
+            {{ states.input_datetime.summer_wakeup_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "autumn" %}
+            {{ states.input_datetime.autumn_wakeup_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "winter" %}
+            {{ states.input_datetime.winter_wakeup_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "spring" %}
+            {{ states.input_datetime.spring_wakeup_time.state.split(':')[0] }}
+          {% else %}
+            6
+          {% endif %}
+      wakeup_minute:
+        friendly_name: Wakeup Minute
+        value_template: >
+          {% if states.sensor.season.state | lower == "summer" %}
+            {{ states.input_datetime.summer_wakeup_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "autumn" %}
+            {{ states.input_datetime.autumn_wakeup_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "winter" %}
+            {{ states.input_datetime.winter_wakeup_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "spring" %}
+            {{ states.input_datetime.spring_wakeup_time.state.split(':')[1] }}
+          {% else %}
+            0
+          {% endif %}
+      bedtime_hour:
+        friendly_name: Bedtime Hour
+        value_template: >
+          {% if states.sensor.season.state | lower == "summer" %}
+            {{ states.input_datetime.summer_bed_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "autumn" %}
+            {{ states.input_datetime.autumn_bed_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "winter" %}
+            {{ states.input_datetime.winter_bed_time.state.split(':')[0] }}
+          {% elif states.sensor.season.state | lower == "spring" %}
+            {{ states.input_datetime.spring_bed_time.state.split(':')[0] }}
+          {% else %}
+            0
+          {% endif %}
+      bedtime_minute:
+        friendly_name: Bedtime Minute
+        value_template: >
+          {% if states.sensor.season.state | lower == "summer" %}
+            {{ states.input_datetime.summer_bed_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "autumn" %}
+            {{ states.input_datetime.autumn_bed_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "winter" %}
+            {{ states.input_datetime.winter_bed_time.state.split(':')[1] }}
+          {% elif states.sensor.season.state | lower == "spring" %}
+            {{ states.input_datetime.spring_bed_time.state.split(':')[1] }}
+          {% else %}
+            0
+          {% endif %}
+
+# Input Booleans Options
 ###############################################################################
 
 input_boolean:
@@ -130,11 +279,6 @@ input_boolean:
     name: Welcome Family Member Announcements
     initial: on
     icon: mdi:home
-
-  # clear_tts_cache:
-  #   name: Clear TTS Cache Daily
-  #   initial: on
-  #   icon: mdi:text-to-speech
 
   trash_reminders:
     name: Remind Trash Notifications
@@ -306,17 +450,3 @@ automation:
           {% endif %}
     action:
       - service: script.home_status
-
-# # Clear TTS Cache Daily
-# ######################################################
-#   - alias: Clear TTS Cache
-#     initial_state: true
-#     hide_entity: true
-#     trigger:
-#       platform: time
-#       at: '4:45:00'
-#     condition:
-#       - condition: template
-#         value_template: '{{ states.input_boolean.clear_tts_cache.state == "on" }}'
-#     action:
-#       service: tts.clear_cache
