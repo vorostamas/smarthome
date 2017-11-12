@@ -35,8 +35,6 @@ homeassistant:
       order: 3
     group.internet_speed:
       order: 4
-    group.date_time:
-      order: 5
 
     group.home_assistant_automations:
       order: 50
@@ -83,13 +81,7 @@ homeassistant:
 
     sensor.since_last_boot:
       friendly_name: Up Since
-
-    sensor.time:
-      friendly_name: Time
-
-    sensor.date:
-      friendly_name: Date
-      
+     
     sensor.signal_strength:
       icon: mdi:signal
       
@@ -129,6 +121,9 @@ group:
       - sensor.current_log_level
       - sensor.ram_available
       - sensor.uptime
+      - binary_sensor.workday_sensor
+      - sensor.ha_installed_version
+      - sensor.ha_current_version
 
   Internet Speed:
     entities:
@@ -136,29 +131,7 @@ group:
       - sensor.speedtest_upload
       - sensor.speedtest_download
       - sensor.external_ip
-
-  Date Time:
-    entities:
-      - sensor.time
-      - sensor.date
-      - sensor.time_utc
-      - sensor.date__time
-      - sensor.time__date
-      - sensor.internet_time
-      - sensor.rocket_launch_time
-      - sensor.beat
-      - binary_sensor.workday_sensor
-      - sensor.ha_installed_version
-      - sensor.ha_current_version
-      - sensor.ha_last_restart
-
-  Home Assistant Automations:
-    control: hidden
-    entities:
-      - automation.notify_of_new_external_ip
-      - automation.startup_notification
-      - automation.update_available_notification
-  
+ 
 sensor:
   - platform: rest
     resource: http://ip.jsontest.com
@@ -171,15 +144,6 @@ sensor:
     command: cat /sys/class/thermal/thermal_zone0/temp
     unit_of_measurement: 'F'
     value_template: '{{ (value|int / 1000 * 1.8 + 32)|round(1) }}'
-
-  - platform: time_date
-    display_options:
-      - 'time'
-      - 'date'
-      - 'date_time'
-      - 'time_date'
-      - 'time_utc'
-      - 'beat'      
 
   - platform: speedtest
     minute: 30
@@ -213,12 +177,6 @@ sensor:
     name: HA Installed Version
     command: /srv/homeassistant/bin/hass --version
     scan_interval: 86400
-
-  - platform: template
-    sensors:
-      ha_last_restart:
-        value_template: '{{ as_timestamp(states.automation.startup_notification.attributes.last_triggered) | timestamp_custom("%b %d %X") }}'
-        friendly_name: HA Last Restart
 
   - platform: command_line
     name: Signal Strength

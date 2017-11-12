@@ -7,6 +7,8 @@
 homeassistant:
   customize:
   
+    group.date_time:
+      order: 9
     group.trash_schedule:
       order: 10
     group.recycle_schedule:
@@ -55,6 +57,17 @@ group:
       - sensor.current_week
       - input_select.recycle_pickup_week
 
+  Date Time:
+    entities:
+      - sensor.time
+      - sensor.date
+      - sensor.time_utc
+      - sensor.date__time
+      - sensor.time__date
+      - sensor.internet_time
+      - sensor.rocket_launch_time
+      - sensor.beat
+
 ###############################################################################
 #  UI Elements
 ###############################################################################
@@ -92,6 +105,14 @@ input_select:
 #  Sensor Definitions
 ###############################################################################
 sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
   - platform: mqtt
     state_topic: "/home/trashpickupday"
     name: "Trash Pickup Day"
@@ -115,9 +136,9 @@ sensor:
     sensors:
       current_week:
         value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% set year = states.sensor.date__time.state.split(',')[0].split('-')[0] %}
+          {% set month = states.sensor.date__time.state.split(',')[0].split('-')[1] %}
+          {% set date = states.sensor.date__time.state.split(',')[0].split('-')[2] %}
           {% set today = strptime(year ~ '-' ~ month ~ '-' ~ date , '%Y-%m-%d') %}
           {%- if (as_timestamp(today) | timestamp_custom('%U', true) | int ) % 2 == 0 -%}
             Even Week (Week# {{ as_timestamp(today) | timestamp_custom('%U', true) }})
@@ -133,9 +154,9 @@ sensor:
     sensors:
       trash_day:
         value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% set year = states.sensor.date__time.state.split(',')[0].split('-')[0] %}
+          {% set month = states.sensor.date__time.state.split(',')[0].split('-')[1] %}
+          {% set date = states.sensor.date__time.state.split(',')[0].split('-')[2] %}
           {% set today = strptime(year ~ '-' ~ month ~ '-' ~ date , '%Y-%m-%d') %}
           {%- set pickupDay = states.sensor.trash_pickup_day.state | lower -%}      
           {%- if as_timestamp(today)| timestamp_custom('%A', true) | lower == pickupDay -%}
@@ -152,9 +173,9 @@ sensor:
     sensors:
       recycle_day:
         value_template: >-
-          {% set year = states.sensor.date.state.split('-')[0] %}
-          {% set month = states.sensor.date.state.split('-')[1] %}
-          {% set date = states.sensor.date.state.split('-')[2] %}
+          {% set year = states.sensor.date__time.state.split(',')[0].split('-')[0] %}
+          {% set month = states.sensor.date__time.state.split(',')[0].split('-')[1] %}
+          {% set date = states.sensor.date__time.state.split(',')[0].split('-')[2] %}
           {% set today = strptime(year ~ '-' ~ month ~ '-' ~ date , '%Y-%m-%d') %}    
           {%- set pickupDay = states.sensor.recycle_pickup_day.state | lower -%}
           {% if states.input_select.recycle_pickup_week.state | lower == "even weeks" %}
