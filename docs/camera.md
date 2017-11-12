@@ -187,7 +187,7 @@ binary_sensor:
     device_class: occupancy
     payload_on: 'on'
     payload_off: 'off'
-    value_template: "{{ value }}"
+    value_template: "{% raw %}{{ value }}{% endraw %} "
 
 automation:
 
