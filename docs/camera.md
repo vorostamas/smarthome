@@ -6,7 +6,7 @@ description: The article below explains how you can use USB based camera and int
 
 # USB Camera /Using Webcam in Home Assistant 
 
-![alt text]({{site.url}}/images/camera-1.jpg "Camera Setup") 
+![Camera Setup]({{site.url}}/images/camera-1.jpg "Camera Setup")
 
 After installing Raspbian Operating System on your Raspberry Pi, connect USB camera to Raspberry Pi and run the following command. 
 
