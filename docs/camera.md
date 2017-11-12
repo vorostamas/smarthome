@@ -1,11 +1,10 @@
 ---
 layout: page
-title: DIY USB Camera & Raspberry Pi
+title: DIY Camera for Cheapos
 description: The article below explains how you can use USB based camera and integrate with Home Assistant
 ---
 
-# USB Camera 
-
+# USB Camera /Using Webcam in Home Assistant
 
 After installing Raspbian Operating System on your Raspberry Pi, connect USB camera to Raspberry Pi and run the following command. 
 
@@ -31,18 +30,18 @@ After the installation, you need make a few modifications to the settings, and t
 *    Change `webcontrol_localhost` to OFF.
 *    Set `quality` to 100.
 *    Set `width` & `height` to 640 & 480.
+*    Set `pre_capture` to 2.
 *    Set `post_capture` to 5.
 
-Save and exit the file.
+Save and exit the file. By the way, you can change the resolution to what ever you need depending on your camera's maximum supported resolution.
 
-
-After making changes, you also need to makechanges to one more file. Type in the command 'sudo nano /etc/default/motion ' and press enter.
+After making changes, you also need to make changes to one more file. Type in the command `sudo nano /etc/default/motion` and press enter.
 
 ```
 sudo vi /etc/default/motion
 ``` 
 
-*   Set ' start_motion_daemon ' to yes. Save and exit.
+*   Set `start_motion_daemon` to `yes`. Save and exit.
 
 Use the folowing commands to start, stop, and restart `motion` service. 
 
@@ -69,7 +68,7 @@ sudo systemctl status motion
 
 After running the service using `sudo motion`, if you run into any errors, it may be the permissions error. See Permissions section below.
 
-## Checking the Images:
+## Checking the camera images online:
 
 Go to the ip address of the Raspberry Pi, and access the url as below:
 
@@ -89,5 +88,15 @@ sudo chown motion:motion /var/log/motion
 sudo chown motion:motion /var/log/motion/motion.log
 ```
 
+## Home Assistant Integration
 
-If everything runs as expected, enjoy!
+Home Assistant basically needs a web URL, and the configuation goes like below:
+
+```
+camera:
+  - platform: mjpeg
+    mjpeg_url: http://192.168.xxx.xxx:8081
+    name: Garage Camera
+```
+
+After making changes, restart the Home Assistant, and if everything runs as expected, have fun!
