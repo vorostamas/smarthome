@@ -105,7 +105,30 @@ sensor:
             {% endif %}
           {% endif %}
 
+binary_sensor:
+  - platform: mqtt
+    state_topic: "/garage/motion"
+    name: "Garage Motion"
+    device_class: occupancy
+    payload_on: 'on'
+    payload_off: 'off'
+    value_template: "{{ value }}"
+
 automation:
+
+  - alias: Garage Motion Reset
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.garage_motion
+        to: 'on'
+        from: 'off'
+    action:
+      - delay: '00:00:30'
+      - service: mqtt.publish
+        data:
+          topic: "/garage/motion"
+          payload: 'off'
+          retain: false
 
 ################################################################################
 # Notifies when either of the garage door is opened or closed

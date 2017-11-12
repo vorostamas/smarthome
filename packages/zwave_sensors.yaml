@@ -369,6 +369,14 @@ zwave:
   debug: true
 
 group:
+  Energy Meter:
+    entities:
+      - sensor.energy_meter_current
+      - sensor.energy_meter_energy
+      - sensor.energy_meter_power
+      - sensor.energy_meter_previous_reading
+      - sensor.energy_meter_voltage
+      - zwave.energy_meter
 
   Motion Sensors:
     entities:
