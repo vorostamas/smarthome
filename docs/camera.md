@@ -4,7 +4,7 @@ title: DIY Camera for Cheapos
 description: The article below explains how you can use USB based camera and integrate with Home Assistant
 ---
 
-# USB Camera /Using Webcam in Home Assistant
+# USB Camera /Using Webcam in Home Assistant 
 
 ![alt text]({{site.url}}/images/camera.jpg "Camera Setup")
 
@@ -159,7 +159,7 @@ mqttc.publish(MQTT_TOPIC, 'on')
 ``` 
 before you move on, make sure you change the ip address, port, username and password of your MQTT server in the above code.
 
-Copy the contents above and place in a file `motion_on_mqtt.py` and place that file in `/home/pi` folder. Since the `motion` program runs inder `motion` user, you need to give permissions to that file for `motion` user. You can do so by running:
+Copy the contents above and place in a file `motion_on_mqtt.py` and place that file in `/home/pi` folder. Since the `motion` program runs under `motion` user, you need to give permissions to that file for `motion` user. You can do so by running:
 
 ```
 sudo chown motion:motion /home/pi/motion_on_mqtt.py
