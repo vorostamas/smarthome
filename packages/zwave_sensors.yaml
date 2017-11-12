@@ -360,7 +360,7 @@ homeassistant:
     switch.wallmote_switch:
       friendly_name: Wallmote Switch
     switch.zwave_smart_switch_switch:
-      friendly_name: ZWave Smart Switch
+      friendly_name: Office Room Accent Lights
 
 zwave:
   usb_path: /dev/ttyACM0

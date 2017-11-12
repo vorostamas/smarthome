@@ -84,6 +84,7 @@ group:
     entities:
       - camera.frontdoor_camera
       - camera.driveway_camera
+      - camera.garage_camera
 
   Backyard Cameras:
     entities:
@@ -138,6 +139,10 @@ camera:
   - platform: generic
     name: Playarea Camera
     still_image_url: !secret playarea_camera_url
+
+  - platform: mjpeg
+    mjpeg_url: http://192.168.1.189:8081
+    name: Garage Camera
 
   - platform: generic
     name: Ohio Doppler Weather

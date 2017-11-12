@@ -53,9 +53,6 @@ automation:
       - service: light.turn_on
         data:
           entity_id: light.tradfri_bulb_e26_ws_opal_980lm
-      - service: switch.turn_on
-        data:
-          entity_id: switch.switch_two
 
 ###############################################################################
 # Turn indoor lights on 60 minutes before sunset
@@ -104,29 +101,3 @@ automation:
           color_temp: 366
       - service: switch.turn_on
         entity_id: switch.zwave_smart_switch_switch
-
-  - alias: Front Room Light ON When Front Door is Open After Sunset
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door_sensor_sensor
-        to: 'on'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'        
-    action:
-      - service: light.turn_on
-        entity_id: light.tradfri_bulb_e26_ws_opal_980lm
-
-  - alias: Kitchen Light ON When Backdoor Door is Open or Motion Triggered After Sunset
-    trigger:
-      - platform: state 
-        entity_id: binary_sensor.back_door_sensor_sensor, binary_sensor.kitchen_motion_sensor_sensor
-        to: 'on'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'        
-    action:
-      - service: light.turn_on
-        entity_id: light.dinette

@@ -49,6 +49,9 @@ homeassistant:
     sensor.Illumination_34ce008ad65d:
       friendly_name: Hallway Luminance
 
+    light.gateway_light_34ce008ad65d:
+      friendly_name: Xiaomi Aqara Gateway Light
+
 group:
   Xiaomi Aqara:
     entities:
@@ -81,17 +84,18 @@ automation:
       - service: light.turn_on
         entity_id: light.dinette
 
-  - alias: Turn ON Dining Room Lights on Motion
-    trigger:
-    condition:
-    action:
-
   - alias: Turn ON Front Room Lights on Motion
     trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d00016db6d2
+        to: 'on'
     condition:
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'
     action:
-
-  - alias: Turn ON Office Room Lights on Motion
-    trigger:
-    condition:
-    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+          brightness: 254
+          transition: 5

@@ -103,7 +103,7 @@ automation:
 
 #=======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                          #
-#   MOTION001       YES		    ON		    ON		ON		Dim Lights                          #
+#   MOTION001       YES		      ON		    ON		ON		Dim Lights                        #
 #=======================================================================================#
   - alias: MOTION001
     initial_state: true
@@ -133,7 +133,7 @@ automation:
 
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #
-#   MOTION002       YES		    ON		    ON		OFF		Dim Lights                         #
+#   MOTION002       YES		      ON		    ON		OFF		Dim Lights                       #
 #======================================================================================#
   - alias: MOTION002
     initial_state: true
@@ -163,7 +163,7 @@ automation:
 
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #
-#   MOTION003       YES		    ON		    OFF		ON		Increase the brightness to 100%    #
+#   MOTION003       YES		      ON		    OFF		ON		Increase the brightness to 100%  #
 #======================================================================================#
   - alias: MOTION003
     initial_state: true
@@ -187,13 +187,12 @@ automation:
       - service: light.turn_on
         data:
           entity_id: light.family_room
-          brightness: 255
+          brightness: 254
           color_temp: 154
-          transition: 5
 
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #
-#   MOTION004       YES		    ON		    OFF		OFF		Turn Lights ON at 100% brightness  #
+#   MOTION004       YES		      ON		    OFF		OFF		  Turn Lights ON at 100% brightness  #
 #======================================================================================#
   - alias: MOTION004
     initial_state: true
@@ -217,13 +216,13 @@ automation:
       - service: light.turn_on
         data:
           entity_id: light.family_room
-          brightness: 255
+          brightness: 254
           color_temp: 154
           transition: 5
   
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #
-#   MOTION005       YES		    OFF		    ON		ON		Lights OFF                         #
+#   MOTION005       YES		      OFF		    ON		ON		  Lights OFF                     #
 #======================================================================================#        
   - alias: MOTION005
     initial_state: true
@@ -251,12 +250,12 @@ automation:
 
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #        
-#   MOTION006       YES		    OFF		    ON		OFF		Don't to anything                  #
+#   MOTION006       YES		      OFF		    ON		OFF		  Don't to anything              #
 #======================================================================================#       
 
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #        
-#   MOTION007       YES		    OFF		    OFF		ON		Turn Lights OFF                    #
+#   MOTION007       YES		      OFF		    OFF		ON		  Turn Lights OFF                #
 #======================================================================================#
   - alias: MOTION007
     initial_state: true

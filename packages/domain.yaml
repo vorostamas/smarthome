@@ -1,0 +1,27 @@
+homeassistant:
+  customize:
+    sensor.my_domain:
+      hidden: true
+
+sensor:
+  - platform: whois
+    domain: !secret namecheap_domain_name
+    name: My Domain
+
+# namecheapdns:
+#   domain: !secret namecheap_domain_name
+#   password: !secret namecheap_domain_password
+
+automation:
+  - alias: Remind domain renewal
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.my_domain
+        below: 30
+    action:
+      - service: persistent_notification.create
+        data:
+          title: 'Domain Renew'
+          message: 'It is time to renew your domain. The domain will expire in {{ states.sensor.my_domain.state  }} days.'

@@ -77,3 +77,16 @@ automation:
           brightness: 25
           color_temp: 154
           transition: 5
+
+  - alias: Front Room Light ON When Front Door is Open After Sunset
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door_sensor_sensor
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'        
+    action:
+      - service: light.turn_on
+        entity_id: light.tradfri_bulb_e26_ws_opal_980lm

@@ -11,7 +11,8 @@ homeassistant:
   
   unit_system: imperial
   time_zone: !secret time_zone
-  customize_glob: !include customize_glob.yaml  
+  customize_glob: !include customize_glob.yaml
+  customize_domain: !include customize_domain.yaml
   packages: !include_dir_named packages
   whitelist_external_dirs:
     - '/home/homeassistant/.homeassistant'
