@@ -90,7 +90,7 @@ sudo chown motion:motion /var/log/motion/motion.log
 
 ## Home Assistant Integration
 
-Home Assistant basically needs a web URL, and the configuation goes like below:
+The integration with Home Assistant is limited to bringing camera the image into the HA UI. You will not get alerts when motion is detected, and it does not create any sensors for you either. To bring the camera image into Home Assistant, and the followingto your `configuation.yaml` file.
 
 ```
 camera:
@@ -99,4 +99,4 @@ camera:
     name: Garage Camera
 ```
 
-After making changes, restart the Home Assistant, and if everything runs as expected, have fun!
+After making changes, restart the Home Assistant, and if everything runs as expected, enjoy! If not, google is your best friend!

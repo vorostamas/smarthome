@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Auto Start (Daemons)
+title: Daemons, Not Demons!
 description: "Auto Start applications on boot. Auto Running Home Assistant, Mosquitto, Home Bridge and App Daemon...etc"
 ---
 
