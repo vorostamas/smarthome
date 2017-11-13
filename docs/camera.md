@@ -6,7 +6,13 @@ description: The article below explains how you can use USB based camera and int
 
 # USB Camera /Using Webcam in Home Assistant 
 
+The following article explains how you can connect a USB based camera module to your Raspberry Pi, and bring in motion sensing capabilities and real-time streaming into your home automation system. The software used to interact with USB camera is `motion`, and it has so many wonderful features - including saving images when there is a motion, run an external program when the motion is detected, create a video clips of all recordings (by stitching all the images), make timelapse pictures, and has a built-in web server for easier access to the camera using a web interface...and more! There are so many advanced features that are available, unfortunately this article covers only some of it.
+
+The design goes something like the following picture. The camera is connected to a Raspberry Pi using USB interace, and the Raspberry Pi will be running `motion` program as `daemon` in the background, which constantly streaming the video and whenever the program detects significant difference between frames, it saves the images, and calls an external python program that drops a message into MQTT signaling that the motion has been etected. The home automation system (Home Assistant) allows for easy integration with MQTT, and lets you create sensors and automations. MQTT makes an easy integration between `motion` and `Home Assistant`.
+
 ![Camera Setup]({{site.url}}/images/camera-1.jpg "Camera Setup")
+
+Now that you know how this will come together, it is time to install and set up and configure basic Raspberry Pi stuff. If you are not familiar with setting up Raspberry Pi, you can find it online at [Raspberry Pi](https://www.raspberrypi.org)'s web site.
 
 After installing Raspbian Operating System on your Raspberry Pi, connect USB camera to Raspberry Pi and run the following command. 
 
