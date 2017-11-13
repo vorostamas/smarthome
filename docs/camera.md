@@ -6,15 +6,13 @@ description: The article below explains how you can use USB based camera and int
 
 # USB Camera /Using Webcam in Home Assistant 
 
-The following article explains how you can connect a USB based camera module to your Raspberry Pi, and bring in motion sensing capabilities and real-time streaming into your home automation system. The software used to interact with USB camera is `motion`, and it has so many wonderful features - including saving images when there is a motion, run an external program when the motion is detected, create a video clips of all recordings (by stitching all the images), make timelapse pictures, and has a built-in web server for easier access to the camera using a web interface...and more! There are so many advanced features that are available, unfortunately this article covers only some of it.
+This article explains how you can connect a USB based camera module to your Raspberry Pi, and bring in motion sensing capabilities/real-time streaming into your home automation system. The software used to interact with USB camera is `motion`. The `motion` program has so many features - including saving images when there is motion detected, run an external program indicating the same, create video clips of all recordings (by stitching all the images together), make time-lapse pictures, and also has a built-in web server for easier access to the camera via a web url...and more! There are so many advanced features that are available, unfortunately this article covers only some of it.
 
-The design goes something like the following picture. The camera is connected to a Raspberry Pi using USB interace, and the Raspberry Pi will be running `motion` program as `daemon` in the background, which constantly streaming the video and whenever the program detects significant difference between frames, it saves the images, and calls an external python program that drops a message into MQTT signaling that the motion has been etected. The home automation system (Home Assistant) allows for easy integration with MQTT, and lets you create sensors and automations. MQTT makes an easy integration between `motion` and `Home Assistant`.
+The design goes something like the following picture. The camera is connected to a Raspberry Pi using USB interace, and the Raspberry Pi will be running `motion` program. The program is run as `daemon`, so that when Raspberry Pi boots, the program starts automatically. The `motion` program will be constantly streaming the video (via Web URL) and whenever the program detects significant movement (difference between frames), it not only saves the images, but also calls an external python program - which in turn drops a message into MQTT signaling that the motion has been detected. The home automation system (Home Assistant) allows for easy integration with MQTT, and has the capability to create automatic `binary_sensor`s and automations. In this case, MQTT makes it easy to integrate between `motion` and `Home Assistant`.
 
 ![Camera Setup]({{site.url}}/images/camera-1.jpg "Camera Setup")
 
-Now that you know how this will come together, it is time to install and set up and configure basic Raspberry Pi stuff. If you are not familiar with setting up Raspberry Pi, you can find it online at [Raspberry Pi](https://www.raspberrypi.org)'s web site.
-
-After installing Raspbian Operating System on your Raspberry Pi, connect USB camera to Raspberry Pi and run the following command. 
+Now that you know how this will all come together, it is time to install and configure basic Raspberry Pi stuff. If you are unfamiliar with setting up Raspberry Pi, you can find it online at [Raspberry Pi](https://www.raspberrypi.org)'s web site. After installing Raspbian Operating System on your Raspberry Pi, connect USB camera to Raspberry Pi and run the following command. 
 
 ```
 lsusb
@@ -215,5 +213,56 @@ automation:
 ```
 Save the changes, and restart Home Assistant. That should show you a binary sensor on you dashboard, that will change its status whenever the camera detects motion. 
 
+## Troubleshooting
+
+There are many places where things can go wrong, please be careful in ensuring you have the software installed and configured properly. Also make sure the `motion` program that rung under `motion` user has access to the folders, paths, files. 
+
+### The python program doesn't seem to be working
+The python program requires `Paho MQTT` libraries installed on the system, and the user `motion` should be able to run it without any problems. If you can make sure the user `motion` can run the python program in the CLI (Command Line Interface), it should work as a `daemon`. To verify that, run the program as following:
+
+```
+sudo -u motion /usr/bin/python3 /home/pi/motion_on_mqtt.py
+```
+
+The command above should run successfully and you should see a "on" message in the MQTT - provided you configured MQTT server settings correctly.
+
+### MQTT Server 
+
+In case of not seeing messages in MQTT, make sure the MQTT server is set up and configured correctly. The user name, password, server Ip address, port all should be double checked. 
+
+If possible, run a test command where you can drop a simple message into your mqtt using the following command.
+```
+mosquitto_pub -h 192.168.xxx.xxx -p 1883 -t /test -m "on" -u USERNAME -P PASSWORD
+```
+
+## Still having issues?
+
+Instead of running the python program, try running a shell script that internaly calls the python program. Inside the shell script, put `>/tmp/motion.log 2>&1` at the end of command to log all the error messages and direct them into a log file. for ex:
+
+Before running the command, make sure the user `motion` has write access to the `/tmp/mtion.log` file. If not,  run the command `sudo chown motion:motion /tmp/motion.log`
+
+Sample `script.sh` contents
+```
+#!/bin/sh
+
+echo "Running python program" >> /tmp/motion.log
+/usr/bin/python3 /home/pi/motion_on_mqtt.py >> >/tmp/motion.log 2>&1
+
+```
+
+Run the script as follows, and check the `/tmp/motion.log` for any errors.
+
+```
+sudo chown motion:motion script.sh
+sudo chmod +x script.sh
+
+sudo -u motion script.sh
+```
+
+Some things to remember: 
+* Make sure you pay extra attention to the permissions!
+* Restart motion service after every change to the `/etc/motion/motion.conf` file
+
+Hope by now, you got it all working...
 
 After making changes, restart the Home Assistant, and if everything runs as expected, enjoy! If not, you may want to go back to googling stuff!
