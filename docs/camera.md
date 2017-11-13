@@ -246,7 +246,7 @@ Sample `script.sh` contents
 #!/bin/sh
 
 echo "Running python program" >> /tmp/motion.log
-/usr/bin/python3 /home/pi/motion_on_mqtt.py >> >/tmp/motion.log 2>&1
+/usr/bin/python3 /home/pi/motion_on_mqtt.py >> /tmp/motion.log 2>&1
 
 ```
 
