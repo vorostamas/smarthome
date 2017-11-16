@@ -28,6 +28,10 @@ python_script:
 recorder:
   db_url: !secret my_sql_url
 
+frontend:
+  extra_html_url:
+    - /local/custom_ui/state-card-custom-ui.html
+
 mqtt:
   broker: !secret pi_hole_mqtt_server
   port: !secret pi_hole_mqtt_port

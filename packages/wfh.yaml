@@ -51,7 +51,7 @@ automation:
         entity_id: device_tracker.suresh_suresh
         to: 'not_home'
       - platform: time
-        at: '00:17:00'
+        at: '17:00:00'
     condition:
       - condition: template
         value_template: '{{ now().hour | int > 10 and now().hour | int < 17 }}'

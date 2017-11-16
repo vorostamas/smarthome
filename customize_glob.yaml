@@ -134,31 +134,12 @@
   emulated_hue: false
   homebridge_hidden: true
 
-# 'zwave.*':
-#   icon: mdi:skull
-# 'alarm_control_panel.*':
-#   icon: mdi:skull
-# 'camera.*':
-#   icon: mdi:skull
-# 'device_tracker.*':
-#   icon: mdi:skull
-# 'input_*.*':
-#   icon: mdi:ghost
-# 'light.*':
-#   icon: mdi:skull
-# 'media_player.*':
-#   icon: mdi:ghost
-# 'script.*':
-#   icon: mdi:skull
-# 'switch.*':
-#   icon: mdi:skull
-# 'automation.*':
-#   icon: mdi:ghost
-# 'sensor.*':
-#   icon: mdi:ghost
-# 'group.*':
-#   icon: mdi:skull
-# 'calendar.*':
-#   icon: mdi:ghost
-# 'climate.*':
-#   icon: mdi:ghost
+'light.*':
+   custom_ui_state_card: state-card-custom-ui
+   state_card_mode: single-line
+   stretch_slider: true
+   slider_theme:
+     min: 0
+     max: 255
+     pin: true
+     off_when_min: true
