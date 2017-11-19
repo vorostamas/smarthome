@@ -5,71 +5,11 @@
 #   @description    :   Watchdog Automations
 ###############################################################################
 
-homeassistant:
-  customize:
-
-    ################################################
-    ## Node Anchors
-    ################################################
-
-    package.node_anchors:
-      customize: &customize
-        package: 'watchdog'
-
-      exposed: &exposed
-        <<: *customize
-        emulated_hue: true
-        homebridge_hidden: false
-        critical: true
-
-      not_exposed: &not_exposed
-        <<: *customize
-        emulated_hue: false
-        homebridge_hidden: true
-        critical: false
-
-      hidden: &hidden
-        <<: *customize
-        hidden: true
-        critical: false
-
-    group.watchdog_automations:
-      <<: *hidden
-      order: 58
-
-    automation.garage_lights_watchdog:
-      friendly_name: Garage Lights Watchdog
-      #icon: mdi:timer
-    automation.guest_bedroom_1_light_watchdog:
-      friendly_name: Guest Bedroom 1 Light Watchdog
-     # icon: mdi:timer
-    automation.guest_bedroom_2_light_watchdog:
-      friendly_name: Guest Bedroom 2 Light Watchdog
-    #  icon: mdi:timer
-    automation.kids_bedroom_light_watchdog:
-      friendly_name: Kids Bedroom Light Watchdog
-     # icon: mdi:timer
-    automation.prayer_room_light_watchdog:
-      friendly_name: Prayer Room Light Watchdog
-     # icon: mdi:timer
-
-group:
-  Watchdog Automations:
-    entities:
-      - automation.backyard_light_watchdog
-      - automation.frontroom_light_watchdog
-      - automation.frontyard_light_watchdog
-      - automation.garage_lights_watchdog
-      - automation.guest_bedroom_1_light_watchdog
-      - automation.kids_bedroom_light_watchdog
-      - automation.guest_bedroom_2_light_watchdog
-      - automation.single_car_garage_door_watchdog
-      - automation.home_security_system_watchdog_10_minutes
-      - automation.home_security_system_watchdog_30_minutes
-      - automation.working_in_garage_watchdog
-      - automation.two_car_garage_door_watchdog
-
 automation:
+
+# Garage:
+# Working in Garage Mode Watch Dog - Turns off after 2 hours
+###############################################################################
   - alias: Working In Garage WatchDog
     initial_state: true
     hide_entity: true
@@ -87,13 +27,16 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.working_in_garage
   
+# Garage:
+# Keeps and eye on the garage door... reminds me to close after 5 min
+###############################################################################
   - alias: Single Car garage Door WatchDog
     initial_state: true
     hide_entity: true
     trigger:
       - platform: state
         entity_id:
-          - binary_sensor.ecolink_garage_door_tilt_sensor_sensor_5_0
+          - binary_sensor.single_car_garage_door_tilt_sensor_sensor
         to: 'on'
         for: 
           minutes: 5
@@ -108,14 +51,17 @@ automation:
       - service: script.voice_notify
         data_template:
           message: "Attention! Your single car garage door is open for more than 5 minutes."
-  
+
+# Garage:
+# Keeps and eye on the garage door... reminds me to close after 5 min
+###############################################################################  
   - alias: Two Car garage Door WatchDog
     initial_state: true
     hide_entity: true
     trigger:
       - platform: state
         entity_id:
-          - binary_sensor.ecolink_garage_door_tilt_sensor_sensor_4_0
+          - binary_sensor.two_car_garage_door_tilt_sensor_sensor
         to: 'on'
         for: 
           minutes: 5
@@ -131,6 +77,9 @@ automation:
         data_template:
           message: "Attention! Your two car garage door is open for more than 5 minutes."
 
+# Front Yard:
+# Keeps and eye on the front porch lights...
+###############################################################################
   - alias: Frontyard Light WatchDog
     initial_state: true
     hide_entity: true
@@ -154,6 +103,9 @@ automation:
           message: >
             {{ trigger.to_state.attributes.friendly_name }} is ON during the day time. Saving power by turning it off!
   
+# Back Yard:
+# Keeps and eye on the patio lights...
+###############################################################################
   - alias: Backyard Light WatchDog
     initial_state: true
     hide_entity: true
@@ -177,29 +129,9 @@ automation:
           message: >
             {{ trigger.to_state.attributes.friendly_name }} is ON during the day time. Saving power by turning it off!
   
-  - alias: Garage Lights WatchDog
-    initial_state: true
-    hide_entity: true
-    trigger:
-      - platform: state
-        entity_id:
-          - switch.garage_lights
-        to: 'on'
-        for:
-          minutes: 5
-    condition:
-      - condition: state
-        entity_id: input_boolean.working_in_garage
-        state: 'off'
-    action:
-      - service: switch.turn_off
-        data_template:
-          entity_id: "{{ trigger.entity_id }}"
-      - service: script.notify_me
-        data_template:
-          message: >
-            {{ trigger.to_state.attributes.friendly_name }} are left ON for about 5 minutes. Saving power by turning it off!
-  
+# Guest Bedroom:
+# Keeps and eye on the Guest Bedroom 1 lights...
+###############################################################################
   - alias: Guest Bedroom 1 Light WatchDog
     initial_state: true
     hide_entity: true
@@ -214,7 +146,10 @@ automation:
       - service: switch.turn_off
         data_template:
           entity_id: "{{ trigger.entity_id }}"
-  
+
+# Guest Bedroom 2:
+# Keeps and eye on the Guest Bedroom 2 lights...
+###############################################################################
   - alias: Guest Bedroom 2 Light WatchDog
     initial_state: true
     hide_entity: true
@@ -230,6 +165,9 @@ automation:
         data_template:
           entity_id: "{{ trigger.entity_id }}"
   
+# Kids Bedroom:
+# Keeps and eye on the Kids Bedroom lights...
+###############################################################################
   - alias: Kids Bedroom Light WatchDog
     initial_state: true
     hide_entity: true
@@ -244,4 +182,3 @@ automation:
       - service: switch.turn_off
         data_template:
           entity_id: "{{ trigger.entity_id }}"
-

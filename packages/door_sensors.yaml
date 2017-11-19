@@ -32,12 +32,6 @@ homeassistant:
     zwave.single_car_garage_door_tilt_sensor:
       friendly_name: 1-Car Garage Door Sensor
       <<: *hidden
-    sensor.mqtt_single_car_garage_status:
-      friendly_name: 1 Car Garage State in MQTT
-      <<: *hidden
-    sensor.mqtt_double_car_garage_status:
-      friendly_name: 2 Car Garage State in MQTT
-      <<: *hidden
 
     binary_sensor.single_car_garage_door_tilt_sensor_sensor:
       <<: *hidden
@@ -233,7 +227,7 @@ automation:
 #  When I open the garage door
 #     if it is dark outside, OR
 #     both the garage doors are closed
-#       ==> turn the Garage lights ON
+#       ==> turn the Garage lights ON, and start timer!
 ################################################################################
   - alias: Garage Lights On When Door is Opened
     initial_state: true
@@ -256,3 +250,37 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.garage_lights
+      - service: timer.start
+        entity_id: timer.timer_garage
+
+# Notify Entry Door Status
+###############################################################################
+  - alias: Notify Entry Door Status
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: 
+        - binary_sensor.front_door_sensor_sensor
+        - binary_sensor.back_door_sensor_sensor
+    condition:
+      - condition: template
+        value_template: "{% if trigger.from_state %} True {% else %} False {% endif %}"
+    action:
+      - service: script.voice_notify
+        data_template:
+          message: >
+            {% if trigger.to_state.state | lower == "on" %}
+              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is OPEN,
+              {% if states.alarm_control_panel.simplisafe.state == 'armed_home' or states.alarm_control_panel.simplisafe.state == 'armed_away' %}
+              But your home security system is ON.
+              {% endif %}
+            {% elif trigger.to_state.state | lower == "off" %}
+              Your {{ trigger.to_state.attributes.friendly_name.replace('Sensor', '') }} is CLOSED!
+            {% endif %}
+          greeting: 'no'
+          only_at_night: >
+            {% if states.alarm_control_panel.simplisafe.state == 'armed_home' %}
+              no
+            {% else %}
+              yes
+            {% endif %}

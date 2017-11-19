@@ -59,7 +59,8 @@ automation:
       - service: timer.cancel
         entity_id: timer.getup_timer
 
-# Timer completed... time to announce, so that I get up and take a walk around
+# Timer elapsed... time to announce, so that I get up and take a walk around
+# restart the timer again, soon after the announcement
 ###############################################################################
   - alias: Getup & Walk Timer Completed
     trigger:
