@@ -178,11 +178,16 @@ automation:
         entity_id: sun.sun
         state: 'below_horizon'
       - condition: state
-        entity_id: media_player.sharp_tv
-        state: 'off'
-      - condition: state
         entity_id: light.family_room
         state: 'on'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'off'
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'unknown'
     action:
       - service: light.turn_on
         data:
@@ -207,11 +212,16 @@ automation:
         entity_id: sun.sun
         state: 'below_horizon'
       - condition: state
-        entity_id: media_player.sharp_tv
-        state: 'off'
-      - condition: state
         entity_id: light.family_room
         state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'off'
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'unknown'
     action:
       - service: light.turn_on
         data:
@@ -270,20 +280,25 @@ automation:
         entity_id: sun.sun
         state: 'below_horizon'
       - condition: state
-        entity_id: media_player.sharp_tv
-        state: 'off'
-      - condition: state
         entity_id: light.family_room
         state: 'on'      
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'off'
+          - condition: state
+            entity_id: media_player.sharp_tv
+            state: 'unknown'
     action:
       - service: light.turn_off
         data:
           entity_id: light.family_room
           transition: 5
-  
+
 #======================================================================================#
 #   Automation      It's Dark 	Motion		TV		Lights	ACTION                         #
-#   MOTION008       YES		    OFF		    OFF		OFF		Don't to anything                  #
+#   MOTION008       YES		      OFF		    OFF		OFF		Don't to anything                #
 #======================================================================================#
   
 ###############################################################################

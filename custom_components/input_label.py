@@ -24,8 +24,7 @@ input_label:
 """
 Component to provide input_label.
 
-For more details about this component, please refer to the documentation
-at https://home-assistant.io/components/input_label/
+For more details about this component, please contact Suresh Kalavala
 """
 import asyncio
 import logging
