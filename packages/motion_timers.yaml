@@ -55,8 +55,8 @@ automation:
         entity_id: sun.sun
         state: 'below_horizon'
     action:
-      - service: light.turn_on
-        entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+      - service: homeassistant.turn_on
+        entity_id: switch.rf_switch_four
       - service: timer.start
         entity_id: timer.timer_frontroom
 
@@ -72,8 +72,8 @@ automation:
         from: 'active'
         to: 'idle'
     action:
-      - service: light.turn_off
-        entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+      - service: homeassistant.turn_off
+        entity_id: switch.rf_switch_four
 
 # Kitchen:
 # Motion Detected - Turn ON the light and extend timer
@@ -83,7 +83,10 @@ automation:
     hide_entity: true  
     trigger:
       - platform: state
-        entity_id: binary_sensor.motion_sensor_158d0001a662fe
+        entity_id: 
+          - binary_sensor.motion_sensor_158d0001a662fe
+          - binary_sensor.kitchen_motion_sensor_sensor
+          - binary_sensor.basement_door_sensor_sensor
         from: 'off'
         to: 'on'
     condition:
@@ -321,7 +324,7 @@ automation:
     condition:
       - condition: state
         entity_id: input_boolean.working_in_garage
-        state: 'off'        
+        state: 'off'
     action:
       - service: switch.turn_off
         entity_id: switch.garage_lights

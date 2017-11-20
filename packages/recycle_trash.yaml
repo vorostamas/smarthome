@@ -346,18 +346,22 @@ automation:
         data_template:
           message: >
             {% if states.sensor.trash_day.state == "yes" %}
-              Tomorrow is the Trash Pickup day. Put the Trash bin outside, please!
+              Tomorrow is the Trash Pickup day. 
+              Put the Trash bin outside, please!
             {% elif states.sensor.recycle_day.state == "yes" %}
-              Tomorrow is the Recycle Pickup day. Put the Recycle bin outside, please!              
+              Tomorrow is the Recycle Pickup day. 
+              Put the Recycle bin outside, please!              
             {% endif %}
 
       - service: script.voice_notify
         data_template:
           message: >
             {% if states.sensor.trash_day.state == "yes" %}
-              Attention!: Tomorrow is the Trash Pickup day. Please don't forget to put the Trash bin outside tonight!
+              Attention!: Tomorrow is the Trash Pickup day. 
+              Please don't forget to put the Trash bin outside tonight!
             {% elif states.sensor.recycle_day.state == "yes" %}
-              Attention!: Tomorrow is the Recycle Pickup day. Please don't forget to put the recycle bin outside tonight!
+              Attention!: Tomorrow is the Recycle Pickup day. 
+              Please don't forget to put the recycle bin outside tonight!
             {% endif %}
 
   - alias: Trash and Recycle Bin Left Outside Already

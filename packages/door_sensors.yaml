@@ -166,62 +166,6 @@ automation:
             {% elif trigger.to_state.state | lower == "off" %}
               Your {{ trigger.to_state.attributes.friendly_name }} is now CLOSED!
             {% endif %}
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: >
-              {% if trigger.to_state.state | lower == "on" %}
-                true
-              {% else %}
-                false
-              {% endif %}
-      - service: notify.ios_suresh
-        data_template:
-          title: >
-            {{ trigger.to_state.attributes.friendly_name }}
-          message: >
-            Attention: Your {{ trigger.to_state.attributes.friendly_name }} is now OPENED!
-          data:
-            push:
-              badge: 0
-              category: >
-                {% if trigger.entity_id == "binary_sensor.single_car_garage_door_tilt_sensor_sensor" %}
-                  1CAR_GARAGE
-                {% else %}
-                 2CAR_GARAGE
-                {% endif%}
-
-################################################################################
-#  iOS Actionable Notification for Single Car Garage Door
-################################################################################
-  - alias: Close Single Car Garage Door
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: 1CAR_GARAGE_CLOSE
-    action:
-      - service: notify.ios_suresh
-        data:
-          message: "Closing Single Car Garage Door.."
-
-################################################################################
-#  iOS Actionable Notification for Double Car Garage Door
-################################################################################
-  - alias: Close Double Car Garage Door
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: 2CAR_GARAGE_CLOSE
-    action:
-      - service: notify.ios_suresh
-        data:
-          message: "Closing Double Car Garage Door.."
 
 ################################################################################
 #  When I open the garage door

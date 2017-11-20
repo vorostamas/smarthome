@@ -4,31 +4,6 @@ homeassistant:
     group.home__family:
       order: 1
 
-    ################################################
-    ## Node Anchors
-    ################################################
-
-    package.node_anchors:
-      customize: &customize
-        package: 'owntracks'
-
-      exposed: &exposed
-        <<: *customize
-        emulated_hue: true
-        homebridge_hidden: false
-        critical: true
-
-      not_exposed: &not_exposed
-        <<: *customize
-        emulated_hue: false
-        homebridge_hidden: true
-        critical: false
-
-      hidden: &hidden
-        <<: *customize
-        hidden: true
-        critical: false
-
     device_tracker.suresh_suresh:
       friendly_name: Suresh
       entity_picture: /local/suresh.jpg

@@ -41,7 +41,7 @@
   #     - platform: state
   #       entity_id:
   #         - light.dinette
-  #         - light.tradfri_bulb_e26_ws_opal_980lm
+  #         - switch.rf_switch_four
   #         - light.family_room
   #         - light.master_bedroom
   #       to: 'on'
@@ -56,7 +56,7 @@
   #           false
   #         {% endif %}
   #   action:
-  #     - service: light.turn_off
+  #     - service: homeassistant.turn_off
   #       data_template:
   #         entity_id: "{{ trigger.entity_id }}"
 
@@ -88,5 +88,5 @@
   #       entity_id: sun.sun
   #       state: 'below_horizon'        
   #   action:
-  #     - service: light.turn_on
-  #       entity_id: light.tradfri_bulb_e26_ws_opal_980lm
+  #     - service: homeassistant.turn_on
+  #       entity_id: switch.rf_switch_four

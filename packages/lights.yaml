@@ -10,7 +10,6 @@ homeassistant:
     ################################################
     ## Node Anchors
     ################################################
-
     package.node_anchors:
       customize: &customize
         package: 'lights'
@@ -82,12 +81,6 @@ homeassistant:
       friendly_name: Guest Bedroom 2
       emulated_hue_name: Guest Bedroom 2
       homebridge_name: Guest Bedroom 2
-
-    light.tradfri_bulb_e26_ws_opal_980lm:
-      <<: *exposed
-      friendly_name: Front Room Light
-      emulated_hue_name: Front Room Light
-      homebridge_name: Front Room Light
     
     switch.zwave_smart_switch_switch:
       <<: *exposed
@@ -106,9 +99,6 @@ homeassistant:
     light.all_hue_lights:
       <<: *hidden
 
-    light.tradfri_group:
-      <<: *not_exposed
-      friendly_name: IKEA Lights
     light.hue_color_lamp_1:
       <<: *not_exposed
       friendly_name: Family Room Light 1
@@ -135,9 +125,9 @@ homeassistant:
       icon: mdi:flash-outline
       friendly_name: Animate Master Bedroom Lights
 
-# Set assumed_state to false to show up as switch instead of two lightning symbols
+    # Set assumed_state to false to show up as switch instead of two lightning symbols
     switch.rf_switch_one:
-      friendly_name: Switch One
+      friendly_name: Basement Light
       assumed_state: false
     switch.rf_switch_two:
       friendly_name: Switch Two
@@ -146,11 +136,24 @@ homeassistant:
       friendly_name: Switch Three
       assumed_state: false
     switch.rf_switch_four:
-      friendly_name: Switch Four
+      friendly_name: Front Room Light
       assumed_state: false
     switch.rf_switch_five:
       friendly_name: Switch Five
       assumed_state: false
+
+    script.start_colorloop:
+      friendly_name: Start Colorloop
+      icon: mdi:palette
+    script.stop_colorloop:
+      friendly_name: Stop Colorloop
+      icon: mdi:palette
+    script.lifx_breathe:
+      friendly_name: Lifx Breath
+      icon: mdi:lightbulb
+    script.owntracks_update:
+      friendly_name: OwnTracks Report Location
+      icon: mdi:map-marker 
 
 group:
   RF Switches:
@@ -181,8 +184,6 @@ group:
       - switch.wemofrontporchlightswitch
       - switch.wemobackyardlightswitch
       - switch.garage_lights
-      - light.tradfri_bulb_e26_ws_opal_980lm
-      - light.tradfri_group
       - switch.zwave_smart_switch_switch
       - light.gateway_light_34ce008ad65d
 
@@ -301,6 +302,7 @@ script:
           entity_id: light.gateway_light_34ce008ad65d
           brightness: 255
           rgb_color: [255,0,0]
+
   xiaomi_blue:
     sequence:
       - service: light.turn_on
@@ -308,6 +310,7 @@ script:
           entity_id: light.gateway_light_34ce008ad65d
           brightness: 255
           rgb_color: [0,0,255]
+
   xiaomi_green:
     sequence:
       - service: light.turn_on
@@ -316,7 +319,36 @@ script:
           brightness: 255
           rgb_color: [0,255,0]
 
+  start_colorloop:
+    sequence:
+      - service: light.lifx_effect_colorloop
+        data:
+          entity_id: light.dinette
+          brightness: 255
+          period: 2
+          spread: 360
+          change: 35
+
+  stop_colorloop:
+    sequence:
+      - service: light.lifx_effect_stop
+        data:
+          entity_id: light.dinette
+
+  lifx_breathe:
+    sequence:
+      - service: light.lifx_effect_pulse
+        data:
+          mode: breathe
+          entity_id: light.dinette
+          color_name: red
+          cycles: 3
+          power_on: true
+
 automation:
+
+# Animate Master Bedroom Lights
+###############################################################################
   - alias: Animate Master Bedroom Lights
     initial_state: true
     hide_entity: True
@@ -335,8 +367,12 @@ automation:
           brightness: 255
           color_temp: 366
         data_template:
-          rgb_color: ['{{ "{0:d}".format(range(0, 255)|random) }}' , '{{ "{0:d}".format(range(0, 255)|random) }}', '{{ "{0:d}".format(range(0, 255)|random) }}']
-  
+          rgb_color: ['{{ "{0:d}".format(range(0, 255)|random) }}' , 
+                      '{{ "{0:d}".format(range(0, 255)|random) }}', 
+                      '{{ "{0:d}".format(range(0, 255)|random) }}']
+
+# Restore Master Bedroom Lights
+###############################################################################
   - alias: Restore Masterbedroom Lights
     initial_state: true
     hide_entity: True
@@ -352,7 +388,9 @@ automation:
           rgb_color: [224,175,102]
           brightness: 10
           color_temp: 366
-  
+
+# Animate Familyroom Lights
+###############################################################################
   - alias: Animate Familyroom Lights
     initial_state: true
     hide_entity: true
@@ -371,8 +409,12 @@ automation:
           brightness: 255
           color_temp: 366
         data_template:
-          rgb_color: ['{{ "{0:d}".format(range(0, 255)|random) }}' , '{{ "{0:d}".format(range(0, 255)|random) }}', '{{ "{0:d}".format(range(0, 255)|random) }}']
-          
+          rgb_color: ['{{ "{0:d}".format(range(0, 255)|random) }}' , 
+                      '{{ "{0:d}".format(range(0, 255)|random) }}', 
+                      '{{ "{0:d}".format(range(0, 255)|random) }}']
+
+# Restore Familyroom Lights
+###############################################################################
   - alias: Restore Familyroom Lights
     initial_state: true
     hide_entity: true
@@ -388,7 +430,9 @@ automation:
           rgb_color: [255, 251, 245]
           brightness: 255
           color_temp: 162
-        
+
+# Animate Kitchen Lights ON
+###############################################################################
   - alias: Animate Kitchen Lights ON
     initial_state: true
     hide_entity: true
@@ -403,10 +447,14 @@ automation:
       - service: light.turn_on
         entity_id: light.dinette
         data_template:
-          rgb_color: ['{{ (range(0, 255)|random) }}', '{{ (range(0, 255)|random) }}', '{{ (range(0, 255)|random) }}']
+          rgb_color: ['{{ (range(0, 255)|random) }}', 
+                      '{{ (range(0, 255)|random) }}', 
+                      '{{ (range(0, 255)|random) }}']
           brightness: 255
           transition: '{{ (range(1, 2)|random) }}'
-  
+
+# Animate Kitchen Lights OFF
+###############################################################################
   - alias: Animate Kitchen Lights OFF
     initial_state: true
     hide_entity: true
@@ -421,8 +469,10 @@ automation:
           rgb_color: [255, 255, 255]
           brightness: 255
           color_temp: 155
-  
-  - alias: Long Flash all lights
+
+# Long Flash All Lights
+###############################################################################
+  - alias: Long Flash All Lights
     initial_state: true
     hide_entity: true
     trigger:
@@ -438,8 +488,10 @@ automation:
           flash: long
       - service: input_boolean.turn_off
         entity_id: input_boolean.long_flash
-  
-  - alias: Short Flash all_lights
+
+# Short Flash All Lights
+###############################################################################
+  - alias: Short Flash All Lights
     initial_state: true
     hide_entity: true
     trigger:

@@ -27,7 +27,7 @@ input_boolean.home_assistant_restart               Home Assistant
 light.dinette                                      Kitchen Light
 light.family_room                                  Family Room Lights
 light.master_bedroom                               Master Bedroom Lights
-light.tradfri_bulb_e26_ws_opal_980lm               Office Room Light
+light.office_room_light                            Office Room Light
 switch.wemobackyardlightswitch                     Backyard Lights
 switch.wemofrontporchlightswitch                   Front Porch Lights
 switch.wemoswitch1                                 Front Room Light

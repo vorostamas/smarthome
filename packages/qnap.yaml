@@ -154,7 +154,9 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          message: "NAS Drive state changed to: {{ trigger.to_state.state| upper }} from '{{ trigger.from_state.state| upper }}'"
+          message: "NAS Drive state changed to: 
+          {{ trigger.to_state.state| upper }} from 
+          '{{ trigger.from_state.state| upper }}'"
 
   - alias: Notify NAS CPU Temperature
     initial_state: true
@@ -166,7 +168,8 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          message: "NAS CPU temperature is going crazy hot, needs your attention!!! The current cpu temp is: {{ trigger.to_state.state }}"
+          message: "NAS CPU temperature is going crazy hot, needs your attention!!! 
+          The current cpu temp is: {{ trigger.to_state.state }}"
 
   - alias: Notify NAS Disk Usage
     initial_state: true

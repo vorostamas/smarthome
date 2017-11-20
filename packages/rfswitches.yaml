@@ -1,4 +1,3 @@
-
 # NOTE: THIS CODE WORKS! I NO LONGER USE RPI FOR MY HA ANYMORE. HENCE THE CODE IS COMMENTED.
 # PLEASE FEEL FREE TO COPY THE CODE AND UNCOMMENT IT, AND SHOULD WORK OUT OF THE BOX
 
@@ -15,15 +14,15 @@
 #       order: 13
 
 #     switch.switch_one:
-#       friendly_name: RF Outlet Basement
+#       friendly_name: Switch One
 #     switch.switch_two:
-#       friendly_name: RF Office Room Accent Lights
+#       friendly_name: Switch Two
 #     switch.switch_three:
-#       friendly_name: Guest Bedroom 1
+#       friendly_name: Switch Three
 #     switch.switch_four:
-#       friendly_name: Guest Bedroom 2
+#       friendly_name: Switch Four
 #     switch.switch_five:
-#       friendly_name: Unassigned
+#       friendly_name: Switch Five
 
 #     sensor.rf_switch_one:
 #       hidden: true
@@ -45,9 +44,7 @@
 #       - switch.switch_three
 #       - switch.switch_four
 #       - switch.switch_five
-#       - automation.turn_growlight_off_in_the_morning
-#       - automation.turn_growlight_on_in_the_evening          
-      
+
 # ###############################################################################
 # #  RF Switches
 # ###############################################################################
@@ -116,7 +113,12 @@
 #     hide_entity: true
 #     trigger:
 #       platform: state
-#       entity_id: switch.switch_one, switch.switch_two, switch.switch_three, switch.switch_four, switch.switch_five
+#       entity_id: 
+#         - switch.switch_one
+#         - switch.switch_two
+#         - switch.switch_three
+#         - switch.switch_four
+#         - switch.switch_five
 #     action:
 #       service: mqtt.publish
 #       data_template:
@@ -131,7 +133,12 @@
 #     hide_entity: true
 #     trigger:
 #       platform: state
-#       entity_id: sensor.rf_switch_one, sensor.rf_switch_two, sensor.rf_switch_three, sensor.rf_switch_four, sensor.rf_switch_five
+#       entity_id: 
+#         - sensor.rf_switch_one
+#         - sensor.rf_switch_two
+#         - sensor.rf_switch_three
+#         - sensor.rf_switch_four
+#         - sensor.rf_switch_five
 #     action:
 #       - service_template: >
 #           {%- if trigger.to_state.state | lower == "on" -%}

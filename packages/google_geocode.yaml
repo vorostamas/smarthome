@@ -1,5 +1,7 @@
 homeassistant:
   customize:
+
+    # Locations
     sensor.suresh_location:
       friendly_name: Suresh's Location
       icon: mdi:map-marker
@@ -13,7 +15,41 @@ homeassistant:
       friendly_name: Hasika's Location
       icon: mdi:map-marker
 
+    # Travel Times
+    sensor.home2work:
+      friendly_name: Home -> Work
+      icon: mdi:domain
+    sensor.work2home:
+      friendly_name: Work -> Home
+      icon: mdi:home
+    sensor.suresh2home:
+      friendly_name: Suresh -> Home
+      icon: mdi:home
+    sensor.suresh2work:
+      friendly_name: Suresh -> Work
+      icon: mdi:domain
+    sensor.srinika2home:
+      friendly_name: Srinika -> Home
+      icon: mdi:home
+    sensor.hasika2home:
+      friendly_name: Hasika -> Home
+      icon: mdi:home
+
+    group.where_is_everyone:
+      order: 7
+    group.travel_time:
+      order: 6
+
 group:
+  Travel Time:
+    entities:
+      - sensor.home2work
+      - sensor.work2home
+      - sensor.suresh2work
+      - sensor.suresh2home
+      - sensor.srinika2home
+      - sensor.hasika2home
+
   Where is everyone:
     entities:
       - sensor.suresh_location
@@ -22,6 +58,55 @@ group:
       - sensor.hasika_location
 
 sensor:
+  - platform: google_travel_time
+    name: Home2Work
+    api_key: !secret google_travel_time_apikey 
+    origin: zone.home
+    destination: zone.work
+    options:
+      mode: driving
+  
+  - platform: google_travel_time
+    name: Work2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: zone.work
+    destination: zone.home
+    options:
+      mode: driving
+  
+  - platform: google_travel_time
+    name: Suresh2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.suresh_suresh
+    destination: zone.home
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Srinika2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.srinika_srinika
+    destination: zone.station
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Hasika2Home
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.hasika_hasika
+    destination: zone.ade
+    options:
+      mode: driving
+
+  - platform: google_travel_time
+    name: Suresh2Work
+    api_key: !secret google_travel_time_apikey 
+    origin: device_tracker.suresh_suresh
+    destination: zone.work
+    options:
+      mode: driving
+
+    #  Address/Location Details
   - platform: google_geocode
     name: Suresh Location
     api_key: !secret google_maps_geocoding_api

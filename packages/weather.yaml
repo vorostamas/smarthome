@@ -2,7 +2,7 @@
 #   @author         :   Mahasri Kalavala
 #   @date           :   04/15/2017
 #   @package        :   Weather
-#   @description    :   All weather related stuff!
+#   @description    :   Nothing But The Weather Stuff!
 ###############################################################################
 homeassistant:
   customize:
@@ -188,7 +188,12 @@ sensor:
   - platform: template
     sensors:
       uv_burn_time:
-       # Celtic"all babies and children" = 67Min // caucasian = 100Min // Central Europe = 200Min // south american = 200Min // Middle Eastern = 400Min // African = 500Min
+       # Celtic         = 67  Min 
+       # Caucasian      = 100 Min 
+       # Central Europe = 200 Min 
+       # South american = 200 Min 
+       # Middle Eastern = 400 Min 
+       # African        = 500 Min
         value_template: >
           {% if is_state('sensor.pws_uv', '0') %}
             0 Minutes
@@ -239,11 +244,6 @@ sensor:
       - apparent_temperature_max
       - apparent_temperature_min
       - precip_intensity_max
-
-  # - platform: waqi
-  #   token: !secret waqi_token
-  #   locations:
-  #   - !secret waqi_location
 
   - platform: rest
     name: pollen

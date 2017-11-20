@@ -106,6 +106,14 @@ homeassistant:
       friendly_name: Notify of new updates
       icon: mdi:update
 
+    script.update_hass:
+      friendly_name: Update Home Assistant
+      icon: mdi:home-assistant
+
+    script.restart_hass:
+      friendly_name: Restart Home Assistant
+      icon: mdi:home-assistant
+
 group:
   System Monitor:
     entities:
@@ -132,7 +140,31 @@ group:
       - sensor.speedtest_download
       - sensor.external_ip
  
+script:
+  update_hass:
+    sequence:
+      - service: shell_command.update_hass
+  restart_hass:
+    sequence:
+      - service: shell_command.restart_hass
+
+shell_command:
+  restart_hass: >-
+    hassctl restart
+
+  update_hass: >-
+    hassctl update-hass && hassctl config && hassctl restart
+
 sensor:
+
+  - platform: uptime
+    name: Home Assistant Up Time
+    unit_of_measurement: hours
+
+  - platform: whois
+    domain: !secret namecheap_domain_name
+    name: My Domain
+
   - platform: rest
     resource: http://ip.jsontest.com
     name: external_ip
@@ -225,3 +257,16 @@ automation:
     action:
       - service: script.notify_me
         data: {"message":"New HASS update is available. Please update!"}
+
+  - alias: Remind domain renewal
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.my_domain
+        below: 30
+    action:
+      - service: persistent_notification.create
+        data:
+          title: 'Domain Renew'
+          message: 'It is time to renew your domain. The domain will expire in {{ states.sensor.my_domain.state  }} days.'

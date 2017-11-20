@@ -4,25 +4,10 @@
 #   @package        :   TV
 #   @description    :   Tv Automations
 ###############################################################################
-homeassistant:
-  customize:
-    group.tv_automations:
-      order: 57
-
-group:
-  TV Automations:
-    entities:
-      - automation.tv_turn_lights_on_when_tv_is_turned_off
-      - automation.tv_restore_family_room_lights_to_tv_mode
-      - automation.tv_dim_indoor_lights_when_tv_is_on
-      - automation.tv_backlight_is_on_when_tv_is_on
-      - automation.tv_backlight_off_when_tv_is_off
-
 automation:
 
-#
 # Dim Family Room Lights When TV is Turned ON
-#
+###############################################################################
   - alias: TV Dim Indoor Lights when TV is ON
     initial_state: true
     hide_entity: true
@@ -62,9 +47,8 @@ automation:
           payload: 'on'
           retain: true
   
-#
 # Restore Family Room Lights to TV mode
-#
+###############################################################################
   - alias: TV Restore Family Room Lights To TV Mode
     initial_state: true
     hide_entity: true
@@ -97,9 +81,8 @@ automation:
           color_temp: 154
           transition: 5
   
-#
 # Turn Backlights Off when TV is turned OFF
-#
+###############################################################################
   - alias: TV Backlight OFF when TV is OFF
     initial_state: true
     hide_entity: true
@@ -119,9 +102,8 @@ automation:
           payload: 'off'
           retain: true
   
-#
 # Turn TV backlights when TV is turned ON
-#
+###############################################################################
   - alias: TV Backlight is ON when TV is ON
     initial_state: true
     hide_entity: true
@@ -141,9 +123,8 @@ automation:
           payload: 'on'
           retain: true
 
-#
 # Turn back Family room lights when TV is switched OFF
-#
+###############################################################################
   - alias: TV Turn Lights ON When TV is turned OFF
     initial_state: true
     hide_entity: true

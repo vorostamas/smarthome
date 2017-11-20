@@ -48,7 +48,6 @@ group:
       - input_label.two_car_garage_door_tilt_sensor
       - input_label.upstairs_multi_sensor
       - input_label.wallmote
-      - sensor.tradfri_remote_control
       
   Phone Batteries:
     entities:

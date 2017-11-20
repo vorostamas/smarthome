@@ -3,14 +3,14 @@
 #   @date           :   04/15/2017
 #   @package        :   Random Chuck Norris Facts
 #   @description    :   Daily dose of Chuck Norris. 
-#                       It is INTENTIONALLY set to query once a day. 
-#                       Know your limits, and DO NOT mess with Chuck Norris!
+#                       It is intentionally set to query once a day. 
+#                       Know your limits, too much of Chuck Norris is not good!
+# 
+#   These are facts, and not jokes. DO NOT JOKE ABOUT CHUCK NORRIS!
 # ##############################################################################
 homeassistant:
   customize:
     sensor.fact_of_the_day:
-      friendly_name: Fact Of The Day
-      icon: mdi:panda
       hidden: true
 
 sensor:
@@ -22,7 +22,7 @@ sensor:
 
 automation:
 
-  - alias: New joke At Startup
+  - alias: Chuck Norris Fact At Startup
     initial_state: true
     hide_entity: true
     trigger:
