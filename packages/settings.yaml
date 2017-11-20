@@ -126,45 +126,45 @@ input_datetime:
     name: Summer Bed Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 23:00'
+    initial: '23:00:00'
   summer_wakeup_time:
     name: Summer Wakeup Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 06:00'
+    initial: '06:00:00'
 
   autumn_bed_time:
     name: Autumn Bed Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 22:00'
+    initial: '22:00:00'
   autumn_wakeup_time:
     name: Autumn Wakeup Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 05:30'
+    initial: '05:30:00'
 
   winter_bed_time:
     name: Winter Bed Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 22:00'
+    initial: '22:00:00'
   winter_wakeup_time:
     name: Winter Wakeup Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 05:30'
+    initial: '05:30:00'
 
   spring_bed_time:
     name: Spring Bed Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 22:00'
+    initial: '22:00:00'
   spring_wakeup_time:
     name: Spring Wakeup Time
     has_date: false
     has_time: true
-    initial: '2017-01-01 05:30'
+    initial: '05:30:00'
 
 sensor:
   - platform: template

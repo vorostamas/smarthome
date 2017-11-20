@@ -110,9 +110,20 @@ automation:
         entity_id: timer.timer_kitchen
         from: 'active'
         to: 'idle'
+    condition:
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'        
     action:
-      - service: light.turn_off
+      - service_template: >
+          {% if now().hour|int >= states.sensor.bedtime_hour.state|int and now().minute|int >= states.sensor.bedtime_minute.state|int %}
+            light.turn_off
+          {% else %}
+            light.turn_on
+          {% endif %}
         entity_id: light.dinette
+        data:
+          brightness: 60
 
 # Family Room: 
 # Motion Detected - When TV is OFF, turn ON the light 100% and extend timer
