@@ -1,83 +1,83 @@
 ###############################################################################
 #   @author         :   Mahasri Kalavala
 #   @date           :   11/07/2017
-#   @package        :   Work From Home
-#   @description    :   Reminds me to Get Up and Walk around the house every 
-#                       30 minutes. 
+#   @package        :   Work From Home (wfh)
+#   @description    :   Reminds me to Get Up and Walk around the house once 
+#                       every 30 minutes during Work From Home days
 ###############################################################################
 homeassistant:
   customize:
-    timer.getup_timer:
+    timer.wfh_timer:
       hidden: true
 
-input_boolean:
-  work_from_home:
-    name: Work From Home
-    initial: off
-    icon: mdi:work
-
 timer:
-  getup_timer:
+  wfh_timer:
     duration: '00:30:00'
 
 automation:
 
-# Turn ON Working From Home if it detects you are still HOME during weekdays 
-# after 10 AM
+# Start WFH timer if Suresh is HOME during weekdays between 10 AM and 5 PM
 ###############################################################################
-  - alias: WFH Sensor Update
+  - alias: WFH Timer Start
+    hide_entity: true
+    initial_state: true
     trigger:
       - platform: time
-        at: '10:00:00'
+        minutes: '/5'
+        seconds: 00
     condition:
       - condition: template
         value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
+      - condition: template
+        value_template: '{{ now().hour|int >= 10 and now().hour|int < 17 }}'
+      - condition: template
+        value_template: '{{ states.timer.wfh_timer.state == "idle" }}'
+      - condition: template
+        value_template: '{{ states.device_tracker.suresh_suresh.state == "home" }}'        
+    action:
+      - service: timer.start
+        entity_id: timer.wfh_timer
+
+# Timer elapsed... Remind Suresh to take a quick walk
+# Restart the timer ONLY if the time is betwen office hours (10 AM and 5 PM)
+###############################################################################
+  - alias: Timer Elapsed - Take a walk
+    hide_entity: true
+    initial_state: true  
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data: 
+          entity_id: timer.wfh_timer
     action:
       - service_template: >
-          {% if states.device_tracker.suresh_suresh.state == "home" %}
-            input_boolean.turn_on
+          {% if now().hour | int > 10 and now().hour | int < 17 %}
+            timer.start
           {% else %}
-            input_boolean.turn_off
+            timer.cancel
           {% endif %}
-        entity_id: input_boolean.work_from_home
-      - service: timer.start
-        entity_id: timer.getup_timer
-
-# Left home... or it is 5PM... turn off the timer! 
-###############################################################################
-  - alias: Suresh came home between 10am and 5pm
-    trigger:
-      - platform: state
-        entity_id: device_tracker.suresh_suresh
-        to: 'not_home'
-      - platform: time
-        at: '17:00:00'
-    condition:
+        entity_id: timer.wfh_timer
       - condition: template
-        value_template: '{{ now().hour | int > 10 and now().hour | int < 17 }}'
-    action:
-      - service: timer.cancel
-        entity_id: timer.getup_timer
-
-# Timer elapsed... time to announce, so that I get up and take a walk around
-# restart the timer again, soon after the announcement
-###############################################################################
-  - alias: Getup & Walk Timer Completed
-    trigger:
-      - platform: state
-        entity_id: timer.getup_timer
-        from: 'active'
-        to: 'idle'
-    condition:
-      - condition: template
-        value_template: '{{ states.device_tracker.suresh_suresh.state == "home" }}'
-      - condition: template
-        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
-      - condition: template
-        value_template: '{{ states.input_boolean.work_from_home.state == "on" }}'
-    action:
+        value_template: '{{ now().hour|int >= 10 and now().hour|int < 17 }}'
       - service: script.voice_notify
         data_template:
           message: "It is time to stand up and walk around!"
-      - service: timer.start
-        entity_id: timer.getup_timer
+
+# Cancel timer When Suresh left home
+###############################################################################
+  - alias: Cancel WFH Timer When Suresh Leaves Home
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: zone
+        entity_id: device_tracker.suresh_suresh
+        zone: zone.home
+        event: leave
+    condition:
+      - condition: template
+        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
+      - condition: template
+        value_template: '{{ now().hour|int >= 10 and now().hour|int < 17 }}'        
+    action:
+      - service: timer.cancel
+        entity_id: timer.wfh_timer
