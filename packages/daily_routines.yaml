@@ -1,8 +1,8 @@
 ###############################################################################
 #   @author         :   Mahasri Kalavala
 #   @date           :   04/15/2017
-#   @package        :   Morning
-#   @description    :   Morning routine stuff
+#   @package        :   Daily Light Routine around the house 
+#   @description    :   Daily light routine stuff
 ###############################################################################
 
 automation:
@@ -248,7 +248,7 @@ automation:
           transition: 15
 
 ###############################################################################
-# Set the mood for bed time - DIM TV Room lights IF they are ON
+# Set the mood for bed time - DIM Family Room lights IF they are ON
 ###############################################################################
   - alias: Night Dim TV Lights
     initial_state: true
@@ -274,7 +274,7 @@ automation:
           transition: 15
 
 ###############################################################################
-# TURN HOME SECURITY SYSTEM ON AFTER BED TIME
+# TURN HOME SECURITY SYSTEM ON AT BED TIME
 ###############################################################################
   - alias: Night HomeSecurity On
     initial_state: true
@@ -335,6 +335,11 @@ automation:
         entity_id: switch.rf_switch_four
       - service: switch.turn_off
         entity_id: switch.zwave_smart_switch_switch
+      - delay: '00:00:05'
+      - service: light.turn_off
+        entity_id: light.family_room
+      - service: light.turn_off
+        entity_id: light.master_bedroom                
       - service: script.notify_me
         data: 
           message: "It is bed time, turned lights off!"
@@ -356,4 +361,3 @@ automation:
       - service: script.voice_notify
         data_template:
           message: !include ../templates/goodnight.yaml
-

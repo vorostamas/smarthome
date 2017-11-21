@@ -1,44 +1,10 @@
-# MLK Jr Day:	3rd Monday in January
-# Presidents Day:	3rd Monday in Feb
-# Mother's Day:	2nd Sunday in May
-# Memorial Day:	Last Monday in May
-# Father's Day:	3rd Sunday in June
-# Labor Day:	1st Monday in September
-# Columbus Day:	2nd Monday in October
-# Thanksgiving:	4th Thursday in November
-# Christmas:	Dec 25
-
  >
-
-  {% macro special_message() %}
-    {% if (now().month | int == 1) and (now().day | int == 1) %}
-      Happy New Year!!!.
-    {% elif (now().month | int == 1) and (now().day | int == 15) %}
-      Today is Martin Luther King Jr's Day.
-    {% elif (now().month | int == 2) and (now().day | int == 19) %}
-      Today is President's Day.
-    {% elif (now().month | int == 5) and (now().day | int == 13) %}
-      Happy Mother's Day!.
-    {% elif (now().month | int == 5) and (now().day | int == 28) %}
-      Today is Memorial Day!.
-    {% elif (now().month | int == 6) and (now().day | int == 17) %}
-      Happy Father's Day!.
-    {% elif (now().month | int == 9) and (now().day | int == 3) %}
-      Today is Labor Day!.
-    {% elif (now().month | int == 7) and (now().day | int == 4) %}
-      Happy July 4th!.
-    {% elif (now().month | int == 10) and (now().day | int == 19) %}
-      Happy Diwali!.
-    {% elif (now().month | int == 11) and (now().day | int == 10) %}
-      Today is a veterans day!.
-    {% elif (now().month | int == 11) and (now().day | int == 23) %}
-      Happy Thanksgiving!.
-    {% elif (now().month | int == 11) and (now().day | int == 24) %}
-      Happy Thanksgiving!.
-    {% elif (now().month | int == 12) and (now().day | int == 25) %}
-      Merry Christmas!.
+  {% macro announce_holiday() %}
+    {% if states.sensor.holiday.state != "" %}
+      {{ states.sensor.holiday.state }}
     {% endif %}
   {% endmacro %}
+
   {# Birthday notifications #}
   {% macro birthday_countdown( name, days2go ) %}
     {%- if days2go == 0 -%}
@@ -49,6 +15,7 @@
       {{name}}s Birthday is in {{days2go}} days! HURRAY!!!
     {%- endif -%}
   {% endmacro %}
+
   {# USPS mail notifications - only when I have 1 or more mails #}
   {%- macro USPS() -%}
     {% if now().hour  | int <= 16 %}
@@ -72,6 +39,7 @@
       {%- endif -%}
     {% endif %}
   {%- endmacro -%}
+
   {# Calendar notifications #}
   {% macro calendar_reminder() %}
     {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) < 7 %}
@@ -88,6 +56,7 @@
       {% endif %}
     {% endif %}
   {% endmacro %}
+
   {# Only notify when high levels of UV #}
   {%- macro uv_levels() -%}
     {%- set uv = states.sensor.pws_uv.state | int -%}
@@ -99,6 +68,7 @@
       Current UV index is extremely high. By all means, Stay indoors, and stay cool.
     {%- endif -%}
   {%- endmacro -%}
+
   {# weather summary #}
   {% macro weather_update() %}
     {% if states('sensor.dark_sky_minutely_summary') |lower != "unknown" %}
@@ -120,7 +90,7 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    {{ special_message() }}
+    {{ announce_holiday() }}
     {{ weather_update() }}
     {{ pollen_levels() }}
     {{ uv_levels() }}

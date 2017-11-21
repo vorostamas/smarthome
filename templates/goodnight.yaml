@@ -2,52 +2,47 @@
  {#- Provides status of iPhone Batteries -#}
   {%- macro battery_status() -%}
    {%- set level = 30 -%}
-   {%- if states.device_tracker.suresh_suresh.attributes.battery < level -%}
-     {{ states.device_tracker.suresh_suresh.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.suresh_suresh.attributes.battery }} Percent.
-   {%- endif -%}
-   {%- if states.device_tracker.mallika_mallika.attributes.battery < level -%}
-     {{ states.device_tracker.mallika_mallika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.mallika_mallika.attributes.battery }} Percent.
-   {%- endif -%}
-   {%- if states.device_tracker.srinika_srinika.attributes.battery < level -%}
-     {{ states.device_tracker.srinika_srinika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.srinika_srinika.attributes.battery }} Percent.
-   {%- endif -%}
-   {%- if states.device_tracker.hasika_hasika.attributes.battery < level -%}
-     {{ states.device_tracker.hasika_hasika.attributes.friendly_name }}'s iPhone battery is at {{ states.device_tracker.hasika_hasika.attributes.battery }} Percent.
-   {%- endif -%}
+   {% for item in states.device_tracker if '_' in item.entity_id.split('.')[1]-%}
+     {% if item.attributes.battery|int < level -%}
+       {{ item.attributes.friendly_name}}s iPhone battery is at {{ item.attributes.battery }} percent.
+     {%- endif %}
+   {%- endfor -%}
  {%- endmacro %}
  
  {#- Provides Light Status -#}
  {%- macro light_status() -%}
    {%- if states.light.dinette.state | lower == "on" -%}
-     {{ states.light.dinette.attributes.friendly_name }} is  {{ states.light.dinette.state | upper}}.
+     {{ states.light.dinette.attributes.friendly_name }} is ON.
    {%- endif -%}
 
-   {%- if states.group.family_room_lights.state | lower == "on" -%}
-     {{ states.group.family_room_lights.attributes.friendly_name }} is  {{ states.group.family_room_lights.state | upper}}.
+   {%- if states.light.family_room.state | lower == "on" -%}
+     {{ states.light.family_room.attributes.friendly_name }} are ON.
+   {%- endif -%}
+
+   {%- if states.light.master_bedroom.state | lower == "on" -%}
+     {{ states.light.master_bedroom.attributes.friendly_name }} are ON.
+   {%- endif -%}
+
+   {%- if states.switch.kids_bedroom.state | lower == "on" -%}
+     {{ states.switch.kids_bedroom.attributes.friendly_name }} light is ON.
    {%- endif -%}
 
    {%- if states.switch.guest_bedroom_1.state | lower == "on" -%}
-     {{ states.switch.guest_bedroom_1.attributes.friendly_name }} is  {{ states.switch.guest_bedroom_1.state | upper}}.
+     {{ states.switch.guest_bedroom_1.attributes.friendly_name }} is ON.
    {%- endif -%}
 
    {%- if states.switch.guest_bedroom_2.state | lower == "on" -%}
-     {{ states.switch.guest_bedroom_2.attributes.friendly_name }} is  {{ states.switch.guest_bedroom_2.state | upper}}.
+     {{ states.switch.guest_bedroom_2.attributes.friendly_name }} is ON.
+   {%- endif -%}
+
+   {%- if states.switch.garage_lights.state | lower == "on" -%}
+     {{ states.switch.garage_lights.attributes.friendly_name }} are ON.
+   {%- endif -%}
+
+   {%- if states.switch.zwave_smart_switch_switch.state | lower == "on" -%}
+     {{ states.switch.zwave_smart_switch_switch.attributes.friendly_name }} are ON.
    {%- endif -%}
  {%- endmacro -%}
-
- {#- Provides Garage Doors Status -#}
- {%- macro garagedoor_status() -%} 
-   {%- if states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.state | lower == "on" -%}
-     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN.
-   {%- elif states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.state | lower == "off" -%}
-     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is CLOSED.
-   {%- endif -%}
-   {%- if states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.state | lower == "on" -%}
-     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.attributes.friendly_name }} is OPEN.
-   {%- elif states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.state | lower == "off" -%}
-     {{ states.binary_sensor.ecolink_garage_door_tilt_sensor_sensor_2.attributes.friendly_name }} is CLOSED.
-   {%- endif -%}
-  {%- endmacro -%}
  
  {#- Provides Home Security System Status -#}
  {%- macro alarm_status() -%}
@@ -100,7 +95,20 @@
       Hasika's Phone is not plugged in.
     {% endif %}
   {%- endmacro -%}
-  
+
+ {#- Provides Garage Doors Status -#}
+ {%- macro single_car_garage_door_status() -%} 
+    {% if  states.binary_sensor.single_car_garage_door_tilt_sensor_sensor.state|lower == "on" %}
+      {{ states.binary_sensor.single_car_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN
+    {% endif %}
+ {%- endmacro -%}
+ 
+ {%- macro two_car_garage_door_status() -%} 
+    {% if  states.binary_sensor.two_car_garage_door_tilt_sensor_sensor.state|lower == "on" %}
+      {{ states.binary_sensor.two_car_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN
+    {% endif %}
+ {%- endmacro -%}
+
  {#- Main macro that runs all other macros and combines the information -#}
   {%- macro run() -%}
    It is past 10 o clock, and time to go to bed. Here is the status of your home.{{- alarm_status() -}}
@@ -116,11 +124,14 @@
    {{- light_output -}}
    {%- endif -%}
 
-   {%- set garagedoor_output = garagedoor_status() -%}
-   {%- if garagedoor_output | trim == "" -%}
-     Both the single car garage and the two car garage doors are closed. 
-   {%- else -%}
-     Warning!!! {{- garagedoor_output -}}
+   {%- set single_car_garage = single_car_garage_door_status() -%}
+   {%- set two_car_garage = two_car_garage_door_status() -%}
+   {%- if single_car_garage | trim == "" and two_car_garage | trim == "" -%}
+     The garage doors are closed.
+   {%- elif single_car_garage | trim != "" and two_car_garage | trim != "" -%}
+     Warning! Both garage doors are OPEN.
+   {% else %}
+     Warning! {{ single_car_garage }} {{ two_car_garage }}
    {%- endif -%}
    
    {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
