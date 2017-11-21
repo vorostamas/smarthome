@@ -32,9 +32,9 @@ homeassistant:
       friendly_name: Kitchen Luminance
      
     binary_sensor.motion_sensor_158d0001a25041:
-      friendly_name: Office Room Motion Sensor
+      friendly_name: Family Room Motion Sensor (xiaomi)
     sensor.Illumination_158d0001a25041:
-      friendly_name: Office Room Luminance
+      friendly_name: Family Room Luminance (xiaomi)
  
     binary_sensor.motion_sensor_158d00016db6d2:
       friendly_name: Front Room Motion Sensor

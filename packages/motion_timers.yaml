@@ -14,8 +14,6 @@ homeassistant:
       hidden: true
     timer.timer_frontroom:
       hidden: true
-    timer.timer_officeroom:
-      hidden: true
     timer.timer_garage:
       hidden: true
     timer.timer_diningroom:
@@ -25,12 +23,10 @@ homeassistant:
 
 timer:
   timer_kitchen:
-    duration: '00:05:00'
+    duration: '00:10:00'
   timer_familyroom:
     duration: '00:05:00'
   timer_frontroom:
-    duration: '00:05:00'
-  timer_officeroom:
     duration: '00:05:00'
   timer_garage:
     duration: '00:05:00'
@@ -57,6 +53,8 @@ automation:
     action:
       - service: homeassistant.turn_on
         entity_id: switch.rf_switch_four
+      - service: switch.turn_on
+        entity_id: switch.zwave_smart_switch_switch        
       - service: timer.start
         entity_id: timer.timer_frontroom
 
@@ -74,6 +72,8 @@ automation:
     action:
       - service: homeassistant.turn_off
         entity_id: switch.rf_switch_four
+      - service: switch.turn_off
+        entity_id: switch.zwave_smart_switch_switch
 
 # Kitchen:
 # Motion Detected - Turn ON the light and extend timer
@@ -131,12 +131,14 @@ automation:
 # Family Room: 
 # Motion Detected - When TV is OFF, turn ON the light 100% and extend timer
 ###############################################################################
-  - alias: Family Room TV ON Motion & Timer
+  - alias: Family Room Motion & Timer
     initial_state: true
     hide_entity: true  
     trigger:
       - platform: state
-        entity_id: binary_sensor.tv_multi_sensor_sensor
+        entity_id: 
+          - binary_sensor.tv_multi_sensor_sensor
+          - binary_sensor.motion_sensor_158d0001a25041
         from: 'off'
         to: 'on'
     condition:
@@ -162,37 +164,6 @@ automation:
         entity_id: timer.timer_familyroom
 
 # Family Room:
-# Motion Detected - When TV is ON, dim lights to 10%
-###############################################################################
-  - alias: Family Room TV OFF Motion & Timer
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.tv_multi_sensor_sensor
-      from: 'off'
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-      - condition: state
-        entity_id: media_player.sharp_tv
-        state: 'on'
-      - condition: state
-        entity_id: light.family_room
-        state: 'on'
-    action:
-      - service: light.turn_on
-        data:
-          entity_id: light.family_room
-          brightness: 10
-          color_temp: 154
-          transition: 5
-      - service: timer.start
-        entity_id: timer.timer_familyroom
-
-# Family Room:
 # Timer Elapsed - Turn OFF lights
 ###############################################################################
   - alias: Family Room Timer Elapsed
@@ -204,6 +175,9 @@ automation:
         from: 'active'
         to: 'idle'
     action:
+      - service: light.turn_off
+        entity_id: light.family_room
+      - delay: '00:00:05'
       - service: light.turn_off
         entity_id: light.family_room
 
@@ -252,42 +226,9 @@ automation:
         entity_id: light.master_bedroom_1
       - service: light.turn_off
         entity_id: light.master_bedroom_2
-
-# Office Room:
-# Motion Detected - Turn ON the light and extend timer
-###############################################################################
-  - alias: Officeroom Motion & Timer
-    initial_state: true
-    hide_entity: true  
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.motion_sensor_158d0001a25041
-        from: 'off'
-        to: 'on'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.zwave_smart_switch_switch
-      - service: timer.start
-        entity_id: timer.timer_officeroom
-
-# Office Room:
-# Timer Elapsed - Turn OFF lights
-###############################################################################
-  - alias: Officeroom Timer Elapsed
-    initial_state: true
-    hide_entity: true  
-    trigger:
-      - platform: state
-        entity_id: timer.timer_officeroom
-        from: 'active'
-        to: 'idle'
-    action:
-      - service: switch.turn_off
-        entity_id: switch.zwave_smart_switch_switch
+      - delay: '00:00:05'
+      - service: light.turn_off
+        entity_id: light.master_bedroom
 
 # Garage:
 # Motion Detected - Turn ON the light and extend timer

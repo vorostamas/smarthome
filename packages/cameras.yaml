@@ -144,10 +144,6 @@ camera:
     mjpeg_url: http://192.168.1.189:8081
     name: Garage Camera
 
-  - platform: generic
-    name: Ohio Doppler Weather
-    still_image_url: !secret ohio_doppler_weather
-
 binary_sensor:
 
   - platform: hikvision
