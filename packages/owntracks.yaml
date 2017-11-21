@@ -17,7 +17,7 @@ homeassistant:
       friendly_name: Hasika
       entity_picture: /local/hasika.jpg
     device_tracker.ipad_ipad:
-      <<: *hidden
+      hidden: true
 
 device_tracker:
   - platform: owntracks

@@ -114,6 +114,9 @@ homeassistant:
       friendly_name: Restart Home Assistant
       icon: mdi:home-assistant
 
+    sensor.my_domain:
+      <<: *hidden
+
 group:
   System Monitor:
     entities:
@@ -128,10 +131,10 @@ group:
       - sensor.signal_strength
       - sensor.current_log_level
       - sensor.ram_available
-      - sensor.uptime
       - binary_sensor.workday_sensor
       - sensor.ha_installed_version
       - sensor.ha_current_version
+      - sensor.home_assistant_up_time
 
   Internet Speed:
     entities:
