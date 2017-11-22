@@ -41,9 +41,9 @@ homeassistant:
     switch.wemoswitch1:
       <<: *exposed
       icon: mdi:lamp
-      friendly_name: TV Reset
-      emulated_hue_name: TV Reset
-      homebridge_name: Reset TV
+      friendly_name: TV Switch
+      emulated_hue_name: TV Switch
+      homebridge_name: TV Switch
 
     switch.wemobackyardlightswitch:
       <<: *exposed
