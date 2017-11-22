@@ -1,0 +1,216 @@
+###############################################################################
+#   @author         :   Mahasri Kalavala
+#   @date           :   04/15/2017
+#   @package        :   Zone
+#   @description    :   All the zones are defined here
+###############################################################################
+homeassistant:
+  customize:
+
+    input_boolean.home_mode_away:
+      hidden: true
+    zone.home:
+      friendly_name: Home
+    zone.work:
+      friendly_name: Office
+    group.zone_alerts:
+      order: 40
+
+zone:
+  - name: work
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    radius: 200
+    icon: mdi:briefcase
+
+input_boolean:
+  home_mode_away:
+    name: Away
+    initial: 'off'
+
+proximity:
+  home:
+    devices: device_tracker.suresh_suresh
+    tolerance: 50
+    unit_of_measurement: mi
+  work: 
+    devices: device_tracker.suresh_suresh
+    tolerance: 50
+    unit_of_measurement: mi
+
+# The following script runs when no one is home. It excludes some lights
+# and switches like front porch and backyard lights...etc for safety reasons.
+###############################################################################
+script:
+  home_mode_away:
+    sequence:
+      - service: light.turn_off
+        data_template:
+          entity_id: >
+            {%- for state in states.light if state.entity_id != 'light.gateway_light_34ce008ad65d' -%}
+            {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
+            {%- endfor -%}
+      - service: switch.turn_off
+        data_template:
+          entity_id: >
+            {%- for state in states.switch if
+            state.entity_id != 'switch.hallway_light_switch_switch' and 
+                                state.entity_id != 'switch.wemoswitch1' and
+                                state.entity_id != 'switch.wallmote_switch' and
+                                state.entity_id != 'switch.wemobackyardlightswitch' and
+                                state.entity_id != 'switch.wemofrontporchlightswitch' and
+                                not '_siren_' in state.entity_id -%}
+            {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
+            {%- endfor -%}
+      - service: climate.set_away_mode
+        data:
+          entity_id: climate.home
+          away_mode: 'true'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.home_mode_away
+
+automation:
+###############################################################################
+# Zone based alerting
+###############################################################################
+  - alias: Alert When Someone Enters a Zone
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: zone
+        entity_id:
+          - device_tracker.hasika_hasika
+          - device_tracker.mallika_mallika
+          - device_tracker.srinika_srinika
+          - device_tracker.suresh_suresh
+        zone: zone.home
+        event: enter
+      - platform: zone
+        entity_id: device_tracker.suresh_suresh
+        zone: zone.work
+        event: enter
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.alert_when_someone_enters_zone.state == "on" }}'                
+    action:
+      - service: script.notify_me
+        data_template:
+          message: >
+            {{ trigger.entity_id.split('.')[1].split('_')[0] | title}} just entered {{ trigger.zone.attributes.friendly_name }}!
+      - service: script.voice_notify
+        data_template:
+          message: >
+            {{ trigger.entity_id.split('.')[1].split('_')[0] | title}} just entered {{ trigger.zone.attributes.friendly_name }}!
+
+  - alias: Alert When Someone Leaves a Zone
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: zone
+        entity_id:
+          - device_tracker.hasika_hasika
+          - device_tracker.mallika_mallika
+          - device_tracker.srinika_srinika
+          - device_tracker.suresh_suresh
+        zone: zone.home
+        event: leave
+      - platform: zone
+        entity_id: device_tracker.suresh_suresh
+        zone: zone.work
+        event: leave
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.alert_when_someone_leaves_zone.state == "on" }}'        
+    action:
+      - service: script.notify_me
+        data_template:
+          message: "{{ trigger.entity_id.split('.')[1].split('_')[0] | title}} just left {{ trigger.zone.attributes.friendly_name }}!"
+      - service: script.voice_notify
+        data_template:
+          message: >-
+            {{ trigger.entity_id.split('.')[1].split('_')[0] | title }} just left {{ trigger.zone.attributes.friendly_name }}.
+
+###############################################################################
+# Welcome family members when they come home
+###############################################################################
+  - alias: Welcome Family
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id:
+          - device_tracker.mallika_mallika
+          - device_tracker.suresh_suresh
+          - device_tracker.srinika_srinika
+          - device_tracker.hasika_hasika
+        from: 'not_home'
+        to: 'home'
+        for: '00:02:00'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.welcome_family_announcement.state == "on" }}'
+    action:
+      - service: script.notify_me
+        data_template:
+          message: >
+            Welcome home, {{ trigger.entity_id.split('.')[1].split('_')[0] | title }}!
+      - service: script.voice_notify
+        data_template:
+          message: >
+            "Welcome home, {{ trigger.entity_id.split('.')[1].split('_')[0] | lower }}!"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.home_mode_away
+
+##############################################################################
+# Alert when every one is away
+##############################################################################
+  - alias: Alert when everyone is AWAY
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: time
+      minutes: 00
+      seconds: '/30'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.alert_no_one_home.state == "on" }}'
+      - condition: template
+        value_template: '{{ states.input_boolean.home_mode_away.state == "off" }}'
+      - condition: template
+        value_template: >
+          {% set suresh = states.device_tracker.mallika_mallika.state %}
+          {% set mallika = states.device_tracker.suresh_suresh.state %}
+          {% set srinika = states.device_tracker.srinika_srinika.state %}
+          {% set hasika = states.device_tracker.hasika_hasika.state %}
+          {% if suresh != "home" and mallika != "home" and srinika != "home" and hasika != "home" %}
+            True
+          {% else %}
+            False
+          {% endif %}
+    action:
+      - service: script.notify_me
+        data:
+          message: >
+            "Warning - No one's at home at the moment. "
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.home_mode_away
+      - service: script.home_mode_away
+
+###############################################################################
+# Proximity - Send an alert when someone is on their way home
+###############################################################################
+  - alias: Send a message as I get closer to home
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: proximity.home
+      below: 5
+      above: 1
+    condition:
+      - condition: template
+        value_template: '{{ states.proximity.home.attributes.dir_of_travel == "towards" }}'
+    action:
+      - service: script.notify_me
+        data_template:
+          message: >
+            "Suresh is on his way home, he is within the 5 miles range. Should be home soon!"

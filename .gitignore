@@ -40,7 +40,6 @@ usps_cache.sqlite
 .*
 !/.gitignore
 usps_cookies.pickle
-packages/zones.yaml
 packages/zones_private.yaml
 packages/device_tracker.yaml
 custom_components/sensor/__pycache__/*.pyc
