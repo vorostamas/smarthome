@@ -384,6 +384,11 @@ group:
       - binary_sensor.motion_sensor_158d0001a25041
       - binary_sensor.motion_sensor_158d00016db6d2
       - binary_sensor.motion_sensor_158d00016c2d0e
+      - binary_sensor.garage_motion
+      - binary_sensor.patio_camera_motion
+      - binary_sensor.playarea_camera_motion
+      - binary_sensor.frontdoor_camera_motion
+      - binary_sensor.driveway_camera_motion
       - binary_sensor.aeotec_water_sensor_sensor
       - binary_sensor.audio_detector_sensor
       - binary_sensor.basement_door_sensor_sensor
@@ -391,13 +396,11 @@ group:
       - binary_sensor.downstairs_occupancy
       - binary_sensor.driveway_camera_field_detection
       - binary_sensor.driveway_camera_line_crossing
-      - binary_sensor.driveway_camera_motion
       - binary_sensor.driveway_camera_tamper_detection
       - binary_sensor.front_room_multi_sensor_sensor
       - binary_sensor.front_door_sensor_sensor
       - binary_sensor.frontdoor_camera_field_detection
       - binary_sensor.frontdoor_camera_line_crossing
-      - binary_sensor.frontdoor_camera_motion
       - binary_sensor.frontdoor_camera_tamper_detection
       - binary_sensor.garage_door_sensor_sensor
       - binary_sensor.guest_bedroom_multi_sensor_sensor
@@ -406,15 +409,12 @@ group:
       - binary_sensor.back_door_sensor_sensor
       - binary_sensor.patio_camera_field_detection
       - binary_sensor.patio_camera_line_crossing
-      - binary_sensor.patio_camera_motion
       - binary_sensor.patio_camera_tamper_detection
       - binary_sensor.playarea_camera_field_detection
       - binary_sensor.playarea_camera_line_crossing
-      - binary_sensor.playarea_camera_motion
       - binary_sensor.playarea_camera_tamper_detection
       - binary_sensor.stairs_motion_sensor_sensor
       - binary_sensor.tv_multi_sensor_sensor
-      - binary_sensor.garage_motion
       - binary_sensor.single_car_garage_door_tilt_sensor_sensor
       - binary_sensor.two_car_garage_door_tilt_sensor_sensor
       - binary_sensor.upstairs_multi_sensor_sensor

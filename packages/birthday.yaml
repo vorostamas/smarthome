@@ -148,6 +148,8 @@ automation:
           message: !include ../templates/birthday_wishes.yaml
 
   - alias: Update Birthdays
+    initial_state: true
+    hide_entity: true  
     trigger:
       - platform: time
         minutes: '/5'

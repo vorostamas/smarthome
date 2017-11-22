@@ -86,7 +86,7 @@ sensor:
     name: Srinika2Home
     api_key: !secret google_travel_time_apikey 
     origin: device_tracker.srinika_srinika
-    destination: zone.station
+    destination: zone.home
     options:
       mode: driving
 
@@ -94,7 +94,7 @@ sensor:
     name: Hasika2Home
     api_key: !secret google_travel_time_apikey 
     origin: device_tracker.hasika_hasika
-    destination: zone.ade
+    destination: zone.home
     options:
       mode: driving
 

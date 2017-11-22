@@ -186,6 +186,7 @@ group:
       - switch.garage_lights
       - switch.zwave_smart_switch_switch
       - light.gateway_light_34ce008ad65d
+      - switch.hallway_light_switch_switch
 
   Light Automations:
     control: hidden

@@ -38,7 +38,7 @@ sensor:
 ###############################################################################
 automation:
   - alias: Notify Holiday State Change
-    hide_entity: false
+    hide_entity: true
     initial_state: true
     trigger:
       - platform: state

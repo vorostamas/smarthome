@@ -366,6 +366,7 @@ automation:
 ###############################################################################
   - alias: Notify Low battery
     initial_state: true
+    hide_entity: true    
     trigger:
       platform: numeric_state
       entity_id:
@@ -414,6 +415,7 @@ automation:
 # ###############################################################################
   - alias: Alert Low Battery Level of Sensors
     initial_state: true
+    hide_entity: true
     trigger:
       platform: numeric_state
       entity_id:

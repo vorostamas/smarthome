@@ -50,6 +50,7 @@ lights_switches:
   entities:
     - group.upstairs_lights
     - group.downstairs_lights
+    - group.rf_switches
 
 mediacenter_view:
   view: yes

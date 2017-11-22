@@ -105,6 +105,11 @@ group:
       - input_boolean.alert_when_someone_leaves_zone
       - input_boolean.alarm_clock
       - input_boolean.fix_tv
+      - input_boolean.notify_security_system_changes
+      - input_boolean.air_condition
+      - input_boolean.heater
+      - input_boolean.alert_no_one_home
+
   Bed & Wakeup Times:
     entities:
       - input_datetime.summer_bed_time

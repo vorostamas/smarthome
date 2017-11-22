@@ -68,6 +68,7 @@ group:
       - script.pushbullet_notify
       - script.voice_notify
       - script.voice_greeting
+      - script.home_mode_away
 
 script:
 

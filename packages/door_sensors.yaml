@@ -103,7 +103,7 @@ binary_sensor:
   - platform: mqtt
     state_topic: "/garage/motion"
     name: "Garage Motion"
-    device_class: occupancy
+    device_class: motion
     payload_on: 'on'
     payload_off: 'off'
     value_template: "{{ value }}"
@@ -111,6 +111,8 @@ binary_sensor:
 automation:
 
   - alias: Garage Motion Reset
+    initial_state: true
+    hide_entity: true  
     trigger:
       - platform: state
         entity_id: binary_sensor.garage_motion
@@ -201,6 +203,7 @@ automation:
 ###############################################################################
   - alias: Notify Entry Door Status
     initial_state: true
+    hide_entity: true    
     trigger:
       platform: state
       entity_id: 
