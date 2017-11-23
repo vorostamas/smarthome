@@ -22,6 +22,14 @@ input_boolean:
     name: Emergency Mode
     initial: 'off'
 
+group:
+  Emergency Scripts:
+    entities:
+      - script.emergency_script
+      - script.emergency_lights_on
+      - script.emergency_lights_off
+      - script.emergency_script_loop
+
 automation:
 
 # Water Leak detected - initiate the emergency process

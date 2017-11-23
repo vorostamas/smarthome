@@ -128,7 +128,10 @@ automation:
       - service: script.voice_notify
         data_template:
           message: >-
-            {{ trigger.entity_id.split('.')[1].split('_')[0] | title }} just left {{ trigger.zone.attributes.friendly_name }}.
+            {{ trigger.entity_id.split('.')[1].split('_')[0] | title }} just left {{ trigger.zone.attributes.friendly_name }} 
+            {% if trigger.entity_id.split('.')[1].split('_')[0] == "suresh" and trigger.zone.attributes.friendly_name | lower == "office" %}
+              and will be home in {{ (states.sensor.suresh2home.state | int) + 5 }} minutes.
+            {% endif %}
 
 ###############################################################################
 # Welcome family members when they come home

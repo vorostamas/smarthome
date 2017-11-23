@@ -32,3 +32,4 @@ group:
       - device_tracker.srinika_srinika
       - device_tracker.hasika_hasika
       - alarm_control_panel.simplisafe
+      - input_boolean.emergency_mode

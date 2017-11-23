@@ -98,7 +98,8 @@ scripts_view:
   icon: mdi:script
   entities:
     - group.scripts
-      
+    - group.emergency_scripts
+
 NAS:
   view: yes
   name: NAS
