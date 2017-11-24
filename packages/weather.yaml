@@ -493,3 +493,14 @@ automation:
             {%- elif curState == "sleet" %}
                input_boolean.sleet_alert
             {%- endif %}
+
+# Weather sensors - TBD, too lazy to create them
+#
+# {{ states.sun.sun.state }}
+# {{ states.sun.sun.attributes.azimuth }}
+# {{ states.sun.sun.attributes.elevation }}
+# Next Dusk: {{ as_timestamp(strptime(states.sun.sun.attributes.next_dusk, '%Y-%m-%d %H:%M:%S')) |timestamp_custom('%I:%M %p', true) }}
+# Next Midnight: {{ as_timestamp(strptime(states.sun.sun.attributes.next_midnight, '%Y-%m-%d %H:%M:%S')) |timestamp_custom('%I:%M %p', true) }}
+# Next Dawn: {{ as_timestamp(strptime(states.sun.sun.attributes.next_dawn, '%Y-%m-%d %H:%M:%S')) |timestamp_custom('%I:%M %p', true) }}
+# Next Rising: {{ as_timestamp(strptime(states.sun.sun.attributes.next_rising, '%Y-%m-%d %H:%M:%S')) |timestamp_custom('%I:%M %p', true) }}
+# Next Setting: {{ as_timestamp(strptime(states.sun.sun.attributes.next_setting, '%Y-%m-%d %H:%M:%S')) |timestamp_custom('%I:%M %p', true) }}

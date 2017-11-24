@@ -82,8 +82,8 @@ homeassistant:
     sensor.since_last_boot:
       friendly_name: Up Since
      
-    sensor.signal_strength:
-      icon: mdi:signal
+    # sensor.signal_strength:
+    #   icon: mdi:signal
       
     sensor.link_quality:
       icon: mdi:link-variant
@@ -128,13 +128,13 @@ group:
       - sensor.since_last_boot
       - sensor.cpu_temperature
       - sensor.link_quality
-      - sensor.signal_strength
       - sensor.current_log_level
       - sensor.ram_available
       - binary_sensor.workday_sensor
       - sensor.ha_installed_version
       - sensor.ha_current_version
       - sensor.home_assistant_up_time
+#      - sensor.signal_strength
 
   Internet Speed:
     entities:
@@ -213,12 +213,12 @@ sensor:
     command: /srv/homeassistant/bin/hass --version
     scan_interval: 86400
 
-  - platform: command_line
-    name: Signal Strength
-    command: "iwconfig wlp1s10 | grep -i signal"
-    value_template: >
-      {{ value.split(' ')[4].split('=')[1][1:] }}
-    unit_of_measurement: 'dBm'
+  # - platform: command_line
+  #   name: Signal Strength
+  #   command: "iwconfig wlp1s10 | grep -i signal"
+  #   value_template: >
+  #     {{ value.split(' ')[4].split('=')[1][1:] }}
+  #   unit_of_measurement: 'dBm'
 
   - platform: command_line
     name: Link Quality
