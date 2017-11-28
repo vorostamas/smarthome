@@ -108,6 +108,8 @@ automation:
         entity_id: switch.wemofrontporchlightswitch
       - service: switch.turn_off
         entity_id: switch.wemobackyardlightswitch
+      - service: homeassistant.turn_off
+        entity_id: switch.rf_switch_five
 
 ###############################################################################
 # Turn OF Kitchen Lights after 3 hours of wake up time during school/work days
@@ -161,6 +163,8 @@ automation:
         entity_id: switch.wemobackyardlightswitch
       - service: homeassistant.turn_on
         entity_id: switch.rf_switch_four
+      - service: homeassistant.turn_on
+        entity_id: switch.rf_switch_five
 
 ###############################################################################
 # Turn indoor lights on 30 minutes before sunset

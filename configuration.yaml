@@ -25,6 +25,11 @@ logbook:
 history:
 python_script:
 
+binary_sensor:
+  - platform: apcupsd
+  - platform: workday
+    country: US
+
 recorder:
   db_url: !secret my_sql_url
 
@@ -57,10 +62,6 @@ http:
   use_x_forwarded_for: true
   ip_ban_enabled: true
   login_attempts_threshold: 3
-
-binary_sensor:
-  - platform: workday
-    country: US
 
 emulated_hue:
   expose_by_default: false
@@ -116,8 +117,8 @@ ios:
             authenticationRequired: yes
             destructive: yes
             behavior: 'default'
-      - name: Welcome Home
-        identifier: 'welcome_home'
+      - name: Turn Off Security System
+        identifier: 'turn_off_security_system'
         actions:
           - identifier: 'DISABLE_SECURITY'
             title: 'Yes'

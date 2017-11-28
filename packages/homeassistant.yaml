@@ -5,12 +5,7 @@
 #   @description    :   Bunch of Sensors that are system or environment related
 ###############################################################################
 homeassistant:
-  customize:
-  
-    ################################################
-    ## Node Anchors
-    ################################################
-
+  customize:  
     package.node_anchors:
       customize: &customize
         package: 'homeassistant'
@@ -82,9 +77,9 @@ homeassistant:
     sensor.since_last_boot:
       friendly_name: Up Since
      
-    # sensor.signal_strength:
-    #   icon: mdi:signal
-      
+    sensor.signal_strength:
+      icon: mdi:signal
+
     sensor.link_quality:
       icon: mdi:link-variant
 
@@ -115,7 +110,7 @@ homeassistant:
       icon: mdi:home-assistant
 
     sensor.my_domain:
-      <<: *hidden
+      hidden: true
 
 group:
   System Monitor:
@@ -127,6 +122,7 @@ group:
       - sensor.last_boot
       - sensor.since_last_boot
       - sensor.cpu_temperature
+      - sensor.signal_strength
       - sensor.link_quality
       - sensor.current_log_level
       - sensor.ram_available
@@ -134,7 +130,6 @@ group:
       - sensor.ha_installed_version
       - sensor.ha_current_version
       - sensor.home_assistant_up_time
-#      - sensor.signal_strength
 
   Internet Speed:
     entities:
@@ -213,16 +208,16 @@ sensor:
     command: /srv/homeassistant/bin/hass --version
     scan_interval: 86400
 
-  # - platform: command_line
-  #   name: Signal Strength
-  #   command: "iwconfig wlp1s10 | grep -i signal"
-  #   value_template: >
-  #     {{ value.split(' ')[4].split('=')[1][1:] }}
-  #   unit_of_measurement: 'dBm'
+  - platform: command_line
+    name: Signal Strength
+    command: "iwconfig wlp3s0 | grep -i signal"
+    value_template: >
+      {{ value.split(' ')[4].split('=')[1][1:] }}
+    unit_of_measurement: 'dBm'
 
   - platform: command_line
     name: Link Quality
-    command: "iwconfig wlp1s10 | grep -i signal"
+    command: "iwconfig wlp3s0 | grep -i signal"
     value_template: >
       {{ value.split(' ')[1].split('=')[1]  }}
 
