@@ -109,10 +109,10 @@ automation:
     initial_state: true
     hide_entity: true  
     trigger:
-      - platform: state
-        entity_id: timer.timer_kitchen
-        from: 'active'
-        to: 'idle'
+      - platform: event
+        event_type: timer.finished
+        event_data: 
+          entity_id: timer.timer_kitchen    
     condition:
       - condition: state
         entity_id: sun.sun

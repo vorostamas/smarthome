@@ -231,3 +231,27 @@ automation:
             {% else %}
               yes
             {% endif %}
+
+  - alias: Basement Accent Lights ON When Basement Door Opened
+    initial_state: true
+    hide_entity: true    
+    trigger:
+      platform: state
+      entity_id: binary_sensor.basement_door_sensor_sensor
+      to: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: switch.rf_switch_one
+
+  - alias: Basement Accent Lights OFF After 5 minutes
+    initial_state: true
+    hide_entity: true    
+    trigger:
+      platform: state
+      entity_id: switch.rf_switch_one
+      to: 'on'
+      for:
+        minutes: 5
+    action:
+      - service: homeassistant.turn_off
+        entity_id: switch.rf_switch_one

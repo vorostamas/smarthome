@@ -1,0 +1,44 @@
+# homeassistant:
+#   customize:
+#     input_boolean.keep_alive:
+#       hidden: true
+
+# input_boolean:
+#   keep_alive:
+#     name: Dummy Switch
+#     initial: on
+
+# input_number:
+#   master_bath_timeout:
+#     name: Master Bath Time Out
+#     initial: 1
+#     min: 0
+#     max: 60
+#     step: 1
+
+# binary_sensor:
+#   - platform: mqtt
+#     state_topic: "/home/motion"
+#     name: "Master Bath Motion"
+#     payload_on: "1"
+#     payload_off: "0"
+#     device_class: motion
+
+# sensor:
+#   - platform: template
+#     sensors:
+#       master_bath_timeout_threshold:
+#         entity_id: input_boolean.keep_alive
+#         value_template: >-
+#           {{ ( (as_timestamp(now()) - as_timestamp(states.binary_sensor.master_bath_motion.last_changed) | int ) /60) | int > (states.input_number.master_bath_timeout.state | int) }}
+
+# automation:
+#   - alias: Keep Alive
+#     initial_state: true
+#     hide_entity: true
+#     trigger:
+#       - platform: time
+#         seconds: '/1'
+#     action:
+#       - service: input_boolean.toggle
+#         entity_id: input_boolean.keep_alive

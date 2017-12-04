@@ -14,22 +14,22 @@ homeassistant:
   customize_glob: !include customize_glob.yaml
   customize_domain: !include customize_domain.yaml
   packages: !include_dir_named packages
-  whitelist_external_dirs:
-    - '/home/homeassistant/.homeassistant'
+  # whitelist_external_dirs:
+  #   - '/home/homeassistant/.homeassistant'
 
 updater:
 discovery:
 sun:
 config:
-logbook:
-history:
 python_script:
 
-recorder:
-  db_url: !secret my_sql_url
-
-frontend:
-  javascript_version: latest
+#logbook:
+#history:
+# recorder:
+#   db_url: !secret my_sql_url
+# 
+# frontend:
+#   javascript_version: latest
 
 mqtt:
   broker: !secret pi_hole_mqtt_server
