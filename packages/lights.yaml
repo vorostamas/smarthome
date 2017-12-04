@@ -139,7 +139,7 @@ homeassistant:
       friendly_name: Front Room Light
       assumed_state: false
     switch.rf_switch_five:
-      friendly_name: Switch Five
+      friendly_name: Christmas Lights
       assumed_state: false
 
     script.start_colorloop:

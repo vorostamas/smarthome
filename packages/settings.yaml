@@ -109,6 +109,7 @@ group:
       - input_boolean.air_condition
       - input_boolean.heater
       - input_boolean.alert_no_one_home
+      - input_boolean.battery_notifications
 
   Bed & Wakeup Times:
     entities:
@@ -324,6 +325,11 @@ input_boolean:
     name: Fix TV
     initial: off
     icon: mdi:television
+
+  battery_notifications:
+    name: Battery Notifications
+    initial: on
+    icon: mdi:battery
 
 # Automations
 ###############################################################################
