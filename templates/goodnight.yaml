@@ -4,7 +4,9 @@
    {%- set level = 30 -%}
    {% for item in states.device_tracker if '_' in item.entity_id.split('.')[1]-%}
      {% if item.attributes.battery|int < level -%}
-       {{ item.attributes.friendly_name}}s iPhone battery is at {{ item.attributes.battery }} percent.
+       {% if states.sensor.sureshs_iphone_battery_state.state | lower != "charging" %}
+         {{ item.attributes.friendly_name}}s iPhone battery is at {{ item.attributes.battery }} percent.
+       {% endif %}
      {%- endif %}
    {%- endfor -%}
  {%- endmacro %}
@@ -109,6 +111,19 @@
     {% endif %}
  {%- endmacro -%}
 
+  {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
+  {%- macro humidity_status() -%}
+    {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
+      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) < 30 and "pws" not in item.entity_id -%}
+        {{ item.attributes.friendly_name.replace("Relative","") }} is less than 30%. 
+      {%- endfor -%}
+    {% else %}
+      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) > 60 and "pws" not in item.entity_id -%}
+        {{ item.attributes.friendly_name.replace("Relative","") }} is more than 60%.
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endmacro -%}
+
  {#- Main macro that runs all other macros and combines the information -#}
   {%- macro run() -%}
    It is past 10 o clock, and time to go to bed. Here is the status of your home.{{- alarm_status() -}}
@@ -135,8 +150,8 @@
    {%- endif -%}
    
    {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
-   {{- pihole() -}} 
    {{ phoneBatteryStatus() }}
+   {{ humidity_status() }}
    {{- outside_weather() }} Everything else looks good. Hope you have a good night sleep!
  {%- endmacro -%}
  

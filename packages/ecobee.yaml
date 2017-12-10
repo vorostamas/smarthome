@@ -45,6 +45,7 @@ input_boolean:
 
 group:
   Ecobee:
+    - weather.home
     - binary_sensor.kids_room_occupancy
     - binary_sensor.downstairs_Occupancy
     - sensor.kids_room_temperature

@@ -42,7 +42,7 @@
 
   {# Calendar notifications #}
   {% macro calendar_reminder() %}
-    {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) < 7 %}
+    {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) <= (states.input_number.calendar_remind_before_days.state | int)  %}
       Your next event. {{ states.calendar.suresh_kalavala.attributes.message }} . starts 
       {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').day | int == now().day | int %}
          today at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
@@ -79,7 +79,7 @@
     {% endif %}
   {% endmacro %}
 
-  {# Only notify pollen levels ib spring #}
+  {# Only notify pollen levels in spring #}
   {%- macro pollen_levels() -%}
   {% if states.sensor.season.state| lower == "spring" %}
     {% if states.sensor.pollen_level.state | lower != "low" %}
@@ -88,12 +88,27 @@
   {% endif %}
   {%- endmacro -%}
 
+  {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
+  {# exclude weather service humidity sensors 'pws' from the loop #}
+  {%- macro humidity_status() -%}
+    {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
+      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) < 30 and "pws" not in item.entity_id -%}
+        {{ item.attributes.friendly_name.replace("Relative","") }} is less than 30%. 
+      {%- endfor -%}
+    {% else %}
+      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) > 60 and "pws" not in item.entity_id -%}
+        {{ item.attributes.friendly_name.replace("Relative","") }} is more than 60%.
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endmacro -%}
+
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
     {{ announce_holiday() }}
     {{ weather_update() }}
     {{ pollen_levels() }}
     {{ uv_levels() }}
+    {{ humidity_status() }}
     {{ calendar_reminder() }}
     {{ USPS() }}
     {{ birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int ) }}
