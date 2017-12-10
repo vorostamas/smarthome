@@ -3,16 +3,16 @@ homeassistant:
 
     # Locations
     sensor.suresh_location:
-      friendly_name: Suresh's Location
+      friendly_name: Suresh is at
       icon: mdi:map-marker
     sensor.mallika_location:
-      friendly_name: Mallika's Location
+      friendly_name: Mallika is at
       icon: mdi:map-marker
     sensor.srinika_location:
-      friendly_name: Srinika's Location
+      friendly_name: Srinika is at
       icon: mdi:map-marker
     sensor.hasika_location:
-      friendly_name: Hasika's Location
+      friendly_name: Hasika is at
       icon: mdi:map-marker
 
     # Travel Times

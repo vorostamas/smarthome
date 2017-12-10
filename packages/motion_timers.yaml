@@ -94,11 +94,8 @@ automation:
         entity_id: sun.sun
         state: 'below_horizon'
     action:
-      - service: light.turn_on
-        entity_id: light.dinette
-        data:
-          brightness: 255
-          color_temp: 155
+      - service: switch.turn_on
+        entity_id: switch.kitchen_light
       - service: timer.start
         entity_id: timer.timer_kitchen
 
@@ -120,13 +117,11 @@ automation:
     action:
       - service_template: >
           {% if now().hour|int >= states.sensor.bedtime_hour.state|int and now().minute|int >= states.sensor.bedtime_minute.state|int %}
-            light.turn_off
+            switch.turn_off
           {% else %}
-            light.turn_on
+            switch.turn_on
           {% endif %}
-        entity_id: light.dinette
-        data:
-          brightness: 60
+        entity_id: switch.kitchen_light
 
 # Family Room: 
 # Motion Detected - When TV is OFF, turn ON the light 100% and extend timer
@@ -246,6 +241,8 @@ automation:
         from: 'off'
         to: 'on'
     condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.working_in_garage.state | lower == "on" }}'
       - condition: template
         value_template: '{{ (as_timestamp(now()) - as_timestamp(states.switch.garage_lights.last_updated))  | int > 30 }}'
     action:

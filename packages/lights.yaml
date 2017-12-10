@@ -64,29 +64,50 @@ homeassistant:
       emulated_hue_name: Master Bedroom Lights
       homebridge_name: Master Bedroom Lights
 
-    light.dinette:
-      <<: *exposed
-      friendly_name: Kitchen Light
-      emulated_hue_name: Kitchen Light
-      homebridge_name: Kitchen Light
-      
     switch.guest_bedroom_1:
       <<: *exposed
+      icon: mdi:lightbulb
       friendly_name: Guest Bedroom 1
       emulated_hue_name: Guest Bedroom 1
       homebridge_name: Guest Bedroom 1
 
     switch.guest_bedroom_2:
       <<: *exposed
+      icon: mdi:lightbulb
       friendly_name: Guest Bedroom 2
       emulated_hue_name: Guest Bedroom 2
       homebridge_name: Guest Bedroom 2
     
     switch.zwave_smart_switch_switch:
       <<: *exposed
-      friendly_name: Office Room Accent Light
-      emulated_hue_name: Office Room Accent Light
-      homebridge_name: Office Room Accent Light
+      friendly_name: Office Room Accent Lights
+      emulated_hue_name: Office Room Accent Lights
+      homebridge_name: Office Room Accent Lights
+      assumed_state: false
+      icon: mdi:lightbulb
+
+    switch.basement_left_lights:
+      friendly_name: Basement Theater Lights
+      assumed_state: false
+      icon: mdi:lightbulb
+    switch.basement_right_lights:
+      friendly_name: Basement Right Side Lights
+      assumed_state: false
+      icon: mdi:lightbulb
+    switch.kitchen_light:
+      friendly_name: Kitchen Light
+      assumed_state: false
+      icon: mdi:lightbulb
+    switch.office_room_lights:
+      friendly_name: Office Room Lights
+      assumed_state: false
+      icon: mdi:lightbulb
+    switch.kids_bedroom:
+      friendly_name: Kids Bedroom
+      icon: mdi:lightbulb
+    switch.garage_lights:
+      friendly_name: Garage Lights
+      icon: mdi:lightbulb
 
     # Xiaomi Gateway Light Scripts
     script.xiaomi_red:
@@ -180,13 +201,16 @@ group:
       - light.hue_color_lamp_2
       - light.hue_color_lamp_3
       - group.ikea_bulbs
-      - light.dinette
       - switch.wemofrontporchlightswitch
       - switch.wemobackyardlightswitch
       - switch.garage_lights
       - switch.zwave_smart_switch_switch
       - light.gateway_light_34ce008ad65d
       - switch.hallway_light_switch_switch
+      - switch.basement_left_lights
+      - switch.basement_right_lights
+      - switch.kitchen_light
+      - switch.office_room_lights      
 
   Light Automations:
     control: hidden
@@ -230,6 +254,18 @@ switch:
   - platform: tplink
     host: !secret tplink_garage
     name: Garage Lights
+  - platform: tplink
+    host: !secret tplink_basement_left
+    name: Basement Left Lights
+  - platform: tplink
+    host: !secret tplink_basement_right
+    name: Basement Right Lights
+  - platform: tplink
+    host: !secret tplink_kitchen
+    name: Kitchen Light
+  - platform: tplink
+    host: !secret tplink_office_room
+    name: Office Room Lights
 
 # RF Switches    
   - platform: mqtt
@@ -320,31 +356,31 @@ script:
           brightness: 255
           rgb_color: [0,255,0]
 
-  start_colorloop:
-    sequence:
-      - service: light.lifx_effect_colorloop
-        data:
-          entity_id: light.dinette
-          brightness: 255
-          period: 2
-          spread: 360
-          change: 35
+  # start_colorloop:
+  #   sequence:
+  #     - service: light.lifx_effect_colorloop
+  #       data:
+  #         entity_id: light.dinette
+  #         brightness: 255
+  #         period: 2
+  #         spread: 360
+  #         change: 35
 
-  stop_colorloop:
-    sequence:
-      - service: light.lifx_effect_stop
-        data:
-          entity_id: light.dinette
+  # stop_colorloop:
+  #   sequence:
+  #     - service: light.lifx_effect_stop
+  #       data:
+  #         entity_id: light.dinette
 
-  lifx_breathe:
-    sequence:
-      - service: light.lifx_effect_pulse
-        data:
-          mode: breathe
-          entity_id: light.dinette
-          color_name: red
-          cycles: 3
-          power_on: true
+  # lifx_breathe:
+  #   sequence:
+  #     - service: light.lifx_effect_pulse
+  #       data:
+  #         mode: breathe
+  #         entity_id: light.dinette
+  #         color_name: red
+  #         cycles: 3
+  #         power_on: true
 
 automation:
 
@@ -434,42 +470,42 @@ automation:
 
 # Animate Kitchen Lights ON
 ###############################################################################
-  - alias: Animate Kitchen Lights ON
-    initial_state: true
-    hide_entity: true
-    trigger:
-      - platform: time
-        seconds: '/3'
-    condition:
-      - condition: state
-        entity_id: input_boolean.animate_kitchen_lights
-        state: 'on'
-    action:
-      - service: light.turn_on
-        entity_id: light.dinette
-        data_template:
-          rgb_color: ['{{ (range(0, 255)|random) }}', 
-                      '{{ (range(0, 255)|random) }}', 
-                      '{{ (range(0, 255)|random) }}']
-          brightness: 255
-          transition: '{{ (range(1, 2)|random) }}'
+  # - alias: Animate Kitchen Lights ON
+  #   initial_state: true
+  #   hide_entity: true
+  #   trigger:
+  #     - platform: time
+  #       seconds: '/3'
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.animate_kitchen_lights
+  #       state: 'on'
+  #   action:
+  #     - service: light.turn_on
+  #       entity_id: light.dinette
+  #       data_template:
+  #         rgb_color: ['{{ (range(0, 255)|random) }}', 
+  #                     '{{ (range(0, 255)|random) }}', 
+  #                     '{{ (range(0, 255)|random) }}']
+  #         brightness: 255
+  #         transition: '{{ (range(1, 2)|random) }}'
 
 # Animate Kitchen Lights OFF
 ###############################################################################
-  - alias: Animate Kitchen Lights OFF
-    initial_state: true
-    hide_entity: true
-    trigger:
-      - platform: state
-        entity_id: input_boolean.animate_kitchen_lights
-        to: 'off'
-    action:
-      - service: light.turn_on
-        entity_id: light.dinette
-        data:
-          rgb_color: [255, 255, 255]
-          brightness: 255
-          color_temp: 155
+  # - alias: Animate Kitchen Lights OFF
+  #   initial_state: true
+  #   hide_entity: true
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.animate_kitchen_lights
+  #       to: 'off'
+  #   action:
+  #     - service: light.turn_on
+  #       entity_id: light.dinette
+  #       data:
+  #         rgb_color: [255, 255, 255]
+  #         brightness: 255
+  #         color_temp: 155
 
 # Long Flash All Lights
 ###############################################################################

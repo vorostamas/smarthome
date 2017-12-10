@@ -37,12 +37,9 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.wakeup_minute.state|int == now().minute|int }}'
     action:
-      - service: light.turn_on
+      - service: switch.turn_on
         data:
-          entity_id: light.dinette
-          transition: 15
-          brightness: 255
-          color_temp: 154
+          entity_id: switch.kitchen_light
       - service: homeassistant.turn_on
         entity_id: switch.rf_switch_four
 
@@ -130,8 +127,8 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.wakeup_minute.state|int == now().minute|int }}'
     action:
-     - service: light.turn_off
-       entity_id: light.dinette
+     - service: switch.turn_off
+       entity_id: switch.kitchen_light
      - service: homeassistant.turn_off
        entity_id: switch.rf_switch_four
 
@@ -177,12 +174,9 @@ automation:
       event: sunset
       offset: '-00:30:00'
     action:
-      - service: light.turn_on
+      - service: switch.turn_on
         data:
-          entity_id: light.dinette
-          transition: 15
-          brightness: 255
-          color_temp: 155
+          entity_id: switch.kitchen_light
       - service: light.turn_on
         data:
           entity_id: light.hue_color_lamp_1
@@ -226,33 +220,7 @@ automation:
 #                      °°ÛÛÛÛÛÛ                      
 #                       °°°°°°                       
 ###############################################################################
-# Set the mood for bed time - DIM Kitchen Lights IF they are ON
-###############################################################################
-  - alias: Night Dim Kitchen Lights
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: time
-      minutes: '/5'
-      seconds: 00
-    condition:
-      - condition: template
-        value_template: '{{ states.sensor.bedtime_hour.state|int == now().hour|int }}'
-      - condition: template
-        value_template: '{{ (states.sensor.bedtime_minute.state|int - 15 ) == now().minute|int }}'
-      - condition: state
-        entity_id: light.dinette
-        state: 'on'
-    action:
-      - service: light.turn_on
-        data:
-          entity_id: light.dinette
-          brightness: 30
-          color_temp: 155
-          transition: 15
-
-###############################################################################
-# Set the mood for bed time - DIM Family Room lights IF they are ON
+# Set the mood for bed time - Dim Family Room lights if they are ON
 ###############################################################################
   - alias: Night Dim TV Lights
     initial_state: true
@@ -323,8 +291,8 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.bedtime_minute.state|int == now().minute|int }}'
     action:
-      - service: light.turn_off
-        entity_id: light.dinette
+      - service: switch.turn_off
+        entity_id: switch.kitchen_light
       - service: light.turn_off
         entity_id: light.hue_color_lamp_1
       - service: light.turn_off
