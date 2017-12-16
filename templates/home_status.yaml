@@ -42,17 +42,23 @@
 
   {# Calendar notifications #}
   {% macro calendar_reminder() %}
-    {% if (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) <= (states.input_number.calendar_remind_before_days.state | int)  %}
+    {% set days2NextEvent = 0 %}
+    {% if now().year == strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').year %}
+      {% set days2NextEvent = strptime("states.calendar.suresh_kalavala.attributes.start_time", '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) %}
+    {% else %}
+      {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
+    {% endif -%}  
+    {% if days2NextEvent <= (states.input_number.calendar_remind_before_days.state | int)  %}
       Your next event. {{ states.calendar.suresh_kalavala.attributes.message }} . starts 
-      {% if strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').day | int == now().day | int %}
+      {% if days2NextEvent == 0 | int %}
          today at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
-      {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').day | int == now().day | int + 1 %}
+      {% elif days2NextEvent == 1 %}
          tomorrow at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
-      {% elif strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').day | int == now().day | int + 2 %}
+      {% elif days2NextEvent == 2 %}
          day after tomorrow {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%A') }} 
          at {{ strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%I:%M %p') }}.
       {% else %}
-        in {{ (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) - (now().strftime('%j') | int) }} days.
+        in {{ days2NextEvent }} days.
       {% endif %}
     {% endif %}
   {% endmacro %}
@@ -92,28 +98,40 @@
   {# exclude weather service humidity sensors 'pws' from the loop #}
   {%- macro humidity_status() -%}
     {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
-      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) < 30 and "pws" not in item.entity_id -%}
+      {%- for item in states.sensor if "humidity" in item.entity_id 
+                                    and (item.state | int) < 30 
+                                    and "Xiaomi" not in item.attributes.friendly_name 
+                                    and "pws" not in item.entity_id -%}
         {{ item.attributes.friendly_name.replace("Relative","") }} is less than 30%. 
       {%- endfor -%}
+      
     {% else %}
-      {%- for item in states.sensor if "humidity" in item.entity_id and (item.state | int) > 60 and "pws" not in item.entity_id -%}
+      {%- for item in states.sensor if "humidity" in item.entity_id 
+                                    and (item.state | int) > 60 
+                                    and "pws" not in item.entity_id -%}
         {{ item.attributes.friendly_name.replace("Relative","") }} is more than 60%.
       {%- endfor -%}
     {%- endif -%}
   {%- endmacro -%}
 
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {% macro cleanup(data) %}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {% endmacro %}
+
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    {{ announce_holiday() }}
-    {{ weather_update() }}
-    {{ pollen_levels() }}
-    {{ uv_levels() }}
-    {{ humidity_status() }}
-    {{ calendar_reminder() }}
-    {{ USPS() }}
-    {{ birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int ) }}
-    {{ birthday_countdown("Srinika", states.input_label.srinika_birthday_days2go.state | int ) }}
-    {{ birthday_countdown("Hasika", states.input_label.hasika_birthday_days2go.state | int ) }}
+    {{ cleanup(announce_holiday()) }}
+    {{ cleanup(weather_update()) }}
+    {{ cleanup(pollen_levels()) }}
+    {{ cleanup(uv_levels()) }}
+    {{ cleanup(humidity_status()) }}
+    {{ cleanup(calendar_reminder()) }}
+    {{ cleanup(USPS()) }}
+    {{ cleanup(birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int )) }}
+    {{ cleanup(birthday_countdown("Srinika", states.input_label.srinika_birthday_days2go.state | int )) }}
+    {{ cleanup(birthday_countdown("Hasika", states.input_label.hasika_birthday_days2go.state | int )) }}
   {%- endmacro -%}
   
   {# Call the macro  #}
