@@ -57,6 +57,12 @@ group:
       - sensor.srinika_location
       - sensor.hasika_location
 
+# Google Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+# Google Travel Times and Geo Code/Location
 sensor:
   - platform: google_travel_time
     name: Home2Work

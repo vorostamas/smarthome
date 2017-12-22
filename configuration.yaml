@@ -23,6 +23,8 @@ sun:
 config:
 python_script:
 
+alexa:
+
 #logbook:
 #history:
 # recorder:
@@ -125,7 +127,3 @@ ios:
             authenticationRequired: yes
             destructive: yes
             behavior: 'default'
-
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret

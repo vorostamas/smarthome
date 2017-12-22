@@ -250,7 +250,8 @@ automation:
     hide_entity: true    
     trigger:
       platform: state
-      entity_id: switch.rf_switch_one
+      entity_id: 
+        - switch.rf_switch_one
       to: 'on'
       for:
         minutes: 5

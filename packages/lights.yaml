@@ -87,25 +87,31 @@ homeassistant:
       icon: mdi:lightbulb
 
     switch.basement_left_lights:
+      <<: *exposed
       friendly_name: Basement Theater Lights
       assumed_state: false
       icon: mdi:lightbulb
     switch.basement_right_lights:
+      <<: *exposed
       friendly_name: Basement Right Side Lights
       assumed_state: false
       icon: mdi:lightbulb
     switch.kitchen_light:
+      <<: *exposed
       friendly_name: Kitchen Light
       assumed_state: false
       icon: mdi:lightbulb
     switch.office_room_lights:
+      <<: *exposed
       friendly_name: Office Room Lights
       assumed_state: false
       icon: mdi:lightbulb
     switch.kids_bedroom:
+      <<: *exposed
       friendly_name: Kids Bedroom
       icon: mdi:lightbulb
     switch.garage_lights:
+      <<: *exposed
       friendly_name: Garage Lights
       icon: mdi:lightbulb
 

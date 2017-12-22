@@ -30,7 +30,12 @@ homeassistant:
       <<: *not_exposed
 
     input_boolean.working_in_garage:
+      <<: *exposed
       friendly_name: Working in Garage
+      icon: mdi:worker
+    input_boolean.working_in_office_room:
+      <<: *exposed
+      friendly_name: Working in Office Room
       icon: mdi:worker
     input_boolean.voice_notifications:
       <<: *exposed
@@ -97,6 +102,7 @@ group:
       - input_boolean.home_assistant_status
       - input_boolean.notify_motion_pictures
       - input_boolean.working_in_garage
+      - input_boolean.working_in_office_room
       - input_boolean.hourly_reports
       - input_boolean.welcome_family_announcement
       - input_boolean.trash_reminders
@@ -110,6 +116,7 @@ group:
       - input_boolean.heater
       - input_boolean.alert_no_one_home
       - input_boolean.battery_notifications
+      - input_number.calendar_remind_before_days
 
   Bed & Wakeup Times:
     entities:
@@ -276,6 +283,11 @@ input_boolean:
 
   working_in_garage:
     name: Working in Garage
+    initial: off
+    icon: mdi:worker
+
+  working_in_office_room:
+    name: Working in Office Room
     initial: off
     icon: mdi:worker
 

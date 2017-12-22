@@ -64,6 +64,7 @@ group:
       - media_player.gstreamer
       - media_player.mpd
       - media_player.sharp_tv
+      - media_player.denon_avrx2400h
       - media_player.snapcast_client_0018e7c4488f
       - media_player.snapcast_client_b827eb011e00
       - media_player.snapcast_client_b827eb4445b1
@@ -89,6 +90,10 @@ media_player:
     name: mpd
     host: !secret mopidy_server_ip
     port: !secret mopidy_server_port
+
+  - platform: denon
+    host: !secret denon_avr_ip_address
+    name: DENON
 
 # run the following command to link gsp/gi path to HA for Gstreamer to function properly    
 # sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages

@@ -46,17 +46,19 @@ automation:
         entity_id: binary_sensor.motion_sensor_158d00016db6d2
         from: 'off'
         to: 'on'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
     action:
-      - service: homeassistant.turn_on
-        entity_id: switch.rf_switch_four
-      - service: switch.turn_on
-        entity_id: switch.zwave_smart_switch_switch        
       - service: timer.start
         entity_id: timer.timer_frontroom
+      - service: switch.turn_on
+        entity_id: switch.office_room_lights
+      - service: homeassistant.turn_on
+        data_template:
+          entity_id: >-
+            {% if states.sun.sun.state == "below_horizon" %}
+              switch.zwave_smart_switch_switch, switch.rf_switch_four
+            {% else %}
+              switch.office_room_lights
+            {% endif %}
 
 # Front Room:
 # Timer Elapsed - Turn OFF lights
@@ -69,11 +71,37 @@ automation:
         entity_id: timer.timer_frontroom
         from: 'active'
         to: 'idle'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.working_in_office_room.state == "off" }}'
     action:
       - service: homeassistant.turn_off
-        entity_id: switch.rf_switch_four
+        data_template:
+          entity_id: >-
+            {% if states.sun.sun.state == "below_horizon" %}
+              switch.zwave_smart_switch_switch, switch.rf_switch_four
+            {% else %}
+              switch.office_room_lights
+            {% endif %}
+
+  - alias: Office Room Lights OFF
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id:
+          - switch.office_room_lights
+        to: 'on'
+        for: 
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ states.sun.sun.state == "below_horizon" }}'
+      - condition: template
+        value_template: '{{ states.input_boolean.working_in_office_room.state == "off" }}'
+    action:
       - service: switch.turn_off
-        entity_id: switch.zwave_smart_switch_switch
+        entity_id: switch.office_room_lights
 
 # Kitchen:
 # Motion Detected - Turn ON the light and extend timer

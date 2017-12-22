@@ -102,6 +102,11 @@
     {%- endif -%}
   {%- endmacro -%}
 
+  {% macro cleanup(data) %}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {% endmacro %}
+
  {#- Main macro that runs all other macros and combines the information -#}
   {%- macro run() -%}
    It is past 10 o clock, and time to go to bed. Here is the status of your home.{{- alarm_status() -}}
@@ -133,4 +138,4 @@
    {{- outside_weather() }} Everything else looks good. Hope you have a good night sleep!
  {%- endmacro -%}
  
- {{ run() }}
+ {{ cleanup(run()) }}

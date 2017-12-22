@@ -1,7 +1,7 @@
  >
   {# Birthday Wishes #}
-  {% macro getRandomBirthdayWish() -%}
-    {{ [
+  {%- macro getRandomBirthdayWish() -%}
+    {{- [
        "Celebrate your birthday today. Celebrate being Happy every day.",
        "Well, you are another year older and you haven't changed a bit. That's great because you are perfect just the way you are. Happy Birthday.",
        "You are special and I hope that you float through the day with a big smile on your face. Happy Birthday!",
@@ -52,7 +52,7 @@
        "Happy Birthday. Hope it's one of the best ever!!! A lovely birthday for a lovely person!",
        "Happy moments. Happy thoughts. Happy Dreams. Happy feelings. Happy Birthday.",
        "Happy Birthday to you!, Happy Birthday to you!, Happy Birthday to you!"
-       ] | random }}
+       ] | random -}}
   {%- endmacro -%}
- 
+
   {{- getRandomBirthdayWish() -}}

@@ -204,7 +204,7 @@ automation:
 ###############################################################################
   - alias: Send a message as I get closer to home
     initial_state: true
-    hide_entity: true    
+    hide_entity: true
     trigger:
       platform: numeric_state
       entity_id: proximity.home
