@@ -95,3 +95,55 @@ ExecStart=/usr/local/bin/appdaemon -c /home/homeassistant/conf
 [Install]
 WantedBy=multi-user.target
 ```
+
+## Glances Service
+To get stats about your machine, install `glances` on your linux machine, and run it as a service, so that you can query stats using web URL.
+
+To see the available commands via api, go to `http://192.168.x.xxx:61208/api/2/pluginslist`. That should give you a JSON with a bunch of commands available for you to query using web URL... You can then make a query using the url `http://192.168.x.xxx:61208/api/2/COMMAND_HERE`
+
+for ex: To get memory, go to the URL `http://192.168.x.xxx:61208/api/2/mem`. If you just want to get available memory without having to parse JSON, you can call `http://192.168.x.xxx:61208/api/2/mem/available`
+
+Once you have the API, you can call it from Home Assistant using a `curl` command inside a commandline sensor.
+
+To run the Glances as a `systemd` service, create a file with a name `glances.service` in `/etc/systemd/system` folder with the following contents
+
+```
+[Unit]
+Description=Glances
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/glances -w
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+Additional commands for you to consider:
+
+After making changes to the service, always run the command to reload the new services
+```
+$ sudo systemctl --system daemon-reload
+```
+
+To enable service
+```
+$ sudo systemctl enable glances.service
+```
+
+To start Glances service automatically
+```
+$ sudo systemctl start glances.service
+```
+
+To restart Glances service
+``` 
+$ sudo systemctl restart glances.service
+```
+
+To Check the status
+```
+$ sudo systemctl status glances.service
+```
