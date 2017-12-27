@@ -253,7 +253,7 @@ sensor:
 input_boolean:
   voice_notifications:
     name: Home Assistant Announcements
-    initial: on
+    initial: off
     icon: mdi:volume-off
 
   do_not_disturb:

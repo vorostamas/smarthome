@@ -35,6 +35,8 @@ usps_cookies.pickle
 zwave_device_config.yaml
 fixperms
 usps_cache.sqlite
+pi_mqtt_cmds.py
+pi_mqtt_cmds.pyc
 
 # Other Github Related Files
 .*

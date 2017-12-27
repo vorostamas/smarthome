@@ -199,6 +199,7 @@ group:
       - switch.kids_bedroom
       - switch.guest_bedroom_1
       - switch.guest_bedroom_2
+      - switch.kids_bed_accent_light
 
   Downstairs Lights:
     entities:
@@ -216,7 +217,8 @@ group:
       - switch.basement_left_lights
       - switch.basement_right_lights
       - switch.kitchen_light
-      - switch.office_room_lights      
+      - switch.office_room_lights
+      - switch.smart_outlet_1
 
   Light Automations:
     control: hidden
@@ -272,6 +274,12 @@ switch:
   - platform: tplink
     host: !secret tplink_office_room
     name: Office Room Lights
+  - platform: tplink
+    host: !secret tplink_smart_outlet1
+    name: Smart Outlet 1
+  - platform: tplink
+    host: !secret tplink_kids_bed_accent_light
+    name: Kids Bed Accent Light
 
 # RF Switches    
   - platform: mqtt

@@ -123,3 +123,17 @@ CCTV:
     - group.camera_sensors
     - group.location_maps
     - group.doppler_weather
+
+raspberry_pis:
+  view: yes
+  name: Raspberry Pis
+  icon: mdi:pig
+  entities:
+    - group.raspberry_pi_commands
+    - group.raspberry_pi_automations
+    - group.wifi_signal_strength
+    - group.wifi_link_quality
+    - group.disk_available
+    - group.disk_percent_used
+    - group.raspberry_pi_scripts
+    

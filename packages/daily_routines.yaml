@@ -207,6 +207,8 @@ automation:
           color_temp: 366
       - service: switch.turn_on
         entity_id: switch.zwave_smart_switch_switch
+      - service: switch.turn_on
+        entity_id: switch.kids_bed_accent_light
 
 #  ÛÛÛÛÛÛ   ÛÛÛÛÛ  ÛÛÛ           ÛÛÛÛÛ       ÛÛÛÛÛ   
 # °°ÛÛÛÛÛÛ °°ÛÛÛ  °°°           °°ÛÛÛ       °°ÛÛÛ    
@@ -291,29 +293,7 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.bedtime_minute.state|int == now().minute|int }}'
     action:
-      - service: switch.turn_off
-        entity_id: switch.kitchen_light
-      - service: light.turn_off
-        entity_id: light.hue_color_lamp_1
-      - service: light.turn_off
-        entity_id: light.hue_color_lamp_2
-      - service: light.turn_off
-        entity_id: light.hue_color_lamp_3
-      - service: light.turn_off
-        entity_id: light.master_bedroom_1
-      - service: light.turn_off
-        entity_id: light.master_bedroom_2
-      - service: homeassistant.turn_off
-        entity_id: switch.rf_switch_four
-      - service: switch.turn_off
-        entity_id: switch.office_room_lights
-      - service: switch.turn_off
-        entity_id: switch.zwave_smart_switch_switch
-      - delay: '00:00:05'
-      - service: light.turn_off
-        entity_id: light.family_room
-      - service: light.turn_off
-        entity_id: light.master_bedroom                
+      - service: script.all_indoor_lights_off
       - service: script.notify_me
         data: 
           message: "It is bed time, turned lights off!"

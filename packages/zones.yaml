@@ -38,37 +38,6 @@ proximity:
     tolerance: 50
     unit_of_measurement: mi
 
-# The following script runs when no one is home. It excludes some lights
-# and switches like front porch and backyard lights...etc for safety reasons.
-###############################################################################
-script:
-  home_mode_away:
-    sequence:
-      - service: light.turn_off
-        data_template:
-          entity_id: >
-            {%- for state in states.light if state.entity_id != 'light.gateway_light_34ce008ad65d' -%}
-            {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
-            {%- endfor -%}
-      - service: switch.turn_off
-        data_template:
-          entity_id: >
-            {%- for state in states.switch if
-            state.entity_id != 'switch.hallway_light_switch_switch' and 
-                                state.entity_id != 'switch.wemoswitch1' and
-                                state.entity_id != 'switch.wallmote_switch' and
-                                state.entity_id != 'switch.wemobackyardlightswitch' and
-                                state.entity_id != 'switch.wemofrontporchlightswitch' and
-                                not '_siren_' in state.entity_id -%}
-            {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
-            {%- endfor -%}
-      - service: climate.set_away_mode
-        data:
-          entity_id: climate.home
-          away_mode: 'true'
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.home_mode_away
-
 automation:
 ###############################################################################
 # Zone based alerting

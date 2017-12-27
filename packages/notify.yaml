@@ -15,10 +15,6 @@ homeassistant:
       friendly_name: Notify Via IFTTT
       icon: mdi:share
 
-    script.pushbullet_notify:
-      friendly_name: Notify Via PushBullet
-      icon: mdi:share
-
     script.notify_me:
       friendly_name: Notify Me (Default IFTTT)
       icon: mdi:share
@@ -31,10 +27,6 @@ ifttt:
   key: !secret ifttt_key
 
 notify:
-  - name: pushbullet
-    platform: pushbullet
-    api_key: !secret pushbulley_apikey
-    
   - name: ios_devices
     platform: group
     services:
@@ -65,7 +57,6 @@ group:
       - script.stop_colorloop      
       - script.ifttt_notify
       - script.notify_me
-      - script.pushbullet_notify
       - script.voice_notify
       - script.voice_greeting
       - script.home_mode_away
@@ -93,15 +84,6 @@ script:
         data_template: 
           event: "LEEO_COLOR_CHANGE"
           value1: '{{ value1 }}'
-
-  pushbullet_notify:
-    sequence:
-      - condition: template
-        value_template: '{{ value1 | trim != "" }}' 
-      - service: notify.pushbullet
-        data_template:
-          message: "{{ value1 }}"
-          title: "{{ value1 }} {{ value2 }}"
 
   notify_me:
     sequence:
