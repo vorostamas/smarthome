@@ -322,6 +322,22 @@ sensor:
           
 automation:
 
+  - alias: Weather Alert
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id: sensor.pws_alerts
+    condition:
+      condition: template
+      value_template: '{{ states.sensor.pws_alerts.state | int > 0}}'
+    action:
+      - service: script.notify_me
+        data_template:
+          message: >
+            Attention!  The National Weather Service has issued a {{ states.sensor.pws_alerts.attributes.Description }}
+            for your area, expiring at {{ states.sensor.pws_alerts.attributes.Expires }}.
+
   # Script to alert when enjoyable weather is outside
   # For me, enjoyable is: 
   #      1. Must be above 70 Degrees F
