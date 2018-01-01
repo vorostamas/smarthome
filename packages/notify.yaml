@@ -142,9 +142,9 @@ script:
             {% if states.input_boolean.emergency_mode.state == "on" %}
               0.9
             {% else %}
-              {% if now().hour | int < 12 and now().hour | int > 6%}
+              {% if now().hour | int < 12 and now().hour | int > 6 %}
               0.5
-              {% elif now().hour|int > 12 and now().hour|int < 20%}
+              {% elif now().hour|int > 12 and now().hour|int < 20 %}
               0.9
               {% else %}
               0.3
@@ -163,8 +163,6 @@ script:
             {%- endmacro -%}
             {% set msg = msg + "<speak> " %}
             {% set msg = msg + ". " + message %}
-            {% set msg = msg.replace("hasika", '<phoneme alphabet="x-sampa" ph="hA_osika">haasika</phoneme>') %}
-            {% set msg = msg.replace("mallika", '<phoneme alphabet="x-sampa" ph="m@_ollik@_o">mallika</phoneme>') %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
             {% set msg = msg + " " + getEndGreeting() %}
             {% set msg = msg + " </speak>" %}

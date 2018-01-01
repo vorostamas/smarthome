@@ -149,7 +149,7 @@ automation:
     hide_entity: true  
     trigger:
       - platform: homeassistant
-        event: start        
+        event: start
     action:
       - service_template: >
           {% if states.binary_sensor.sharp_tv_command_state.state == "on" %}

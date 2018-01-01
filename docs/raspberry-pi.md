@@ -195,3 +195,37 @@ If you are using GPIOs on Raspberry Pi, you need to give access to `homeassistan
 sudo usermod -G gpio -a homeassistant
 ```
 
+## Removing unwanted apps on Raspberry Pi
+
+When you download the images from RaspberryPi.org web site, the image contains a bunch of stuff that you may not need. You can simply uninstall the unwanted stuff by running the following command:
+
+```
+sudo apt-get purge wolfram-engine greenfoot nodered bluej nuscratch scratch sonic-pi libreoffice claws-mail claws-mail-i18n minecraft-pi python-pygame -y
+sudo apt-get clean
+sudo apt-get autoremove
+```
+
+You can change the command and add any other software/packages you like
+
+Note, you may still see some shortcuts on the desktop, you may want to manually delete them. The following deletes some of the shortcuts.
+You may want to check if there any other shortcuts you need to delete in `/usr/share/raspi-ui-overrides/applications` folder.
+
+```
+sudo rm /usr/share/raspi-ui-overrides/applications/wolfram-language.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/wolfram-mathematica.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/bluej.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/greenfoot.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/bluej.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/libreoffice-draw.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/libreoffice-math.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/libreoffice-startcenter.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/minecraft-pi.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/python-games.desktop
+sudo rm /usr/share/raspi-ui-overrides/applications/scratch.desktop
+```
+
+After removing the files, do an update to update any dependencies.
+
+```
+sudo apt-get update && sudo apt-get upgrade -y
+```

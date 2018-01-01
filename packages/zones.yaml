@@ -185,5 +185,4 @@ automation:
     action:
       - service: script.notify_me
         data_template:
-          message: >
-            "Suresh is on his way home, he is within the 5 miles range. Should be home soon!"
+          message: "Suresh is on his way home, he is within the 5 miles range. Should be home soon!"
