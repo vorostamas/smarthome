@@ -13,7 +13,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: media_player.sharp_tv
+      entity_id: binary_sensor.sharp_tv
       from: 'off'
       to: 'on'
     condition:
@@ -41,11 +41,6 @@ automation:
           topic: /home/tv/backlight
           payload: 'on'
           retain: true
-      - service: mqtt.publish
-        data:
-          topic: /home/tv
-          payload: 'on'
-          retain: true
   
 # Restore Family Room Lights to TV mode
 ###############################################################################
@@ -59,7 +54,7 @@ automation:
         to: 'on'
     condition:
       - condition: state
-        entity_id: media_player.sharp_tv
+        entity_id: binary_sensor.sharp_tv
         state: 'on'
     action:
       - service: light.turn_on
@@ -88,14 +83,9 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: media_player.sharp_tv
+      entity_id: binary_sensor.sharp_tv
       to: 'off'
     action:
-      - service: mqtt.publish
-        data:
-          topic: /home/tv
-          payload: 'off'
-          retain: true
       - service: mqtt.publish
         data:
           topic: /home/tv/backlight
@@ -109,14 +99,9 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: media_player.sharp_tv
+      entity_id: binary_sensor.sharp_tv
       to: 'on'
     action:
-      - service: mqtt.publish
-        data:
-          topic: /home/tv
-          payload: 'off'
-          retain: true  
       - service: mqtt.publish
         data:
           topic: /home/tv/backlight
@@ -130,7 +115,7 @@ automation:
     hide_entity: true
     trigger:
       platform: state
-      entity_id: media_player.sharp_tv
+      entity_id: binary_sensor.sharp_tv
       to: 'off'
     condition:
       - condition: state
@@ -155,11 +140,6 @@ automation:
           brightness: 255
           color_temp: 154
           transition: 5  
-      - service: mqtt.publish
-        data:
-          topic: /home/tv
-          payload: 'off'
-          retain: true
       - service: mqtt.publish
         data:
           topic: /home/tv/backlight

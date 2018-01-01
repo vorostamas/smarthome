@@ -57,10 +57,10 @@ homeassistant:
     input_boolean.alarm_clock:
       <<: *exposed
       homebridge_name: Alarm Clock
-    input_boolean.fix_tv:
+    input_boolean.sharp_tv:
       <<: *exposed
-      homebridge_name: Fix TV
-    
+      homebridge_name: TV
+
     input_datetime.summer_bed_time:
       icon: mdi:beach
     input_datetime.summer_wakeup_time:
@@ -110,13 +110,13 @@ group:
       - input_boolean.alert_when_someone_enters_zone
       - input_boolean.alert_when_someone_leaves_zone
       - input_boolean.alarm_clock
-      - input_boolean.fix_tv
       - input_boolean.notify_security_system_changes
       - input_boolean.air_condition
       - input_boolean.heater
       - input_boolean.alert_no_one_home
       - input_boolean.battery_notifications
       - input_number.calendar_remind_before_days
+      - input_boolean.sharp_tv
 
   Bed & Wakeup Times:
     entities:
@@ -253,7 +253,7 @@ sensor:
 input_boolean:
   voice_notifications:
     name: Home Assistant Announcements
-    initial: off
+    initial: on
     icon: mdi:volume-off
 
   do_not_disturb:
@@ -341,36 +341,20 @@ input_boolean:
     initial: on
     icon: mdi:calendar-check
 
-  fix_tv:
-    name: Fix TV
-    initial: off
-    icon: mdi:television
-
   battery_notifications:
     name: Battery Notifications
     initial: on
     icon: mdi:battery
 
+  sharp_tv:
+    name: TV
+    initial: on
+    icon: mdi:television-classic
+
 # Automations
 ###############################################################################
 
 automation:
-
-  - alias: Fix TV
-    initial_state: true
-    hide_entity: true
-    trigger:
-      - platform: state
-        entity_id: input_boolean.fix_tv
-        to: 'on'
-    action:
-      - service: switch.turn_off
-        entity_id: switch.wemoswitch1
-      - delay: '00:00:05'
-      - service: switch.turn_on
-        entity_id: switch.wemoswitch1
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.fix_tv
 
 # Do not disturb for 2 hours
 # Simply turns ON the Do Not Disturb Flag ad resets 

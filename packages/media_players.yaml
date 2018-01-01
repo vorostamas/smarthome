@@ -52,18 +52,16 @@ homeassistant:
       friendly_name: Mopidy Media Player
     media_player.gstreamer:
       friendly_name: Gstreamer Media Player
-    media_player.sharp_tv:
-      <<: *exposed
-      friendly_name: Sharp TV
-      emulated_hue_name: TV
-      homebridge_name: Sharp TV
+
+    binary_sensor.sharp_tv:
+      <<: *not_exposed
+      hidden: true
 
 group:
   Media Players:
     entities:
       - media_player.gstreamer
       - media_player.mpd
-      - media_player.sharp_tv
       - media_player.denon_avrx2400h
       - media_player.snapcast_client_0018e7c4488f
       - media_player.snapcast_client_b827eb011e00
@@ -83,6 +81,15 @@ group:
       - media_player.snapcast_group_d0a7f379181b4d8b72c7c1b6d9c1beb3
 
 media_player:
+
+  - platform: plex
+    entity_namespace: 'plex'
+    include_non_clients: true
+    scan_interval: 5
+    show_all_controls: true
+    use_custom_entity_ids: true
+    use_episode_art: true
+
   - platform: snapcast
     host: !secret snapcast_server_ip
 
@@ -95,34 +102,51 @@ media_player:
     host: !secret denon_avr_ip_address
     name: DENON
 
-# run the following command to link gsp/gi path to HA for Gstreamer to function properly    
-# sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
+  # - platform: aquostv
+  #   host: !secret sharptv_ipaddress
+  #   name: Sharp TV
 
+   # run the following command to link gsp/gi path to HA for Gstreamer to function properly    
+   # sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
   - platform: gstreamer
     pipeline: "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! wavenc ! filesink location=/tmp/snapfifo"
 
-  # - platform: sharptv
-  #   host: !secret sharptv_ipaddress
-  #   name: Sharp TV
-  #   port: !secret sharptv_port
-  #   user: !secret sharptv_username
-  #   password: !secret sharptv_password
-  #   power_on_enabled: True
-  #   commands:
-  #     volume_set:
-  #       service: media_player.volume_set
-  #       data_template:
-  #         entity_id: media_player.sharp_tv
-  #         volume_level: ''
-  #   attributes: 
-  #     volume_level: media_player.sharp_tv|volume_level
-  #     source: media_player.sharp_tv|source
-  #     source_list: media_player.sharp_tv|source_list
-
-  - platform: aquostv
-    host: !secret sharptv_ipaddress
+binary_sensor:
+  - platform: mqtt
     name: Sharp TV
-    port: !secret sharptv_port
-    username: !secret sharptv_username
-    password: !secret sharptv_password
-    power_on_enabled: true
+    state_topic: '/home/sharptv'
+    payload_on: 'on'
+    payload_off: 'off'
+    value_template: '{{ value }}'
+
+  - platform: mqtt
+    name: Sharp TV Command State
+    state_topic: '/home/sharp_tv_cmd'
+    payload_on: 'on'
+    payload_off: 'off'
+    value_template: '{{ value }}'
+
+automation:
+  - alias: TV State
+    trigger:
+      - platform: state
+        entity_id: input_boolean.sharp_tv
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: '/home/sharp_tv_cmd'
+          payload: '{{ states.input_boolean.sharp_tv.state }}'
+          retain: true
+
+  - alias: Restore TV State
+    trigger:
+      - platform: homeassistant
+        event: start        
+    action:
+      - service_template: >
+          {% if states.binary_sensor.sharp_tv_command_state.state == "on" %}
+            input_boolean.turn_on
+          {% else %}
+            input_boolean.turn_off
+          {% endif %}
+        entity_id: input_boolean.sharp_tv
