@@ -4,6 +4,7 @@
 #   @package        :   Media Player
 #   @description    :   Media Player Sensors, Automations
 ###############################################################################
+
 homeassistant:
   customize:
 
@@ -131,6 +132,8 @@ binary_sensor:
 
 automation:
   - alias: TV State
+    initial_state: true
+    hide_entity: true  
     trigger:
       - platform: state
         entity_id: input_boolean.sharp_tv
@@ -142,6 +145,8 @@ automation:
           retain: true
 
   - alias: Restore TV State
+    initial_state: true
+    hide_entity: true  
     trigger:
       - platform: homeassistant
         event: start        
