@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Daemons, Not Demons!
+title: Daemons, systemd services
 description: "Auto Start applications on boot. Auto Running Home Assistant, Mosquitto, Home Bridge and App Daemon...etc"
 ---
 

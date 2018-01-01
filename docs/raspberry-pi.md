@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Raspberry Pi Setup for 2nd graders
+title: Raspberry Pi Basic Setup
 description: "Highlights some of the steps involved in setting up Raspberry Pi to run Home Assistant and other applications."
 ---
 

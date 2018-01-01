@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Sudoer's File - Please don't click here
+title: Sudoer's File - Please be careful
 description: "Simple steps to allow a program or a script to run as sudo from a program that is running under non-sudo user."
 ---
 

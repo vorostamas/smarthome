@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Setup UPS on Ubuntu
+title: Setup UPS Battery on Ubuntu
 description: Got a battery backup? Here is how you can set it up...
 ---
 

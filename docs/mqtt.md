@@ -1,6 +1,6 @@
 ---
 layout: page
-title: MQTT Cheat Sheet for Total Dummies
+title: MQTT Cheat Sheet
 description: "A bunch of commands to get you started using MQTT. Don't forget to install MQTTfx tool - a graphical ui to connect and manage mqtt (requires java)."
 ---
 

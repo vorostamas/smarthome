@@ -1,6 +1,6 @@
 ---
 layout: page
-title: DIY Camera for Cheapos
+title: DIY Camera with Raspberry PI & WebCam
 description: The article below explains how you can use USB based camera and integrate with Home Assistant
 ---
 
