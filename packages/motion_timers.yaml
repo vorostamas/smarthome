@@ -168,19 +168,16 @@ automation:
       - condition: state
         entity_id: sun.sun
         state: 'below_horizon'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: media_player.sharp_tv
-            state: 'off'
-          - condition: state
-            entity_id: media_player.sharp_tv
-            state: 'unknown'        
     action:
       - service: light.turn_on
         entity_id: light.family_room
-        data:
-          brightness: 254
+        data_template:
+          brightness: >
+            {% if states.binary_sensor.sharp_tv.state == "on" %}
+              25
+            {% else %}
+              254
+            {% endif %}
           color_temp: 154
           transition: 5          
       - service: timer.start
