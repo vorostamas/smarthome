@@ -86,7 +86,7 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - switch.wemofrontporchlightswitch
+          - switch.frontyard_light
         to: 'on'
         for:
           minutes: 5

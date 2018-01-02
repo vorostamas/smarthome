@@ -18,7 +18,7 @@ script:
                                 state.entity_id != 'switch.wemoswitch1' and
                                 state.entity_id != 'switch.wallmote_switch' and
                                 state.entity_id != 'switch.wemobackyardlightswitch' and
-                                state.entity_id != 'switch.wemofrontporchlightswitch' and
+                                state.entity_id != 'switch.frontyard_light' and
                                 not '_siren_' in state.entity_id -%}
             {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
             {%- endfor -%}

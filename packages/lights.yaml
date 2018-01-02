@@ -31,7 +31,7 @@ homeassistant:
         hidden: true
         critical: false
 
-    switch.wemofrontporchlightswitch:
+    switch.frontyard_light:
       <<: *exposed
       icon: mdi:lightbulb
       friendly_name: Front Porch Lights
@@ -242,7 +242,7 @@ group:
       - switch.kids_bedroom
       - switch.wallmote_switch
       - switch.wemobackyardlightswitch
-      - switch.wemofrontporchlightswitch
+      - switch.frontyard_light
       - switch.wemoswitch1
       - switch.zwave_smart_switch_switch
 

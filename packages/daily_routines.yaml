@@ -102,7 +102,7 @@ automation:
       offset: '00:15:00'
     action:
       - service: switch.turn_off
-        entity_id: switch.wemofrontporchlightswitch
+        entity_id: switch.frontyard_light
       - service: switch.turn_off
         entity_id: switch.wemobackyardlightswitch
       - service: homeassistant.turn_off
@@ -155,7 +155,7 @@ automation:
       offset: '+00:00:00'
     action:
       - service: switch.turn_on
-        entity_id: switch.wemofrontporchlightswitch
+        entity_id: switch.frontyard_light
       - service: switch.turn_on
         entity_id: switch.wemobackyardlightswitch
       - service: homeassistant.turn_on

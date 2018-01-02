@@ -29,6 +29,9 @@
 # currently active source: unknown (-1)
 
 
+# Edit /boot/config.txt and include the line to prevent turning TV on when you restart Raspberry Pi
+# hdmi_ignore_cec_init=1
+
 
 hdmi_cec:
   devices:
