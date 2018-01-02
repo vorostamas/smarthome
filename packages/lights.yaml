@@ -129,12 +129,15 @@ homeassistant:
     light.hue_color_lamp_1:
       <<: *not_exposed
       friendly_name: Family Room Light 1
+      color_set: false
     light.hue_color_lamp_2:
       <<: *not_exposed
       friendly_name: Family Room Light 2
+      color_set: false
     light.hue_color_lamp_3:
       <<: *not_exposed
       friendly_name: Family Room Light 3
+      color_set: false
     input_boolean.short_flash:
       <<: *not_exposed
       icon: mdi:flash
@@ -208,7 +211,7 @@ group:
       - light.hue_color_lamp_2
       - light.hue_color_lamp_3
       - group.ikea_bulbs
-      - switch.wemofrontporchlightswitch
+      - switch.frontyard_light
       - switch.wemobackyardlightswitch
       - switch.garage_lights
       - switch.zwave_smart_switch_switch

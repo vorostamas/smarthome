@@ -229,3 +229,7 @@ After removing the files, do an update to update any dependencies.
 ```
 sudo apt-get update && sudo apt-get upgrade -y
 ```
+
+## Raspberry Pi Configuration
+
+For more about configuration of boot, HDMI CEC, and or advanced options, please visit [https://elinux.org/RPiconfig](https://elinux.org/RPiconfig)
