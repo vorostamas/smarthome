@@ -316,3 +316,20 @@ To wrap text to a certain number of characters, use the following script:
 ```
 
 Got any questions or found issues, let me know! Thanks!
+
+## 10. To get attrbutes of a given entity_id
+
+Fun stuff...
+
+```
+{% set entity_id = "automation.alarm_clock" %}
+
+{{ entity_id }}
+
+{{ states[entity_id.split('.')[0]] }}
+{{ states[entity_id.split('.')[0]] | list }}
+{{ states[entity_id.split('.')[0]][entity_id.split('.')[1]] }}
+
+{{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes.friendly_name }}
+{{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes["friendly_name"] }}
+```
