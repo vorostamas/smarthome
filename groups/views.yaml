@@ -77,20 +77,11 @@ system_view:
      - group.system_monitor
      - group.internet_speed
 
-automation_view:
+nest_thermostat:
   view: yes
-  name: Automation
-  icon: mdi:arrow-right-drop-circle
+  icon: mdi:nest-thermostat
   entities:
-    - group.bedtime_automations
-    - group.downstairs_motion_automations
-    - group.front_room_motion_automations
-    - group.home_assistant_automations
-    - group.light_automations
-    - group.upstairs_motion_automations
-    - group.watchdog_automations
-    - group.weather_automations
-    - group.tv_automations
+    - group.nest_thermostat
 
 scripts_view:
   view: yes

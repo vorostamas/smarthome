@@ -100,18 +100,13 @@
   {# exclude weather service humidity sensors 'pws' from the loop #}
   {%- macro humidity_status() -%}
     {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
-      {%- for item in states.sensor if "humidity" in item.entity_id 
-                                    and (item.state | int) < 30 
-                                    and "Xiaomi" not in item.attributes.friendly_name 
-                                    and "pws" not in item.entity_id -%}
-        {{ item.attributes.friendly_name.replace("Relative","") }} is less than 30%. 
-      {%- endfor -%}
+      {%- if states.sensor.home_humidity.state | int < 30 -%}
+        Home humidity is less than 30%.
+      {%- endif -%}
     {% else %}
-      {%- for item in states.sensor if "humidity" in item.entity_id 
-                                    and (item.state | int) > 60 
-                                    and "pws" not in item.entity_id -%}
-        {{ item.attributes.friendly_name.replace("Relative","") }} is more than 60%.
-      {%- endfor -%}
+      {%- if states.sensor.home_humidity.state | int > 60 -%}
+        Home humidity is more than 60%.
+      {%- endif -%}
     {%- endif -%}
   {%- endmacro -%}
 

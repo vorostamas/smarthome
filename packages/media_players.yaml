@@ -86,14 +86,6 @@ group:
 
 media_player:
 
-  - platform: plex
-    entity_namespace: 'plex'
-    include_non_clients: true
-    scan_interval: 5
-    show_all_controls: true
-    use_custom_entity_ids: true
-    use_episode_art: true
-
   - platform: snapcast
     host: !secret snapcast_server_ip
 

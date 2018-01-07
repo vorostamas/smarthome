@@ -22,6 +22,7 @@
     "28": "input_boolean.working_in_garage",
     "29": "input_boolean.sharp_tv",
     "3": "light.family_room",
+    "30": "switch.frontyard_light",
     "4": "light.dinette",
     "5": "input_boolean.home_security",
     "6": "input_boolean.home_assistant_status",
