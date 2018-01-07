@@ -77,8 +77,9 @@ system_view:
      - group.system_monitor
      - group.internet_speed
 
-nest_thermostat:
+nest_thermostat_view:
   view: yes
+  name: Nest Thermostat View
   icon: mdi:nest-thermostat
   entities:
     - group.nest_thermostat

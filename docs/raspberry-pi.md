@@ -233,3 +233,11 @@ sudo apt-get update && sudo apt-get upgrade -y
 ## Raspberry Pi Configuration
 
 For more about configuration of boot, HDMI CEC, and or advanced options, please visit [https://elinux.org/RPiconfig](https://elinux.org/RPiconfig)
+
+## File Access to Home Assistant
+
+HA requires the `homeassistat` user to have read, write access to the config folder. If for any reason, the access gets messed up, you can run the following command to list all the files that are not owned by `homeassistant` user.
+
+```
+find /home/homeassistant/.homeassistant ! -user homeassistant -print
+```

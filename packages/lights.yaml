@@ -249,8 +249,10 @@ group:
 light:
   - platform: lifx
     broadcast: !secret lifx_broadcast_ip
-  - platform: hue
-    host: !secret philips_hue_ipaddress
+
+hue:
+  bridges:
+    - host: !secret philips_hue_ipaddress
 
 switch:
   - platform: tplink
