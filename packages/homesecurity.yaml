@@ -318,7 +318,7 @@ automation:
           data:
             push:
               badge: 0
-              category: 'turn_off_security_system'
+              category: 'welcome_home'
 
 ##############################################################################
 # Ask me if I want to turn off Home Security System when garage door is opened
@@ -345,7 +345,7 @@ automation:
           data:
             push:
               badge: 0
-              category: 'turn_off_security_system'
+              category: 'welcome_home'
 
 ##############################################################################
 # iOS Actionable Notification that disables Home Security System
