@@ -80,11 +80,19 @@ panel_iframe:
   front_room_ha:
     title: Front Room HA
     icon: mdi:home-assistant
-    url: 'http://192.168.1.101:8123'
+    url: !secret front_room_ha_url
   tv_room_ha:
     title: TV Room HA
     icon: mdi:home-assistant
-    url: 'http://192.168.1.124:8123/'
+    url: !secret tv_room_ha_url
+  cockpit_gui:
+    title: Cockpit GUI
+    icon: mdi:view-dashboard
+    url: !secret cockpit_gui_url
+  snapcast_server:
+    title: Snapcast Server
+    icon: mdi:music
+    url: !secret snapcast_server_url
 
 ios:
   push:

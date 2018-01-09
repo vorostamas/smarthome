@@ -92,11 +92,11 @@
   {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
   {%- macro humidity_status() -%}
     {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
-      {%- if states.sensor.home_humidity.state | int < 30 -%}
+      {%- if states.sensor.dining_room_thermostat_humidity.state | int < 30 -%}
         Home humidity is less than 30%.
       {%- endif -%}
     {% else %}
-      {%- if states.sensor.home_humidity.state | int > 60 -%}
+      {%- if states.sensor.dining_room_thermostat_humidity.state | int > 60 -%}
         Home humidity is more than 60%.
       {%- endif -%}
     {%- endif -%}

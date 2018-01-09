@@ -83,24 +83,18 @@ group:
       - media_player.snapcast_group_9c9ed909371b4cfb3ba5177cbb34f9ea
       - media_player.snapcast_group_be21845f683db25f0db2b35508dccfa3
       - media_player.snapcast_group_d0a7f379181b4d8b72c7c1b6d9c1beb3
+      - input_select.snapcast_server
 
 media_player:
-
   - platform: snapcast
     host: !secret snapcast_server_ip
-
   - platform: mpd
     name: mpd
     host: !secret mopidy_server_ip
     port: !secret mopidy_server_port
-
   - platform: denon
     host: !secret denon_avr_ip_address
     name: DENON
-
-  # - platform: aquostv
-  #   host: !secret sharptv_ipaddress
-  #   name: Sharp TV
 
    # run the following command to link gsp/gi path to HA for Gstreamer to function properly    
    # sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
@@ -122,7 +116,52 @@ binary_sensor:
     payload_off: 'off'
     value_template: '{{ value }}'
 
+input_select:
+  snapcast_server:
+    name: Snapcast Server
+    options:
+      - Select One
+      - Stop
+      - Start
+      - Restart
+    initial: Select One
+    icon: mdi:music
+
+shell_command:
+  stop_snapserver: >-
+    sudo systemctl stop snapserver
+  start_snapserver: >-
+    sudo systemctl start snapserver
+  restart_snapserver: >-
+    sudo systemctl restart snapserver
+
 automation:
+
+###############################################################################
+# Snapcast Server Management
+###############################################################################
+  - alias: Snapcast Action
+    hide_entity: true
+    initial_state: true  
+    trigger:
+      platform: state
+      entity_id: input_select.snapcast_server
+    condition:
+      - condition: template
+        value_template: '{{ states.input_select.snapcast_server.state | lower != "select one" }}'      
+    action:
+      - service_template: >-
+          {% if states.input_select.snapcast_server.state | lower == "stop" %}
+            shell_command.stop_snapserver
+          {% elif states.input_select.snapcast_server.state | lower == "start" %}
+            shell_command.start_snapserver
+          {% else %}
+            shell_command.restart_snapserver
+          {% endif %}
+
+###############################################################################
+# Persist current TV state
+###############################################################################
   - alias: TV State
     initial_state: true
     hide_entity: true  
@@ -136,6 +175,9 @@ automation:
           payload: '{{ states.input_boolean.sharp_tv.state }}'
           retain: true
 
+###############################################################################
+# get the current TV state
+###############################################################################
   - alias: Restore TV State
     initial_state: true
     hide_entity: true  
