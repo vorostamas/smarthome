@@ -34,7 +34,7 @@ automation:
 {%- endfor %}
     action:
       service: group.set_visibility
-      entity_id: '{{- '{{' }} trigger.entity_id {{ '}}' }}'
+      entity_id: 'group.{{- '{{' }} trigger.entity_id {{ '}}' }}'
       data_template:
         visible: '{{- '{{' }} trigger.entity_id.to_state.state | lower == "on" {{ '}}' }}'
 ```
