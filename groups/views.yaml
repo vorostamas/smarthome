@@ -57,6 +57,9 @@ mediacenter_view:
   name: Media Center
   icon: mdi:television
   entities:
+     - group.group_denon_avrx2400h
+     - group.group_gstreamer
+     - group.group_mpd
      - group.media_players
 
 trash_recycle_view:

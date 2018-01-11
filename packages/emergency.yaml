@@ -35,6 +35,8 @@ automation:
 # When emergency mode is OFF, Keep the lights ON
 ###############################################################################
   - alias: Emergency Mode Disabled
+    initial_state: true
+    hide_entity: true  
     trigger:
       platform: state
       entity_id: input_boolean.emergency_mode

@@ -49,10 +49,15 @@ homeassistant:
     media_player.snapcast_client_0018e7c4488f:
       friendly_name: HA Server (Basement)
 
+    media_player.denon_avrx2400h:
+      friendly_name: Denon AVRX2400H
+      hidden: false
     media_player.mpd:
       friendly_name: Mopidy Media Player
+      hidden: false
     media_player.gstreamer:
       friendly_name: Gstreamer Media Player
+      hidden: false
 
     binary_sensor.sharp_tv:
       <<: *not_exposed
@@ -62,27 +67,23 @@ homeassistant:
       hidden: true
 
 group:
+  group_denon_avrx2400h:
+    entities:
+      - media_player.denon_avrx2400h
+
+  group_gstreamer:
+    entities:
+      - media_player.gstreamer
+
+  group_mpd:
+    entities:
+      - media_player.mpd
+
   Media Players:
     entities:
       - media_player.gstreamer
       - media_player.mpd
       - media_player.denon_avrx2400h
-      - media_player.snapcast_client_0018e7c4488f
-      - media_player.snapcast_client_b827eb011e00
-      - media_player.snapcast_client_b827eb4445b1
-      - media_player.snapcast_client_b827eb505e2d
-      - media_player.snapcast_client_b827eb8604f5
-      - media_player.snapcast_client_b827eba8e7ef
-      - media_player.snapcast_client_b827ebaa08f7
-      - media_player.snapcast_client_b827ebf10965
-      - media_player.snapcast_group_1d659f9f91c541ba15a4ccb683372d18
-      - media_player.snapcast_group_33513078aeaf749d7256aa508c5f3ff7
-      - media_player.snapcast_group_53bc45571394eb9060b4cdb29715031d
-      - media_player.snapcast_group_80b2566473c8b4128395d562d6760bc2
-      - media_player.snapcast_group_81d8ee7df6b354c01ac2b15c412caf31
-      - media_player.snapcast_group_9c9ed909371b4cfb3ba5177cbb34f9ea
-      - media_player.snapcast_group_be21845f683db25f0db2b35508dccfa3
-      - media_player.snapcast_group_d0a7f379181b4d8b72c7c1b6d9c1beb3
       - input_select.snapcast_server
 
 media_player:
@@ -192,3 +193,20 @@ automation:
             input_boolean.turn_off
           {% endif %}
         entity_id: input_boolean.sharp_tv
+
+# Shows the media player if it is on, else hides it
+####################################################
+  - alias: Set Media Player Visibility
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: state
+      entity_id:
+        - media_player.denon_avrx2400h
+        - media_player.gstreamer
+        - media_player.mpd
+    action:
+      - service: group.set_visibility
+        data_template:
+          entity_id: '{{ "group.group_" ~ trigger.entity_id.split(".")[1] }}'
+          visible: '{{ trigger.to_state.state | lower == "on" }}'

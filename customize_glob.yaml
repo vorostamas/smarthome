@@ -5,8 +5,6 @@
 'media_player.snapcast_client_*':
   hidden: true
   emulated_hue: false
-'media_player.mpd':
-  hidden: true
 
 'sensor.*_temperature':
   hidden: false
