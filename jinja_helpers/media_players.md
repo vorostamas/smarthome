@@ -30,11 +30,11 @@ automation:
       platform: state
       entity_id: 
 {%- for item in states.media_player %}
-        - group_{{ item.entity_id.split('.')[1] }}
+        - group.group_{{ item.entity_id.split('.')[1] }}
 {%- endfor %}
     action:
       service: group.set_visibility
-      entity_id: 'group.{{- '{{' }} trigger.entity_id {{ '}}' }}'
+      entity_id: '{{- '{{' }} trigger.entity_id {{ '}}' }}'
       data_template:
         visible: '{{- '{{' }} trigger.entity_id.to_state.state | lower == "on" {{ '}}' }}'
 ```
