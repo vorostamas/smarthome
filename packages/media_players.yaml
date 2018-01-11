@@ -81,9 +81,6 @@ group:
 
   Media Players:
     entities:
-      - media_player.gstreamer
-      - media_player.mpd
-      - media_player.denon_avrx2400h
       - input_select.snapcast_server
 
 media_player:
