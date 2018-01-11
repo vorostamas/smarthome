@@ -19,7 +19,7 @@ group:
 {%- for item in states.media_player %}
   group_{{ item.entity_id.split('.')[1] }}:
     entities:
-      - {{ item.entity_id }}
+      - group.{{ item.entity_id }}
 {%- endfor %}
 
 # Shows the media player if it is on, else hides it
