@@ -151,15 +151,15 @@ def async_setup(hass, config):
 
     hass.services.async_register(
         DOMAIN, SERVICE_SETVALUE, async_handler_service,
-        descriptions[DOMAIN][SERVICE_SETVALUE], SERVICE_SCHEMA)
+        schema=SERVICE_SCHEMA)
 
     hass.services.async_register(
         DOMAIN, SERVICE_SETICON, async_handler_service,
-        descriptions[DOMAIN][SERVICE_SETICON], SERVICE_SCHEMA)
+        schema=SERVICE_SCHEMA)
 
     hass.services.async_register(
         DOMAIN, SERVICE_SETNAME, async_handler_service,
-        descriptions[DOMAIN][SERVICE_SETNAME], SERVICE_SCHEMA)
+        schema=SERVICE_SCHEMA)
 
     yield from component.async_add_entities(entities)
     return True

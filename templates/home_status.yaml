@@ -43,9 +43,8 @@
   {# Calendar notifications #}
   {%- macro calendar_reminder() -%}
     {% set days2NextEvent = 0 %}
-    {% if states("calendar.suresh_kalavala.attributes") != "unknown" %}
       {% if now().year == strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').year %}
-        {% set days2NextEvent = strptime("states.calendar.suresh_kalavala.attributes.start_time", '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) %}
+        {% set days2NextEvent = strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) %}
       {% else %}
         {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.suresh_kalavala.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
       {% endif -%}  
@@ -62,7 +61,48 @@
           in {{ days2NextEvent }} days.
         {% endif %}
       {% endif %}
-    {% endif %}
+  {%- endmacro -%}
+
+  {# Indian Holidays notifications #}  
+  {%- macro IndianHolidays() -%}
+    {% set days2NextEvent = 0 %}
+      {% if now().year == strptime(states.calendar.holidays_in_india.attributes.start_time, '%Y-%m-%d %H:%M:%S').year %}
+        {% set days2NextEvent = strptime(states.calendar.holidays_in_india.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) %}
+      {% else %}
+        {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.holidays_in_india.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
+      {% endif -%}  
+      {% if days2NextEvent <= (states.input_number.calendar_remind_before_days.state | int)  %}
+        Your next indian event. {{ states.calendar.holidays_in_india.attributes.message }} . starts {% if days2NextEvent == 0 | int %}
+           today.
+        {%- elif days2NextEvent == 1 %}
+           tomorrow.
+        {%- elif days2NextEvent == 2 -%}
+           day after tomorrow.
+        {%- else -%}
+          in {{ days2NextEvent }} days.
+        {%- endif -%}
+      {%- endif %}
+  {%- endmacro -%}
+
+  {# USA Holidays notifications #}  
+  {%- macro USHolidays() -%}
+    {% set days2NextEvent = 0 %}
+      {% if now().year == strptime(states.calendar.holidays_in_united_states.attributes.start_time, '%Y-%m-%d %H:%M:%S').year %}
+        {% set days2NextEvent = strptime(states.calendar.holidays_in_united_states.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) %}
+      {% else %}
+        {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.holidays_in_united_states.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
+      {% endif -%}  
+      {% if days2NextEvent <= (states.input_number.calendar_remind_before_days.state | int)  %}
+        Your next public holiday. {{ states.calendar.holidays_in_united_states.attributes.message }} . starts {% if days2NextEvent == 0 | int %}
+           today.
+        {%- elif days2NextEvent == 1 %}
+           tomorrow.
+        {%- elif days2NextEvent == 2 -%}
+           day after tomorrow.
+        {%- else -%}
+          in {{ days2NextEvent }} days.
+        {%- endif -%}
+      {%- endif %}
   {%- endmacro -%}
 
   {# Only notify when high levels of UV #}
@@ -124,6 +164,8 @@
     {{ uv_levels() }}
     {{ humidity_status() }}
     {{ calendar_reminder() }}
+    {{ USHolidays() }}
+    {{ IndianHolidays() }}
     {{ USPS() }}
     {{ birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int ) }}
     {{ birthday_countdown("Srinika", states.input_label.srinika_birthday_days2go.state | int ) }}

@@ -85,3 +85,22 @@
 #           value: 'yes'
 #       - delay: '00:00:01'
 #       - service: script.set_random_color_2_all_bulbs
+
+# automation:
+#   - alias: Fire Event
+#     trigger:
+#       platform: state
+#       entity_id: switch.kitchen
+#     action:
+#       event: my_test_event
+#       event_data:
+#         foo: "bar"
+
+#   - alias: Capture Event
+#     trigger:
+#       platform: event
+#       event_type: my_test_event
+#     action:
+#       - service: script.notify_me
+#         data_template:
+#           message: "Test Event Captured with data foo: {{ trigger.event.data.foo }}"
