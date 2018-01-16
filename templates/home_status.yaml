@@ -1,10 +1,4 @@
  >
-  {%- macro announce_holiday() -%}
-    {% if states.sensor.holiday.state != "" %}
-      {{ states.sensor.holiday.state }}
-    {% endif %}
-  {%- endmacro -%}
-
   {# Birthday notifications #}
   {%- macro birthday_countdown( name, days2go ) -%}
     {%- if days2go == 0 -%}
@@ -72,14 +66,14 @@
         {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.holidays_in_india.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
       {% endif -%}  
       {% if days2NextEvent <= (states.input_number.calendar_remind_before_days.state | int)  %}
-        Your next indian event. {{ states.calendar.holidays_in_india.attributes.message }} . starts {% if days2NextEvent == 0 | int %}
-           today.
+        {% if days2NextEvent == 0 | int %}
+           Today is {{ states.calendar.holidays_in_india.attributes.message | replace(".", "")}}.
         {%- elif days2NextEvent == 1 %}
-           tomorrow.
+           Tomorrow is {{ states.calendar.holidays_in_india.attributes.message | replace(".", "")}}.
         {%- elif days2NextEvent == 2 -%}
-           day after tomorrow.
+           {{ states.calendar.holidays_in_india.attributes.message | replace(".", "") }}. is day after tomorrow.
         {%- else -%}
-          in {{ days2NextEvent }} days.
+          {{ states.calendar.holidays_in_india.attributes.message | replace(".", "") }}. is in {{ days2NextEvent }} days.
         {%- endif -%}
       {%- endif %}
   {%- endmacro -%}
@@ -93,14 +87,14 @@
         {% set days2NextEvent = strptime((now().year ~ "-12-31 12:02:05"), '%Y-%m-%d %H:%M:%S').strftime('%j') | int - (now().strftime('%j') | int) + (strptime(states.calendar.holidays_in_united_states.attributes.start_time, '%Y-%m-%d %H:%M:%S').strftime('%j') | int) -%} 
       {% endif -%}  
       {% if days2NextEvent <= (states.input_number.calendar_remind_before_days.state | int)  %}
-        Your next public holiday. {{ states.calendar.holidays_in_united_states.attributes.message }} . starts {% if days2NextEvent == 0 | int %}
-           today.
+        {% if days2NextEvent == 0 | int %}
+           Today is {{ states.calendar.holidays_in_united_states.attributes.message | replace(".", "")}}.
         {%- elif days2NextEvent == 1 %}
-           tomorrow.
+           Tomorrow is {{ states.calendar.holidays_in_united_states.attributes.message | replace(".", "")}}.
         {%- elif days2NextEvent == 2 -%}
-           day after tomorrow.
+           {{ states.calendar.holidays_in_united_states.attributes.message | replace(".", "")}} is day after tomorrow.
         {%- else -%}
-          in {{ days2NextEvent }} days.
+          {{ states.calendar.holidays_in_united_states.attributes.message | replace(".", "")}} is in {{ days2NextEvent }} days.
         {%- endif -%}
       {%- endif %}
   {%- endmacro -%}
@@ -158,7 +152,6 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
-    {{ announce_holiday() }}
     {{ weather_update() }}
     {{ pollen_levels() }}
     {{ uv_levels() }}

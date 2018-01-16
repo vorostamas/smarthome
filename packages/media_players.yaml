@@ -84,8 +84,8 @@ group:
       - input_select.snapcast_server
 
 media_player:
-  - platform: snapcast
-    host: !secret snapcast_server_ip
+  # - platform: snapcast
+  #   host: !secret snapcast_server_ip
   - platform: mpd
     name: mpd
     host: !secret mopidy_server_ip

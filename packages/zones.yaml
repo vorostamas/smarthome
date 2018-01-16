@@ -8,7 +8,7 @@ homeassistant:
   customize:
 
     input_boolean.home_mode_away:
-      hidden: true
+      friendly_name: Away Mode
     zone.home:
       friendly_name: Home
     zone.work:
@@ -160,12 +160,15 @@ automation:
             False
           {% endif %}
     action:
-      - service: script.notify_me
-        data:
-          message: >
-            "Warning - No one's at home at the moment. "
       - service: input_boolean.turn_on
         entity_id: input_boolean.home_mode_away
+
+  - alias: Home Mode Away ON
+    trigger:
+      platform: state
+      entity_id: input_boolean.home_mode_away
+      to: 'on'
+    action:
       - service: script.home_mode_away
 
 ###############################################################################
@@ -186,3 +189,18 @@ automation:
       - service: script.notify_me
         data_template:
           message: "Suresh is on his way home, he is within the 5 miles range. Should be home soon!"
+      - condition: template
+        value_template: >
+          {% set suresh = states.device_tracker.mallika_mallika.state %}
+          {% set mallika = states.device_tracker.suresh_suresh.state %}
+          {% set srinika = states.device_tracker.srinika_srinika.state %}
+          {% set hasika = states.device_tracker.hasika_hasika.state %}
+          {% if suresh != "home" and mallika != "home" and srinika != "home" and hasika != "home" %}
+            True
+          {% else %}
+            False
+          {% endif %}
+      - service: script.set_nest_home
+      - service: script.notify_me
+        data_template:
+          message: "Your Nest thermostat is set to HOME mode. Thank you!"

@@ -33,3 +33,4 @@ group:
       - device_tracker.hasika_hasika
       - alarm_control_panel.simplisafe
       - input_boolean.emergency_mode
+      - input_boolean.home_mode_away
