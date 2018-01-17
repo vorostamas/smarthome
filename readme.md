@@ -7,7 +7,7 @@ I have a bunch of Raspberry Pi's, and Pi Zeros at home along with a bunch of "sm
 The primary Home Automation software/platform that I use is [Home Assistant](https://home-assistant.io/) (HA). It is an open-source home automation platform written by a bunch of smart individuals. HA allows you to track and control devices easily with simple configuration and with a little bit of scripting, you can do wonders. It is also a perfect piece of software to run entirely on a single Raspberry Pi.
 
 The following picture shows high level architecture of my home network, and what I use for basic automation stuff.
-![My Home Automation Setup](https://github.com/skalavala/smarthome/blob/master/images/Home%20Automation%20Setup%20-%20Kalavala.jpg)
+![My Home Automation Setup](https://raw.githubusercontent.com/skalavala/skalavala.github.io/master/images/smart-home.jpg)
 
 Please feel free to let me know if you find any issues with my code, and/or have any suggestions. Thank you!
 
