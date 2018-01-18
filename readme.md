@@ -70,7 +70,7 @@ The following are some of the smart devices that I use for my current Smart Home
     <TD><img src="https://raw.githubusercontent.com/skalavala/skalavala.github.io/master/images/blank.jpg"/><br/>&nbsp;</TD>
 </TR>
 </TABLE>
-<h2>Home Securty System</h2>
+<h2>Home Security System</h2>
 <TABLE>
 <TR>
     <TD>
