@@ -61,6 +61,7 @@ mediacenter_view:
      - group.group_gstreamer
      - group.group_mpd
      - group.media_players
+     - group.snapcast_server_commands
 
 trash_recycle_view:
   view: yes

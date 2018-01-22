@@ -49,6 +49,13 @@ homeassistant:
     media_player.snapcast_client_0018e7c4488f:
       friendly_name: HA Server (Basement)
 
+    script.stop_snapcast_server:
+      friendly_name: Stop Snapcast Server
+    script.start_snapcast_server:
+      friendly_name: Start Snapcast Server
+    script.restart_snapcast_server:
+      friendly_name: Restart Snapcast Server
+
     media_player.denon_avrx2400h:
       friendly_name: Denon AVRX2400H
       hidden: false
@@ -83,9 +90,16 @@ group:
     entities:
       - input_select.snapcast_server
 
+  Snapcast Server Commands:
+    control: hidden
+    entities:
+      - script.stop_snapcast_server
+      - script.start_snapcast_server
+      - script.restart_snapcast_server
+
 media_player:
-  # - platform: snapcast
-  #   host: !secret snapcast_server_ip
+  - platform: snapcast
+    host: !secret snapcast_server_ip
   - platform: mpd
     name: mpd
     host: !secret mopidy_server_ip
@@ -132,6 +146,17 @@ shell_command:
     sudo systemctl start snapserver
   restart_snapserver: >-
     sudo systemctl restart snapserver
+
+script:
+  stop_snapcast_server:
+    sequence:
+      - service: shell_command.stop_snapserver
+  start_snapcast_server:
+    sequence:
+      - service: shell_command.start_snapserver
+  restart_snapcast_server:
+    sequence:
+      - service: shell_command.restart_snapserver
 
 automation:
 

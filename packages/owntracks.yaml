@@ -26,6 +26,7 @@ device_tracker:
 
 group:
   Home & Family:
+    control: hidden
     entities:
       - device_tracker.suresh_suresh
       - device_tracker.mallika_mallika

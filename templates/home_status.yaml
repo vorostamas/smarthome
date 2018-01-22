@@ -1,4 +1,10 @@
  >
+  {%- macro alert_battery_levels() -%}
+    {%- for item in states if 'battery_level' in item.attributes and item.attributes.battery_level | int > 0 and item.attributes.battery_level | float <= 10.0 %}
+      {{- item.attributes.friendly_name}} battery is less than 10 percent.
+    {%- endfor %}
+  {%- endmacro %}
+
   {# Birthday notifications #}
   {%- macro birthday_countdown( name, days2go ) -%}
     {%- if days2go == 0 -%}
@@ -159,6 +165,7 @@
     {{ calendar_reminder() }}
     {{ USHolidays() }}
     {{ IndianHolidays() }}
+    {{ alert_battery_levels() }}
     {{ USPS() }}
     {{ birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int ) }}
     {{ birthday_countdown("Srinika", states.input_label.srinika_birthday_days2go.state | int ) }}

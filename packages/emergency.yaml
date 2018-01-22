@@ -17,6 +17,15 @@
 #   forgot to turn if off.
 ###############################################################################
 
+homeassistant:
+  customize:
+      script.emergency_script:
+        hidden: true
+      script.emergency_script_loop:
+        hidden: true
+      script.emergency_all_lights_switches_on:
+        friendly_name: All Lights & Switches ON
+
 input_boolean:
   emergency_mode:
     name: Emergency Mode
@@ -24,6 +33,7 @@ input_boolean:
 
 group:
   Emergency Scripts:
+    control: hidden
     entities:
       - script.emergency_script
       - script.emergency_script_loop

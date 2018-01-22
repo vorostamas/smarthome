@@ -11,17 +11,29 @@ homeassistant:
       order: 52
 
     # Script Stuff
-    script.ifttt_notify:
-      friendly_name: Notify Via IFTTT
-      icon: mdi:share
-
-    script.notify_me:
-      friendly_name: Notify Me (Default IFTTT)
-      icon: mdi:share
+    script.home_status:
+      friendly_name: Home Status (Hourly Report)
+    script.home_mode_away:
+      friendly_name: Set Home Mode to AWAY
 
     script.voice_notify:
-      friendly_name: Notify via TTS
-      icon: mdi:speaker-wireless
+      hidden: true
+    script.voice_greeting:
+      hidden: true
+    script.ifttt_leeo_color_change:
+      hidden: true
+    script.lifx_breathe:
+      hidden: true
+    script.owntracks_update:
+      hidden: true
+    script.start_colorloop:
+      hidden: true
+    script.stop_colorloop:
+      hidden: true
+    script.ifttt_notify:
+      hidden: true
+    script.notify_me:
+      hidden: true
 
 ifttt:
   key: !secret ifttt_key
@@ -205,10 +217,8 @@ script:
         data_template:
           message: !include ../templates/home_status.yaml
 
-
 # Amazon Polly trick to pronounce names correctly
 ##############################################################################
 # Mallika:  <phoneme alphabet="x-sampa" ph="m@_ollik@_o">mallika</phoneme>   #
 # Hasika:   <phoneme alphabet="x-sampa" ph="hA_osika">haasika</phoneme>      #
 ##############################################################################
-    

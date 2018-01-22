@@ -202,7 +202,6 @@ sensor:
     sensors:
       suresh_iphone_battery_ot:
         unit_of_measurement: '%'
-        entity_id: device_tracker.suresh_suresh
         value_template: >
           {% if states('sensor.sureshs_iphone_battery_ot') != "unknown" %}
             {{ states('sensor.sureshs_iphone_battery_ot')| int }}
@@ -246,7 +245,6 @@ sensor:
     sensors:
       mallika_iphone_battery_ot:
         unit_of_measurement: '%'
-        entity_id: device_tracker.mallika_mallika
         value_template: "{{ states('sensor.mallikas_iphone_battery_ot')|int(-1) }}"
         icon_template: >-
           {% if states('sensor.mallikas_iphone_battery_ot') != "unknown" %}
@@ -285,7 +283,6 @@ sensor:
     sensors:
       srinika_iphone_battery_ot:
         unit_of_measurement: '%'
-        entity_id: device_tracker.srinika_srinika
         value_template: "{{ states('sensor.srinikas_iphone_battery_ot')|int(-1) }}"
         icon_template: >-
           {% if states('sensor.srinikas_iphone_battery_ot') != "unknown" %}
@@ -324,7 +321,6 @@ sensor:
     sensors:
       hasika_iphone_battery_ot:
         unit_of_measurement: '%'
-        entity_id: device_tracker.hasika_hasika
         value_template: "{{ states('sensor.hasikas_iphone_battery_ot')|int(-1) }}"
         icon_template: >-
           {% if states('sensor.hasikas_iphone_battery_ot') != "unknown" %}
