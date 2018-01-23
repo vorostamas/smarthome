@@ -333,3 +333,11 @@ Fun stuff...
 {{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes.friendly_name }}
 {{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes["friendly_name"] }}
 ```
+
+## 11. To get the current list of domains you use in your Home Assistant Setup, run the script below:
+
+```
+{{ states | map(attribute='domain') |list | unique | list}}
+```
+
+The way the above script works is it iterates through all the entities, and retrieves the `domain` attribute of each of the entity, and makes it a list by removing duplicate items - by doing so, you will get unique list of domains that your Home Assistant uses :smile:
