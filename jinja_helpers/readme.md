@@ -347,7 +347,7 @@ The way the above script works is it iterates through all the entities, and retr
 Run the following script to automatically create groups sorted by the domain
 
 ```yaml
-{%- macro plural_of(name) -%}
+{%- macro plural(name) -%}
   {%- if name[(name|length|int -1):] == "y" -%}
   {{- name[:-1] -}}ies
 {%- else -%}
@@ -357,7 +357,7 @@ Run the following script to automatically create groups sorted by the domain
 
 group:
 {% for item in states | map(attribute='domain') |list | unique | list %}
-  {{ plural_of(item) }}:
+  {{ plural(item) }}:
     entities:
   {%- for x in states if x.domain == item %}
       {{ x.entity_id }}
