@@ -1,5 +1,24 @@
 # Jinja code for Ninjas
 
+There are two ways you can test the Jinja code:
+
+<p>
+1. Using Template editor in Home Assistant Web UI. You can do that by clicking on the hamburger icon on the top left of the page, under Developer Tools, Click on Templates icon. You will see a page with some code. You can delete that code and paste any jinja2 code there, it should render the output on thr right side of the page. 
+</p>
+
+<p>
+2. Go to command line, and run inside python evvironment. Here is an example:
+</p>
+
+```
+$ python3
+>>> from jinja2 import Template
+
+>>> s = "{% for element in elements %}{{loop.index}} {% endfor %}"
+>>> Template(s).render(elements=["a", "b", "c", "d"])
+1 2 3 4
+```
+
 ## 1. To see which entities are exposed to your alexa platform, run the following script
 
 The following entities are exposed to Alexa platform via `emulated_hue`:
