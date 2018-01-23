@@ -346,7 +346,7 @@ The way the above script works is it iterates through all the entities, and retr
 
 Run the following script to automatically create groups sorted by the domain
 
-```
+```yaml
 {%- macro get_plural(name) -%}
   {%- if name[(name|length|int -1):] == "y" -%}
   {{- name[:-1] -}}ies
