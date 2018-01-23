@@ -341,3 +341,18 @@ Fun stuff...
 ```
 
 The way the above script works is it iterates through all the entities, and retrieves the `domain` attribute of each of the entity, and makes it a list by removing duplicate items - by doing so, you will get unique list of domains that your Home Assistant uses :smile:
+
+## 12. Automatic `Group` creator
+
+Run the following script to automatically create groups sorted by the domain
+
+```
+group:
+{%- for item in states | map(attribute='domain') |list | unique | list %}
+  {{ item }}s:
+    entities:
+  {%- for x in states if x.domain == item%}
+      {{ x.entity_id }}
+  {%- endfor %}
+{% endfor %}
+```
