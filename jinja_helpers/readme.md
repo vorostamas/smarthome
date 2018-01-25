@@ -198,6 +198,26 @@ Sample code that uses macros to convert temperature from Fahrenheit to Centigrad
 23.89 degrees of Centigrade is equal to: 75.00 Fahrenheit
 ```
 
+## 5.a Humidex Calculation
+You can calculate the humidex based on Temperature and Relative Humidity using the following jinja macro
+
+```
+{% macro humidex(T, H) %}
+  {% set t = 7.5*T/(237.7+T) %}
+  {% set et = 10**t %}
+  {% set e= 6.112 * et * (H/100) %}
+  {% set humidex = T+(5/9)*(e-10) %}
+  {% if humidex < T %}
+    {% set humidex = T %}
+  {% endif %}
+  {{humidex}}
+{% endmacro %}
+
+{{ humidex(23,45) }}
+```
+
+The output of that would be `24.455823489173447`.
+
 ## 6. Trigger Data in Automations
 
 Ever wondered what trigger data is available for you when writing automations? Just copy the mqtt.publish service below 
