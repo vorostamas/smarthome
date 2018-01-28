@@ -312,6 +312,4 @@ automation:
         entity_id: group.all_devices
         state: 'home'
     action:
-      - service: script.voice_notify
-        data_template:
-          message: !include ../templates/goodnight.yaml
+      - service: script.good_night_tts

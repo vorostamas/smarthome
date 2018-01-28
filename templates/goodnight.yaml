@@ -109,7 +109,7 @@
 
  {#- Main macro that runs all other macros and combines the information -#}
   {%- macro run() -%}
-   It is past 10 o clock, and time to go to bed. Here is the status of your home.{{- alarm_status() -}}
+   It is {% if now().hour > 12 %}{{ now().hour | int - 12 }}: {{- now().minute }} PM{% else %}{{ now().hour }}: {{- now().minute }} PM{% endif %}. Here is the status of your home.{{- alarm_status() -}}
    {%- set battery_output = battery_status() -%}
    {%- if battery_output | trim != "" -%}
    {{- battery_output -}} Please make sure you put the phones to charge.
@@ -135,7 +135,7 @@
    {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
    {{ phoneBatteryStatus() }}
    {{ humidity_status() }}
-   {{- outside_weather() }} Everything else looks good. Hope you have a good night sleep!
+   {{- outside_weather() }} Everything else looks good.
  {%- endmacro -%}
  
  {{ cleanup(run()) }}

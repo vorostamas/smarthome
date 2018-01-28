@@ -15,6 +15,8 @@ homeassistant:
       friendly_name: Home Status (Hourly Report)
     script.home_mode_away:
       friendly_name: Set Home Mode to AWAY
+    script.good_night_tts:
+      friendly_name: Good Night TTS Report
 
     script.voice_notify:
       hidden: true
@@ -72,6 +74,7 @@ group:
       - script.voice_notify
       - script.voice_greeting
       - script.home_mode_away
+      - script.good_night_tts
 
 script:
 
@@ -104,6 +107,12 @@ script:
       - service: script.ifttt_notify
         data_template:
           message: "{{ message }}"
+
+  good_night_tts:
+    sequence:
+      - service: script.voice_notify
+        data_template:
+          message: !include ../templates/goodnight.yaml
 
 ###############################################################################
 # Voice Notify
