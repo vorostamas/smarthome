@@ -1,25 +1,26 @@
 default: critical
 logs:
   gsp: critical
-  root: error
-  openzwave: error
-  libopenzwave: error
-  py.warnings: error
+  root: critical
+  openzwave: critical
+  libopenzwave: critical
+  py.criticals: critical
   aiohttp.server: critical
-  homeassistant.setup: error
+  homeassistant.setup: critical
   homeassistant.core: critical
-  homeassistant.exceptions: error
-  homeassistant.helpers.script: error  
+  homeassistant.exceptions: critical
+  homeassistant.helpers.script: critical  
   homeassistant.helpers.entity: critical
-  homeassistant.components.http: error
-  homeassistant.components.zwave: error
+  homeassistant.components.http: critical
+  homeassistant.components.zwave: critical
   homeassistant.components.sensor: critical
-  homeassistant.components.recorder: error
-  homeassistant.components.discovery: error
-  homeassistant.components.automation: error
-  homeassistant.components.climate.nest: error
-  homeassistant.components.media_player: error
-  homeassistant.components.device_tracker: error
-  custom_components.media_player.sharptv: error
-  homeassistant.components.emulated_hue: error
+  homeassistant.components.recorder: critical
+  homeassistant.components.discovery: critical
+  custom_components.sensor.command_line: debug
+  homeassistant.components.automation: critical
+  homeassistant.components.climate.nest: critical
+  homeassistant.components.media_player: critical
+  homeassistant.components.device_tracker: critical
+  custom_components.media_player.sharptv: critical
+  homeassistant.components.emulated_hue: critical
   homeassistant.components.camera.generic: critical

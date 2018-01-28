@@ -22,6 +22,11 @@ homeassistant:
     sensor.dining_room_thermostat_temperature:
       friendly_name: Thermostat Temperature
 
+    script.set_nest_away:
+      friendly_name: Set Nest Thermostat Away
+    script.set_nest_home:
+      friendly_name: Set Nest Thermostat Home
+
 group:
   Nest Thermostat:
     entities:

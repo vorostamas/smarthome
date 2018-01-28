@@ -335,9 +335,6 @@ homeassistant:
     sensor.guest_bedroom_multi_sensor_ultraviolet:
       friendly_name: Guest Bedroom Multi Sensor Ultraviolet
       <<: *not_exposed
-    sensor.hallway_light_switch_battery:
-      friendly_name: Hallway Light Switch
-      <<: *not_exposed
     sensor.kitchen_motion_sensor_alarm_level:
       friendly_name: Kitchen Motion Sensor Alarm Level
       <<: *not_exposed
@@ -494,9 +491,6 @@ homeassistant:
 
 # ZWave Switches
 
-    switch.hallway_light_switch_switch:
-      friendly_name: Hallway Light Switch xxx
-      <<: *not_exposed
     switch.kitchen_siren_switch:
       friendly_name: Kitchen Siren Switch 1
       <<: *not_exposed
@@ -715,10 +709,6 @@ group:
       - sensor.guest_bedroom_multi_sensor_temperature
       - sensor.guest_bedroom_multi_sensor_ultraviolet
 
-  Hallway Light Switch:
-    entities:
-      - switch.hallway_light_switch_switch
-
   Kitchen Motion Sensor:
     entities:
       - sensor.kitchen_motion_sensor_alarm_level
@@ -814,7 +804,6 @@ group:
       - zwave.front_room_multi_sensor
       - zwave.garage_door_sensor
       - zwave.guest_bedroom_multi_sensor
-      - zwave.hallway_light_switch
       - zwave.kitchen_motion_sensor
       - zwave.kitchen_siren
       - zwave.single_car_garage_door_tilt_sensor

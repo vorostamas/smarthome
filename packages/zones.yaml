@@ -164,6 +164,8 @@ automation:
         entity_id: input_boolean.home_mode_away
 
   - alias: Home Mode Away ON
+    initial_state: true
+    hide_entity: true
     trigger:
       platform: state
       entity_id: input_boolean.home_mode_away

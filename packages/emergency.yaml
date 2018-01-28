@@ -38,6 +38,7 @@ group:
       - script.emergency_script
       - script.emergency_script_loop
       - script.emergency_all_lights_switches_on
+      - script.all_indoor_lights_off
 
 automation:
 

@@ -216,7 +216,6 @@ group:
       - switch.garage_lights
       - switch.zwave_smart_switch_switch
       - light.gateway_light_34ce008ad65d
-      - switch.hallway_light_switch_switch
       - switch.basement_left_lights
       - switch.basement_right_lights
       - switch.kitchen_light
@@ -238,7 +237,6 @@ group:
       - switch.garage_lights
       - switch.guest_bedroom_1
       - switch.guest_bedroom_2
-      - switch.hallway_light_switch_switch
       - switch.kids_bedroom
       - switch.wallmote_switch
       - switch.wemobackyardlightswitch

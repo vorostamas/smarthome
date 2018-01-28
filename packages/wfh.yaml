@@ -33,7 +33,7 @@ automation:
       - condition: template
         value_template: '{{ states.timer.wfh_timer.state == "idle" }}'
       - condition: template
-        value_template: '{{ states.device_tracker.suresh_suresh.state == "home" }}'        
+        value_template: '{{ states.device_tracker.suresh_suresh.state == "home" }}'
     action:
       - service: timer.start
         entity_id: timer.wfh_timer

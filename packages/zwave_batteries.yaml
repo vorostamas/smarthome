@@ -9,7 +9,6 @@ input_label:
   front_room_window_sensor:
   garage_door_sensor:
   guest_bedroom_multi_sensor:
-  hallway_light_switch:
   kitchen_motion_sensor:
   single_car_garage_door_tilt_sensor:
   stairs_motion_sensor:
@@ -40,7 +39,6 @@ group:
       - input_label.front_room_window_sensor
       - input_label.garage_door_sensor
       - input_label.guest_bedroom_multi_sensor
-      - input_label.hallway_light_switch
       - input_label.kitchen_motion_sensor
       - input_label.single_car_garage_door_tilt_sensor
       - input_label.stairs_motion_sensor

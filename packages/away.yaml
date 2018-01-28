@@ -1,6 +1,10 @@
 # The following script runs when no one is home. It excludes some lights
 # and switches like front porch and backyard lights...etc for safety reasons.
 ###############################################################################
+homeassistant:
+  customize:
+    script.all_indoor_lights_off:
+      friendly_name: All Indoor Lights & Switches OFF
 
 script:
 
@@ -28,7 +32,6 @@ script:
         data_template:
           entity_id: >
             {%- for state in states.switch if
-            state.entity_id != 'switch.hallway_light_switch_switch' and 
                                 state.entity_id != 'switch.wemoswitch1' and
                                 state.entity_id != 'switch.wallmote_switch' and
                                 state.entity_id != 'switch.wemobackyardlightswitch' and

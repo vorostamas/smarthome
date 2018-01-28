@@ -15,7 +15,7 @@ homeassistant:
   customize_domain: !include customize_domain.yaml
   packages: !include_dir_named packages
   # whitelist_external_dirs:
-  #   - '/home/homeassistant/.homeassistant'
+  #   - '/home/homeassistant/.homeassistant/www'
 
 updater:
 discovery:
