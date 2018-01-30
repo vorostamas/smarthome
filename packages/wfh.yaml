@@ -51,7 +51,7 @@ automation:
           entity_id: timer.wfh_timer
     action:
       - service_template: >
-          {% if now().hour | int > 10 and now().hour | int < 17 %}
+          {% if now().hour | int >= 10 and now().hour | int < 17 %}
             timer.start
           {% else %}
             timer.cancel
@@ -63,7 +63,7 @@ automation:
         data_template:
           message: "It is time to stand up and walk around!"
 
-# Cancel timer When Suresh left home
+# Cancel timer (if active) When Suresh left home
 ###############################################################################
   - alias: Cancel WFH Timer When Suresh Leaves Home
     initial_state: true
@@ -75,9 +75,7 @@ automation:
         event: leave
     condition:
       - condition: template
-        value_template: '{{ states.binary_sensor.workday_sensor.state == "on" }}'
-      - condition: template
-        value_template: '{{ now().hour|int >= 10 and now().hour|int < 17 }}'        
+        value_template: '{{ states.timer.wfh_timer.state == "active" }}'    
     action:
       - service: timer.cancel
         entity_id: timer.wfh_timer
