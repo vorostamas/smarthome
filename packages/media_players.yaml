@@ -108,8 +108,15 @@ media_player:
     host: !secret denon_avr_ip_address
     name: DENON
 
-   # run the following command to link gsp/gi path to HA for Gstreamer to function properly    
-   # sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
+# If you get errors about GI not found, run the command below to link gsp/gi path to HA for Gstreamer to function properly
+# sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
+
+# If you get GST not found error, run the following command
+# sudo apt-get install python-gst-1.0 \
+#     gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 \
+#     gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly \
+#     gstreamer1.0-tools
+
   - platform: gstreamer
     pipeline: "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! wavenc ! filesink location=/tmp/snapfifo"
 
