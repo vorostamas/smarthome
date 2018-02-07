@@ -122,10 +122,10 @@ script:
 ###############################################################################
   voice_notify:
     sequence:
-      # - condition: template
-      #   value_template: '{{ states.input_boolean.voice_notifications.state == "on" }}'
-      # - condition: template
-      #   value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
+      - condition: template
+        value_template: '{{ states.input_boolean.voice_notifications.state == "on" }}'
+      - condition: template
+        value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
       # - condition: template
       #   value_template: '{{ states.media_player.gstreamer.state == "idle" }}'
       # - condition: template
