@@ -116,6 +116,7 @@ group:
       - input_boolean.alert_no_one_home
       - input_boolean.battery_notifications
       - input_number.calendar_remind_before_days
+      - input_boolean.wfh_notifications
       - input_boolean.sharp_tv
 
   Bed & Wakeup Times:
@@ -345,6 +346,11 @@ input_boolean:
     name: Battery Notifications
     initial: on
     icon: mdi:battery
+
+  wfh_notifications:
+    name: Work From Home
+    initial: off
+    icon: mdi:work
 
   sharp_tv:
     name: TV
