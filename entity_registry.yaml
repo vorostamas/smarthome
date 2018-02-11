@@ -1,0 +1,543 @@
+binary_sensor.driveway_camera_tamper_detection:
+  platform: hikvision
+  unique_id: 0002fecc-68a5-11b3-81a5-1868cb4515bc.Tamper Detection.1
+binary_sensor.driveway_camera_field_detection:
+  platform: hikvision
+  unique_id: 0002fecc-68a5-11b3-81a5-1868cb4515bc.Field Detection.1
+binary_sensor.driveway_camera_line_crossing:
+  platform: hikvision
+  unique_id: 0002fecc-68a5-11b3-81a5-1868cb4515bc.Line Crossing.1
+binary_sensor.driveway_camera_motion:
+  platform: hikvision
+  unique_id: 0002fecc-68a5-11b3-81a5-1868cb4515bc.Motion.1
+climate.dining_room:
+  platform: nest
+  unique_id: 0jkgej6mtxLHeZkVm12KUmlw7ySeksYp
+binary_sensor.frontdoor_camera_motion:
+  platform: hikvision
+  unique_id: 0002fec5-68a5-11b3-81a5-1868cb4515b5.Motion.1
+binary_sensor.frontdoor_camera_field_detection:
+  platform: hikvision
+  unique_id: 0002fec5-68a5-11b3-81a5-1868cb4515b5.Field Detection.1
+binary_sensor.frontdoor_camera_tamper_detection:
+  platform: hikvision
+  unique_id: 0002fec5-68a5-11b3-81a5-1868cb4515b5.Tamper Detection.1
+binary_sensor.frontdoor_camera_line_crossing:
+  platform: hikvision
+  unique_id: 0002fec5-68a5-11b3-81a5-1868cb4515b5.Line Crossing.1
+binary_sensor.patio_camera_line_crossing:
+  platform: hikvision
+  unique_id: 0002feb3-68a5-11b3-81a5-1868cb4515a3.Line Crossing.1
+binary_sensor.patio_camera_field_detection:
+  platform: hikvision
+  unique_id: 0002feb3-68a5-11b3-81a5-1868cb4515a3.Field Detection.1
+binary_sensor.patio_camera_tamper_detection:
+  platform: hikvision
+  unique_id: 0002feb3-68a5-11b3-81a5-1868cb4515a3.Tamper Detection.1
+binary_sensor.patio_camera_motion:
+  platform: hikvision
+  unique_id: 0002feb3-68a5-11b3-81a5-1868cb4515a3.Motion.1
+binary_sensor.playarea_camera_motion:
+  platform: hikvision
+  unique_id: 0002fe3d-68a5-11b3-81a5-1868cb45152d.Motion.1
+binary_sensor.playarea_camera_line_crossing:
+  platform: hikvision
+  unique_id: 0002fe3d-68a5-11b3-81a5-1868cb45152d.Line Crossing.1
+binary_sensor.playarea_camera_field_detection:
+  platform: hikvision
+  unique_id: 0002fe3d-68a5-11b3-81a5-1868cb45152d.Field Detection.1
+binary_sensor.playarea_camera_tamper_detection:
+  platform: hikvision
+  unique_id: 0002fe3d-68a5-11b3-81a5-1868cb45152d.Tamper Detection.1
+light.hue_color_lamp_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:72:70:e6-0b
+light.master_bedroom_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:35:64:3c-0b
+light.hue_color_lamp_1:
+  platform: hue
+  unique_id: 00:17:88:01:02:70:75:08-0b
+light.master_bedroom_1:
+  platform: hue
+  unique_id: 00:17:88:01:02:35:64:32-0b
+light.hue_color_lamp_3:
+  platform: hue
+  unique_id: 00:17:88:01:02:72:70:ea-0b
+sensor.suresh_battery_level:
+  platform: ios
+  unique_id: level_suresh
+sensor.srinika_battery_level:
+  platform: ios
+  unique_id: level_srinika
+sensor.suresh_battery_state:
+  platform: ios
+  unique_id: state_suresh
+sensor.srinika_battery_state:
+  platform: ios
+  unique_id: state_srinika
+sensor.iphone__battery_level:
+  platform: ios
+  unique_id: level_mallika
+sensor.ipad_battery_level:
+  platform: ios
+  unique_id: level_ipad
+sensor.ipad_battery_state:
+  platform: ios
+  unique_id: state_ipad
+sensor.hasika_battery_level:
+  platform: ios
+  unique_id: level_hasika
+sensor.iphone__battery_state:
+  platform: ios
+  unique_id: state_mallika
+sensor.hasika_battery_state:
+  platform: ios
+  unique_id: state_hasika
+switch.frontyard_light:
+  platform: wemo
+  unique_id: 221523K1300CB6
+switch.wemoswitch1:
+  platform: wemo
+  unique_id: 221608K01014FD
+switch.wemobackyardlightswitch:
+  platform: wemo
+  unique_id: 221608K1300AED
+binary_sensor.downstairs_multi_sensor_sensor:
+  platform: zwave
+  unique_id: 2-72057594076463104
+sensor.downstairs_multi_sensor_temperature:
+  platform: zwave
+  unique_id: 2-72057594076479506
+sensor.downstairs_multi_sensor_luminance:
+  platform: zwave
+  unique_id: 2-72057594076479538
+sensor.downstairs_multi_sensor_power:
+  platform: zwave
+  unique_id: 2-72057594076479554
+sensor.downstairs_multi_sensor_relative_humidity:
+  platform: zwave
+  unique_id: 2-72057594076479570
+sensor.downstairs_multi_sensor_alarm_type:
+  platform: zwave
+  unique_id: 2-72057594077528065
+sensor.downstairs_multi_sensor_alarm_level:
+  platform: zwave
+  unique_id: 2-72057594077528081
+sensor.downstairs_multi_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 2-72057594077528097
+sensor.downstairs_multi_sensor_burglar:
+  platform: zwave
+  unique_id: 2-72057594077528225
+binary_sensor.upstairs_multi_sensor_sensor:
+  platform: zwave
+  unique_id: 3-72057594093240320
+sensor.upstairs_multi_sensor_temperature:
+  platform: zwave
+  unique_id: 3-72057594093256722
+sensor.upstairs_multi_sensor_luminance:
+  platform: zwave
+  unique_id: 3-72057594093256754
+sensor.upstairs_multi_sensor_relative_humidity:
+  platform: zwave
+  unique_id: 3-72057594093256786
+sensor.upstairs_multi_sensor_ultraviolet:
+  platform: zwave
+  unique_id: 3-72057594093257138
+sensor.upstairs_multi_sensor_alarm_type:
+  platform: zwave
+  unique_id: 3-72057594094305281
+sensor.upstairs_multi_sensor_alarm_level:
+  platform: zwave
+  unique_id: 3-72057594094305297
+sensor.upstairs_multi_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 3-72057594094305313
+sensor.upstairs_multi_sensor_burglar:
+  platform: zwave
+  unique_id: 3-72057594094305441
+binary_sensor.two_car_garage_door_tilt_sensor_sensor:
+  platform: zwave
+  unique_id: 4-72057594110017536
+sensor.two_car_garage_door_tilt_sensor_alarm_type:
+  platform: zwave
+  unique_id: 4-72057594111082497
+sensor.two_car_garage_door_tilt_sensor_alarm_level:
+  platform: zwave
+  unique_id: 4-72057594111082513
+sensor.two_car_garage_door_tilt_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 4-72057594111082529
+sensor.two_car_garage_door_tilt_sensor_access_control:
+  platform: zwave
+  unique_id: 4-72057594111082641
+sensor.two_car_garage_door_tilt_sensor_burglar:
+  platform: zwave
+  unique_id: 4-72057594111082657
+sensor.two_car_garage_door_tilt_sensor_power_management:
+  platform: zwave
+  unique_id: 4-72057594111082673
+binary_sensor.single_car_garage_door_tilt_sensor_sensor:
+  platform: zwave
+  unique_id: 5-72057594126794752
+sensor.single_car_garage_door_tilt_sensor_alarm_type:
+  platform: zwave
+  unique_id: 5-72057594127859713
+sensor.single_car_garage_door_tilt_sensor_alarm_level:
+  platform: zwave
+  unique_id: 5-72057594127859729
+sensor.single_car_garage_door_tilt_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 5-72057594127859745
+sensor.single_car_garage_door_tilt_sensor_access_control:
+  platform: zwave
+  unique_id: 5-72057594127859857
+sensor.single_car_garage_door_tilt_sensor_burglar:
+  platform: zwave
+  unique_id: 5-72057594127859873
+sensor.single_car_garage_door_tilt_sensor_power_management:
+  platform: zwave
+  unique_id: 5-72057594127859889
+binary_sensor.back_door_sensor_sensor:
+  platform: zwave
+  unique_id: 6-72057594143571968
+sensor.back_door_sensor_alarm_type:
+  platform: zwave
+  unique_id: 6-72057594144636929
+sensor.back_door_sensor_alarm_level:
+  platform: zwave
+  unique_id: 6-72057594144636945
+sensor.back_door_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 6-72057594144636961
+sensor.back_door_sensor_access_control:
+  platform: zwave
+  unique_id: 6-72057594144637073
+sensor.back_door_sensor_burglar:
+  platform: zwave
+  unique_id: 6-72057594144637089
+sensor.back_door_sensor_power_management:
+  platform: zwave
+  unique_id: 6-72057594144637105
+binary_sensor.front_door_sensor_sensor:
+  platform: zwave
+  unique_id: 7-72057594160349184
+sensor.front_door_sensor_alarm_type:
+  platform: zwave
+  unique_id: 7-72057594161414145
+sensor.front_door_sensor_alarm_level:
+  platform: zwave
+  unique_id: 7-72057594161414161
+sensor.front_door_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 7-72057594161414177
+sensor.front_door_sensor_access_control:
+  platform: zwave
+  unique_id: 7-72057594161414289
+sensor.front_door_sensor_burglar:
+  platform: zwave
+  unique_id: 7-72057594161414305
+sensor.front_door_sensor_power_management:
+  platform: zwave
+  unique_id: 7-72057594161414321
+binary_sensor.front_room_multi_sensor_sensor:
+  platform: zwave
+  unique_id: 11-72057594227458048
+sensor.front_room_multi_sensor_temperature:
+  platform: zwave
+  unique_id: 11-72057594227474450
+sensor.front_room_multi_sensor_luminance:
+  platform: zwave
+  unique_id: 11-72057594227474482
+sensor.front_room_multi_sensor_relative_humidity:
+  platform: zwave
+  unique_id: 11-72057594227474514
+sensor.front_room_multi_sensor_ultraviolet:
+  platform: zwave
+  unique_id: 11-72057594227474866
+sensor.front_room_multi_sensor_alarm_type:
+  platform: zwave
+  unique_id: 11-72057594228523009
+sensor.front_room_multi_sensor_alarm_level:
+  platform: zwave
+  unique_id: 11-72057594228523025
+sensor.front_room_multi_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 11-72057594228523041
+sensor.front_room_multi_sensor_burglar:
+  platform: zwave
+  unique_id: 11-72057594228523169
+switch.zwave_smart_switch_switch:
+  platform: zwave
+  unique_id: 15-72057594294386688
+sensor.zwave_smart_switch_energy:
+  platform: zwave
+  unique_id: 15-72057594294599682
+sensor.zwave_smart_switch_previous_reading:
+  platform: zwave
+  unique_id: 15-72057594294599698
+sensor.zwave_smart_switch_power:
+  platform: zwave
+  unique_id: 15-72057594294599810
+sensor.zwave_smart_switch_voltage:
+  platform: zwave
+  unique_id: 15-72057594294599938
+sensor.zwave_smart_switch_current:
+  platform: zwave
+  unique_id: 15-72057594294600002
+binary_sensor.kitchen_motion_sensor_sensor:
+  platform: zwave
+  unique_id: 16-72057594311344128
+sensor.kitchen_motion_sensor_alarm_type:
+  platform: zwave
+  unique_id: 16-72057594312409089
+sensor.kitchen_motion_sensor_alarm_level:
+  platform: zwave
+  unique_id: 16-72057594312409105
+sensor.kitchen_motion_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 16-72057594312409121
+sensor.kitchen_motion_sensor_burglar:
+  platform: zwave
+  unique_id: 16-72057594312409249
+sensor.kitchen_motion_sensor_power_management:
+  platform: zwave
+  unique_id: 16-72057594312409265
+binary_sensor.stairs_motion_sensor_sensor:
+  platform: zwave
+  unique_id: 17-72057594328121344
+sensor.stairs_motion_sensor_alarm_type:
+  platform: zwave
+  unique_id: 17-72057594329186305
+sensor.stairs_motion_sensor_alarm_level:
+  platform: zwave
+  unique_id: 17-72057594329186321
+sensor.stairs_motion_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 17-72057594329186337
+sensor.stairs_motion_sensor_burglar:
+  platform: zwave
+  unique_id: 17-72057594329186465
+sensor.stairs_motion_sensor_power_management:
+  platform: zwave
+  unique_id: 17-72057594329186481
+switch.kitchen_siren_switch:
+  platform: zwave
+  unique_id: 23-72057594428604416
+switch.kitchen_siren_switch_2:
+  platform: zwave
+  unique_id: 23-144115188466532352
+switch.kitchen_siren_switch_3:
+  platform: zwave
+  unique_id: 23-216172782504460288
+switch.kitchen_siren_switch_4:
+  platform: zwave
+  unique_id: 23-288230376542388224
+switch.kitchen_siren_switch_5:
+  platform: zwave
+  unique_id: 23-360287970580316160
+binary_sensor.basement_door_sensor_sensor:
+  platform: zwave
+  unique_id: 25-72057594462339072
+sensor.basement_door_sensor_alarm_type:
+  platform: zwave
+  unique_id: 25-72057594463404033
+sensor.basement_door_sensor_alarm_level:
+  platform: zwave
+  unique_id: 25-72057594463404049
+sensor.basement_door_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 25-72057594463404065
+sensor.basement_door_sensor_access_control:
+  platform: zwave
+  unique_id: 25-72057594463404177
+sensor.basement_door_sensor_burglar:
+  platform: zwave
+  unique_id: 25-72057594463404193
+sensor.basement_door_sensor_power_management:
+  platform: zwave
+  unique_id: 25-72057594463404209
+switch.wallmote_switch:
+  platform: zwave
+  unique_id: 27-72057594495713280
+sensor.wallmote_alarm_type:
+  platform: zwave
+  unique_id: 27-72057594496958465
+sensor.wallmote_alarm_level:
+  platform: zwave
+  unique_id: 27-72057594496958481
+sensor.wallmote_sourcenodeid:
+  platform: zwave
+  unique_id: 27-72057594496958497
+sensor.wallmote_power_management:
+  platform: zwave
+  unique_id: 27-72057594496958641
+binary_sensor.audio_detector_sensor:
+  platform: zwave
+  unique_id: 28-72057594512670720
+sensor.audio_detector_temperature:
+  platform: zwave
+  unique_id: 28-72057594512687122
+sensor.audio_detector_alarm_type:
+  platform: zwave
+  unique_id: 28-72057594513735681
+sensor.audio_detector_alarm_level:
+  platform: zwave
+  unique_id: 28-72057594513735697
+sensor.audio_detector_sourcenodeid:
+  platform: zwave
+  unique_id: 28-72057594513735713
+sensor.audio_detector_smoke:
+  platform: zwave
+  unique_id: 28-72057594513735745
+sensor.audio_detector_carbon_monoxide:
+  platform: zwave
+  unique_id: 28-72057594513735761
+sensor.audio_detector_burglar:
+  platform: zwave
+  unique_id: 28-72057594513735841
+sensor.audio_detector_power_management:
+  platform: zwave
+  unique_id: 28-72057594513735857
+binary_sensor.garage_door_sensor_sensor:
+  platform: zwave
+  unique_id: 29-72057594529447936
+sensor.garage_door_sensor_alarm_type:
+  platform: zwave
+  unique_id: 29-72057594530512897
+sensor.garage_door_sensor_alarm_level:
+  platform: zwave
+  unique_id: 29-72057594530512913
+sensor.garage_door_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 29-72057594530512929
+sensor.garage_door_sensor_access_control:
+  platform: zwave
+  unique_id: 29-72057594530513041
+sensor.garage_door_sensor_burglar:
+  platform: zwave
+  unique_id: 29-72057594530513057
+sensor.garage_door_sensor_power_management:
+  platform: zwave
+  unique_id: 29-72057594530513073
+binary_sensor.aeotec_water_sensor_sensor:
+  platform: zwave
+  unique_id: 31-72057594563002368
+sensor.aeotec_water_sensor_temperature:
+  platform: zwave
+  unique_id: 31-72057594563018770
+sensor.aeotec_water_sensor_alarm_type:
+  platform: zwave
+  unique_id: 31-72057594564067329
+sensor.aeotec_water_sensor_alarm_level:
+  platform: zwave
+  unique_id: 31-72057594564067345
+sensor.aeotec_water_sensor_alarm_type_2:
+  platform: zwave
+  unique_id: 31-144115188601995265
+sensor.aeotec_water_sensor_alarm_level_2:
+  platform: zwave
+  unique_id: 31-144115188601995281
+sensor.aeotec_water_sensor_alarm_type_3:
+  platform: zwave
+  unique_id: 31-216172782639923201
+sensor.aeotec_water_sensor_alarm_level_3:
+  platform: zwave
+  unique_id: 31-216172782639923217
+sensor.aeotec_water_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 31-72057594564067361
+sensor.aeotec_water_sensor_heat:
+  platform: zwave
+  unique_id: 31-72057594564067441
+sensor.aeotec_water_sensor_flood:
+  platform: zwave
+  unique_id: 31-72057594564067457
+sensor.aeotec_water_sensor_burglar:
+  platform: zwave
+  unique_id: 31-72057594564067489
+sensor.aeotec_water_sensor_sourcenodeid_2:
+  platform: zwave
+  unique_id: 31-144115188601995297
+sensor.aeotec_water_sensor_flood_2:
+  platform: zwave
+  unique_id: 31-144115188601995393
+sensor.aeotec_water_sensor_sourcenodeid_3:
+  platform: zwave
+  unique_id: 31-216172782639923233
+sensor.aeotec_water_sensor_flood_3:
+  platform: zwave
+  unique_id: 31-216172782639923329
+binary_sensor.tv_multi_sensor_sensor:
+  platform: zwave
+  unique_id: 34-72057594613334016
+sensor.tv_multi_sensor_temperature:
+  platform: zwave
+  unique_id: 34-72057594613350418
+sensor.tv_multi_sensor_luminance:
+  platform: zwave
+  unique_id: 34-72057594613350450
+sensor.tv_multi_sensor_relative_humidity:
+  platform: zwave
+  unique_id: 34-72057594613350482
+sensor.tv_multi_sensor_ultraviolet:
+  platform: zwave
+  unique_id: 34-72057594613350834
+sensor.tv_multi_sensor_alarm_type:
+  platform: zwave
+  unique_id: 34-72057594614398977
+sensor.tv_multi_sensor_alarm_level:
+  platform: zwave
+  unique_id: 34-72057594614398993
+sensor.tv_multi_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 34-72057594614399009
+sensor.tv_multi_sensor_burglar:
+  platform: zwave
+  unique_id: 34-72057594614399137
+binary_sensor.guest_bedroom_multi_sensor_sensor:
+  platform: zwave
+  unique_id: 36-72057594646888448
+sensor.guest_bedroom_multi_sensor_temperature:
+  platform: zwave
+  unique_id: 36-72057594646904850
+sensor.guest_bedroom_multi_sensor_luminance:
+  platform: zwave
+  unique_id: 36-72057594646904882
+sensor.guest_bedroom_multi_sensor_relative_humidity:
+  platform: zwave
+  unique_id: 36-72057594646904914
+sensor.guest_bedroom_multi_sensor_ultraviolet:
+  platform: zwave
+  unique_id: 36-72057594646905266
+sensor.guest_bedroom_multi_sensor_alarm_type:
+  platform: zwave
+  unique_id: 36-72057594647953409
+sensor.guest_bedroom_multi_sensor_alarm_level:
+  platform: zwave
+  unique_id: 36-72057594647953425
+sensor.guest_bedroom_multi_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 36-72057594647953441
+sensor.guest_bedroom_multi_sensor_burglar:
+  platform: zwave
+  unique_id: 36-72057594647953569
+binary_sensor.front_room_window_sensor_sensor:
+  platform: zwave
+  unique_id: 38-72057594680442880
+sensor.energy_meter_energy:
+  platform: zwave
+  unique_id: 39-72057594697252866
+sensor.energy_meter_previous_reading:
+  platform: zwave
+  unique_id: 39-72057594697252882
+sensor.energy_meter_power:
+  platform: zwave
+  unique_id: 39-72057594697252994
+sensor.energy_meter_voltage:
+  platform: zwave
+  unique_id: 39-72057594697253122
+sensor.energy_meter_current:
+  platform: zwave
+  unique_id: 39-72057594697253186

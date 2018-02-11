@@ -126,6 +126,8 @@ group:
       - sensor.link_quality
       - sensor.current_log_level
       - sensor.ram_available
+      - sensor.processor_use
+      - sensor.memory_free
       - binary_sensor.workday_sensor
       - sensor.ha_installed_version
       - sensor.ha_current_version
