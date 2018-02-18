@@ -1,3 +1,5 @@
+## The following are the screenshots of HikVision camera setup.
+</br>
 <img src="https://raw.githubusercontent.com/skalavala/smarthome/master/hik-vision%20camera/images/screenshot_001.jpg"></img></br>
 <img src="https://raw.githubusercontent.com/skalavala/smarthome/master/hik-vision%20camera/images/screenshot_002.jpg"></img></br>
 <img src="https://raw.githubusercontent.com/skalavala/smarthome/master/hik-vision%20camera/images/screenshot_003.jpg"></img></br>
