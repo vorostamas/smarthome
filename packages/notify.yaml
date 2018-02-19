@@ -128,8 +128,8 @@ script:
         value_template: '{{ states.input_boolean.do_not_disturb.state | lower == "off" }}'
       # - condition: template
       #   value_template: '{{ states.media_player.gstreamer.state == "idle" }}'
-      # - condition: template
-      #   value_template: '{{ states.media_player.mpd.state != "playing" }}'
+      - condition: template
+        value_template: '{{ states.media_player.mpd.state != "playing" }}'
       - condition: template
         value_template: '{{ message | trim != "" }}'
       - condition: state
