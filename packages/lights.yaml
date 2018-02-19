@@ -127,15 +127,15 @@ homeassistant:
       <<: *hidden
 
     light.hue_color_lamp_1:
-      <<: *not_exposed
+      <<: *exposed
       friendly_name: Family Room Light 1
       color_set: false
     light.hue_color_lamp_2:
-      <<: *not_exposed
+      <<: *exposed
       friendly_name: Family Room Light 2
       color_set: false
     light.hue_color_lamp_3:
-      <<: *not_exposed
+      <<: *exposed
       friendly_name: Family Room Light 3
       color_set: false
     input_boolean.short_flash:
