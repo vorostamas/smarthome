@@ -16,6 +16,8 @@ homeassistant:
       friendly_name: Grafana
     switch.ha_dockermon:
       friendly_name: Dockermon
+    script.restart_dockerhass:
+      icon: mdi:home-assistant
 
 group:
   Docker Containers:
@@ -93,7 +95,7 @@ automation:
           - switch.influxdb
           - switch.grafana
           - switch.dockermon
-          - script.restart_hass  
+          - script.restart_dockerhass  
         to: 'off'
         for:
           minutes: 5
