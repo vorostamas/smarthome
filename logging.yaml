@@ -7,7 +7,7 @@ logs:
   py.criticals: critical
   aiohttp.server: critical
   homeassistant.setup: critical
-  homeassistant.core: critical
+  homeassistant.core: error
   homeassistant.exceptions: critical
   homeassistant.helpers.script: critical  
   homeassistant.helpers.entity: critical
