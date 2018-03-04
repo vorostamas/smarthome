@@ -403,3 +403,13 @@ group:
   {%- endfor %}
 {% endfor %}
 ```
+
+## 12. To sum up list of attribute values in a list
+
+```
+something like this will wok: ```
+{% set people = [{'name':'john', 'experience':15}, {'name':'steve', 'experience':10}, {'name':'will', 'experience':12}, {'name':'tinkerer', 'experience':25}] %}
+Combined experience: {{ people | sum(attribute='experience') }} years
+```
+
+it returns `Combined experience: 62 years`
