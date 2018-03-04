@@ -34,14 +34,14 @@ DEFAULT_NAME = 'PaloAlto'
 DEFAULT_SSL = False
 DEFAULT_VERIFY_SSL = True
 
-CONST_CONFIG_ENDPOINT = '/api/?type=config&action=get&xpath=COMMAND'
-CONST_OPS_ENDPOINT = '/api/?type=op&cmd=COMMAND'
 CONST_COMMAND = "COMMAND"
+CONST_OPS_ENDPOINT = '/api/?type=op&cmd=COMMAND'
+CONST_CONFIG_ENDPOINT = '/api/?type=config&action=get&xpath=COMMAND'
 
+PA_OPS_ACTIVE_USERS = "<show><admins></admins></show>"
 PA_CONF_SYS_INFO = "<show><system><info></info></system></show>"
 PA_CONF_GP_USERS = "<show><global-protect-portal><current-user></current-user></global-protect-portal></show>"
 PA_CONF_TEMPERATURE = "<show><system><environmentals><thermal></thermal></environmentals></system></show>"
-PA_OPS_USERS = "/config/mgt-config/users"
 
 SCAN_INTERVAL = timedelta(seconds=120)
 
@@ -57,8 +57,8 @@ MONITORED_CONDITIONS = {
     'sys_temp': ['System Temperature', 'x', 'mdi:oil-temperature'],
     'gp_user_count': ['Global Protect User Count', 'vpn users', 'mdi:counter'],
     'gp_users': ['Global Protect Users', 'vpn users', 'mdi:account-multiple'],
-    'loggedin_users': ['LoggedIn Users', 'admins', 'mdi:account-multiple'],
-    'loggedin_user_count': ['LoggedIn User Count', 'admins', 'mdi:counter'],
+    'loggedin_user_count': ['Loggedin User Count', 'users', 'mdi:counter'],
+    'loggedin_users': ['Loggedin Users', 'users', 'mdi:account-multiple'],
 }
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
@@ -89,7 +89,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
             sensor = PaloAltoSensor(hass, api, name, condition)
             sensors.append(sensor)
         add_devices(sensors, True)
-        _LOGGER.info("Successfully setup paloalto sensor...")
     except Exception as err:
         _LOGGER.error("Failed to setup Palo Alto Sensor. Error: " + str(err))
 
@@ -141,7 +140,7 @@ class PaloAltoApi(object):
         self._use_ssl = use_ssl
         self._verify_ssl = verify_ssl
         self._api_key = api_key
-        self._users = None
+        self._usersdata = None
         self._sysinfo = None
         self._gp_users = None
         self._temperature = None
@@ -161,9 +160,11 @@ class PaloAltoApi(object):
         """Prepare the URL """
         uri_scheme = self.get_uri_scheme(use_ssl)
         if endpoint == EndPointType.Operational:
-            return "{}{}{}&key={}".format(uri_scheme, self._host, CONST_OPS_ENDPOINT, self._api_key)
+            return "{}{}{}&key={}".format(uri_scheme, self._host, 
+                                          CONST_OPS_ENDPOINT, self._api_key)
         else:
-            return "{}{}{}&key={}".format(uri_scheme, self._host, CONST_CONFIG_ENDPOINT, self._api_key)
+            return "{}{}{}&key={}".format(uri_scheme, self._host, 
+                                          CONST_CONFIG_ENDPOINT, self._api_key)
 
     def http_request(self, url):
         """HTTP request to the Palo Alto device """
@@ -182,40 +183,38 @@ class PaloAltoApi(object):
 
     def update(self):
 
-        """Get Operational and Configuration urls """
-        ops_url = self.get_resource(self._use_ssl, self._host, self._api_key, EndPointType.Operational)
-        conf_url = self.get_resource(self._use_ssl, self._host, self._api_key, EndPointType.Configuration)
+        """Get Operational and Configuration urls"""
+        ops_url = self.get_resource(self._use_ssl, self._host, 
+                                    self._api_key, EndPointType.Operational)
+        conf_url = self.get_resource(self._use_ssl, self._host, 
+                                     self._api_key, EndPointType.Configuration)
 
-        """format loggedin users url """
-        users_url = conf_url.replace(CONST_COMMAND, PA_OPS_USERS)
-        self._users = self.http_request(users_url)
+        users_url = ops_url.replace(CONST_COMMAND, PA_OPS_ACTIVE_USERS)
+        self._usersdata = self.http_request(users_url)
 
-        """format system information url """
         sysinfo_url = ops_url.replace(CONST_COMMAND, PA_CONF_SYS_INFO)
         self._sysinfo = self.http_request(sysinfo_url)
 
-        """format global protect users url """
         gp_users_url = ops_url.replace(CONST_COMMAND, PA_CONF_GP_USERS)
         self._gp_users = self.http_request(gp_users_url)
 
-        """format temperature url """
         temperature_url = ops_url.replace(CONST_COMMAND, PA_CONF_TEMPERATURE)
         self._temperature = self.http_request(temperature_url)
 
-        """parse the xml data """
+        """parse the xml data"""
         self.parse_data()
-        
+
     def parse_globalprotect_users(self):
         user_count = 0
-        loggedin_vpn_users = []
+        vpn_users = []
         root = ET.fromstring(self._gp_users)
-        childs = root.findall('result/gp-portal-users/user/username')
-        for user in childs:
+        nodes = root.findall('result/gp-portal-users/user')
+        for user in nodes:
             user_count += 1
-            loggedin_vpn_users.append(user.text)
+            vpn_users.append(user.find('username').text)
 
         if user_count != 0:
-            self._sensors["gp_users"] = ', '.join(loggedin_vpn_users)
+            self._sensors["gp_users"] = ', '.join(vpn_users)
         else:
             self._sensors["gp_users"] = "None"
         self._sensors["gp_user_count"] = user_count
@@ -228,33 +227,36 @@ class PaloAltoApi(object):
 
     def parse_system_info(self):
         root = ET.fromstring(self._sysinfo)
-        self._sensors["host_name"] = root.findall('result/system/hostname')[0].text
-        self._sensors["operation_mode"] = root.findall('result/system/operational-mode')[0].text
-        self._sensors["up_time"] = root.findall('result/system/uptime')[0].text
-        self._sensors["serial_no"] = root.findall('result/system/serial')[0].text
-        self._sensors["sw_version"] = root.findall('result/system/sw-version')[0].text
-        self._sensors["gp_version"] = root.findall('result/system/global-protect-client-package-version')[0].text
-        self._sensors["logdb_version"] = root.findall('result/system/logdb-version')[0].text
+        sys_node = root.findall('result/system')
+        self._sensors["up_time"] = sys_node[0].find('uptime').text
+        self._sensors["serial_no"] = sys_node[0].find('serial').text
+        self._sensors["host_name"] = sys_node[0].find('hostname').text
+        self._sensors["sw_version"] = sys_node[0].find('sw-version').text
+        self._sensors["logdb_version"] = sys_node[0].find('logdb-version').text
+        self._sensors["operation_mode"] = sys_node[0].find('operational-mode').text
+        self._sensors["gp_version"] = sys_node[0].find('global-protect-client-package-version').text
 
-    def parse_loggedin_users(self):
-        root = ET.fromstring(self._users)
-        nodes = root.findall('result/users/entry')
-        loggedin_users = []
-        loggedin_user_count = 0
+    def parse_active_users(self):
+        root = ET.fromstring(self._usersdata)
+        nodes = root.findall('result/admins/entry')
+        count = 0
+        users = []
         for item in nodes:
-            loggedin_user_count += 1
-            loggedin_users.append(item.get('name'))
-        if len(loggedin_users) == 0:            
-            self._sensors["loggedin_users"] = "None"
+            count += 1
+            users.append(item.find('admin').text)
+        
+        if count > 0:
+            self._sensors["loggedin_users"] =  ', '.join(users)
         else:
-            self._sensors["loggedin_users"] = ', '.join(loggedin_users)
-        self._sensors["loggedin_user_count"] = loggedin_user_count
+            self._sensors["loggedin_users"] = "none"
+
+        self._sensors["loggedin_user_count"] = count
 
     def parse_data(self):
         self.parse_globalprotect_users()
         self.parse_temperature()
         self.parse_system_info()
-        self.parse_loggedin_users()
+        self.parse_active_users()
 
 class EndPointType(Enum):
     Operational = "operational"

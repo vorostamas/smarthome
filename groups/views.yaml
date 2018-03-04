@@ -139,3 +139,5 @@ paloalto:
   icon: mdi:fire
   entities:
     - group.paloalto_device
+    - group.paloalto_administration
+    - group.paloalto_log_management
