@@ -1,0 +1,7 @@
+hello_world:
+  module: hello
+  class: HelloWorld
+
+palo_alto:
+  module: paloalto
+  class: PaloAlto

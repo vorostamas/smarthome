@@ -20,6 +20,7 @@ lib
 deps
 tts
 test
+conf
 
 # Files
 
@@ -50,3 +51,4 @@ custom_components/media_player/__pycache__/*.pyc
 custom_components/__pycache__/*.pyc
 docs/_site
 private/*
+apps/__pycache__/*.pyc

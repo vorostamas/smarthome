@@ -133,3 +133,9 @@ raspberry_pis:
     - group.disk_percent_used
     - group.raspberry_pi_scripts
     
+paloalto:
+  view: yes
+  name: Palo Alto
+  icon: mdi:fire
+  entities:
+    - group.paloalto_device

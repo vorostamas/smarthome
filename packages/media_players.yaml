@@ -223,19 +223,19 @@ automation:
           {% endif %}
         entity_id: input_boolean.sharp_tv
 
-# Shows the media player if it is on, else hides it
-####################################################
-  - alias: Set Media Player Visibility
-    initial_state: true
-    hide_entity: true
-    trigger:
-      platform: state
-      entity_id:
-        - media_player.denon_avrx2400h
-        - media_player.gstreamer
-        - media_player.mpd
-    action:
-      - service: group.set_visibility
-        data_template:
-          entity_id: '{{ "group.group_" ~ trigger.entity_id.split(".")[1] }}'
-          visible: '{{ trigger.to_state.state | lower == "on" }}'
+# # Shows the media player if it is on, else hides it
+# ####################################################
+#   - alias: Set Media Player Visibility
+#     initial_state: true
+#     hide_entity: true
+#     trigger:
+#       platform: state
+#       entity_id:
+#         - media_player.denon_avrx2400h
+#         - media_player.gstreamer
+#         - media_player.mpd
+#     action:
+#       - service: group.set_visibility
+#         data_template:
+#           entity_id: '{{ "group.group_" ~ trigger.entity_id.split(".")[1] }}'
+#           visible: '{{ trigger.to_state.state | lower == "on" }}'

@@ -541,3 +541,33 @@ sensor.energy_meter_voltage:
 sensor.energy_meter_current:
   platform: zwave
   unique_id: 39-72057594697253186
+binary_sensor.motion_sensor_158d0001a25041:
+  platform: xiaomi_aqara
+  unique_id: status158d0001a25041
+binary_sensor.motion_sensor_158d00016c2d0e:
+  platform: xiaomi_aqara
+  unique_id: status158d00016c2d0e
+binary_sensor.motion_sensor_158d00016db6d2:
+  platform: xiaomi_aqara
+  unique_id: status158d00016db6d2
+binary_sensor.motion_sensor_158d0001a662fe:
+  platform: xiaomi_aqara
+  unique_id: status158d0001a662fe
+sensor.illumination_158d00016db6d2:
+  platform: xiaomi_aqara
+  unique_id: lux158d00016db6d2
+sensor.illumination_158d0001a662fe:
+  platform: xiaomi_aqara
+  unique_id: lux158d0001a662fe
+sensor.illumination_34ce008ad65d:
+  platform: xiaomi_aqara
+  unique_id: illumination34ce008ad65d
+sensor.illumination_158d00016c2d0e:
+  platform: xiaomi_aqara
+  unique_id: lux158d00016c2d0e
+sensor.illumination_158d0001a25041:
+  platform: xiaomi_aqara
+  unique_id: lux158d0001a25041
+light.gateway_light_34ce008ad65d:
+  platform: xiaomi_aqara
+  unique_id: rgb34ce008ad65d

@@ -36,6 +36,10 @@ script:
                                 state.entity_id != 'switch.wallmote_switch' and
                                 state.entity_id != 'switch.wemobackyardlightswitch' and
                                 state.entity_id != 'switch.frontyard_light' and
+                                state.entity_id != 'switch.dockermon' and
+                                state.entity_id != 'switch.grafana' and
+                                state.entity_id != 'switch.influxdb' and
+                                state.entity_id != 'switch.home_bridge' and
                                 not '_siren_' in state.entity_id -%}
             {{- "," if not loop.first-}}{{ state.entity_id }}{{-endif-}}
             {%- endfor -%}

@@ -13,15 +13,25 @@
  
  {#- Provides Light Status -#}
  {%- macro light_status() -%}
-   {%- for state in states.light 
-       if not 'xiaomi' in state.attributes.friendly_name | lower 
-       and state.state == "on" -%}
-     {{ state.attributes.friendly_name }}{{ " are " if state.attributes.friendly_name[-1] == "s" else " is " -}}{{state.state}}. {% endfor -%}
-   {%- for state in states.switch 
-       if not 'xiaomi' in state.attributes.friendly_name | lower 
-       and not "switch" in state.attributes.friendly_name | lower 
-       and state.state == "on" -%}
-     {{ state.attributes.friendly_name }}{{ " are " if state.attributes.friendly_name[-1] == "s" else " is " -}}{{state.state}}. {% endfor -%}
+  {% set lights_switches = ["light.family_room",
+                            "light.master_bedroom",
+                            "switch.basement_left_lights",
+                            "switch.basement_right_lights",
+                            "switch.frontyard_light",
+                            "switch.garage_lights",
+                            "switch.guest_bedroom_1",
+                            "switch.guest_bedroom_2",
+                            "switch.kids_bed_accent_light",
+                            "switch.kids_bedroom",
+                            "switch.kitchen_light",
+                            "switch.office_room_lights",
+                            "switch.wemobackyardlightswitch",
+                            "switch.zwave_smart_switch_switch"] %}
+  {%- for item in lights_switches -%}
+  {%- if states[item.split('.')[0]][item.split('.')[1]].state == "on" -%}
+  {{ states[item.split('.')[0]][item.split('.')[1]].attributes.friendly_name }} is ON.
+  {%- endif -%}
+  {%- endfor -%} 
  {%- endmacro -%}
 
  {#- Provides Home Security System Status -#}

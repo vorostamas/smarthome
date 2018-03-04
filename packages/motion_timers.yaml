@@ -55,7 +55,15 @@ automation:
         data_template:
           entity_id: >-
             {% if states.sun.sun.state == "below_horizon" %}
-              switch.zwave_smart_switch_switch, switch.rf_switch_four
+              switch.zwave_smart_switch_switch
+            {% else %}
+              switch.office_room_lights
+            {% endif %}
+      - service: homeassistant.turn_on
+        data_template:
+          entity_id: >-
+            {% if states.sun.sun.state == "below_horizon" %}
+              switch.rf_switch_four
             {% else %}
               switch.office_room_lights
             {% endif %}

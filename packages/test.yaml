@@ -104,3 +104,18 @@
 #       - service: script.notify_me
 #         data_template:
 #           message: "Test Event Captured with data foo: {{ trigger.event.data.foo }}"
+
+# automation:
+#   - alias: Speakers On During Presence
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - binary_sensor.masterbed_motion
+#           - binary_sensor.masterbath_motion
+#           - binary_sensor.bathroom_motion
+#           - binary_sensor.kitchen_motion
+#           - binary_sensor.den_motion
+#     action:
+#       - service_template: 'switch.turn_{{ trigger.to_state.state }}'
+#         data_template:
+#             entity_id: '{{ trigger.entity_id.replace("binary_sensor", "group") }}'
