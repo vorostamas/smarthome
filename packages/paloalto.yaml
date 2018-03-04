@@ -1,0 +1,86 @@
+###############################################################################
+# AUTHOR      : Suresh Kalavala
+# DATE        : 03/04/2018
+# PACKAGE     : PALO ALTO APPLANCE/DEVICE SENSOR
+# Description : Package to monitor PaloAlto device, logged-in users, vpn users
+#               and other system information
+###############################################################################
+homeassistant:
+  customize:
+    sensor.paloalto_host_name:
+      friendly_name: Palo Alto Host Name
+    sensor.paloalto_loggedin_user_count:
+      friendly_name: Device Loggedin User Count
+    sensor.paloalto_loggedin_users:
+      friendly_name: Device Loggedin Users
+    sensor.paloalto_operation_mode:
+      friendly_name: Device Operation Mode
+    sensor.paloalto_serial_number:
+      friendly_name: Device Serial Number
+    sensor.paloalto_global_protect_user_count:
+      friendly_name: VPN Loggedin User Count
+    sensor.paloalto_global_protect_users:
+      friendly_name: VPN Loggedin Users
+    sensor.paloalto_global_protect_version:
+      friendly_name: VPN Software Version
+    sensor.paloalto_logdb_version:
+      friendly_name: Log Db Version
+    sensor.paloalto_software_version:
+      friendly_name: Device Software Version
+    sensor.paloalto_core_temperature:
+      friendly_name: Core Temperature
+    sensor.paloalto_system_temperature:
+      friendly_name: System Temperature
+    sensor.paloalto_up_time:
+      friendly_name: Up Time    
+
+sensor:
+  - platform: paloalto
+    api_key: !secret paloalto_authkey
+    ip_address: !secret paloalto_hostip
+    ssl: True
+    verify_ssl: False
+    scan_interval: 120
+    monitored_conditions:
+      - host_name
+      - up_time
+      - serial_no
+      - sw_version
+      - gp_version
+      - logdb_version
+      - operation_mode
+      - core_temp
+      - sys_temp
+      - loggedin_users
+      - gp_users
+      - gp_user_count
+      - loggedin_user_count
+
+group:
+  PaloAlto Device:
+    entities:
+      - sensor.paloalto_core_temperature
+      - sensor.paloalto_global_protect_user_count
+      - sensor.paloalto_global_protect_users
+      - sensor.paloalto_global_protect_version
+      - sensor.paloalto_host_name
+      - sensor.paloalto_logdb_version
+      - sensor.paloalto_loggedin_user_count
+      - sensor.paloalto_loggedin_users
+      - sensor.paloalto_operation_mode
+      - sensor.paloalto_serial_number
+      - sensor.paloalto_software_version
+      - sensor.paloalto_system_temperature
+      - sensor.paloalto_up_time
+
+automation:
+  - alias: Alert When Someone Logged into VPN
+    trigger:
+      - platform: state
+        entity_id: sensor.paloalto_global_protect_user_count
+      - platform: state
+        entity_id: sensor.paloalto_global_protect_users
+    action:
+      - service: script.notify_me
+        data_template:
+          message: 'VPN Login Alert: {{ sensor.paloalto_global_protect_user_count.state }} users - {{ sensor.paloalto_global_protect_users.state	}}.'
