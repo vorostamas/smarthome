@@ -14,3 +14,17 @@ Please feel free to let me know if you find any issues with my code, and/or have
 ## Here is a sample view of my dashboard
 
 <img src="https://github.com/skalavala/smarthome/blob/master/images/skalavala-smarthome-dashboard.jpg" alt="Home Assistat" />
+
+## Custom Components:
+
+### Check out Life360 Custom Component:
+
+The Life360 component uses Life360 API and retrieves information about the circle you created in the same format as OwnTracks. You just ned to setup OwnTracks, and drop-in the custom component, and you are all set!
+
+[Click Here](https://github.com/skalavala/smarthome/blob/master/custom_components/sensor/life360.py) for the Life360 custom component code. Make sure you check out the [Packages](https://github.com/skalavala/smarthome/blob/master/packages/life360.yaml) section on how to use the Life360 Component.
+
+### Palo Alto Component:
+
+I wrote a Palo Alto component to keep an eye on who is logging into my firewall and VPN at home. Below is the screenshot and you can find the code in the `custom_components` folder and corresponding `Packages` folder.
+
+<img src="https://raw.githubusercontent.com/skalavala/smarthome/master/images/paloalto.png"/>
