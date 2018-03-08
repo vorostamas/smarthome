@@ -1,5 +1,8 @@
 """
-Support for getting statistical data from a Palo Alto device.
+@Author: Suresh Kalavala
+@Date:   03/03/2018
+
+Custom Sensor: Palo Alto device integration with Home Assistant.
 
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/sensor.paloalto/
@@ -247,7 +250,7 @@ class PaloAltoApi(object):
         if count > 0:
             self._sensors["loggedin_users"] = ', '.join(users)
         else:
-            self._sensors["loggedin_users"] = "none"
+            self._sensors["loggedin_users"] = "None"
 
         self._sensors["loggedin_user_count"] = count
 
