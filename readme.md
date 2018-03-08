@@ -17,7 +17,11 @@ Please feel free to let me know if you find any issues with my code, and/or have
 
 ## Custom Components:
 
-### Check out Life360 Custom Component:
+### Custom Variables:
+
+I called it `input_label`, it is basically a `label` type component, where you can store any value you want, and can be used in automations, scripts and more. [check out the code here](https://github.com/skalavala/smarthome/blob/master/custom_components/input_label.py). Search for [input_label](https://github.com/skalavala/smarthome/search?utf8=%E2%9C%93&q=input_label) in my repo on how to use it.
+
+### Life360 Custom Component:
 
 The Life360 component uses Life360 API and retrieves information about the circle you created in the same format as OwnTracks. You just ned to setup OwnTracks, and drop-in the custom component, and you are all set!
 
