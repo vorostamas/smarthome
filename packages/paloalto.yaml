@@ -110,6 +110,8 @@ group:
 #
 # All the URLs below use the following format
 # For ex: paloalto_clear_traffic_logs: "curl -k 'https://192.xxx.xxx.xxx/api/?type=op&cmd=<clear><log><traffic></traffic></log></clear>&key=YOUR_API_KEY'"
+# Check out secrets.example file for additional details about the commands
+# https://github.com/skalavala/smarthome/blob/master/secrets.example
 #
 shell_command:
   paloalto_clear_traffic_logs: !secret paloalto_clear_traffic_logs
@@ -148,6 +150,11 @@ script:
       - service: shell_command.paloalto_restart
 
 automation:
+#
+# Alerts me when someone logs into my VPN network
+# This automation compares before and after state changes
+# and alerts when someone logged in/out of VPN
+#
   - alias: Alert When Someone Logged into VPN
     initial_state: true
     hide_entity: true
@@ -179,14 +186,19 @@ automation:
               {%- set loggedInUsers = loggedIn(beforeList, afterList) -%}
               {%- set loggedOutUsers = loggedOut(beforeList, afterList) -%}
               {%- if loggedInUsers | trim != "" -%}
-                {{- loggedInUsers | title }} just logged into your VPN.
+                Alert! {{- loggedInUsers | title }} just logged into your Web VPN.
               {%- endif -%}
               {%- if loggedOutUsers | trim != "" %}
-                {{- loggedOutUsers |title }} just logged out of your VPN.
+                {{- loggedOutUsers |title }} just logged out of your Web VPN.
               {% endif %}
             {%- endmacro -%}
             {{ checkUsers(before.split(','), after.split(',')) }}
 
+#
+# Alerts me when someone logs into my firewall.
+# This automation compares before and after state changes
+# and alerts when someone logged in/out of Firewall
+#
   - alias: Alert When Someone Logged into Firewall
     initial_state: true
     hide_entity: true
@@ -218,10 +230,10 @@ automation:
               {%- set loggedInUsers = loggedIn(beforeList, afterList) -%}
               {%- set loggedOutUsers = loggedOut(beforeList, afterList) -%}
               {%- if loggedInUsers | trim != "" -%}
-                {{- loggedInUsers | title }} just logged into your VPN.
+                Alert! {{- loggedInUsers | title }} just logged into your Palo Alto Firewall.
               {%- endif -%}
               {%- if loggedOutUsers | trim != "" %}
-                {{- loggedOutUsers |title }} just logged out of your VPN.
+                {{- loggedOutUsers |title }} just logged out of your Palo Alto Firewall.
               {% endif %}
             {%- endmacro -%}
             {{ checkUsers(before.split(','), after.split(',')) }}
