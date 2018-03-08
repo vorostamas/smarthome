@@ -51,6 +51,8 @@ lights_switches:
     - group.upstairs_lights
     - group.downstairs_lights
     - group.rf_switches
+    - group.always_on
+    - group.outdoor_lights
 
 mediacenter_view:
   view: yes

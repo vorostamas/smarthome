@@ -40,8 +40,6 @@ automation:
       - service: switch.turn_on
         data:
           entity_id: switch.kitchen_light
-      - service: homeassistant.turn_on
-        entity_id: switch.rf_switch_four
 
 ###############################################################################
 # Turn ON Master Bedroom lights ON in the morning
@@ -105,8 +103,6 @@ automation:
         entity_id: switch.frontyard_light
       - service: switch.turn_off
         entity_id: switch.wemobackyardlightswitch
-      - service: homeassistant.turn_off
-        entity_id: switch.rf_switch_five
 
 ###############################################################################
 # Turn OF Kitchen Lights after 3 hours of wake up time during school/work days
@@ -129,8 +125,6 @@ automation:
     action:
      - service: switch.turn_off
        entity_id: switch.kitchen_light
-     - service: homeassistant.turn_off
-       entity_id: switch.rf_switch_four
 
 #  ÛÛÛÛÛÛÛÛÛÛ                                  ÛÛÛ                     
 # °°ÛÛÛ°°°°°Û                                 °°°                      
@@ -158,10 +152,6 @@ automation:
         entity_id: switch.frontyard_light
       - service: switch.turn_on
         entity_id: switch.wemobackyardlightswitch
-      - service: homeassistant.turn_on
-        entity_id: switch.rf_switch_four
-      - service: homeassistant.turn_on
-        entity_id: switch.rf_switch_five
 
 ###############################################################################
 # Turn indoor lights on 30 minutes before sunset

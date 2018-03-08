@@ -53,9 +53,9 @@ automation:
         entity_id: sensor.season
     condition:
       - condition: template
-        value_template: '{{ tigger.from_state.state | lower != "unknown" }}'
+        value_template: '{{ trigger.from_state.state | lower != "unknown" }}'
     action:
       - service: script.notify_me
         data_template:
             message: >
-              Good bye {{ tigger.from_state.state }}!, and Say Hello to {{ tigger.from_state.state }}.
+              Good bye {{ trigger.from_state.state }}!, and Say Hello to {{ trigger.from_state.state }}.

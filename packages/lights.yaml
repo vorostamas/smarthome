@@ -196,13 +196,23 @@ group:
 
   Upstairs Lights:
     entities:
+      - light.master_bedroom
       - light.master_bedroom_1
       - light.master_bedroom_2
-      - light.master_bedroom
       - switch.kids_bedroom
       - switch.guest_bedroom_1
       - switch.guest_bedroom_2
       - switch.kids_bed_accent_light
+
+  Always On:
+    entities:
+      - light.gateway_light_34ce008ad65d
+      - switch.wemoswitch1
+
+  Outdoor Lights:
+    entities:
+      - switch.frontyard_light
+      - switch.wemobackyardlightswitch
 
   Downstairs Lights:
     entities:
@@ -211,11 +221,8 @@ group:
       - light.hue_color_lamp_2
       - light.hue_color_lamp_3
       - group.ikea_bulbs
-      - switch.frontyard_light
-      - switch.wemobackyardlightswitch
       - switch.garage_lights
       - switch.zwave_smart_switch_switch
-      - light.gateway_light_34ce008ad65d
       - switch.basement_left_lights
       - switch.basement_right_lights
       - switch.kitchen_light
