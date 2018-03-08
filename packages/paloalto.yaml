@@ -237,3 +237,18 @@ automation:
               {% endif %}
             {%- endmacro -%}
             {{ checkUsers(before.split(','), after.split(',')) }}
+
+#
+# Palo Alto PA-200 device sucks ass in terms of its disk space!
+# A work around would be to clear traffic logs periodically
+# This automation runs every hour and clears traffic log/log files
+#
+  - alias: Clear Traffic Logs
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: time
+        hours: '/1'
+        minutes: 00
+    action:
+      - service: script.paloalto_clear_traffic_logs
