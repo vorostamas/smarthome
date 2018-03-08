@@ -153,8 +153,36 @@ automation:
     hide_entity: true
     trigger:
       - platform: state
-        entity_id: sensor.paloalto_global_protect_user_count
+        entity_id: sensor.paloalto_global_protect_users
+    condition:
+      - condition: template
+        value_template: '{{ trigger.from_state.state | lower != trigger.to_state.state | lower }}'
     action:
       - service: script.notify_me
         data_template:
-          message: "VPN Login Alert: Loggedin user count is: {{ states.sensor.paloalto_global_protect_user_count.state }}"
+          message: >-
+            {% set before = trigger.from_state.state %}
+            {% set after = trigger.to_state.state %}
+            {% macro loggedIn(beforeList, afterList) %}
+              {%- for user in afterList if user != 'None' and user not in beforeList%}
+                {%- if loop.first %}{% elif loop.last %} and{% else %},{% endif -%}
+                  {{- user }}
+              {%- endfor %}
+            {%- endmacro %}
+            {% macro loggedOut(beforeList, afterList) %}
+              {%- for user in beforeList if user != 'None' and user not in afterList %}
+                {%- if loop.first %}{% elif loop.last %} and{% else %},{% endif -%}
+                  {{- user }}
+              {%- endfor %}
+            {%- endmacro %}
+            {%- macro checkUsers(beforeList, afterList) -%}
+              {%- set loggedInUsers = loggedIn(beforeList, afterList) -%}
+              {%- set loggedOutUsers = loggedOut(beforeList, afterList) -%}
+              {%- if loggedInUsers | trim != "" -%}
+                {{- loggedInUsers | title }} just logged into your VPN.
+              {%- endif -%}
+              {%- if loggedOutUsers | trim != "" %}
+                {{- loggedOutUsers |title }} just logged out of your VPN.
+              {% endif %}
+            {%- endmacro -%}
+            {{ checkUsers(before.split(','), after.split(',')) }}
