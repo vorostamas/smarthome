@@ -192,6 +192,27 @@ Sample code that uses macros to convert temperature from Fahrenheit to Centigrad
 {% endraw %}
 ```
 
+
+## 5.a Humidex Calculation
+You can calculate the humidex based on Temperature and Relative Humidity using the following jinja macro
+
+```
+{% raw %}
+{% macro humidex(T, H) %}
+  {% set t = 7.5*T/(237.7+T) %}
+  {% set et = 10**t %}
+  {% set e= 6.112 * et * (H/100) %}
+  {% set humidex = T+(5/9)*(e-10) %}
+  {% if humidex < T %}
+    {% set humidex = T %}
+  {% endif %}
+  {{humidex}}
+{% endmacro %}
+
+{{ humidex(23,45) }}
+{% endraw %}
+```
+
 ### Here is the output of the above script:
 
 ```
@@ -342,5 +363,71 @@ To wrap text to a certain number of characters, use the following script:
 {%- endfor %}
 {% endraw %}
 ```
+
+## 10. To get attrbutes of a given entity_id
+
+Fun stuff...
+
+```
+{% raw %}
+{% set entity_id = "automation.alarm_clock" %}
+
+{{ entity_id }}
+
+{{ states[entity_id.split('.')[0]] }}
+{{ states[entity_id.split('.')[0]] | list }}
+{{ states[entity_id.split('.')[0]][entity_id.split('.')[1]] }}
+
+{{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes.friendly_name }}
+{{ (states[entity_id.split('.')[0]][entity_id.split('.')[1]]).attributes["friendly_name"] }}
+{% endraw %}
+```
+
+## 11. To get the current list of domains you use in your Home Assistant Setup, run the script below:
+
+```
+{% raw %}
+{{ states | map(attribute='domain') |list | unique | list}}
+{% endraw %}
+```
+
+The way the above script works is it iterates through all the entities, and retrieves the `domain` attribute of each of the entity, and makes it a list by removing duplicate items - by doing so, you will get unique list of domains that your Home Assistant uses :smile:
+
+## 12. Automatic `Group` creator
+
+Run the following script to automatically create groups sorted by the domain
+
+```yaml
+{% raw %}
+{%- macro plural(name) -%}
+  {%- if name[(name|length|int -1):] == "y" -%}
+  {{- name[:-1] -}}ies
+{%- else -%}
+  {{- name -}}s
+{%- endif -%}
+{%- endmacro -%}
+
+group:
+{% for item in states | map(attribute='domain') |list | unique | list %}
+  {{ plural(item) }}:
+    entities:
+  {%- for x in states if x.domain == item %}
+      {{ x.entity_id }}
+  {%- endfor %}
+{% endfor %}
+{% endraw %}
+```
+
+## 12. To sum up list of attribute values in a list
+
+```
+something like this will work: ```
+{% raw %}
+{% set people = [{'name':'john', 'experience':15}, {'name':'steve', 'experience':10}, {'name':'will', 'experience':12}, {'name':'tinkerer', 'experience':25}] %}
+Combined experience: {{ people | sum(attribute='experience') }} years
+{% endraw %}
+```
+
+It returns `Combined experience: 62 years`
 
 Got any questions or found issues, let me know! Thanks!
