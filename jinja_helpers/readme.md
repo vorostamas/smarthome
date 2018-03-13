@@ -404,7 +404,7 @@ group:
 {% endfor %}
 ```
 
-## 12. To sum up list of attribute values in a list
+## 13. To sum up list of attribute values in a list
 
 ```
 something like this will wok: ```
@@ -413,3 +413,41 @@ Combined experience: {{ people | sum(attribute='experience') }} years
 ```
 
 it returns `Combined experience: 62 years`
+
+
+## 14. To get list of attribute values as a string
+```
+{%set value_json = {
+  "success": true,
+  "tags": [
+    {
+      "tag": "Sea",
+      "confidence": 0.6716686487197876
+    },
+    {
+      "tag": "Coast",
+      "confidence": 0.6598936915397644
+    },
+    {
+      "tag": "Beach",
+      "confidence": 0.4576399624347687
+    },
+    {
+      "tag": "Shore",
+      "confidence": 0.4436204433441162
+    }
+  ],
+  "custom_tags": []
+} %}
+
+{%- set comma = joiner(', ') -%}
+{%- for item in value_json.tags -%}
+  {{- comma() -}}
+  {{- item.tag -}}
+{%- endfor %}
+
+Or 
+
+{{ value_json.tags|map(attribute='tag')|join(', ') }}
+
+```
