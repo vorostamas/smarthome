@@ -451,3 +451,40 @@ Or
 {{ value_json.tags|map(attribute='tag')|join(', ') }}
 
 ```
+## Convert a given "Number" to "Words"
+
+```
+{%- macro num2word(number) -%}
+{%- set words = "" -%}
+{%- set unitsMap = [ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" ] -%}
+{%- set tensMap = ["zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"] -%}
+{%- if ((number / 1000000) | int > 0) %}
+  {% set words = words + num2word((number/1000000) |int) + " million " %}
+  {% set number = (number%1000000) |int %}
+{%- endif -%}
+{%- if ((number / 1000) | int > 0) %}
+  {% set words = words + num2word((number / 1000) |int) + " thousand " %}
+  {% set number = (number%1000) |int %}
+{%- endif -%}
+{%- if ((number / 100) | int > 0) %}
+  {%- set words = words + num2word((number / 100) |int) + " hundred " -%}
+  {%- set number = (number%100)|int -%}
+{%- endif -%}
+{%- if number | int > 0 -%}
+  {%- if words != "" -%}
+    {%- set words = words + "and " -%}
+  {%- endif -%}
+  {%- if number|int < 20 -%}
+    {%- set words = words + unitsMap[number|int] -%}
+  {%- else %}
+    {%- set words = words + tensMap[(number/10)|int] -%}
+    {%- if (number%10) | int > 0 %}
+      {%- set words = words + "-" + unitsMap[(number%10)|int] -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{{ words }}
+{%- endmacro -%}
+
+{{ num2word(2555555) }}
+```
