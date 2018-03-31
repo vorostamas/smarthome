@@ -494,3 +494,5 @@ Or
 
 {{ num2word(-123456789) }}
 ```
+
+The above returns `negative one hundred and twenty-three million four hundred and fifty-six thousand seven hundred and eighty-nine`.
