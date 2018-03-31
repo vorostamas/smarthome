@@ -464,6 +464,10 @@ Or
 {%- if number | int < 0 %}
   {% set words = " negative " + num2word(number|int * -1) %}
 {%- endif -%}
+{%- if ((number / 1000000000) | int > 0) %}
+  {%- set words = words + num2word((number/1000000000) |int) + " billion " -%}
+  {%- set number = (number%1000000000) |int -%}
+{%- endif -%}
 {%- if ((number / 1000000) | int > 0) %}
   {%- set words = words + num2word((number/1000000) |int) + " million " -%}
   {%- set number = (number%1000000) |int -%}
