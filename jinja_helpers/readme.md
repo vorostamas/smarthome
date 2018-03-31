@@ -458,13 +458,19 @@ Or
 {%- set words = "" -%}
 {%- set unitsMap = [ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" ] -%}
 {%- set tensMap = ["zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"] -%}
+{%- if number | int == 0 %}
+  {% set words = " zero " %}
+{%- endif -%}
+{%- if number | int < 0 %}
+  {% set words = " negative " + num2word(number|int * -1) %}
+{%- endif -%}
 {%- if ((number / 1000000) | int > 0) %}
-  {% set words = words + num2word((number/1000000) |int) + " million " %}
-  {% set number = (number%1000000) |int %}
+  {%- set words = words + num2word((number/1000000) |int) + " million " -%}
+  {%- set number = (number%1000000) |int -%}
 {%- endif -%}
 {%- if ((number / 1000) | int > 0) %}
-  {% set words = words + num2word((number / 1000) |int) + " thousand " %}
-  {% set number = (number%1000) |int %}
+  {%- set words = words + num2word((number / 1000) |int) + " thousand " -%}
+  {%- set number = (number%1000) |int -%}
 {%- endif -%}
 {%- if ((number / 100) | int > 0) %}
   {%- set words = words + num2word((number / 100) |int) + " hundred " -%}
@@ -486,5 +492,5 @@ Or
 {{ words }}
 {%- endmacro -%}
 
-{{ num2word(2555555) }}
+{{ num2word(-123456789) }}
 ```
