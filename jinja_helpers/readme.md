@@ -451,7 +451,7 @@ Or
 {{ value_json.tags|map(attribute='tag')|join(', ') }}
 
 ```
-## Convert a given "Number" to "Words"
+## 15. Convert a given "Number" to "Words"
 
 ```
 {%- macro num2word(number) -%}
@@ -502,7 +502,7 @@ Or
 The above returns `negative one hundred and twenty-three million four hundred and fifty-six thousand seven hundred and eighty-nine`.
 
 
-## Positive Subtraction using nines
+## 16. Positive Subtraction using nines
 
 The following code is written by [@dale3h](https://github.com/dale3h), I thought it would make perfect sense to keep it in here.
 
