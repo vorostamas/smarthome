@@ -500,3 +500,21 @@ Or
 ```
 
 The above returns `negative one hundred and twenty-three million four hundred and fifty-six thousand seven hundred and eighty-nine`.
+
+
+## Positive Subtraction using nines
+
+The following code is written by [@dale3h](https://github.com/dale3h), I thought it would make perfect sense to keep it in here.
+
+```
+{%- macro nines(number) -%}
+  {{ ('9' * number|string|length)|int - number|int }}
+{%- endmacro -%}
+```
+
+The following is an example on how to use the nines macro:
+```
+873 - 218 = 655
+
+{{ nines(nines(873)|int + 218)|int }}
+```
