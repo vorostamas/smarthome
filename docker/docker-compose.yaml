@@ -73,3 +73,12 @@ services:
       - /path/to/config:/config
     ports:
       - 8126:8126
+
+  docker_machinebox:
+    image: machinebox/tagbox
+    container_name: machine_box
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      MB_KEY: !secret MB_KEY

@@ -21,13 +21,13 @@ homeassistant:
 
       exposed: &exposed
         <<: *customize
-        emulated_hue: true
+        emulated_hue_hidden: true
         homebridge_hidden: false
         critical: true
 
       not_exposed: &not_exposed
         <<: *customize
-        emulated_hue: false
+        emulated_hue_hidden: false
         homebridge_hidden: true
         critical: false
 
@@ -513,8 +513,6 @@ homeassistant:
 zwave:
   usb_path: /dev/ttyACM0
   network_key: !secret zwave_network_key
-  new_entity_ids: true
-  debug: true
 
 group:
   Energy Meter:

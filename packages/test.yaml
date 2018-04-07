@@ -119,3 +119,26 @@
 #       - service_template: 'switch.turn_{{ trigger.to_state.state }}'
 #         data_template:
 #             entity_id: '{{ trigger.entity_id.replace("binary_sensor", "group") }}'
+
+#- id: Sunset_if_home
+# automation:
+#   - alias: 'Hemkomst'
+#     trigger:
+#       platform: state
+#       entity_id: 'group.telefoner'
+#       state: 'home' 
+#     condition:
+#       - condition: time
+#         after: '12:00:00'
+#         before: '02:00:00'          
+#     action:
+#       - service_template: scene.turn_on
+#         data_template:
+#           entity_id: >-
+#             {%set elevation = states.sun.sun.attributes.elevation | int %}
+#             {% if elevation > -10 and elevation | int < 5 %}
+#               scene.normalvit
+#             {% elif elevation | int > 5 %}
+#               scene.dimmad_vit
+#             {% endif %}
+

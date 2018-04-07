@@ -17,7 +17,7 @@ homeassistant:
   # whitelist_external_dirs:
   #   - '/home/homeassistant/.homeassistant/www'
 
-updater:
+#updater:
 discovery:
 sun:
 config:
@@ -28,21 +28,17 @@ alexa:
 logbook:
 history:
 recorder:
-  db_url: !secret my_sql_url
+ db_url: !secret my_sql_url
 
 influxdb:
-  host: 192.168.1.125
-  include:
-    entities:
-      - sensor.dining_room_thermostat_temperature
-      - sensor.downstairs_multi_sensor_temperature
-      - sensor.front_room_multi_sensor_temperature
-      - sensor.guest_bedroom_multi_sensor_temperature
-      - sensor.tv_multi_sensor_temperature
-
-# 
-# frontend:
-#   javascript_version: latest
+ host: 192.168.1.125
+ include:
+   entities:
+     - sensor.dining_room_thermostat_temperature
+     - sensor.downstairs_multi_sensor_temperature
+     - sensor.front_room_multi_sensor_temperature
+     - sensor.guest_bedroom_multi_sensor_temperature
+     - sensor.tv_multi_sensor_temperature
 
 mqtt:
   broker: !secret pi_hole_mqtt_server

@@ -11,7 +11,7 @@ homeassistant:
     {{ state.entity_id }}: 
       friendly_name: '{{ state.attributes.friendly_name if state.attributes.friendly_name is defined else state.attributes.friendly_name.replace("_", " ") |title }}'
       {{ 'icon: '+ state.attributes.icon if state.attributes.icon is defined }}
-      emulated_hue: {{state.attributes.emulated_hue if state.attributes.emulated_hue is defined else 'False' }} 
+      emulated_hue_hidden: {{state.attributes.emulated_hue if state.attributes.emulated_hue is defined else 'False' }} 
       hidden: {{state.attributes.hidden if state.attributes.hidden is defined else "False"}}
 {% endfor -%}
 

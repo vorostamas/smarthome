@@ -120,7 +120,11 @@
   {# weather summary #}
   {%- macro weather_update() -%}
     {% if states('sensor.dark_sky_minutely_summary') |lower != "unknown" %}
-      It is going to be {{states('sensor.dark_sky_minutely_summary')}}. 
+      {% if '.' in states('sensor.dark_sky_minutely_summary') %}
+        It is going to be {{ states('sensor.dark_sky_minutely_summary') }}
+      {% else %}
+        It is going to be {{ states('sensor.dark_sky_minutely_summary') }}.
+      {% endif %}
     {% endif %}
     {% if states('sensor.dark_sky_apparent_temperature') | lower != "unknown" %}
       Outside temperature is {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees. 
@@ -131,7 +135,7 @@
   {%- macro pollen_levels() -%}
   {% if states.sensor.season.state| lower == "spring" %}
     {% if states.sensor.pollen_level.state | lower != "low" %}
-      Pollen level is {{ states.sensor.pollen_level.state }}
+      Pollen level is {{ states.sensor.pollen_level.state }}.
     {% endif %}
   {% endif %}
   {%- endmacro -%}
@@ -158,12 +162,12 @@
 
   {# a macro to call all macros :)  #}
   {%- macro mother_of_all_macros() -%}
+    {{ USHolidays() }}
     {{ weather_update() }}
     {{ pollen_levels() }}
     {{ uv_levels() }}
     {{ humidity_status() }}
     {{ calendar_reminder() }}
-    {{ USHolidays() }}
     {{ IndianHolidays() }}
     {{ alert_battery_levels() }}
     {{ USPS() }}

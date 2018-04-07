@@ -14,13 +14,13 @@ homeassistant:
 
       exposed: &exposed
         <<: *customize
-        emulated_hue: true
+        emulated_hue_hidden: true
         homebridge_hidden: false
         critical: true
 
       not_exposed: &not_exposed
         <<: *customize
-        emulated_hue: false
+        emulated_hue_hidden: false
         homebridge_hidden: true
         critical: false
 
@@ -109,7 +109,9 @@ media_player:
     name: DENON
 
 # If you get errors about GI not found, run the command below to link gsp/gi path to HA for Gstreamer to function properly
-# sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages
+
+# For python 3.4:
+# sudo ln -s /usr/lib/python3/dist-packages/gi /srv/homeassistant/lib/python3.5/site-packages
 
 # If you get GST not found error, run the following command
 # sudo apt-get install python-gst-1.0 \

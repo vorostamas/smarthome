@@ -12,13 +12,13 @@ homeassistant:
 
       exposed: &exposed
         <<: *customize
-        emulated_hue: true
+        emulated_hue_hidden: true
         homebridge_hidden: false
         critical: true
 
       not_exposed: &not_exposed
         <<: *customize
-        emulated_hue: false
+        emulated_hue_hidden: false
         homebridge_hidden: true
         critical: false
 
@@ -121,7 +121,6 @@ group:
       - sensor.ipv4_address_wlp1s10
       - sensor.last_boot
       - sensor.since_last_boot
-      - sensor.cpu_temperature
       - sensor.signal_strength
       - sensor.link_quality
       - sensor.current_log_level
@@ -170,12 +169,6 @@ sensor:
     name: external_ip
     value_template: '{{ value_json.ip }}'
     scan_interval: 86400
-
-  - platform: command_line
-    name: CPU Temperature
-    command: cat /sys/class/thermal/thermal_zone0/temp
-    unit_of_measurement: 'F'
-    value_template: '{{ (value|int / 1000 * 1.8 + 32)|round(1) }}'
 
   - platform: speedtest
     minute: 30
