@@ -8,7 +8,7 @@ description: "Bunch of Jinja2 scripts to help you understand your way around Hom
 
 ## 1. To see which entities are exposed to your alexa platform, run the following script
 
-The following entities are exposed to Alexa platform via `emulated_hue`:
+The following entities are exposed to Alexa platform via `emulated_hue_hidden`:
 
 {% raw %}
 ```
@@ -16,7 +16,7 @@ The following entities are exposed to Alexa platform via `emulated_hue`:
 {{ "Entity ID".ljust(50, ' ') }} {{ "Name".ljust(30, ' ') }}
 {{ "-".ljust(50, '-') }} {{ "-".ljust(30, '-') }}
 {%- for item in states-%}
-{%- if item.attributes.emulated_hue %}
+{%- if item.attributes.emulated_hue_hidden %}
 {{ item.entity_id.ljust(50, ' ') }} {{ item.name }}
 {%- endif -%}
 {%- endfor %}
