@@ -296,6 +296,24 @@ Hope you find it useful!
             {%- endif -%}
 ```
 
+### 6a. THE Guru of templates, Real Jinja Ninja, [@dale3h](https://github.com/dale3h) has simplified the above and it is now just a few lines of code - see below.
+
+```
+{%- for prop in trigger|sort if prop not in ['to_state', 'from_state'] -%}
+  trigger.{{ prop }}: {{ trigger[prop] }}{{ '\n' }}
+{%- endfor -%}
+
+{%- for state in ['to_state', 'from_state'] if trigger[state] is defined -%}
+  {{- '-' * 20 -}}{{ '\n' }}
+  {%- for prop in ['state', 'entity_id', 'domain', 'object_id', 'name', 'last_updated', 'last_changed']|sort -%}
+    trigger.{{ state }}.{{ prop }}: {{ trigger[state][prop] }}{{ '\n' }}
+  {%- endfor -%}
+  {%- for attr in trigger[state].attributes -%}
+    trigger.{{ state }}.attributes.{{ attr }}: {{ trigger[state].attributes[attr] }}{{ '\n' }}
+  {%- endfor -%}
+{%- endfor -%}
+```
+
 ## 7. List every possible entity and corresponding attributes
 
 You can pick and choose which entity you want to get attributes by changing the domains list. For ex, to see camera related entries, just add `states.camera` to the list.
