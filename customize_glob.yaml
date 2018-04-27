@@ -38,8 +38,8 @@
   hidden: true
 
 # Weather Stuff
-'sensor.dark_sky_*':
-  hidden: true
+# 'sensor.dark_sky_*':
+#   hidden: true
 
 'sensor.waqi_columbus__fairgrounds_*':
   hidden: true

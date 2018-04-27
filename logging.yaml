@@ -1,28 +1,28 @@
-default: warning
+default: critical
 logs:
-  gsp: warning
-  root: warning
-  openzwave: warning
-  libopenzwave: warning
+  gsp: critical
+  root: critical
+  openzwave: critical
+  libopenzwave: critical
   py.warnings: critical
-  aiohttp.server: warning
-  homeassistant.setup: warning
-  homeassistant.core: warning
-  homeassistant.exceptions: warning
-  homeassistant.helpers.script: warning  
-  homeassistant.helpers.entity: warning
-  homeassistant.components.http: warning
-  homeassistant.components.zwave: warning
-  homeassistant.components.sensor: warning
-  homeassistant.components.recorder: warning
-  homeassistant.components.discovery: warning
-  custom_components.sensor.command_line: warning
-  custom_components.sensor.paloalto: warning
-  custom_components.sensor.life360: warning
-  homeassistant.components.automation: warning
-  homeassistant.components.climate.nest: warning
-  homeassistant.components.media_player: warning
-  homeassistant.components.device_tracker: warning
-  custom_components.media_player.sharptv: warning
-  homeassistant.components.emulated_hue: warning
-  homeassistant.components.camera.generic: warning
+  aiohttp.server: critical
+  homeassistant.setup: critical
+  homeassistant.core: critical
+  homeassistant.exceptions: critical
+  homeassistant.helpers.script: critical  
+  homeassistant.helpers.entity: critical
+  homeassistant.components.http: critical
+  homeassistant.components.zwave: critical
+  homeassistant.components.sensor: critical
+  homeassistant.components.recorder: critical
+  homeassistant.components.discovery: critical
+  custom_components.sensor.command_line: critical
+  custom_components.sensor.paloalto: critical
+  custom_components.sensor.life360: critical
+  homeassistant.components.automation: critical
+  homeassistant.components.climate.nest: critical
+  homeassistant.components.media_player: critical
+  homeassistant.components.device_tracker: critical
+  custom_components.media_player.sharptv: critical
+  homeassistant.components.emulated_hue: critical
+  homeassistant.components.camera.generic: critical

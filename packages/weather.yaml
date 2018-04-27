@@ -83,6 +83,12 @@ homeassistant:
       friendly_name: 'Burn Time'
       icon: mdi:fire      
       homebridge_hidden: true
+    sensor.wind_direction:
+      icon: mdi:weather-windy-variant
+      homebridge_hidden: true
+    sensor.wind_direction_tts:
+      icon: mdi:weather-windy-variant
+      homebridge_hidden: true
      
     group.weather:
       order: 14
@@ -140,6 +146,9 @@ group:
       - sensor.dark_sky_cloud_coverage
       - sensor.dark_sky_apparent_temperature
       - sensor.waqi_columbus__fairgrounds_ohio_usa
+      - sensor.wind_direction
+      - sensor.wind_direction_tts
+      - binary_sensor.good_weather_to_fly_drones
 
   Weather Automations:
     control: hidden
@@ -183,6 +192,34 @@ input_boolean:
   sleet_alert:
     name: Sleet Alert
     initial: off
+
+#
+# Good Weather To Fly Drone?
+# Criteria: 
+#   - Wind Speed must be less than 12 mph 
+#   - No Rain, or Snow
+#   - No Thunderstorms, lightning
+#   - Visiblity must be more than 2 miles
+#   - Temperature must be above 32 degrees Fahrenheit - (avoid risk of batteries being dead in extreme cold temperature)
+#   - Cloud coverage must be above than 30% (I prefer good amount of sunlight or clear sky) - may have to tweak during winters :)
+#
+
+binary_sensor:
+  - platform: template
+    sensors:
+      good_weather_to_fly_drones:
+        friendly_name: Good Weather To Fly Drone?
+        value_template: >-
+          {% if states.sensor.dark_sky_wind_speed.state | round(0) | int > 12 or 
+                states.sensor.dark_sky_precip.state |lower == "rain" or 
+                states.sensor.dark_sky_precip.state |lower == "snow" or
+                states.sensor.dark_sky_visibility.state | round(0) | int < 2 or 
+                states.sensor.dark_sky_temperature.state | round(0) | int < 32 or 
+                states.sensor.dark_sky_cloud_coverage.state | round(0) | int > 30 %}
+            no
+          {% else %}
+            yes
+          {% endif %}
 
 sensor:
   - platform: template
@@ -286,7 +323,6 @@ sensor:
           {% else %}
             Good
           {% endif %}
-
       pollen_level:
         friendly_name: 'Pollen Level'
         value_template: >-
@@ -303,6 +339,48 @@ sensor:
           {% else %}
               Unknown
           {%- endif %}
+      wind_direction:
+        friendly_name: 'Wind Direction'
+        value_template: >-
+          {% set value = states.sensor.dark_sky_wind_bearing.state | default(0) | float %}
+          {% if value >11  and value <=34 %}NNE
+          {% elif value >34  and value <=56 %}NE
+          {% elif value >56  and value <=79 %}ENE
+          {% elif value >79  and value <=101%}E
+          {% elif value >101 and value <=124 %}ESE
+          {% elif value >124 and value <=146 %}SE
+          {% elif value >146 and value <=169 %}SSE
+          {% elif value >169 and value <=191 %}S
+          {% elif value >191 and value <=214 %}SSW
+          {% elif value >214 and value <=236 %}SW
+          {% elif value >236 and value <=259 %}WSW
+          {% elif value >259 and value <=281 %}W
+          {% elif value >281 and value <=304 %}WNW
+          {% elif value >304 and value <=326 %}NW
+          {% elif value >326 and value <=348 %}NNW
+          {% else %}N
+          {% endif %}
+      wind_direction_tts:
+        friendly_name: 'Wind Direction For TTS'
+        value_template: >-
+          {% set value = states.sensor.dark_sky_wind_bearing.state | default(0) | float %}
+          {% if value >11  and value <=34 %}North and North West
+          {% elif value >34  and value <=56 %}North East
+          {% elif value >56  and value <=79 %}East and North East
+          {% elif value >79  and value <=101%}East
+          {% elif value >101 and value <=124 %}East and South East
+          {% elif value >124 and value <=146 %}South East
+          {% elif value >146 and value <=169 %}South and South East
+          {% elif value >169 and value <=191 %}South
+          {% elif value >191 and value <=214 %}South and South West
+          {% elif value >214 and value <=236 %}South West
+          {% elif value >236 and value <=259 %}West and South West
+          {% elif value >259 and value <=281 %}West
+          {% elif value >281 and value <=304 %}West and North West
+          {% elif value >304 and value <=326 %}North West
+          {% elif value >326 and value <=348 %}North and North West
+          {% else %}N
+          {% endif %}
       cold_flu_risk:
         friendly_name: 'Cold & Flu Risk'
         value_template: >-
