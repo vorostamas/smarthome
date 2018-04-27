@@ -296,6 +296,24 @@ Hope you find it useful!
             {%- endif -%}
 ```
 
+### 6a. THE Guru of templates, Real Jinja Ninja, [@dale3h](https://github.com/dale3h) has simplified the above and it is now just a few lines of code - see below.
+
+```
+{%- for prop in trigger|sort if prop not in ['to_state', 'from_state'] -%}
+  trigger.{{ prop }}: {{ trigger[prop] }}{{ '\n' }}
+{%- endfor -%}
+
+{%- for state in ['to_state', 'from_state'] if trigger[state] is defined -%}
+  {{- '-' * 20 -}}{{ '\n' }}
+  {%- for prop in ['state', 'entity_id', 'domain', 'object_id', 'name', 'last_updated', 'last_changed']|sort -%}
+    trigger.{{ state }}.{{ prop }}: {{ trigger[state][prop] }}{{ '\n' }}
+  {%- endfor -%}
+  {%- for attr in trigger[state].attributes -%}
+    trigger.{{ state }}.attributes.{{ attr }}: {{ trigger[state].attributes[attr] }}{{ '\n' }}
+  {%- endfor -%}
+{%- endfor -%}
+```
+
 ## 7. List every possible entity and corresponding attributes
 
 You can pick and choose which entity you want to get attributes by changing the domains list. For ex, to see camera related entries, just add `states.camera` to the list.
@@ -343,6 +361,34 @@ Here are the devices that have checked in the last 10 minutes:
 {{ output }}
 {% endif %}
 ```
+### Here is the output of the above script:
+
+```
+Here are the devices that have checked in the last 10 minutes:
+
+Aeotec Water Sensor                      - 8.82 minutes ago
+Audio Detector                           - 8.82 minutes ago
+Back Door Sensor                         - 8.82 minutes ago
+Basement Door Sensor                     - 8.82 minutes ago
+Downstairs Multi Sensor                  - 8.82 minutes ago
+Energy Meter                             - 1.75 minutes ago
+Front Door Sensor                        - 8.82 minutes ago
+Front Room Multi Sensor                  - 3.87 minutes ago
+Front Room Window Sensor                 - 8.82 minutes ago
+Garage Door Sensor                       - 8.82 minutes ago
+Guest Bedroom Multi Sensor               - 7.05 minutes ago
+Kitchen Motion Sensor                    - 2.52 minutes ago
+Kitchen Siren                            - 6.28 minutes ago
+1-Car Garage Door Sensor                 - 8.82 minutes ago
+Stairs Motion Sensor                     - 8.22 minutes ago
+TV Multi Sensor                          - 5.83 minutes ago
+2-Car Garage Door Sensor                 - 8.82 minutes ago
+Upstairs Multi Sensor                    - 8.82 minutes ago
+Wallmote                                 - 8.82 minutes ago
+ZWave Repeater                           - 6.30 minutes ago
+ZWave Smart Switch                       - 5.93 minutes ago
+ZWave Stick                              - 8.82 minutes ago
+```
 
 ## 9. Word Wrapping long text into multiple lines:
 To wrap text to a certain number of characters, use the following script:
@@ -354,7 +400,15 @@ To wrap text to a certain number of characters, use the following script:
 {%- endfor %}
 ```
 
-Got any questions or found issues, let me know! Thanks!
+### Here is the output of the above script:
+```
+this is a long text. I mean it
+is a really really really long
+text. The code below should
+create multiple lines with each
+line length is limited to 32
+characters.
+```
 
 ## 10. To get attrbutes of a given entity_id
 
@@ -377,6 +431,11 @@ Fun stuff...
 
 ```
 {{ states | map(attribute='domain') |list | unique | list}}
+```
+
+### Here is the sample output of the above script... you may see a different output based on the components that are being used
+```
+['alarm_control_panel', 'automation', 'binary_sensor', 'calendar', 'camera', 'climate', 'device_tracker', 'group', 'input_boolean', 'input_datetime', 'input_label', 'input_number', 'input_select', 'input_text', 'light', 'media_player', 'proximity', 'script', 'sensor', 'sun', 'switch', 'timer', 'zone', 'zwave']
 ```
 
 The way the above script works is it iterates through all the entities, and retrieves the `domain` attribute of each of the entity, and makes it a list by removing duplicate items - by doing so, you will get unique list of domains that your Home Assistant uses :smile:
@@ -412,8 +471,7 @@ something like this will wok: ```
 Combined experience: {{ people | sum(attribute='experience') }} years
 ```
 
-it returns `Combined experience: 62 years`
-
+### The above script returns `Combined experience: 62 years`
 
 ## 14. To get list of attribute values as a string
 ```
