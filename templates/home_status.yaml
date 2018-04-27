@@ -140,6 +140,14 @@
   {% endif %}
   {%- endmacro -%}
 
+  {# Drone Flying Weather #}
+  {%- macro drone_weather() -%}
+  {% if states.binary_sensor.good_weather_to_fly_drones.state| lower == "yes" and 
+        states.device_tracker.suresh_suresh.state == "home" %}
+    It is good time to fly drone outside.
+  {% endif %}
+  {%- endmacro -%}
+
   {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
   {# exclude weather service humidity sensors 'pws' from the loop #}
   {%- macro humidity_status() -%}
@@ -171,6 +179,7 @@
     {{ IndianHolidays() }}
     {{ alert_battery_levels() }}
     {{ USPS() }}
+    {{ drone_weather() }}
     {{ birthday_countdown("Mallika", states.input_label.mallika_birthday_days2go.state | int ) }}
     {{ birthday_countdown("Srinika", states.input_label.srinika_birthday_days2go.state | int ) }}
     {{ birthday_countdown("Hasika", states.input_label.hasika_birthday_days2go.state | int ) }}
