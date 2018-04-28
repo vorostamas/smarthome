@@ -296,7 +296,7 @@ Hope you find it useful!
             {%- endif -%}
 ```
 
-### 6a. THE Guru of templates, Real Jinja Ninja, [@dale3h](https://github.com/dale3h) has simplified the above and it is now just a few lines of code - see below.
+### 6a. THE Guru of templates [@dale3h](https://github.com/dale3h) has simplified the above and it is now just a few lines of code - see below.
 
 ```
 {%- for prop in trigger|sort if prop not in ['to_state', 'from_state'] -%}
