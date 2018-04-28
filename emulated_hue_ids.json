@@ -540,6 +540,7 @@
     "584": "media_player.snapcast_group_85204140a17e802cbccf446ccee728f3",
     "585": "sensor.wind_direction",
     "586": "sensor.wind_direction_tts",
+    "587": "binary_sensor.good_weather_to_fly_drones",
     "59": "sensor.front_door_sensor_alarm_type",
     "6": "input_boolean.home_assistant_status",
     "60": "sensor.zwave_smart_switch_current",

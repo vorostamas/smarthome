@@ -216,9 +216,9 @@ binary_sensor:
                 states.sensor.dark_sky_visibility.state | round(0) | int < 2 or 
                 states.sensor.dark_sky_temperature.state | round(0) | int < 32 or 
                 states.sensor.dark_sky_cloud_coverage.state | round(0) | int > 30 %}
-            no
+            false
           {% else %}
-            yes
+            true
           {% endif %}
 
 sensor:

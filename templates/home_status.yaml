@@ -142,9 +142,10 @@
 
   {# Drone Flying Weather #}
   {%- macro drone_weather() -%}
-  {% if states.binary_sensor.good_weather_to_fly_drones.state| lower == "yes" and 
-        states.device_tracker.suresh_suresh.state == "home" %}
-    It is good time to fly drone outside.
+  {% if states.binary_sensor.good_weather_to_fly_drones.state| lower == "on" and 
+        states.device_tracker.suresh_suresh.state == "home" and 
+        states.sun.sun.state == "above_horizon" %}
+    It is now a great weather to fly drone outside.
   {% endif %}
   {%- endmacro -%}
 
