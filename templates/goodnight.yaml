@@ -1,5 +1,14 @@
 >
- {#- Provides status of iPhone Batteries -#}
+  {#- returns "true" if the name ends with 's' -#}
+  {%- macro plural(name) -%}
+  {%- if name[(name|length|int -1):] == "s" -%}
+    true
+  {%- else -%}
+    false
+  {%- endif -%}
+  {%- endmacro -%}
+
+  {#- Provides status of iPhone Batteries -#}
   {%- macro battery_status() -%}
    {%- set level = 30 -%}
    {% for item in states.device_tracker if '_' in item.entity_id.split('.')[1]-%}
@@ -9,10 +18,10 @@
        {% endif %}
      {%- endif %}
    {%- endfor -%}
- {%- endmacro %}
+  {%- endmacro %}
  
- {#- Provides Light Status -#}
- {%- macro light_status() -%}
+  {#- Provides Light Status -#}
+  {%- macro light_status() -%}
   {% set lights_switches = ["light.family_room",
                             "light.master_bedroom",
                             "switch.basement_left_lights",
@@ -28,14 +37,19 @@
                             "switch.wemobackyardlightswitch",
                             "switch.zwave_smart_switch_switch"] %}
   {%- for item in lights_switches -%}
-  {%- if states[item.split('.')[0]][item.split('.')[1]].state == "on" -%}
-  {{ states[item.split('.')[0]][item.split('.')[1]].attributes.friendly_name }} is ON.
-  {%- endif -%}
-  {%- endfor -%} 
- {%- endmacro -%}
+    {%- if states[item.split('.')[0]][item.split('.')[1]].state == "on" -%}
+      {%- set friendly_name = states[item.split('.')[0]][item.split('.')[1]].attributes.friendly_name %}
+      {%- if plural(friendly_name) == "true" %}
+        {{- friendly_name }} are ON.
+      {%- else -%}
+        {{- friendly_name }} is ON.
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- endmacro -%}
 
- {#- Provides Home Security System Status -#}
- {%- macro alarm_status() -%}
+  {#- Provides Home Security System Status -#}
+  {%- macro alarm_status() -%}
     {%- if states.alarm_control_panel.simplisafe.state | lower == "disarmed" -%}
       Your home security system is switched OFF. You may want to turn it ON.
     {%- elif states.alarm_control_panel.simplisafe.state | lower == "armed_away" -%}
@@ -45,8 +59,8 @@
     {%- endif %}
   {%- endmacro -%}
   
- {#- Provides Trash and Recycle Reminder -#}
- {%- macro trash_recycle_status() -%}
+  {#- Provides Trash and Recycle Reminder -#}
+  {%- macro trash_recycle_status() -%}
     {%- set flag = false -%}
     {%- if states.sensor.trash_day.state | lower == "yes" -%}
       Your trash will be picked up tomorrow. Did you leave the trash bin outside?.
@@ -86,18 +100,18 @@
     {% endif %}
   {%- endmacro -%}
 
- {#- Provides Garage Doors Status -#}
- {%- macro single_car_garage_door_status() -%} 
+  {#- Provides Garage Doors Status -#}
+  {%- macro single_car_garage_door_status() -%} 
     {% if  states.binary_sensor.single_car_garage_door_tilt_sensor_sensor.state|lower == "on" %}
       {{ states.binary_sensor.single_car_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN
     {% endif %}
- {%- endmacro -%}
+  {%- endmacro -%}
  
- {%- macro two_car_garage_door_status() -%} 
+  {%- macro two_car_garage_door_status() -%} 
     {% if  states.binary_sensor.two_car_garage_door_tilt_sensor_sensor.state|lower == "on" %}
       {{ states.binary_sensor.two_car_garage_door_tilt_sensor_sensor.attributes.friendly_name }} is OPEN
     {% endif %}
- {%- endmacro -%}
+  {%- endmacro -%}
 
   {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
   {%- macro humidity_status() -%}
@@ -117,7 +131,21 @@
       {{ item | trim }} {% endfor -%}
   {% endmacro %}
 
- {#- Main macro that runs all other macros and combines the information -#}
+  {% macro getGreeting() %}
+    {% if greeting | default('yes', true ) == "yes" %}
+      {% if now().hour|int < 12 %}
+        Have a great day!
+      {% elif now().hour|int < 18 %}
+        Enjoy your afternoon!
+      {% elif now().hour|int < 20 %}
+        Enjoy your evening!
+      {% else %}
+        Have a good night!
+      {% endif %}
+    {% endif %}
+  {% endmacro %}
+
+  {#- Main macro that runs all other macros and combines the information -#}
   {%- macro run() -%}
    It is {% if now().hour > 12 %}{{ now().hour | int - 12 }}: {{- now().minute }} PM{% else %}{{ now().hour }}: {{- now().minute }} PM{% endif %}. Here is the status of your home.{{- alarm_status() -}}
    {%- set battery_output = battery_status() -%}
@@ -145,7 +173,7 @@
    {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
    {{ phoneBatteryStatus() }}
    {{ humidity_status() }}
-   {{- outside_weather() }} Everything else looks good.
- {%- endmacro -%}
+   {{- outside_weather() }} Everything else looks good. {{ getGreeting() }}
+  {%- endmacro -%}
  
- {{ cleanup(run()) }}
+  {{ cleanup(run()) }}

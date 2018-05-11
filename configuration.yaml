@@ -22,6 +22,8 @@ discovery:
 sun:
 config:
 python_script:
+homekit:
+  autostart: true
 
 alexa:
 

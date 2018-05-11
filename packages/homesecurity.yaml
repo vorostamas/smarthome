@@ -252,7 +252,7 @@ automation:
                    {%- set doors = doors ~ " Single Car Garage Door" -%}
                  {% endif %}
                {%- endif -%}
-               Your {{ doors}} {%- if 'and' in doors -%}s are {%- else %} is {%- endif %} open. Home Security System could not be turned on.
+               Your{{ doors }} {%- if 'and' in doors -%}s are {%- else %} is {%- endif %} open. Home Security System could not be turned on.
             {% endif %}
       - service: script.notify_me
         data_template:

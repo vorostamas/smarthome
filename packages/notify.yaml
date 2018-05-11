@@ -153,9 +153,9 @@ script:
           {% else %}
             true
           {% endif %}
-      - service: script.voice_greeting
-        data_template:
-          greeting: '{{ greeting }}'
+      # - service: script.voice_greeting
+      #   data_template:
+      #     greeting: '{{ greeting }}'
       - service: media_player.volume_set
         entity_id: media_player.gstreamer
         data_template:
@@ -194,12 +194,24 @@ script:
           cache: true
           message: >
             {% set msg = "" %}
+            {% macro getGreeting() %}
+              {% if greeting | default('yes', true ) == "yes" %}
+                {% if now().hour|int < 12 %}
+                  Good morning.
+                {% elif now().hour|int < 18 %}
+                  Good afternoon.
+                {% else %}
+                  Good evening.
+                {% endif %}
+              {% endif %}
+            {% endmacro %}
             {%- macro getEndGreeting() -%}
               {%- if greeting |default('yes', true ) == "yes" -%}
                 Thank you!
               {%- endif -%}
             {%- endmacro -%}
             {% set msg = msg + "<speak> " %}
+            {% set msg = msg + getGreeting() %}
             {% set msg = msg + ". " + message %}
             {% set msg = msg.replace(".", " <break time='0.5s'/> ") %}
             {% set msg = msg + " " + getEndGreeting() %}

@@ -1,4 +1,4 @@
-default: critical
+default: warning
 logs:
   gsp: critical
   root: critical
@@ -26,3 +26,5 @@ logs:
   custom_components.media_player.sharptv: critical
   homeassistant.components.emulated_hue: critical
   homeassistant.components.camera.generic: critical
+  homeassistant.components.homekit: critical
+  pyhap: critical

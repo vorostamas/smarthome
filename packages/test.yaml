@@ -142,3 +142,19 @@
 #               scene.dimmad_vit
 #             {% endif %}
 
+
+# automation:
+#   - alias: Run every 15 seconds
+#     hide_entity: false
+#     initial_state: true
+#     trigger:
+#       - platform: time
+#         seconds: '/15'
+#     action:
+#       - service_template: >-
+#           {% if states.switch.kitchen_light.state == 'on' %}
+#           switch.turn_off
+#           {% else %}
+#           switch.turn_on
+#           {% endif %}
+#         entity_id: switch.kitchen_light
