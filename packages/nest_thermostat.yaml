@@ -57,3 +57,25 @@ script:
       - service: nest.set_mode
         data:
           home_mode: home
+
+automation:
+###############################################################################
+# Turn OFF AC after 3 hours of cooling
+# Where we live, 3 hours is plenty to cool the house down!
+###############################################################################
+  - alias: Turn Off AC After 3 Hours of Cooling
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: climate.dining_room
+        to: 'cool'
+        for: '03:00:00'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.dining_room
+          operation_mode: 'off'
+      - service: script.notify_me
+        data_template:
+          message: "Air Condition has been ON for 3 hours. 
+                    Turning it Off to save power."

@@ -134,12 +134,19 @@ raspberry_pis:
     - group.disk_available
     - group.disk_percent_used
     - group.raspberry_pi_scripts
-    
-paloalto:
+
+tesla_view:
   view: yes
-  name: Palo Alto
-  icon: mdi:fire
+  name: Tesla
+  icon: mdi:car-sports
   entities:
-    - group.paloalto_device
-    - group.paloalto_administration
-    - group.paloalto_log_management
+    - group.tesla
+    
+# paloalto:
+#   view: yes
+#   name: Palo Alto
+#   icon: mdi:fire
+#   entities:
+#     - group.paloalto_device
+#     - group.paloalto_administration
+#     - group.paloalto_log_management

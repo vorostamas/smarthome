@@ -1,0 +1,49 @@
+homeassistant:
+  customize:
+    binary_sensor.tesla_model_3_5yj3e1ea8jf010610_charger_sensor:
+      friendly_name: Charger
+      icon: mdi:car-sports
+    binary_sensor.tesla_model_3_5yj3e1ea8jf010610_parking_brake_sensor:
+      friendly_name: Parking Break
+      icon: mdi:car-sports
+    climate.tesla_model_3_5yj3e1ea8jf010610_hvac_climate_system:
+      friendly_name: Tesla Climate
+    device_tracker.tesla_model_3_5yj3e1ea8jf010610_location_tracker:
+      friendly_name: Tesla Location
+    lock.tesla_model_3_5yj3e1ea8jf010610_door_lock:
+      friendly_name: Tesla Door Lock
+    sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor:
+      friendly_name: Tesla Battery
+    sensor.tesla_model_3_5yj3e1ea8jf010610_mileage_sensor:
+      friendly_name: Mileage
+    sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor:
+      friendly_name: Battery Range
+    sensor.tesla_model_3_5yj3e1ea8jf010610_temperature_sensor_inside:
+      friendly_name: Temperature Inside
+    sensor.tesla_model_3_5yj3e1ea8jf010610_temperature_sensor_outside:
+      friendly_name: Temperature Outside
+    switch.tesla_model_3_5yj3e1ea8jf010610_charger_switch:
+      friendly_name: Charger Switch
+    switch.tesla_model_3_5yj3e1ea8jf010610_maxrange_switch:
+      friendly_name: Max Range Switch
+
+group:
+  Tesla:
+    entities:
+      - binary_sensor.tesla_model_3_5yj3e1ea8jf010610_charger_sensor
+      - binary_sensor.tesla_model_3_5yj3e1ea8jf010610_parking_brake_sensor
+      - climate.tesla_model_3_5yj3e1ea8jf010610_hvac_climate_system
+      - device_tracker.tesla_model_3_5yj3e1ea8jf010610_location_tracker
+      - lock.tesla_model_3_5yj3e1ea8jf010610_door_lock
+      - sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor
+      - sensor.tesla_model_3_5yj3e1ea8jf010610_mileage_sensor
+      - sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor
+      - sensor.tesla_model_3_5yj3e1ea8jf010610_temperature_sensor_inside
+      - sensor.tesla_model_3_5yj3e1ea8jf010610_temperature_sensor_outside
+      - switch.tesla_model_3_5yj3e1ea8jf010610_charger_switch
+      - switch.tesla_model_3_5yj3e1ea8jf010610_maxrange_switch
+
+tesla:
+  username: !secret tesla_username
+  password: !secret tesla_password
+
