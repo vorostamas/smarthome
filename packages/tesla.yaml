@@ -2,10 +2,8 @@ homeassistant:
   customize:
     binary_sensor.tesla_model_3_5yj3e1ea8jf010610_charger_sensor:
       friendly_name: Charger
-      icon: mdi:car-sports
     binary_sensor.tesla_model_3_5yj3e1ea8jf010610_parking_brake_sensor:
       friendly_name: Parking Break
-      icon: mdi:car-sports
     climate.tesla_model_3_5yj3e1ea8jf010610_hvac_climate_system:
       friendly_name: Tesla Climate
     device_tracker.tesla_model_3_5yj3e1ea8jf010610_location_tracker:

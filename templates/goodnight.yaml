@@ -8,18 +8,18 @@
   {%- endif -%}
   {%- endmacro -%}
 
-  {#- Provides status of iPhone Batteries -#}
-  {%- macro battery_status() -%}
+  {#- Alerts low battery (below 30%), ONLY when the phone is not already pluggedin -#}
+  {%- macro low_battery_check() -%}
    {%- set level = 30 -%}
-   {% for item in states.device_tracker if '_' in item.entity_id.split('.')[1]-%}
-     {% if item.attributes.battery|int < level -%}
-       {% if states.sensor.sureshs_iphone_battery_state.state | lower != "charging" %}
-         {{ item.attributes.friendly_name}}s iPhone battery is at {{ item.attributes.battery }} percent.
-       {% endif %}
+   {% for item in states.device_tracker if '_' in item.entity_id.split('.')[1] and state_attr(item.entity_id, "battery") |lower != "none" -%}
+     {%- if item.attributes.battery|int < level -%}
+       {%- if states("sensor." ~ item.friendly_name |lower ~"s_iphone_battery_state") | lower != "charging" %}
+         {{- item.attributes.friendly_name}}s iPhone battery is at {{ item.attributes.battery }} percent.
+       {%- endif %}
      {%- endif %}
    {%- endfor -%}
   {%- endmacro %}
- 
+
   {#- Provides Light Status -#}
   {%- macro light_status() -%}
   {% set lights_switches = ["light.family_room",
@@ -85,7 +85,7 @@
     {%- endif -%}
   {%- endmacro -%}
   
-  {%- macro phoneBatteryStatus() -%}
+  {%- macro battery_status() -%}
     {% if states.sensor.sureshs_iphone_battery_state.state != "Charging" %}
       Suresh's Phone is not plugged in.
     {% endif %}
@@ -97,6 +97,9 @@
     {% endif %}
     {% if states.sensor.hasikas_iphone_battery_state.state != "Charging" %}
       Hasika's Phone is not plugged in.
+    {% endif %}
+    {% if states.binary_sensor.tesla_model_3_5yj3e1ea8jf010610_charger_sensor.state == "off" %}
+      Your Tesla Car is not plugged in.
     {% endif %}
   {%- endmacro -%}
 
@@ -113,6 +116,10 @@
     {% endif %}
   {%- endmacro -%}
 
+  {%- macro tesla_status() %}
+    Your Tesla car battery is at {{ states.sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor.state }} percent. and you can drive about {{ (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) }} miles.
+  {%- endmacro %}
+
   {# Check for low humidity levels in autumn, winter and high levels during rest of the year #}
   {%- macro humidity_status() -%}
     {%- if states.sensor.season.state| lower == "autumn" or states.sensor.season.state| lower == "winter" %}
@@ -126,7 +133,7 @@
     {%- endif -%}
   {%- endmacro -%}
 
-  {% macro cleanup(data) %}
+  {% macro clean_up(data) %}
     {%- for item in data.split("\n")  if item | trim != "" -%}
       {{ item | trim }} {% endfor -%}
   {% endmacro %}
@@ -146,9 +153,9 @@
   {% endmacro %}
 
   {#- Main macro that runs all other macros and combines the information -#}
-  {%- macro run() -%}
+  {%- macro run_script() -%}
    It is {% if now().hour > 12 %}{{ now().hour | int - 12 }}: {{- now().minute }} PM{% else %}{{ now().hour }}: {{- now().minute }} PM{% endif %}. Here is the status of your home.{{- alarm_status() -}}
-   {%- set battery_output = battery_status() -%}
+   {%- set battery_output = low_battery_check() -%}
    {%- if battery_output | trim != "" -%}
    {{- battery_output -}} Please make sure you put the phones to charge.
    {%- endif -%}
@@ -171,9 +178,10 @@
    {%- endif -%}
    
    {%- set trash_output = trash_recycle_status() -%}{{- trash_recycle_status() -}}
-   {{ phoneBatteryStatus() }}
+   {{ battery_status() }}
+   {{ tesla_status() }}
    {{ humidity_status() }}
    {{- outside_weather() }} Everything else looks good. {{ getGreeting() }}
   {%- endmacro -%}
  
-  {{ cleanup(run()) }}
+  {{ clean_up(run_script()) }}

@@ -86,7 +86,7 @@ system_view:
 nest_thermostat_view:
   view: yes
   name: Nest Thermostat View
-  icon: mdi:nest-thermostat
+  icon: mdi:thermostat
   entities:
     - group.nest_thermostat
 

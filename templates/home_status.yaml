@@ -17,7 +17,7 @@
   {%- endmacro -%}
 
   {% macro tesla_status() %}
-    Your Tesla battery is at {{ states.sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor.state }} percent. That means, you can drive {{ (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) }} miles.
+    Your Tesla battery is at {{ states.sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor.state }} percent. and you can drive about {{ (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) }} miles.
   {% endmacro %}
 
   {# USPS mail notifications - only when I have 1 or more mails #}
