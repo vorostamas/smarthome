@@ -45,3 +45,36 @@ tesla:
   username: !secret tesla_username
   password: !secret tesla_password
 
+automation:
+  - alias: Notify of Charge Status
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.tesla_model_3_5yj3e1ea8jf010610_charger_sensor
+    action:
+      - service: script.notify_me
+        data_template:
+          message: "Tesla Car Charge Status changed to: {{ trigger.to_state.state| upper }}"
+
+  - alias: Notify of Door Status
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: lock.tesla_model_3_5yj3e1ea8jf010610_door_lock
+    action:
+      - service: script.notify_me
+        data_template:
+          message: "Tesla Door is now: {{ trigger.to_state.state| upper }}"
+
+  - alias: Notify of Charger Switch
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: switch.tesla_model_3_5yj3e1ea8jf010610_charger_switch
+    action:
+      - service: script.notify_me
+        data_template:
+          message: "Tesla Door is now: {{ trigger.to_state.state| upper }}"

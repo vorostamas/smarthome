@@ -76,7 +76,12 @@
   {%- endmacro -%}
   
   {%- macro outside_weather() -%}
-    Outside, it is going to be {{states('sensor.dark_sky_minutely_summary')}} And the temperature is around {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees.
+    {% if states('sensor.dark_sky_minutely_summary') != "unknown" %}
+      Outside, it is going to be {{states('sensor.dark_sky_minutely_summary')}}.
+    {% endif %}
+    {% if states('sensor.dark_sky_apparent_temperature') != "unknown" %}
+    The temperature outside is around {{ states.sensor.dark_sky_apparent_temperature.state | round(0)}} degrees.
+    {% endif %}
   {%- endmacro -%}
   
   {%- macro pihole() -%}

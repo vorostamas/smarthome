@@ -115,9 +115,9 @@
     {%- if  uv >= 6 and uv <= 7 -%}
       Current UV index is high. Please be careful outdoors.
     {%- elif  uv >= 8 and uv <= 10 -%}
-      Current UV index is very high. It is not advised to go out. If you have to, use sun screen lotion.
+      Current UV index is very high. It is not advised to go out.
     {%- elif  uv >= 11 -%}
-      Current UV index is extremely high. By all means, Stay indoors, and stay cool.
+      Current UV index is extremely high. It is highly advised to stay indoors.
     {%- endif -%}
   {%- endmacro -%}
 
