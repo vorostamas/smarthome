@@ -161,7 +161,7 @@
         Home humidity is less than 30%.
       {%- endif -%}
     {% else %}
-      {%- if states.sensor.dining_room_thermostat_humidity.state | int > 60 -%}
+      {%- if states.sensor.dining_room_thermostat_humidity.state | default(0) | int > 60 -%}
         Home humidity is more than 60%.
       {%- endif -%}
     {%- endif -%}
