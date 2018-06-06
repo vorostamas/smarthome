@@ -94,18 +94,10 @@ panel_iframe:
     title: TV Room HA
     icon: mdi:home-assistant
     url: !secret tv_room_ha_url
-  cockpit_gui:
-    title: Cockpit GUI
-    icon: mdi:view-dashboard
-    url: !secret cockpit_gui_url
   snapcast_server:
     title: Snapcast Server
     icon: mdi:music
     url: !secret snapcast_server_url
-  grafana_gui:
-    title: Grafana GUI
-    icon: mdi:chart-bar
-    url: !secret grafana_url
 
 ios:
   push:
