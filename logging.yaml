@@ -2,29 +2,31 @@ default: warning
 logs:
   gsp: critical
   root: critical
+  pyhap: critical
   openzwave: critical
-  libopenzwave: critical
   py.warnings: critical
+  pywemo.ssdp: critical
+  libopenzwave: critical
+  netdisco.ssdp: critical
   aiohttp.server: critical
-  homeassistant.setup: critical
   homeassistant.core: critical
+  homeassistant.setup: critical
   homeassistant.exceptions: critical
   homeassistant.helpers.script: critical  
   homeassistant.helpers.entity: critical
   homeassistant.components.http: critical
   homeassistant.components.zwave: critical
   homeassistant.components.sensor: critical
+  homeassistant.components.homekit: critical
+  custom_components.sensor.life360: critical
+  custom_components.sensor.paloalto: critical
   homeassistant.components.recorder: critical
   homeassistant.components.discovery: critical
-  custom_components.sensor.command_line: critical
-  custom_components.sensor.paloalto: critical
-  custom_components.sensor.life360: critical
   homeassistant.components.automation: critical
+  custom_components.sensor.command_line: critical
   homeassistant.components.climate.nest: critical
   homeassistant.components.media_player: critical
-  homeassistant.components.device_tracker: critical
   custom_components.media_player.sharptv: critical
   homeassistant.components.emulated_hue: critical
+  homeassistant.components.device_tracker: critical
   homeassistant.components.camera.generic: critical
-  homeassistant.components.homekit: critical
-  pyhap: critical

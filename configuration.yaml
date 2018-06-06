@@ -17,16 +17,17 @@ homeassistant:
   # whitelist_external_dirs:
   #   - '/home/homeassistant/.homeassistant/www'
 
-#updater:
-discovery:
+
 sun:
+alexa:
+cloud:
 config:
-python_script:
+discovery:
 homekit:
   autostart: true
+python_script:
 
-alexa:
-
+# updater:
 # logbook:
 # history:
 # recorder:
@@ -49,13 +50,6 @@ mqtt:
   password: !secret pi_hole_mqtt_password
   keepalive: 60
   client_id: pi_ha
-
-cloud:
-  mode: development
-  cognito_client_id: !secret cognito_client_id
-  user_pool_id: !secret user_pool_id
-  region: 'us-east-1'
-  relayer: 'wss://cloud.hass.io:8000/websocket'
 
 http:
   api_password: !secret api_password
