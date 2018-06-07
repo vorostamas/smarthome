@@ -41,9 +41,14 @@ group:
       - switch.tesla_model_3_5yj3e1ea8jf010610_charger_switch
       - switch.tesla_model_3_5yj3e1ea8jf010610_maxrange_switch
 
+# The scan_interval is now set to 6 hours
+# Leaving it to the default (which is 5 minutes, or 300 seconds) will drain battery at 
+# a rate of 10 miles per day (or 3% battery use) on an average. Use this setting carefully!
+
 tesla:
   username: !secret tesla_username
   password: !secret tesla_password
+  scan_interval: 21600
 
 automation:
   - alias: Notify of Charge Status

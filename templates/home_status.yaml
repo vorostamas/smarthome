@@ -16,9 +16,11 @@
     {%- endif -%}
   {%- endmacro -%}
 
-  {% macro tesla_status() %}
-    Your Tesla battery is at {{ states.sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor.state }} percent. and you can drive about {{ (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) }} miles.
-  {% endmacro %}
+  {%- macro tesla_status() -%}
+    {%- if (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) < 75 -%}
+      Attention!. Your Tesla car battery is at {{ states.sensor.tesla_model_3_5yj3e1ea8jf010610_battery_sensor.state }} percent. and you can drive about {{ (states.sensor.tesla_model_3_5yj3e1ea8jf010610_range_sensor.state | int) | round(0) }} miles.
+    {%- endif -%}
+  {%- endmacro -%}
 
   {# USPS mail notifications - only when I have 1 or more mails #}
   {%- macro USPS() -%}
