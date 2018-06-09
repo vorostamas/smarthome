@@ -165,9 +165,9 @@ sensor:
     name: My Domain
 
   - platform: rest
-    resource: http://ip.jsontest.com
+    resource: http://icanhazip.com
     name: external_ip
-    value_template: '{{ value_json.ip }}'
+    value_template: '{{ value }}'
     scan_interval: 86400
 
   - platform: speedtest
