@@ -40,6 +40,8 @@ group:
       - sensor.dining_room_thermostat_operation_mode
       - sensor.dining_room_thermostat_target
       - sensor.dining_room_thermostat_temperature
+      - sensor.home_eta
+      - binary_sensor.home_away
 
 nest:
   client_id: !secret nest_client_id
