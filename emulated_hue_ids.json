@@ -575,6 +575,8 @@
     "615": "media_player.snapcast_group_d8148038a685e00897350b7e999347cb",
     "616": "media_player.snapcast_group_567151bf8bca8ea6039d9ee6006c19c9",
     "617": "media_player.snapcast_group_8ffb5d7cedde83c305686da65d3e255e",
+    "618": "sensor.home_eta",
+    "619": "binary_sensor.home_away",
     "62": "sensor.aeotec_water_sensor_alarm_type_2",
     "63": "sensor.front_door_sensor_access_control",
     "64": "sensor.guest_bedroom_multi_sensor_alarm_level",

@@ -158,3 +158,29 @@
 #           switch.turn_on
 #           {% endif %}
 #         entity_id: switch.kitchen_light
+
+# automation:
+#   - alias: ResetMotionSensors
+#     trigger:
+#       - platform: state
+#         entity_id: binary_sensor.hallway_motion
+#         to: 'on'
+#         for:
+#           seconds: 30
+#       - platform: state
+#         entity_id: binary_sensor.livingroom_motion
+#         to: 'on'
+#         for:
+#           seconds: 30
+#       - platform: state
+#         entity_id: binary_sensor.kitchen_motion
+#         to: 'on'
+#         for:
+#           seconds: 30
+#     action:
+#       - service: mqtt.publish
+#         data_template:
+#           payload: '{"state": "open"}'
+#           topic: >-
+#             {% set mapping = '{ "hallway": "985335", "livingroom": "854267", "kitchen": "699555" }' %}
+#             {{ 'Hassio/433/Honeywell/Honeywell_Door/Window_Sensor/' ~ mapping[trigger.entity_id.split('.')[1].split('_')[0] ~ ''] }}
