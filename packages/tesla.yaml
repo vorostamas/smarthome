@@ -68,10 +68,13 @@ automation:
     trigger:
       - platform: state
         entity_id: lock.tesla_model_3_5yj3e1ea8jf010610_door_lock
+    condition:
+      - condition: template
+        value_template: '{{ trigger.from_state.state | lower != "unknown" }}'
     action:
       - service: script.notify_me
         data_template:
-          message: "Tesla Door is now: {{ trigger.to_state.state| upper }}"
+          message: "Tesla Door is now: {{ trigger.to_state.state | upper }}"
 
   - alias: Notify of Charger Switch
     initial_state: true
@@ -79,6 +82,9 @@ automation:
     trigger:
       - platform: state
         entity_id: switch.tesla_model_3_5yj3e1ea8jf010610_charger_switch
+    condition:
+      - condition: template
+        value_template: '{{ trigger.from_state.state | lower != "unknown" }}'
     action:
       - service: script.notify_me
         data_template:
