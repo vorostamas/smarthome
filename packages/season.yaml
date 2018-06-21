@@ -58,4 +58,4 @@ automation:
       - service: script.notify_me
         data_template:
             message: >
-              Good bye {{ trigger.from_state.state }}!, and Say Hello to {{ trigger.from_state.state }}.
+              Good bye {{ trigger.from_state.state }}!, and Say Hello to {{ trigger.to_state.state }}.
