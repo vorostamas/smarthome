@@ -39,6 +39,9 @@ cloud:
         - switch.office_room_lights
         - switch.wemobackyardlightswitch
         - switch.wemoswitch1
+      include_domains:
+        - light
+        - switch
 
     entity_config:
       light.gateway_light_34ce008ad65d:
@@ -53,6 +56,9 @@ homekit:
       - alarm_control_panel
       - light
       - switch
+      - input_boolean
+      - binary_sensor
+      - device_tracker
 
 python_script:
 
